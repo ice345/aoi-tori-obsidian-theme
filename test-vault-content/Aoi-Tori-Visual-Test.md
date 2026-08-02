@@ -38,9 +38,7 @@ interface should remain calm, legible, and unmistakably document-first.
 ## Lists and tasks
 
 1. Warm paper reading surface
-2. Cool mist-blue panels
-   1. Powder-blue hover
-   2. Cobalt focus and active state
+2. Cool mist-blue panels 3. Powder-blue hover 4. Cobalt focus and active state
 3. Sparse sakura and gray-violet counter-voice
 
 - Blue should remain selective.
@@ -59,18 +57,59 @@ interface should remain calm, legible, and unmistakably document-first.
 
 ## Callouts and semantic states
 
-> [!info] Information / 信息 Sky blue and clear cyan support neutral information without replacing
-> body text.
+> [!info] Information / 信息
+>
+> Sky blue and clear cyan support neutral information while the body text remains deep ink.
 
-> [!tip] Success / 成功 The core quality gate passed before visual implementation began.
+> [!success] Success / 成功
+>
+> The core quality gate passed before visual implementation began.
 
-> [!warning] Warning / 警告 Gold orange is decorative. Functional warnings use a darker accessible
-> warning color.
+> [!warning] Warning / 警告
+>
+> Gold orange is decorative. Functional warnings use a darker accessible warning color.
 
-> [!danger] Error / 错误 Destructive and error states stay semantically red rather than becoming
-> sakura pink.
+> [!error] Error / 错误
+>
+> Destructive and error states stay semantically red rather than becoming sakura pink.
 
-> [!example] Second voice / 第二声音 Sakura and gray violet appear in small, deliberate passages.
+> [!second-voice] Second voice / 第二声音
+>
+> Sakura and gray violet appear in small, deliberate passages.
+
+### Callout icon registry coverage
+
+> [!note] Note / 笔记
+>
+> A quiet notebook marker.
+
+> [!todo] Todo / 待办
+>
+> A short task list marker.
+
+> [!tip] Tip / 提示
+>
+> A restrained lightbulb instead of a flame.
+
+> [!question] Question / 问题
+>
+> A calm help marker.
+
+> [!bug] Bug / 缺陷
+>
+> A diagnostic state without changing the error palette.
+
+> [!quote] Quote / 引用
+>
+> A semantic quote marker.
+
+> [!example] Example / 示例
+>
+> A compact experimental example.
+
+> [!aoi-tori] Aoi Tori / 青鸟
+>
+> The theme-specific callout uses the built-in feather icon.
 
 ## Inline code and code block
 

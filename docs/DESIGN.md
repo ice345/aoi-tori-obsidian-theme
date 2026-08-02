@@ -1,8 +1,8 @@
 # Design system
 
-Status: Phase 2 core palette and minimum preview slice implemented on 2026-08-02. Image evidence
-remains in `docs/visual-analysis.md`; this document is the final token and UI-role specification for
-the current review build.
+Status: Phase 2 core palette and minimum preview slice implemented, with the bounded Phase 2.5
+visual refinement completed on 2026-08-02. Image evidence remains in `docs/visual-analysis.md`; this
+document is the token and UI-role specification for the current review build.
 
 ## Identity
 
@@ -159,7 +159,8 @@ directly; light and dark semantic files map them to official Obsidian variables 
 | `--aoi-ink-faint`        | `#627686` | Faint text that still reaches the configured AA pair |
 | `--aoi-sakura-pale`      | `#F7E9ED` | Liz/quote wash                                       |
 | `--aoi-sakura`           | `#DCA3BC` | Decorative sakura detail and paired-curve voice      |
-| `--aoi-dusty-pink`       | `#87506F` | Accessible unresolved-link and second-voice text     |
+| `--aoi-dusty-pink`       | `#87506F` | Accessible second-voice text                         |
+| `--aoi-dusty-pink-muted` | `#7B5773` | Quieter AA-compliant unresolved-link text            |
 | `--aoi-gray-violet-pale` | `#F0EAF5` | Quiet lilac metadata surface                         |
 | `--aoi-gray-violet-deep` | `#66537D` | Accessible gray-violet text/code detail              |
 | `--aoi-warm-yellow-pale` | `#FBF3DF` | Nonessential highlight surface                       |
@@ -203,7 +204,7 @@ contain no literal colors. The principal mapping is:
 | Border / keyboard focus         | ice border / focus blue                         | night border / night cobalt                     |
 | Body / secondary / faint text   | ink indigo / ink muted / ink faint              | night text / night muted / night faint          |
 | Link / current / primary action | link blue, then deep cobalt on hover            | night cobalt, then night sky on hover           |
-| Unresolved link                 | dusty pink plus wavy sakura underline           | night sakura plus wavy violet underline         |
+| Unresolved link                 | muted dusty pink plus wavy sakura underline     | night sakura plus wavy violet underline         |
 | Input and secondary control     | cloud field with ice/powder boundary            | night canvas with border/sky boundary           |
 | Selection / highlight           | watercolor cyan mix / pale warm yellow          | cobalt mix / translucent night warning          |
 | Code / quote / callout          | cloud code, sakura quote, preserved safety hues | canvas code, panel quote, preserved safety hues |
@@ -221,7 +222,8 @@ variable alone cannot express the requested slice.
 - The close-up's near-black hair becomes violet ink `#292B3B`, keeping its hue character while
   providing 13.39:1 body contrast instead of using literal black.
 - Pale sakura and gray violet remain surfaces or decoration. Required pink/violet text uses
-  `#87506F` or `#66537D`.
+  `#87506F` or `#66537D`; the quieter unresolved-link step `#7B5773` still measures 5.83:1 on paper
+  at full opacity, then strengthens to cobalt at hover.
 - The reference gold `#E5A12A` measures only 2.13:1 on warm paper. It remains decorative; the deeper
   `#95550E` is reserved for readable warm code/value roles, while warnings retain their own semantic
   amber.
@@ -297,6 +299,75 @@ Dark mode represents a summer night and the close-up's deep ink, not an inverted
 - brighter cobalt/sky interactions that remain distinct from body text;
 - softened sakura/lilac details;
 - no neon glow, true-black default, glass blur, or automatic image filter.
+
+## Phase 2.5 visual refinement
+
+### Watercolor air without texture assets
+
+- The light sidebar keeps its solid mist-blue semantic surface and adds one static cyan wash at 5%
+  from a corner. It remains visibly cooler than the paper reading field.
+- Properties keeps a solid cloud surface underneath two static 4% washes: gray violet from the upper
+  left and cyan/mist from the lower right. The border and row dividers were also lightened.
+- Quote keeps a solid cloud/night panel underneath one left-to-right sakura fade. Its 2 px sakura
+  edge is structural; body text stays normal ink or normal night text.
+- Light Callouts use a 5% semantic wash. Dark Info uses 6% night sky, Success/Warning/Error use 5%
+  green/gold/red, and Second voice uses 6% gray violet.
+- The outer Callout owns the complete solid surface and semantic wash. Its content layer is
+  transparent so the wash remains continuous behind the title and body instead of being masked by a
+  nested white slab in light mode or a nested black slab in dark mode.
+
+The paper reading surface, body text, primary cobalt interactions, semantic safety foregrounds, code
+palette, and native control surfaces remain deliberately solid colors. Real watercolor textures were
+rejected because they would turn the reference art into an interface asset, reduce text
+predictability, and invite blur/filter work. The current gradients use no image, Base64, filter,
+blur, backdrop filter, blend mode, or text-covering pseudo-element; each component stays at one or
+two simple static layers.
+
+### Callout icon and structure specification
+
+Obsidian 1.13.4 was cold-started with the test note and each final `--callout-icon` value was
+confirmed to produce a built-in Lucide SVG. CSS uses the registry's `lucide-*` spelling:
+
+| Callout type                    | Final icon              | 1.13.4 result |
+| ------------------------------- | ----------------------- | ------------- |
+| Info                            | `lucide-info`           | Verified      |
+| Success / check / done          | `lucide-circle-check`   | Verified      |
+| Warning / caution               | `lucide-triangle-alert` | Verified      |
+| Error / danger / failure / fail | `lucide-circle-x`       | Verified      |
+| Note                            | `lucide-notebook-pen`   | Verified      |
+| Todo                            | `lucide-list-checks`    | Verified      |
+| Tip                             | `lucide-lightbulb`      | Verified      |
+| Question                        | `lucide-circle-help`    | Verified      |
+| Bug                             | `lucide-bug`            | Verified      |
+| Quote / cite                    | `lucide-quote`          | Verified      |
+| Example                         | `lucide-flask-conical`  | Verified      |
+| Second voice                    | `lucide-music-2`        | Verified      |
+| Aoi Tori                        | `lucide-feather`        | Verified      |
+
+The proposed `lucide-circle-info` ID did not resolve in this 1.13.4 registry, so Info uses the
+verified synonymous `lucide-info`. The first choices for Success, Error, and Second voice resolved,
+so their alternate candidates were unnecessary. No Blowfish, Font Awesome, or custom SVG was
+introduced; even the theme-specific Aoi Tori type uses the built-in feather.
+
+Icons render at 18 px inside a 25 px circular container, inherit `currentcolor`, use a unified 1.8
+stroke weight, and receive a 10% semantic-color surface. Callouts use a 2 px semantic inline-start
+edge, medium title weight, and normal body color. The test Markdown uses only the blockquote
+separator required to create a real body paragraph; no global margin rule compensates for authoring
+whitespace. The `.callout-content` layer intentionally has a transparent background: the parent
+Callout supplies the single continuous semantic surface, while body text remains normal ink/night
+text.
+
+### Hierarchy, boundaries, and image selection
+
+- Light H2 is mixed 9% toward muted ink, reducing cobalt intensity while leaving H1 and body text
+  unchanged. Unresolved links are quieter by default, retain the sakura wave, and strengthen to
+  cobalt on hover.
+- Dark H2/H3 mix toward muted night text, lowering brightness without changing the code palette.
+  Table borders in both modes and light Properties boundaries are quieter; no zebra striping was
+  added.
+- The theme-selected image outline is now 1 px with a 2 px offset. In 1.13.4 it coexists with the
+  native inner selection cue and two native action buttons, uses no layout-changing border, and
+  leaves the native interaction structure intact.
 
 ## Shape, depth, and typography
 

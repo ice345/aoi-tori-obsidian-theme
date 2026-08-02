@@ -138,8 +138,8 @@
 
   /* Headings and document structure */
   --h1-color: var(--aoi-night-text);
-  --h2-color: var(--aoi-night-cobalt);
-  --h3-color: var(--aoi-night-sky);
+  --h2-color: color-mix(in srgb, var(--aoi-night-cobalt) 84%, var(--aoi-night-muted));
+  --h3-color: color-mix(in srgb, var(--aoi-night-sky) 82%, var(--aoi-night-muted));
   --h4-color: var(--aoi-night-text);
   --h5-color: var(--aoi-night-muted);
   --h6-color: var(--aoi-night-faint);
@@ -171,9 +171,14 @@
   --code-value: var(--aoi-night-warning);
   --blockquote-background-color: var(--aoi-night-panel);
   --blockquote-border-color: var(--aoi-night-sakura);
-  --blockquote-color: var(--aoi-night-violet);
-  --callout-content-background: var(--aoi-night-canvas);
+  --blockquote-color: var(--aoi-night-text);
+  --callout-content-background: color-mix(
+    in srgb,
+    var(--aoi-night-canvas) 88%,
+    var(--aoi-night-surface)
+  );
   --callout-title-color: var(--aoi-night-text);
+  --aoi-callout-wash-strength: 6%;
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);
   --callout-tip: var(--aoi-night-success);
@@ -210,10 +215,14 @@
   --metadata-property-background-hover: var(--aoi-night-panel);
   --metadata-property-background-active: var(--aoi-night-surface);
   --table-background: var(--aoi-night-surface);
-  --table-border-color: var(--aoi-night-border);
+  --table-border-color: color-mix(in srgb, var(--aoi-night-border) 70%, var(--aoi-night-canvas));
   --table-header-background: var(--aoi-night-canvas);
   --table-header-background-hover: var(--aoi-night-panel);
-  --table-header-border-color: var(--aoi-night-border);
+  --table-header-border-color: color-mix(
+    in srgb,
+    var(--aoi-night-border) 76%,
+    var(--aoi-night-canvas)
+  );
   --table-header-color: var(--aoi-night-text);
   --table-row-alt-background: var(--aoi-night-canvas);
   --table-row-background-hover: var(--aoi-night-panel);

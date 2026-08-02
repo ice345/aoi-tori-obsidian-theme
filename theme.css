@@ -25,6 +25,7 @@
   --aoi-sakura-pale: #f7e9ed;
   --aoi-sakura: #dca3bc;
   --aoi-dusty-pink: #87506f;
+  --aoi-dusty-pink-muted: #7b5773;
   --aoi-gray-violet-pale: #f0eaf5;
   --aoi-gray-violet-deep: #66537d;
   --aoi-warm-yellow-pale: #fbf3df;
@@ -86,10 +87,10 @@
   --code-radius: var(--radius-s);
   --code-border-width: 1px;
   --blockquote-border-thickness: 2px;
-  --callout-border-width: 1px;
+  --callout-border-width: 2px;
   --callout-border-opacity: .34;
   --callout-radius: var(--radius-m);
-  --callout-title-weight: var(--font-semibold);
+  --callout-title-weight: var(--font-medium);
   --metadata-border-radius: var(--radius-m);
   --metadata-property-radius: var(--radius-s);
   --menu-radius: var(--radius-m);
@@ -200,7 +201,7 @@
   --link-color-hover: var(--aoi-cobalt-deep);
   --link-external-color: var(--aoi-link-blue);
   --link-external-color-hover: var(--aoi-cobalt-deep);
-  --link-unresolved-color: var(--aoi-dusty-pink);
+  --link-unresolved-color: var(--aoi-dusty-pink-muted);
   --link-unresolved-decoration-color: var(--aoi-sakura);
   --link-unresolved-decoration-style: wavy;
   --link-unresolved-opacity: 1;
@@ -252,7 +253,7 @@
   --nav-collapse-icon-color-collapsed: var(--aoi-link-blue);
   --nav-indentation-guide-color: var(--aoi-ice-border);
   --h1-color: var(--aoi-indigo-deep);
-  --h2-color: var(--aoi-cobalt-deep);
+  --h2-color: color-mix(in srgb, var(--aoi-cobalt-deep) 91%, var(--aoi-ink-muted));
   --h3-color: var(--aoi-ink-indigo);
   --h4-color: var(--aoi-ink-strong);
   --h5-color: var(--aoi-ink-muted);
@@ -281,11 +282,12 @@
   --code-string: var(--aoi-gray-violet-deep);
   --code-tag: var(--aoi-dusty-pink);
   --code-value: var(--aoi-gold-deep);
-  --blockquote-background-color: var(--aoi-sakura-pale);
+  --blockquote-background-color: var(--aoi-cloud-cool);
   --blockquote-border-color: var(--aoi-sakura);
-  --blockquote-color: var(--aoi-gray-violet-deep);
+  --blockquote-color: var(--aoi-ink-indigo);
   --callout-content-background: var(--aoi-cloud-cool);
   --callout-title-color: var(--aoi-ink-strong);
+  --aoi-callout-wash-strength: 5%;
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);
   --callout-tip: var(--aoi-success);
@@ -304,8 +306,8 @@
   --embed-actions-shadow: 0 2px 10px var(--background-modifier-box-shadow);
   --image-radius: var(--radius-m);
   --metadata-background: var(--aoi-cloud-cool);
-  --metadata-border-color: var(--aoi-ice-border);
-  --metadata-divider-color: var(--aoi-ice-border);
+  --metadata-border-color: color-mix(in srgb, var(--aoi-ice-border) 62%, var(--aoi-cloud-cool));
+  --metadata-divider-color: color-mix(in srgb, var(--aoi-ice-border) 54%, var(--aoi-cloud-cool));
   --metadata-divider-color-hover: var(--aoi-powder-blue);
   --metadata-divider-color-focus: var(--aoi-focus-blue);
   --metadata-label-background: var(--aoi-gray-violet-pale);
@@ -320,10 +322,12 @@
   --metadata-property-background-hover: var(--aoi-mist-blue);
   --metadata-property-background-active: var(--aoi-paper-warm);
   --table-background: var(--aoi-paper-warm);
-  --table-border-color: var(--aoi-ice-border);
+  --table-border-color: color-mix(in srgb, var(--aoi-ice-border) 72%, var(--aoi-paper-warm));
   --table-header-background: var(--aoi-mist-blue);
   --table-header-background-hover: var(--aoi-cloud-shadow);
-  --table-header-border-color: var(--aoi-powder-blue);
+  --table-header-border-color: color-mix(in srgb,
+    var(--aoi-powder-blue) 62%,
+    var(--aoi-paper-warm));
   --table-header-color: var(--aoi-indigo-deep);
   --table-row-alt-background: var(--aoi-cloud-cool);
   --table-row-background-hover: var(--aoi-mist-blue);
@@ -458,8 +462,8 @@
   --nav-collapse-icon-color-collapsed: var(--aoi-night-cobalt);
   --nav-indentation-guide-color: var(--aoi-night-border);
   --h1-color: var(--aoi-night-text);
-  --h2-color: var(--aoi-night-cobalt);
-  --h3-color: var(--aoi-night-sky);
+  --h2-color: color-mix(in srgb, var(--aoi-night-cobalt) 84%, var(--aoi-night-muted));
+  --h3-color: color-mix(in srgb, var(--aoi-night-sky) 82%, var(--aoi-night-muted));
   --h4-color: var(--aoi-night-text);
   --h5-color: var(--aoi-night-muted);
   --h6-color: var(--aoi-night-faint);
@@ -489,9 +493,12 @@
   --code-value: var(--aoi-night-warning);
   --blockquote-background-color: var(--aoi-night-panel);
   --blockquote-border-color: var(--aoi-night-sakura);
-  --blockquote-color: var(--aoi-night-violet);
-  --callout-content-background: var(--aoi-night-canvas);
+  --blockquote-color: var(--aoi-night-text);
+  --callout-content-background: color-mix(in srgb,
+    var(--aoi-night-canvas) 88%,
+    var(--aoi-night-surface));
   --callout-title-color: var(--aoi-night-text);
+  --aoi-callout-wash-strength: 6%;
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);
   --callout-tip: var(--aoi-night-success);
@@ -526,10 +533,12 @@
   --metadata-property-background-hover: var(--aoi-night-panel);
   --metadata-property-background-active: var(--aoi-night-surface);
   --table-background: var(--aoi-night-surface);
-  --table-border-color: var(--aoi-night-border);
+  --table-border-color: color-mix(in srgb, var(--aoi-night-border) 70%, var(--aoi-night-canvas));
   --table-header-background: var(--aoi-night-canvas);
   --table-header-background-hover: var(--aoi-night-panel);
-  --table-header-border-color: var(--aoi-night-border);
+  --table-header-border-color: color-mix(in srgb,
+    var(--aoi-night-border) 76%,
+    var(--aoi-night-canvas));
   --table-header-color: var(--aoi-night-text);
   --table-row-alt-background: var(--aoi-night-canvas);
   --table-row-background-hover: var(--aoi-night-panel);
@@ -557,6 +566,12 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 
 .workspace-split.mod-left-split, .workspace-split.mod-right-split {
   background-color: var(--background-secondary);
+}
+
+.theme-light :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split) {
+  background-image: linear-gradient(145deg,
+    color-mix(in srgb, var(--color-cyan) 5%, transparent),
+    transparent 36%);
 }
 
 .workspace-ribbon {
@@ -608,6 +623,10 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
   background-color: var(--background-secondary);
 }
 
+.theme-light :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split) .workspace-leaf-content {
+  background-color: #0000;
+}
+
 .nav-file-title, .nav-folder-title {
   color: var(--nav-item-color);
   border-radius: var(--nav-item-radius);
@@ -652,6 +671,9 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 .markdown-rendered blockquote {
   color: var(--blockquote-color);
   background-color: var(--blockquote-background-color);
+  background-image: linear-gradient(to right,
+    color-mix(in srgb, var(--blockquote-border-color) 9%, transparent),
+    transparent 72%);
   border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
   border-radius: 0 var(--radius-m) var(--radius-m) 0;
   padding-block: var(--size-4-2);
@@ -692,14 +714,123 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 .callout {
   color: var(--text-normal);
   background-color: var(--callout-content-background);
-  border-width: var(--callout-border-width);
+  background-image: linear-gradient(135deg,
+    color-mix(in srgb, var(--callout-color) var(--aoi-callout-wash-strength), transparent),
+    transparent 70%);
+  border: 0;
+  border-inline-start: var(--callout-border-width) solid var(--callout-color);
   border-radius: var(--callout-radius);
   box-shadow: 0 1px 3px var(--background-modifier-box-shadow);
+}
+
+.callout-title {
+  color: var(--callout-color);
+}
+
+.callout-content {
+  color: var(--text-normal);
+  background-color: #0000;
+}
+
+.callout-icon {
+  color: currentColor;
+  background-color: color-mix(in srgb, var(--callout-color) 10%, transparent);
+  border-radius: 50%;
+  flex: 0 0 25px;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+  display: flex;
+}
+
+.callout-icon svg {
+  color: currentColor;
+  stroke-width: 1.8px;
+  width: 18px;
+  height: 18px;
+}
+
+.callout[data-callout="note"] {
+  --callout-color: var(--callout-default);
+  --callout-icon: lucide-notebook-pen;
+}
+
+.callout[data-callout="info"] {
+  --callout-color: var(--callout-info);
+  --callout-icon: lucide-info;
+}
+
+.callout[data-callout="todo"] {
+  --callout-color: var(--callout-info);
+  --callout-icon: lucide-list-checks;
+}
+
+.callout[data-callout="tip"] {
+  --callout-color: var(--callout-tip);
+  --callout-icon: lucide-lightbulb;
+}
+
+.callout[data-callout="success"], .callout[data-callout="check"], .callout[data-callout="done"] {
+  --callout-color: var(--callout-success);
+  --callout-icon: lucide-circle-check;
+}
+
+.callout[data-callout="question"] {
+  --callout-color: var(--callout-question);
+  --callout-icon: lucide-circle-help;
+}
+
+.callout[data-callout="warning"], .callout[data-callout="caution"] {
+  --callout-color: var(--callout-warning);
+  --callout-icon: lucide-triangle-alert;
+}
+
+.callout[data-callout="failure"], .callout[data-callout="fail"], .callout[data-callout="error"], .callout[data-callout="danger"] {
+  --callout-color: var(--callout-error);
+  --callout-icon: lucide-circle-x;
+}
+
+.callout[data-callout="bug"] {
+  --callout-color: var(--callout-error);
+  --callout-icon: lucide-bug;
+}
+
+.callout[data-callout="quote"], .callout[data-callout="cite"] {
+  --callout-color: var(--callout-quote);
+  --callout-icon: lucide-quote;
+}
+
+.callout[data-callout="example"] {
+  --callout-color: var(--callout-example);
+  --callout-icon: lucide-flask-conical;
+}
+
+.callout[data-callout="second-voice"] {
+  --callout-color: var(--callout-example);
+  --callout-icon: lucide-music-2;
+}
+
+.callout[data-callout="aoi-tori"] {
+  --callout-color: var(--callout-info);
+  --callout-icon: lucide-feather;
+}
+
+.theme-dark .callout[data-callout="success"], .theme-dark .callout[data-callout="check"], .theme-dark .callout[data-callout="done"], .theme-dark .callout[data-callout="warning"], .theme-dark .callout[data-callout="caution"], .theme-dark .callout[data-callout="failure"], .theme-dark .callout[data-callout="fail"], .theme-dark .callout[data-callout="error"], .theme-dark .callout[data-callout="danger"] {
+  --aoi-callout-wash-strength: 5%;
+}
+
+.theme-dark .callout[data-callout="second-voice"] {
+  --aoi-callout-wash-strength: 6%;
 }
 
 .metadata-container {
   color: var(--metadata-input-text-color);
   background-color: var(--metadata-background);
+  background-image: linear-gradient(135deg,
+      color-mix(in srgb, var(--color-purple) 4%, transparent),
+      transparent 38%),
+    linear-gradient(315deg, color-mix(in srgb, var(--color-cyan) 4%, transparent), transparent 42%);
   border: 1px solid var(--metadata-border-color);
   border-radius: var(--metadata-border-radius);
   padding: var(--size-4-3);
@@ -739,6 +870,11 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
   text-underline-offset: .16em;
 }
 
+.internal-link.is-unresolved:hover {
+  color: var(--text-accent-hover);
+  opacity: 1;
+}
+
 .internal-link:focus-visible, .external-link:focus-visible {
   outline: 2px solid var(--background-modifier-border-focus);
   outline-offset: 2px;
@@ -757,13 +893,13 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .image-embed.is-selected {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 3px;
+  outline: 1px solid var(--background-modifier-border-focus);
+  outline-offset: 2px;
 }
 
 .image-embed:focus-visible, .image-embed:focus-within {
   outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 3px;
+  outline-offset: 2px;
   box-shadow: 0 2px 10px var(--background-modifier-box-shadow);
 }
 

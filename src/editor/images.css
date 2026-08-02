@@ -11,14 +11,14 @@
 }
 
 .image-embed.is-selected {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 3px;
+  outline: 1px solid var(--background-modifier-border-focus);
+  outline-offset: 2px;
 }
 
 .image-embed:focus-visible,
 .image-embed:focus-within {
   outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 3px;
+  outline-offset: 2px;
   box-shadow: 0 2px 10px var(--background-modifier-box-shadow);
 }
 

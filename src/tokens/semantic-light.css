@@ -66,7 +66,7 @@
   --link-color-hover: var(--aoi-cobalt-deep);
   --link-external-color: var(--aoi-link-blue);
   --link-external-color-hover: var(--aoi-cobalt-deep);
-  --link-unresolved-color: var(--aoi-dusty-pink);
+  --link-unresolved-color: var(--aoi-dusty-pink-muted);
   --link-unresolved-decoration-color: var(--aoi-sakura);
   --link-unresolved-decoration-style: wavy;
   --link-unresolved-opacity: 1;
@@ -126,7 +126,7 @@
 
   /* Headings and document structure */
   --h1-color: var(--aoi-indigo-deep);
-  --h2-color: var(--aoi-cobalt-deep);
+  --h2-color: color-mix(in srgb, var(--aoi-cobalt-deep) 91%, var(--aoi-ink-muted));
   --h3-color: var(--aoi-ink-indigo);
   --h4-color: var(--aoi-ink-strong);
   --h5-color: var(--aoi-ink-muted);
@@ -157,11 +157,12 @@
   --code-string: var(--aoi-gray-violet-deep);
   --code-tag: var(--aoi-dusty-pink);
   --code-value: var(--aoi-gold-deep);
-  --blockquote-background-color: var(--aoi-sakura-pale);
+  --blockquote-background-color: var(--aoi-cloud-cool);
   --blockquote-border-color: var(--aoi-sakura);
-  --blockquote-color: var(--aoi-gray-violet-deep);
+  --blockquote-color: var(--aoi-ink-indigo);
   --callout-content-background: var(--aoi-cloud-cool);
   --callout-title-color: var(--aoi-ink-strong);
+  --aoi-callout-wash-strength: 5%;
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);
   --callout-tip: var(--aoi-success);
@@ -182,8 +183,8 @@
 
   /* Properties and tables */
   --metadata-background: var(--aoi-cloud-cool);
-  --metadata-border-color: var(--aoi-ice-border);
-  --metadata-divider-color: var(--aoi-ice-border);
+  --metadata-border-color: color-mix(in srgb, var(--aoi-ice-border) 62%, var(--aoi-cloud-cool));
+  --metadata-divider-color: color-mix(in srgb, var(--aoi-ice-border) 54%, var(--aoi-cloud-cool));
   --metadata-divider-color-hover: var(--aoi-powder-blue);
   --metadata-divider-color-focus: var(--aoi-focus-blue);
   --metadata-label-background: var(--aoi-gray-violet-pale);
@@ -198,10 +199,14 @@
   --metadata-property-background-hover: var(--aoi-mist-blue);
   --metadata-property-background-active: var(--aoi-paper-warm);
   --table-background: var(--aoi-paper-warm);
-  --table-border-color: var(--aoi-ice-border);
+  --table-border-color: color-mix(in srgb, var(--aoi-ice-border) 72%, var(--aoi-paper-warm));
   --table-header-background: var(--aoi-mist-blue);
   --table-header-background-hover: var(--aoi-cloud-shadow);
-  --table-header-border-color: var(--aoi-powder-blue);
+  --table-header-border-color: color-mix(
+    in srgb,
+    var(--aoi-powder-blue) 62%,
+    var(--aoi-paper-warm)
+  );
   --table-header-color: var(--aoi-indigo-deep);
   --table-row-alt-background: var(--aoi-cloud-cool);
   --table-row-background-hover: var(--aoi-mist-blue);

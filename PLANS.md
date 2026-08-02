@@ -16,7 +16,83 @@ Build the first maintainable Aoi Tori theme release with:
 
 ## Current phase
 
-**Phase 2 — Final tokens and minimum preview slice (complete; awaiting visual review)**
+**Phase 2.5 — Visual refinement (complete; review correction verified)**
+
+This bounded pass preserves the approved light-mode identity and refines callout semantics,
+watercolor air, dark-mode hue relationships, small hierarchy details, and the selected-image
+outline. It does not begin the remaining Phase 3 or Phase 4 roadmap.
+
+The visual review found that Obsidian's opaque `.callout-content` background masks the parent
+Callout wash and reads as a nested white/black slab. The bounded correction makes only that content
+layer transparent so the outer Callout owns one continuous surface. The current user request also
+explicitly authorizes one Git checkpoint after this correction; this overrides the earlier Phase 2.5
+no-commit constraint for that checkpoint only. Phase 3 changes remain uncommitted unless separately
+authorized.
+
+### Phase 2.5 task: review corrections
+
+**Scope**
+
+- Included: verify current 1.13.4 Lucide callout IDs, map built-in callout icons through
+  `--callout-icon`, add restrained semantic callout washes, add limited static gradients to the
+  sidebar/Properties/Quote, reduce selected heading/link/border intensity, adjust the approved image
+  outline, run the full quality gate, and capture seven local comparison screenshots.
+- Excluded: Blowfish/Font Awesome assets, copied/custom icon art while Lucide `feather` exists,
+  global content-margin repairs, real texture assets, Bases, Canvas, mobile, Style Settings,
+  third-party plugins, remotes, pushes, unsolicited commits beyond the authorized checkpoint, and
+  Phase 3 expansion.
+
+**Starting evidence**
+
+- [x] Re-read repository, plan, design, testing, image-analysis, architecture, and DOM guidance.
+- [x] Confirm Phase 2 baseline commit `34ba7f1` on `master` with a clean worktree.
+- [x] Run the pre-change quality gate.
+- [x] Verify every selected Lucide candidate against the running Obsidian 1.13.4 icon registry.
+- [x] Implement the narrow semantic, gradient, hierarchy, and image-outline refinements.
+- [x] Inspect Callout Markdown structure for content-caused blank height.
+- [x] Test light/dark Callout, Quote, Properties, headings, and image selection in the real client.
+- [x] Capture seven ignored Phase 2.5 review screenshots.
+- [x] Run `npm run format` and the final `npm run check`.
+- [x] Record final visual decisions, test evidence, changed files, and deferred risks.
+- [x] Resolve the reviewed nested Callout body slab and verify one continuous surface in both modes.
+
+**Constraints**
+
+- Component CSS continues to consume semantic variables; color literals stay in token files.
+- Each refined component uses at most two simple static gradient layers and no filters, blur,
+  backdrop filters, blend modes, texture assets, or text-covering pseudo-elements.
+- Native Callout structure and image-selection cues remain present. No `!important`, `:has()`,
+  layout-changing image border, or unverified selector is introduced.
+
+**Result**
+
+- The pre-change and final `npm run check` both pass. The final build is 41,630 bytes; Stylelint,
+  Prettier, the 11-file CSS audit, all 16 configured contrast pairs, and manifest validation pass
+  without a disabled rule or reduced threshold.
+- Obsidian and Installer 1.13.4 on macOS verified all final built-in Callout icons after a cold
+  start. `lucide-circle-info` did not resolve and was replaced by verified `lucide-info`; the other
+  selected IDs, including `lucide-music-2` and `lucide-feather`, resolved. No external or custom
+  icon asset was added.
+- Light Callouts now use quiet semantic washes and a 2 px semantic edge; dark Callouts use distinct
+  5–6% night semantic layers while retaining normal night body text. Quote, Properties, and the
+  light sidebar receive only the bounded static gradients documented in `docs/DESIGN.md`.
+- Light H2, unresolved links, Properties/table borders, dark H2/H3, and dark table borders were
+  reduced without redesigning the approved light palette or changing code syntax colors.
+- The 1.13.4 image selection retains the native inner cue and action buttons. The theme outline is 1
+  px with a 2 px offset and does not alter layout.
+- Seven final screenshots are stored under ignored `.analysis/phase-2.5-review/`: light/dark
+  Callouts, light/dark Quote, light Properties, dark heading hierarchy, and light selected image.
+- The reviewed nested Callout body slab is removed: computed `.callout-content` background is
+  transparent in light and dark mode, leaving the parent solid color and semantic wash continuous.
+  Updated reading-view evidence is stored as `09-light-callouts-unified-body-reading.png` and
+  `08-dark-callouts-unified-body-reading.png` in the same ignored review directory.
+- Bases, Canvas, mobile, Style Settings, third-party plugins, Phase 3 expansion, final promotional
+  artwork, further commits, and pushes remain outside this pass. One explicitly authorized Phase 2.5
+  checkpoint commit follows this verified correction.
+
+### Phase 2 baseline
+
+**Phase 2 — Final tokens and minimum preview slice (complete; visually approved in light mode)**
 
 This phase turns the accepted Phase 1 image analysis into a reviewable core theme in a local
 Obsidian vault. It does not attempt full Community Theme coverage.
@@ -258,25 +334,29 @@ the interaction was tested.
 
 Record decisions that affect architecture, compatibility, licensing, or visual identity.
 
-| Date       | Decision                                                                                                                      | Reason                                                                                     | Consequence                                                                             |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------- |
-| 2026-08-02 | Use `Aoi Tori` as the working name                                                                                            | It reflects 青い鳥 more directly than Aozora                                               | Use `--aoi-*` token prefix                                                              |
-| 2026-08-02 | Reference images outrank supplied HEX values                                                                                  | The images carry the intended atmosphere and color relationships                           | HEX values remain adjustable anchors                                                    |
-| 2026-08-02 | Do not edit `theme.css` directly                                                                                              | It is a generated release artifact                                                         | All styling work happens in `src/`                                                      |
-| 2026-08-02 | Do not create a SKILL yet                                                                                                     | No repository workflow has been repeated enough to stabilize                               | Revisit after release audits become recurring                                           |
-| 2026-08-02 | Use warm paper and cool cloud/mist as distinct white families                                                                 | The primary images consistently balance paper warmth against cool atmospheric light        | Main reading surfaces stay warm-neutral; panels may lean cool                           |
-| 2026-08-02 | Separate watercolor cyan, clear sky, and cobalt interaction blue                                                              | The images give these blues different value, chroma, and narrative roles                   | Pale cyan is a surface; sky is atmosphere; accessible cobalt is functional              |
-| 2026-08-02 | Use violet-navy ink instead of pure black                                                                                     | The close-up supplies the missing structural dark and keeps the palette coherent           | Body text, outlines, code, and dark surfaces use an ink/night family                    |
-| 2026-08-02 | Limit sakura/lilac to a sparse second voice and gold orange to a micro-accent                                                 | Their small image area matters narratively but does not justify broad UI coverage          | No pink workspace, rainbow headings, or gold replacement for warning semantics          |
-| 2026-08-02 | Approve an original abstract feather, two near-parallel curves, pale fields, and cloud-white space as future graphic language | These translate feather, duet, watercolor, and distance without copying reference art      | Final cover waits until Phase 6 and uses an actual Aoi Tori UI screenshot               |
-| 2026-08-02 | Keep native 1.13 image behavior until current DOM evidence exists                                                             | Release notes define behavior but not stable selectors; Phase 1 did not instrument a vault | No custom zoom/grid/resizing CSS or internal selectors before Phase 4 inspection        |
-| 2026-08-02 | Treat Community Health/Review as time-stamped guidance, not a safety ranking                                                  | Scorecards are automated, evolving, and may contain false positives or negatives           | Record exact findings and keep Aoi Tori's target at zero `!important` and zero `:has()` |
-| 2026-08-02 | Preserve the existing unborn `master` branch during engineering normalization                                                 | The repository was already initialized; the request only required `main` when initializing | Do not reinitialize or rename; report the actual branch                                 |
-| 2026-08-02 | Treat watercolor/work-related imagery as Tier A and the saturated summer-sky pair as Tier B                                   | The current user decision narrows the Phase 1 hierarchy                                    | Tier B sets clarity/chroma limits but cannot determine UI area ratios                   |
-| 2026-08-02 | Combine roadmap Phase 2 with a bounded slice of Phase 3/4 for this review build                                               | The current task explicitly requests final tokens plus a real preview slice                | Mark only implemented/tested rows complete; keep broader compatibility work pending     |
-| 2026-08-02 | Approve `.image-embed.is-selected` and `.embed-action` only after rendered 1.13.4 DOM inspection                              | Pointer selection and actions were observed in the disposable local Vault                  | Style a non-layout cobalt outline and action states; leave resize/lightbox DOM native   |
-| 2026-08-02 | Keep all 53 primitive colors only because each has a current semantic reference                                               | The task requires removing unused token candidates                                         | No dormant primitive remains in `primitives.css`                                        |
-| 2026-08-02 | Record the local installer as 1.13.4 for Phase 2                                                                              | Both Settings and the application bundle reported 1.13.4 during the actual test            | Supersede, but do not erase, the earlier Phase 1 observation of a 1.12.7 shell          |
+| Date       | Decision                                                                                                                      | Reason                                                                                         | Consequence                                                                             |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
+| 2026-08-02 | Use `Aoi Tori` as the working name                                                                                            | It reflects 青い鳥 more directly than Aozora                                                   | Use `--aoi-*` token prefix                                                              |
+| 2026-08-02 | Reference images outrank supplied HEX values                                                                                  | The images carry the intended atmosphere and color relationships                               | HEX values remain adjustable anchors                                                    |
+| 2026-08-02 | Do not edit `theme.css` directly                                                                                              | It is a generated release artifact                                                             | All styling work happens in `src/`                                                      |
+| 2026-08-02 | Do not create a SKILL yet                                                                                                     | No repository workflow has been repeated enough to stabilize                                   | Revisit after release audits become recurring                                           |
+| 2026-08-02 | Use warm paper and cool cloud/mist as distinct white families                                                                 | The primary images consistently balance paper warmth against cool atmospheric light            | Main reading surfaces stay warm-neutral; panels may lean cool                           |
+| 2026-08-02 | Separate watercolor cyan, clear sky, and cobalt interaction blue                                                              | The images give these blues different value, chroma, and narrative roles                       | Pale cyan is a surface; sky is atmosphere; accessible cobalt is functional              |
+| 2026-08-02 | Use violet-navy ink instead of pure black                                                                                     | The close-up supplies the missing structural dark and keeps the palette coherent               | Body text, outlines, code, and dark surfaces use an ink/night family                    |
+| 2026-08-02 | Limit sakura/lilac to a sparse second voice and gold orange to a micro-accent                                                 | Their small image area matters narratively but does not justify broad UI coverage              | No pink workspace, rainbow headings, or gold replacement for warning semantics          |
+| 2026-08-02 | Approve an original abstract feather, two near-parallel curves, pale fields, and cloud-white space as future graphic language | These translate feather, duet, watercolor, and distance without copying reference art          | Final cover waits until Phase 6 and uses an actual Aoi Tori UI screenshot               |
+| 2026-08-02 | Keep native 1.13 image behavior until current DOM evidence exists                                                             | Release notes define behavior but not stable selectors; Phase 1 did not instrument a vault     | No custom zoom/grid/resizing CSS or internal selectors before Phase 4 inspection        |
+| 2026-08-02 | Treat Community Health/Review as time-stamped guidance, not a safety ranking                                                  | Scorecards are automated, evolving, and may contain false positives or negatives               | Record exact findings and keep Aoi Tori's target at zero `!important` and zero `:has()` |
+| 2026-08-02 | Preserve the existing unborn `master` branch during engineering normalization                                                 | The repository was already initialized; the request only required `main` when initializing     | Do not reinitialize or rename; report the actual branch                                 |
+| 2026-08-02 | Treat watercolor/work-related imagery as Tier A and the saturated summer-sky pair as Tier B                                   | The current user decision narrows the Phase 1 hierarchy                                        | Tier B sets clarity/chroma limits but cannot determine UI area ratios                   |
+| 2026-08-02 | Combine roadmap Phase 2 with a bounded slice of Phase 3/4 for this review build                                               | The current task explicitly requests final tokens plus a real preview slice                    | Mark only implemented/tested rows complete; keep broader compatibility work pending     |
+| 2026-08-02 | Approve `.image-embed.is-selected` and `.embed-action` only after rendered 1.13.4 DOM inspection                              | Pointer selection and actions were observed in the disposable local Vault                      | Style a non-layout cobalt outline and action states; leave resize/lightbox DOM native   |
+| 2026-08-02 | Keep all 53 Phase 2 primitive colors only because each has a current semantic reference                                       | The task requires removing unused token candidates                                             | Phase 2.5 may add a used accessible step, but no dormant primitive remains              |
+| 2026-08-02 | Record the local installer as 1.13.4 for Phase 2                                                                              | Both Settings and the application bundle reported 1.13.4 during the actual test                | Supersede, but do not erase, the earlier Phase 1 observation of a 1.12.7 shell          |
+| 2026-08-02 | Use only cold-start-verified 1.13.4 Lucide IDs for Phase 2.5 Callouts                                                         | Hot reload left even native Callout SVGs empty; cold start produced reliable registry evidence | Use `lucide-info` when `lucide-circle-info` fails; add no external/custom icon asset    |
+| 2026-08-02 | Express watercolor air with bounded static semantic gradients                                                                 | Small hue layers improve the summer-watercolor identity without raster texture or blur         | Keep paper/text/actions solid; cap each refined component at two simple gradient layers |
+| 2026-08-02 | Keep `.callout-content` transparent and let the parent own the surface                                                        | The native opaque content layer masked the parent wash as a nested white/black rectangle       | Preserve one continuous Callout ground without changing body text or spacing            |
+| 2026-08-02 | Create one Phase 2.5 checkpoint before starting Phase 3                                                                       | The current user explicitly requested staging and committing this reviewed baseline            | Phase 3 work starts from that commit and remains uncommitted without new authorization  |
 
 ## Phase 1 result
 

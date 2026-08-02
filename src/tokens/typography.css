@@ -31,10 +31,10 @@
   --code-radius: var(--radius-s);
   --code-border-width: 1px;
   --blockquote-border-thickness: 2px;
-  --callout-border-width: 1px;
+  --callout-border-width: 2px;
   --callout-border-opacity: 0.34;
   --callout-radius: var(--radius-m);
-  --callout-title-weight: var(--font-semibold);
+  --callout-title-weight: var(--font-medium);
   --metadata-border-radius: var(--radius-m);
   --metadata-property-radius: var(--radius-s);
   --menu-radius: var(--radius-m);
