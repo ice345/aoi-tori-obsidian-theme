@@ -1,0 +1,136 @@
+button,
+.mod-cta,
+.mod-warning {
+  color: var(--text-normal);
+  background-color: var(--interactive-normal);
+  border: var(--input-border-width) solid var(--background-modifier-border);
+  border-radius: var(--input-radius);
+  box-shadow: var(--input-shadow);
+  transition:
+    color var(--anim-duration-fast) var(--anim-motion-smooth),
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    border-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    box-shadow var(--anim-duration-fast) var(--anim-motion-smooth),
+    transform var(--anim-duration-fast) var(--anim-motion-swing);
+}
+
+button:hover {
+  background-color: var(--interactive-hover);
+  border-color: var(--background-modifier-border-hover);
+  box-shadow: var(--input-shadow-hover);
+}
+
+button.mod-cta {
+  color: var(--text-on-accent);
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+}
+
+button.mod-cta:hover {
+  color: var(--text-on-accent);
+  background-color: var(--interactive-accent-hover);
+  border-color: var(--interactive-accent-hover);
+}
+
+button.mod-warning {
+  color: var(--text-error);
+  background-color: var(--background-modifier-error);
+  border-color: var(--text-error);
+}
+
+button:active {
+  transform: translateY(1px);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: var(--input-focus-outline);
+  outline-offset: 2px;
+}
+
+button:disabled,
+input:disabled,
+textarea:disabled,
+select:disabled {
+  color: var(--text-faint);
+  background-color: var(--background-secondary-alt);
+  border-color: var(--input-disabled-border-color);
+  box-shadow: none;
+  opacity: 0.68;
+}
+
+input[type="text"],
+input[type="search"],
+input[type="number"],
+input[type="date"],
+textarea,
+select,
+.dropdown {
+  color: var(--input-text-fg-color);
+  background-color: var(--input-text-bg-color);
+  border: var(--input-border-width) solid var(--input-unfocused-border-color);
+  border-radius: var(--input-radius);
+  box-shadow: var(--input-shadow);
+  transition:
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    border-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
+}
+
+input:hover,
+textarea:hover,
+select:hover,
+.dropdown:hover {
+  background-color: var(--background-modifier-form-field-hover);
+  border-color: var(--input-hover-border-color);
+  box-shadow: var(--input-shadow-hover);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder-color);
+}
+
+.checkbox-container {
+  background-color: var(--background-secondary-alt);
+  border: 1px solid var(--background-modifier-border);
+  transition:
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    border-color var(--anim-duration-fast) var(--anim-motion-smooth);
+}
+
+.checkbox-container.is-enabled {
+  background-color: var(--interactive-accent);
+  border-color: var(--interactive-accent);
+}
+
+.checkbox-container:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: 2px;
+}
+
+.clickable-icon {
+  color: var(--icon-color);
+  border-radius: var(--radius-s);
+  transition:
+    color var(--anim-duration-fast) var(--anim-motion-smooth),
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth);
+}
+
+.clickable-icon:hover {
+  color: var(--icon-color-hover);
+  background-color: var(--background-modifier-hover);
+}
+
+.clickable-icon.is-active {
+  color: var(--icon-color-active);
+  background-color: var(--background-modifier-active-hover);
+}
+
+.clickable-icon:focus-visible {
+  color: var(--icon-color-focused);
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: 1px;
+}

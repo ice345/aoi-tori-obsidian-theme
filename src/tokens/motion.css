@@ -1,0 +1,21 @@
+:root {
+  --anim-duration-none: 0ms;
+  --anim-duration-superfast: 80ms;
+  --anim-duration-fast: 120ms;
+  --anim-duration-moderate: 180ms;
+  --anim-duration-slow: 240ms;
+  --anim-motion-smooth: cubic-bezier(0.2, 0, 0, 1);
+  --anim-motion-swing: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --anim-motion-jumpy: cubic-bezier(0.2, 0.9, 0.3, 1.08);
+  --anim-motion-delay: 40ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --anim-duration-superfast: 0ms;
+    --anim-duration-fast: 0ms;
+    --anim-duration-moderate: 0ms;
+    --anim-duration-slow: 0ms;
+    --anim-motion-delay: 0ms;
+  }
+}

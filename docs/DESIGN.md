@@ -1,0 +1,404 @@
+# Design system
+
+Status: Phase 2 core palette and minimum preview slice implemented on 2026-08-02. Image evidence
+remains in `docs/visual-analysis.md`; this document is the final token and UI-role specification for
+the current review build.
+
+## Identity
+
+Aoi Tori translates a blue-bird watercolor atmosphere into a practical Obsidian interface. It is not
+simply a blue-and-white skin and it is not an unofficial film-branded product.
+
+The identity depends on relationships:
+
+- warm paper and cool cloud white create room to breathe;
+- pale cyan watercolor creates quiet spatial layers;
+- clear sky blue carries atmosphere;
+- deep cobalt carries the blue-bird motif, navigation, focus, and present action;
+- violet-navy ink preserves reading clarity and supplies the deepest anchor;
+- sakura and lilac create a second voice that approaches blue without merging into it;
+- a nearly absent gold-orange point prevents the cool system from becoming emotionally flat;
+- empty space, thin boundaries, and small changes of distance are part of the composition.
+
+## Source hierarchy
+
+Final visual decisions use this order:
+
+1. Images in `references/raw/`
+2. `docs/visual-analysis.md`
+3. This design document
+4. Existing semantic tokens
+5. Supplied HEX anchors
+6. Other themes
+
+Supplied HEX values are historical anchors, not fixed requirements. Community themes are engineering
+references only.
+
+## Narrative translation
+
+The [official synopsis](https://ponycanyon.us/show/liz-and-the-blue-bird/) frames the central
+relationship as an oboe/flute duet whose parts keep turning near one another while struggling to
+align. In the [director interview](https://liz-bluebird.com/interview/), Naoko Yamada emphasizes
+delicate emotional accumulation, interpersonal distance, breath, warmth, and avoiding shorthand
+emotional symbols. Aoi Tori should follow the same design ethic: meaning comes from repeated small
+relationships, not literal character art or decorative icons.
+
+### Liz and the fairy-tale world
+
+Translate this voice into:
+
+- warm-neutral paper rather than beige parchment;
+- very pale sakura watercolor on optional quote/callout/card surfaces;
+- light cards with thin edges and generous internal space;
+- a tiny warm point where a composition benefits from counterbalance.
+
+Do not turn the workspace pink, use ornate storybook frames, or add character/flower imagery.
+
+### The blue bird
+
+Translate this voice into:
+
+- clear sky blue for atmosphere and secondary interaction;
+- deep cobalt for links, current file/tab, primary actions, selected state, and keyboard focus;
+- a cobalt outline or equivalent non-layout-changing cue for selected images;
+- one strong active signal among otherwise quiet surfaces.
+
+Do not color all text or every icon blue. A motif is legible because it is selective.
+
+### The two girls as a duet
+
+Use two neighboring but non-identical voices:
+
+- **primary voice:** sky-to-cobalt blue;
+- **secondary voice:** sakura-to-gray-purple, with lilac as the bridge.
+
+They may appear as paired metadata, paired decorative curves, or different callout details. They
+must not become a rainbow heading system, a gender code, or competing primary actions. Meaning must
+remain understandable without color.
+
+### Music and breath
+
+The design rhythm is spatial rather than iconographic:
+
+- use a 4 px base rhythm with common phrase intervals of 8, 16, 24, and 32 px;
+- keep controls and groups clearly phrased instead of uniformly dense;
+- reserve larger gaps for transitions between conceptual sections;
+- keep motion brief, small, and functional;
+- never add decorative note symbols, staff lines, or continuous pulsing.
+
+### Distance and approach
+
+Express distance through:
+
+- two or three clear surface levels;
+- one-pixel boundaries where separation is necessary;
+- quiet inactive states that remain readable;
+- active states with a change in both color and structure/weight/outline;
+- gentle convergence of spacing or paired lines without literal collision.
+
+Avoid thick borders, large shadows, aggressive scale changes, and controls that disappear until
+hover unless Obsidian already provides an accessible alternative.
+
+### Watercolor
+
+Watercolor is a color-and-space system, not a texture asset:
+
+- use close lightness steps and low-chroma surface colors;
+- use limited transparency for hover/selection overlays on solid backgrounds;
+- permit only small, static, low-cost gradients in decorative or promotional contexts;
+- retain crisp text, focus, icons, and interactive boundaries;
+- do not use real watercolor images, large blur filters, or `backdrop-filter` as interface
+  backgrounds.
+
+## Visual proportions
+
+The Phase 1 target translated from the images is:
+
+```text
+Paper, cloud, and open neutral space: 65–75%
+Mist, ice, and pale aqua surfaces:     15–25%
+Sky, cobalt, and ink structure:         5–8%
+Sakura and lilac second voice:          2–4%
+Gold-orange warm point:                 0–1%
+```
+
+These are compositional guardrails, not a requirement to measure every screen. A narrow mobile view
+still needs to feel mostly light and open even when its controls occupy a larger percentage.
+
+## Final primitive palette
+
+Primitive names describe what the colors mean visually. UI modules never consume these values
+directly; light and dark semantic files map them to official Obsidian variables first.
+
+### Paper, cloud, watercolor, and blue-bird structure
+
+| Primitive               | Value     | Visual purpose                                       |
+| ----------------------- | --------- | ---------------------------------------------------- |
+| `--aoi-paper-warm`      | `#FBFAF8` | Warm paper-white primary reading field               |
+| `--aoi-cloud-cool`      | `#F6FAFA` | Cool cloud-white raised surface                      |
+| `--aoi-mist-blue`       | `#E8F2F4` | Mist-blue sidebar and quiet panel                    |
+| `--aoi-cloud-shadow`    | `#DFECEF` | Cloud shadow and stronger inactive surface           |
+| `--aoi-ice-border`      | `#CBDFE8` | Ice-blue one-pixel boundary                          |
+| `--aoi-watercolor-cyan` | `#B8DEE8` | Translucent-looking wash and non-text selection      |
+| `--aoi-powder-blue`     | `#A8CDE1` | Uniform/powder-blue midtone and hover boundary       |
+| `--aoi-sky-blue`        | `#83BEE7` | Atmospheric sky used through quiet mixed fills       |
+| `--aoi-sky-deep`        | `#65A8DE` | Stronger sky bridge and native decorative blue       |
+| `--aoi-clear-cyan-blue` | `#3F97C5` | Clear cyan-blue information/decorative accent        |
+| `--aoi-focus-blue`      | `#1558A0` | Light-mode keyboard and image focus outline          |
+| `--aoi-link-blue`       | `#1D5FAE` | Accessible link, primary action, and current state   |
+| `--aoi-cobalt-deep`     | `#174678` | Pressed/hovered cobalt and blue-bird structural dark |
+| `--aoi-indigo-deep`     | `#303F65` | Deep indigo headings and code structure              |
+
+### Ink, duet accents, and warm counterpoint
+
+| Primitive                | Value     | Visual purpose                                       |
+| ------------------------ | --------- | ---------------------------------------------------- |
+| `--aoi-ink-indigo`       | `#292B3B` | Violet-leaning main body ink, never pure black       |
+| `--aoi-ink-strong`       | `#3E4B5C` | Strong secondary text and code                       |
+| `--aoi-ink-muted`        | `#586C7D` | AA-compliant secondary text and common icons         |
+| `--aoi-ink-faint`        | `#627686` | Faint text that still reaches the configured AA pair |
+| `--aoi-sakura-pale`      | `#F7E9ED` | Liz/quote wash                                       |
+| `--aoi-sakura`           | `#DCA3BC` | Decorative sakura detail and paired-curve voice      |
+| `--aoi-dusty-pink`       | `#87506F` | Accessible unresolved-link and second-voice text     |
+| `--aoi-gray-violet-pale` | `#F0EAF5` | Quiet lilac metadata surface                         |
+| `--aoi-gray-violet-deep` | `#66537D` | Accessible gray-violet text/code detail              |
+| `--aoi-warm-yellow-pale` | `#FBF3DF` | Nonessential highlight surface                       |
+| `--aoi-gold-orange`      | `#E5A12A` | Sub-1% decorative warm point; never essential text   |
+| `--aoi-gold-deep`        | `#95550E` | Accessible warm code/value/native orange step        |
+
+### Independent summer-night palette
+
+| Primitive             | Value     | Visual purpose                        |
+| --------------------- | --------- | ------------------------------------- |
+| `--aoi-night-canvas`  | `#111827` | Deepest night canvas                  |
+| `--aoi-night-surface` | `#172338` | Main night reading surface            |
+| `--aoi-night-panel`   | `#20344D` | Raised blue-night panel               |
+| `--aoi-night-border`  | `#36516C` | Night boundary                        |
+| `--aoi-night-text`    | `#EAF3F5` | Ice-cloud primary text                |
+| `--aoi-night-muted`   | `#B3C5D4` | Secondary night text and icons        |
+| `--aoi-night-faint`   | `#92A7B8` | Faint night structure                 |
+| `--aoi-night-sky`     | `#7FC3E8` | Secondary night interaction           |
+| `--aoi-night-cobalt`  | `#8EAEF2` | Primary night link, action, and focus |
+| `--aoi-night-sakura`  | `#DEA5C0` | Sparse night second voice             |
+| `--aoi-night-violet`  | `#C2B1DA` | Night lilac bridge                    |
+
+### Preserved safety semantics
+
+| Role    | Light foreground / soft surface | Dark foreground / soft surface |
+| ------- | ------------------------------- | ------------------------------ |
+| Error   | `#A83246` / `#F7E6E9`           | `#FF9AA5` / `#3B1F2A`          |
+| Warning | `#8A5A00` / `#FBF2DC`           | `#F4C56A` / `#3A3020`          |
+| Success | `#276A53` / `#E3F2EC`           | `#7BD6B0` / `#19362F`          |
+| Info    | `#245F90` / `#E4F1F8`           | `#7FC3E8` / `#1B3347`          |
+
+## Final semantic mapping
+
+The implementation maps color roles in `semantic-light.css` and `semantic-dark.css`; component files
+contain no literal colors. The principal mapping is:
+
+| UI role                         | Light mapping                                   | Dark mapping                                    |
+| ------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
+| Reading / raised / side surface | warm paper / cloud / mist                       | night surface / panel / canvas                  |
+| Hover / selected fill           | mixed sky wash / cloud shadow                   | panel mixed with sky/cobalt                     |
+| Border / keyboard focus         | ice border / focus blue                         | night border / night cobalt                     |
+| Body / secondary / faint text   | ink indigo / ink muted / ink faint              | night text / night muted / night faint          |
+| Link / current / primary action | link blue, then deep cobalt on hover            | night cobalt, then night sky on hover           |
+| Unresolved link                 | dusty pink plus wavy sakura underline           | night sakura plus wavy violet underline         |
+| Input and secondary control     | cloud field with ice/powder boundary            | night canvas with border/sky boundary           |
+| Selection / highlight           | watercolor cyan mix / pale warm yellow          | cobalt mix / translucent night warning          |
+| Code / quote / callout          | cloud code, sakura quote, preserved safety hues | canvas code, panel quote, preserved safety hues |
+| Properties / table              | cloud/mist/ice hierarchy                        | canvas/panel/border hierarchy                   |
+| Menu / modal / Settings         | cloud or paper above a mist sidebar             | night surface above a canvas sidebar            |
+
+Official variables cover backgrounds, text, links, controls, icons, navigation, tabs, metadata,
+tables, embeds, menus, modals, and settings. Small module rules add geometry and state cues where a
+variable alone cannot express the requested slice.
+
+### Accessibility adjustments from the images
+
+- Sampled sky and powder blues are too light for essential text on paper. Functional links and
+  primary actions therefore use `#1D5FAE`; keyboard focus uses the still darker `#1558A0`.
+- The close-up's near-black hair becomes violet ink `#292B3B`, keeping its hue character while
+  providing 13.39:1 body contrast instead of using literal black.
+- Pale sakura and gray violet remain surfaces or decoration. Required pink/violet text uses
+  `#87506F` or `#66537D`.
+- The reference gold `#E5A12A` measures only 2.13:1 on warm paper. It remains decorative; the deeper
+  `#95550E` is reserved for readable warm code/value roles, while warnings retain their own semantic
+  amber.
+- Dark mode interaction blues were lightened relative to source cobalt so links and focus remain
+  visible on all three night surfaces without becoming neon.
+
+## Color roles
+
+The exact Phase 1 candidate values and measured contrast pairs are defined once in
+`docs/visual-analysis.md`.
+
+### Paper, cloud, mist, and ice
+
+Use for main backgrounds, alternate surfaces, panels, form fields, hover/selection fills, and thin
+boundaries. The primary reading surface is slightly warm-neutral; sidebars and raised panels may
+lean cooler. Near-white values are never text.
+
+### Sky and aqua
+
+Use for atmosphere, soft information surfaces, larger icons, and secondary interaction. The sampled
+sky blues are too light for small text on paper and require a darker semantic step when used
+functionally.
+
+### Bird/cobalt
+
+Use for links, the current navigation state, primary actions, selected-image outlines, and visible
+keyboard focus. Light mode uses a darker accessible cobalt; dark mode uses a lighter feather-like
+cobalt. Do not use the same literal value in both modes.
+
+### Sakura and lilac
+
+Use sparingly for the second voice: quote details, paired metadata, optional small heading marks,
+and original promotional curves. Text uses the darker accessible steps; pale steps are surfaces or
+decoration. Unresolved links and safety states must remain semantically distinguishable.
+
+### Ink and night
+
+Use violet-navy ink for light-mode body text, outlines, code, and structural details. Dark mode is a
+separate summer-night palette: deep navy surfaces, ice text, and brighter sky/cobalt accents. Pure
+black is not the default, and images are never automatically inverted.
+
+### Gold orange
+
+Use only as a tiny decorative counterpoint unless the darker accessible step is deliberately
+assigned a text role. It must not replace warning amber or become a general accent.
+
+### Safety colors
+
+Preserve Obsidian error, destructive, warning, and success semantics. Pink is not an error color;
+gold is not automatically a warning color; decorative blue cannot be the only signal for selection
+or focus.
+
+## Light mode
+
+Light mode is the primary Aoi Tori identity:
+
+- warm-neutral paper reading surface;
+- cloud-white raised areas and mist-blue secondary panels;
+- deep violet-navy body text;
+- cobalt links, focus, current state, and primary action;
+- pale cyan hover/selection fills with an additional non-color cue;
+- sparse sakura/lilac second voice;
+- thin borders and little or no shadow.
+
+The interface should feel high-key and calm without washing out control boundaries.
+
+## Dark mode
+
+Dark mode represents a summer night and the close-up's deep ink, not an inverted daytime palette:
+
+- deep navy canvas, slightly lighter reading surface, and blue-raised panels;
+- ice-blue-white body text and readable muted text;
+- brighter cobalt/sky interactions that remain distinct from body text;
+- softened sakura/lilac details;
+- no neon glow, true-black default, glass blur, or automatic image filter.
+
+## Shape, depth, and typography
+
+- Prefer subtle radii and keep native control geometry recognizable.
+- Prefer a thin outline/border over a heavy shadow.
+- Use an `outline` or equivalent overlay for selected images; do not shift layout.
+- Use system font stacks with Chinese, Japanese, and English coverage.
+- Do not bundle, Base64-encode, or remotely load fonts.
+- Keep body text neutral and readable; color belongs mainly to interaction and structure.
+- Use a generous line height and readable measure without copying the references' literal page
+  composition.
+
+## Motion
+
+- Typical UI transitions should stay around 120–180 ms and move no more than 1–2 px when motion is
+  necessary.
+- Never animate image width or height.
+- Never make an active control flash, collapse, or become unclickable.
+- No decorative continuous animation.
+- Under `prefers-reduced-motion: reduce`, remove nonessential transition and transform behavior; do
+  not rely only on a Style Settings class.
+
+## Original abstract graphic language
+
+Phase 1 defines a future design vocabulary but does not generate final promotional art.
+
+### Original cobalt feather — suitable with constraints
+
+- Draw a new, simplified, slender asymmetric feather from geometric construction.
+- Favor one tapered shaft and a few separated abstract barbs; keep enough negative space for it to
+  read as a mark rather than an illustration.
+- Use one cobalt family, optionally with a small sky highlight.
+- Do not trace the reference feather's silhouette, barb rhythm, angle, damage, or composition.
+- Use it at small scale as a signature mark, not as a page background or repeated icon texture.
+
+### Two near-parallel curves — strongly suitable
+
+- One curve uses sky blue and one uses sakura pink/gray-pink.
+- Curves approach and separate, but do not perfectly overlap, braid, form a heart, or become a
+  rainbow.
+- Keep strokes light and the gap visible at normal cover size.
+- The relationship should suggest two melodic lines without drawing a staff or notes.
+
+### Pale watercolor circles or irregular fields — suitable in small number
+
+- Use two or three original low-opacity shapes at most.
+- Prefer flat translucent fills or small static gradients; no rasterized reference texture or
+  runtime blur.
+- Shapes should support the screenshot composition and remain visually subordinate.
+
+### Cloud-white negative space — required
+
+- Reserve roughly two-thirds of future promotional compositions for quiet background and actual UI
+  breathing room.
+- Empty space must frame the screenshot and abstract marks, not merely fill unused area.
+
+### Tiny gold-orange point — suitable as a counterpoint
+
+- Limit it to approximately 0.5–1% of the promotional composition.
+- It may be a small dot or short accent stroke, not a copied flower.
+
+### Future Community Theme cover
+
+- The main subject should be a real screenshot of Aoi Tori running in Obsidian, captured by this
+  project after implementation and manual testing.
+- Surround it with the original feather, paired curves, minimal wash fields, and cloud-white space.
+- Do not use the reference characters, official title, official artwork, logos, flowers, feather
+  contour, or original compositions.
+- Produce and inspect the final 512×288 marketplace image only in the release phase.
+
+## Accessibility and compatibility
+
+- Body text and essential controls target WCAG AA or better; the current configured pairs are
+  recorded in `docs/contrast-pairs.json` and summarized in `docs/visual-analysis.md`.
+- Focus remains visible in light/dark, keyboard/Vim, forced-colors, and image-selected states.
+- Do not rely on color alone for error, warning, unresolved, active, or selected states.
+- Prefer official variables and low-specificity selectors.
+- `!important` and `:has()` remain disallowed unless a current DOM inspection documents a narrow
+  exception and adjacent regression tests.
+- Test pointer, keyboard, touch, pop-out, narrow, and current 1.13 image interactions before
+  claiming support.
+
+## Phase 2 preview observations
+
+- Light mode reads first as warm paper surrounded by cool watercolor mist, with ink text and a small
+  number of cobalt anchors. The clean summer-sky references set the upper chroma boundary but do not
+  determine the workspace area ratio.
+- Dark mode reads as navy ink and quiet blue depth. Its primary text is ice-white and its
+  interaction blue is lighter than the daytime cobalt, without purple glow or black glass surfaces.
+- H1 uses indigo, H2 uses cobalt, and lower headings return progressively toward ink. This is
+  hierarchy within one voice, not a rainbow heading system.
+- The sidebar is intentionally cooler than the reading surface; its visual strength and the H2
+  cobalt level are explicit user-review targets rather than assumed final preferences.
+- The actual 1.13.4 selected-image state now receives a non-layout-changing cobalt outline. Native
+  inset selection, resize, action, and lightbox behavior remains present.
+- Sakura is visible mainly in unresolved links, quote/callout details, and metadata washes. Gold is
+  present in the diagnostic art and nonessential question/value details only, never required small
+  text on paper.
+
+## Originality rule
+
+The final visual system must be derived from the reference-image relationships and this document,
+not from recoloring an existing theme. Research themes may inform build discipline, token
+architecture, and compatibility tests. Any exact code adaptation requires a new entry in
+`docs/attribution.md` before use.

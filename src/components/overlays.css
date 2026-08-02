@@ -1,0 +1,90 @@
+.menu {
+  color: var(--text-normal);
+  background-color: var(--menu-background);
+  border-color: var(--menu-border-color);
+  border-radius: var(--menu-radius);
+  box-shadow: var(--menu-shadow);
+}
+
+.menu-item {
+  color: var(--text-muted);
+  border-radius: var(--radius-s);
+}
+
+.menu-item:hover,
+.menu-item.selected {
+  color: var(--text-normal);
+  background-color: var(--background-modifier-hover);
+}
+
+.menu-item:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: -2px;
+}
+
+.modal {
+  color: var(--text-normal);
+  background-color: var(--modal-background);
+  border-color: var(--modal-border-color);
+  border-radius: var(--modal-radius);
+  box-shadow: var(--modal-shadow);
+}
+
+.modal-bg {
+  background-color: var(--background-modifier-cover);
+}
+
+.tooltip {
+  color: var(--text-normal);
+  background-color: var(--background-secondary-alt);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-s);
+  box-shadow: var(--menu-shadow);
+}
+
+.notice {
+  color: var(--text-normal);
+  background-color: var(--background-modifier-message);
+  border: 1px solid var(--background-modifier-border);
+  border-radius: var(--radius-m);
+  box-shadow: var(--menu-shadow);
+}
+
+.vertical-tab-header {
+  background-color: var(--modal-sidebar-background);
+  border-inline-end: 1px solid var(--modal-border-color);
+}
+
+.vertical-tab-nav-item {
+  color: var(--nav-item-color);
+  border-radius: var(--nav-item-radius);
+}
+
+.vertical-tab-nav-item:hover {
+  color: var(--nav-item-color-hover);
+  background-color: var(--nav-item-background-hover);
+}
+
+.vertical-tab-nav-item.is-active {
+  color: var(--nav-item-color-active);
+  background-color: var(--nav-item-background-active);
+  box-shadow: inset 2px 0 0 var(--interactive-accent);
+}
+
+.vertical-tab-nav-item:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: -2px;
+}
+
+.setting-item {
+  background-color: var(--setting-items-background);
+  border-color: var(--setting-items-border-color);
+}
+
+.setting-item-name {
+  color: var(--text-normal);
+}
+
+.setting-item-description {
+  color: var(--text-muted);
+}

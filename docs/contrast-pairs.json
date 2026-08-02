@@ -1,0 +1,114 @@
+[
+  {
+    "name": "Light body text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-normal",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light secondary text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-muted",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light link",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--link-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light unresolved link",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--link-unresolved-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light primary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-on-accent",
+    "background": "--interactive-accent",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light input text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--input-text-fg-color",
+    "background": "--input-text-bg-color",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light common icon",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--icon-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light focus ring",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--background-modifier-border-focus",
+    "background": "--background-primary",
+    "minimum": 3
+  },
+  {
+    "name": "Dark body text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-normal",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark secondary text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-muted",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark link",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--link-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark unresolved link",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--link-unresolved-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark primary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-on-accent",
+    "background": "--interactive-accent",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark input text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--input-text-fg-color",
+    "background": "--input-text-bg-color",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark common icon",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--icon-color",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark focus ring",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--background-modifier-border-focus",
+    "background": "--background-primary",
+    "minimum": 3
+  }
+]

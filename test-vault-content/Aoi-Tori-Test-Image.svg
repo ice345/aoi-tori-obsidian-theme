@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540" role="img" aria-labelledby="title description">
+  <title id="title">Aoi Tori image interaction test</title>
+  <desc id="description">An original diagnostic composition with cloud-white space, blue and pink curves, and a small gold point.</desc>
+  <rect width="960" height="540" rx="28" fill="#fbfaf8" />
+  <path d="M96 322 C250 160 430 170 612 312 C716 394 790 390 864 304" fill="none" stroke="#65a8de" stroke-width="18" stroke-linecap="round" opacity="0.78" />
+  <path d="M104 354 C264 204 438 206 606 338 C702 414 788 416 858 340" fill="none" stroke="#dca3bc" stroke-width="11" stroke-linecap="round" opacity="0.7" />
+  <circle cx="214" cy="184" r="84" fill="#e8f2f4" />
+  <circle cx="706" cy="180" r="112" fill="#f0eaf5" opacity="0.72" />
+  <path d="M486 118 C454 176 452 244 474 320 C500 274 530 216 542 148 C522 164 506 170 488 178 C494 154 494 134 486 118 Z" fill="#1d5fae" />
+  <circle cx="826" cy="116" r="9" fill="#e5a12a" />
+  <text x="64" y="486" fill="#292b3b" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="30">Aoi Tori · image interaction test</text>
+</svg>

@@ -1,0 +1,96 @@
+body,
+.app-container,
+.workspace {
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+}
+
+body.is-popout-window,
+body.is-popout-window .workspace {
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+}
+
+.workspace-split.mod-left-split,
+.workspace-split.mod-right-split {
+  background-color: var(--background-secondary);
+}
+
+.workspace-ribbon {
+  background-color: var(--ribbon-background);
+  border-inline-end: 1px solid var(--background-modifier-border);
+}
+
+.status-bar {
+  color: var(--status-bar-text-color);
+  background-color: var(--status-bar-background);
+  border-color: var(--status-bar-border-color);
+  box-shadow: none;
+}
+
+.workspace-tab-header-container {
+  background-color: var(--tab-container-background);
+  border-block-end: 1px solid var(--tab-outline-color);
+}
+
+.workspace-tab-header {
+  color: var(--tab-text-color);
+  transition:
+    color var(--anim-duration-fast) var(--anim-motion-smooth),
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth),
+    box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
+}
+
+.workspace-tab-header:hover {
+  color: var(--tab-text-color-focused);
+  background-color: var(--background-modifier-hover);
+}
+
+.workspace-tab-header.is-active {
+  color: var(--tab-text-color-focused-active-current);
+  background-color: var(--tab-background-active);
+  box-shadow: inset 0 -2px 0 var(--interactive-accent);
+}
+
+.workspace-tab-header:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: -2px;
+}
+
+.workspace-leaf-content {
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+}
+
+.workspace-split.mod-left-split .workspace-leaf-content,
+.workspace-split.mod-right-split .workspace-leaf-content {
+  background-color: var(--background-secondary);
+}
+
+.nav-file-title,
+.nav-folder-title {
+  color: var(--nav-item-color);
+  border-radius: var(--nav-item-radius);
+  transition:
+    color var(--anim-duration-fast) var(--anim-motion-smooth),
+    background-color var(--anim-duration-fast) var(--anim-motion-smooth);
+}
+
+.nav-file-title:hover,
+.nav-folder-title:hover {
+  color: var(--nav-item-color-hover);
+  background-color: var(--nav-item-background-hover);
+}
+
+.nav-file-title.is-active,
+.nav-folder-title.is-active {
+  color: var(--nav-item-color-active);
+  background-color: var(--nav-item-background-active);
+  font-weight: var(--nav-item-weight-active);
+}
+
+.nav-file-title:focus-visible,
+.nav-folder-title:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: 1px;
+}

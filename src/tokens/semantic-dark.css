@@ -1,0 +1,237 @@
+.theme-dark {
+  color-scheme: dark;
+
+  /* Native palette hooks */
+  --color-red: var(--aoi-night-error);
+  --color-orange: var(--aoi-night-warning);
+  --color-yellow: var(--aoi-night-warning);
+  --color-green: var(--aoi-night-success);
+  --color-cyan: var(--aoi-night-sky);
+  --color-blue: var(--aoi-night-cobalt);
+  --color-purple: var(--aoi-night-violet);
+  --color-pink: var(--aoi-night-sakura);
+
+  /* Independent summer-night surfaces */
+  --background-primary: var(--aoi-night-surface);
+  --background-primary-alt: var(--aoi-night-canvas);
+  --background-secondary: var(--aoi-night-canvas);
+  --background-secondary-alt: var(--aoi-night-panel);
+  --background-modifier-hover: color-mix(in srgb, var(--aoi-night-panel) 88%, var(--aoi-night-sky));
+  --background-modifier-active-hover: color-mix(
+    in srgb,
+    var(--aoi-night-panel) 80%,
+    var(--aoi-night-cobalt)
+  );
+  --background-modifier-border: var(--aoi-night-border);
+  --background-modifier-border-hover: var(--aoi-night-sky);
+  --background-modifier-border-focus: var(--aoi-night-cobalt);
+  --background-modifier-form-field: var(--aoi-night-canvas);
+  --background-modifier-form-field-hover: var(--aoi-night-panel);
+  --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-night-canvas) 70%, transparent);
+  --background-modifier-cover: color-mix(in srgb, var(--aoi-night-canvas) 72%, transparent);
+  --background-modifier-error: var(--aoi-night-error-soft);
+  --background-modifier-error-hover: color-mix(
+    in srgb,
+    var(--aoi-night-error-soft) 72%,
+    var(--aoi-night-error)
+  );
+  --background-modifier-warning: var(--aoi-night-warning-soft);
+  --background-modifier-warning-hover: color-mix(
+    in srgb,
+    var(--aoi-night-warning-soft) 74%,
+    var(--aoi-night-warning)
+  );
+  --background-modifier-success: var(--aoi-night-success-soft);
+  --background-modifier-info: var(--aoi-night-info-soft);
+  --background-modifier-message: var(--aoi-night-panel);
+
+  /* Text and selection */
+  --text-normal: var(--aoi-night-text);
+  --text-muted: var(--aoi-night-muted);
+  --text-faint: var(--aoi-night-faint);
+  --text-on-accent: var(--aoi-night-canvas);
+  --text-accent: var(--aoi-night-cobalt);
+  --text-accent-hover: var(--aoi-night-sky);
+  --text-error: var(--aoi-night-error);
+  --text-warning: var(--aoi-night-warning);
+  --text-success: var(--aoi-night-success);
+  --text-selection: color-mix(in srgb, var(--aoi-night-cobalt) 38%, transparent);
+  --text-highlight-bg: color-mix(in srgb, var(--aoi-night-warning) 28%, transparent);
+  --text-highlight-bg-active: color-mix(in srgb, var(--aoi-night-sakura) 30%, transparent);
+  --caret-color: var(--aoi-night-cobalt);
+
+  /* Links and interactions */
+  --interactive-normal: var(--aoi-night-panel);
+  --interactive-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
+  --interactive-accent: var(--aoi-night-cobalt);
+  --interactive-accent-hover: var(--aoi-night-sky);
+  --interactive-success: var(--aoi-night-success);
+  --link-color: var(--aoi-night-cobalt);
+  --link-color-hover: var(--aoi-night-sky);
+  --link-external-color: var(--aoi-night-sky);
+  --link-external-color-hover: var(--aoi-night-cobalt);
+  --link-unresolved-color: var(--aoi-night-sakura);
+  --link-unresolved-decoration-color: var(--aoi-night-violet);
+  --link-unresolved-decoration-style: wavy;
+  --link-unresolved-opacity: 1;
+  --link-unresolved-filter: none;
+
+  /* Icons and inputs */
+  --icon-color: var(--aoi-night-muted);
+  --icon-color-hover: var(--aoi-night-sky);
+  --icon-color-active: var(--aoi-night-cobalt);
+  --icon-color-focus: var(--aoi-night-cobalt);
+  --icon-color-focused: var(--aoi-night-cobalt);
+  --input-text-bg-color: var(--aoi-night-canvas);
+  --input-text-fg-color: var(--aoi-night-text);
+  --input-placeholder-color: var(--aoi-night-faint);
+  --input-unfocused-border-color: var(--aoi-night-border);
+  --input-hover-border-color: var(--aoi-night-sky);
+  --input-focus-border-color: var(--aoi-night-cobalt);
+  --input-disabled-border-color: var(--aoi-night-panel);
+  --input-focus-outline: 2px solid var(--aoi-night-cobalt);
+  --input-shadow: 0 1px 2px var(--background-modifier-box-shadow);
+  --input-shadow-hover: 0 2px 8px var(--background-modifier-box-shadow);
+
+  /* Workspace */
+  --titlebar-background: var(--aoi-night-canvas);
+  --titlebar-background-focused: var(--aoi-night-surface);
+  --titlebar-border-color: var(--aoi-night-border);
+  --titlebar-text-color: var(--aoi-night-muted);
+  --titlebar-text-color-focused: var(--aoi-night-text);
+  --ribbon-background: var(--aoi-night-canvas);
+  --ribbon-background-collapsed: var(--aoi-night-panel);
+  --status-bar-background: var(--aoi-night-canvas);
+  --status-bar-border-color: var(--aoi-night-border);
+  --status-bar-text-color: var(--aoi-night-muted);
+  --tab-container-background: var(--aoi-night-canvas);
+  --tab-background-active: var(--aoi-night-surface);
+  --tab-outline-color: var(--aoi-night-border);
+  --tab-divider-color: var(--aoi-night-border);
+  --tab-text-color: var(--aoi-night-muted);
+  --tab-text-color-active: var(--aoi-night-text);
+  --tab-text-color-focused: var(--aoi-night-muted);
+  --tab-text-color-focused-active: var(--aoi-night-cobalt);
+  --tab-text-color-focused-active-current: var(--aoi-night-cobalt);
+
+  /* Navigation */
+  --nav-item-color: var(--aoi-night-muted);
+  --nav-item-color-hover: var(--aoi-night-text);
+  --nav-item-color-active: var(--aoi-night-cobalt);
+  --nav-item-color-selected: var(--aoi-night-cobalt);
+  --nav-item-background-hover: var(--aoi-night-panel);
+  --nav-item-background-active: color-mix(
+    in srgb,
+    var(--aoi-night-panel) 78%,
+    var(--aoi-night-cobalt)
+  );
+  --nav-item-background-selected: color-mix(
+    in srgb,
+    var(--aoi-night-panel) 84%,
+    var(--aoi-night-sky)
+  );
+  --nav-heading-color: var(--aoi-night-text);
+  --nav-heading-color-hover: var(--aoi-night-cobalt);
+  --nav-collapse-icon-color: var(--aoi-night-muted);
+  --nav-collapse-icon-color-collapsed: var(--aoi-night-cobalt);
+  --nav-indentation-guide-color: var(--aoi-night-border);
+
+  /* Headings and document structure */
+  --h1-color: var(--aoi-night-text);
+  --h2-color: var(--aoi-night-cobalt);
+  --h3-color: var(--aoi-night-sky);
+  --h4-color: var(--aoi-night-text);
+  --h5-color: var(--aoi-night-muted);
+  --h6-color: var(--aoi-night-faint);
+  --hr-color: var(--aoi-night-border);
+  --indentation-guide-color: var(--aoi-night-border);
+  --indentation-guide-color-active: var(--aoi-night-sky);
+  --list-marker-color: var(--aoi-night-cobalt);
+  --list-marker-color-hover: var(--aoi-night-sky);
+  --list-marker-color-collapsed: var(--aoi-night-sakura);
+  --checkbox-color: var(--aoi-night-cobalt);
+  --checkbox-color-hover: var(--aoi-night-sky);
+  --checkbox-border-color: var(--aoi-night-border);
+  --checkbox-border-color-hover: var(--aoi-night-cobalt);
+  --checkbox-marker-color: var(--aoi-night-canvas);
+
+  /* Code, quotes, callouts, and embeds */
+  --code-background: var(--aoi-night-canvas);
+  --code-border-color: var(--aoi-night-border);
+  --code-normal: var(--aoi-night-text);
+  --code-comment: var(--aoi-night-faint);
+  --code-function: var(--aoi-night-cobalt);
+  --code-important: var(--aoi-night-error);
+  --code-keyword: var(--aoi-night-sky);
+  --code-operator: var(--aoi-night-violet);
+  --code-property: var(--aoi-night-info);
+  --code-punctuation: var(--aoi-night-muted);
+  --code-string: var(--aoi-night-sakura);
+  --code-tag: var(--aoi-night-violet);
+  --code-value: var(--aoi-night-warning);
+  --blockquote-background-color: var(--aoi-night-panel);
+  --blockquote-border-color: var(--aoi-night-sakura);
+  --blockquote-color: var(--aoi-night-violet);
+  --callout-content-background: var(--aoi-night-canvas);
+  --callout-title-color: var(--aoi-night-text);
+  --callout-default: var(--aoi-night-info);
+  --callout-info: var(--aoi-night-info);
+  --callout-tip: var(--aoi-night-success);
+  --callout-success: var(--aoi-night-success);
+  --callout-question: var(--aoi-night-warning);
+  --callout-warning: var(--aoi-night-warning);
+  --callout-fail: var(--aoi-night-error);
+  --callout-error: var(--aoi-night-error);
+  --callout-important: var(--aoi-night-sakura);
+  --callout-example: var(--aoi-night-violet);
+  --callout-quote: var(--aoi-night-sakura);
+  --embed-background: var(--aoi-night-canvas);
+  --embed-action-color: var(--aoi-night-text);
+  --embed-actions-background: var(--aoi-night-panel);
+  --embed-actions-blur: none;
+  --embed-actions-shadow: 0 2px 12px var(--background-modifier-box-shadow);
+  --image-radius: var(--radius-m);
+
+  /* Properties and tables */
+  --metadata-background: var(--aoi-night-canvas);
+  --metadata-border-color: var(--aoi-night-border);
+  --metadata-divider-color: var(--aoi-night-border);
+  --metadata-divider-color-hover: var(--aoi-night-sky);
+  --metadata-divider-color-focus: var(--aoi-night-cobalt);
+  --metadata-label-background: var(--aoi-night-panel);
+  --metadata-label-background-hover: var(--aoi-night-info-soft);
+  --metadata-label-text-color: var(--aoi-night-muted);
+  --metadata-label-text-color-hover: var(--aoi-night-text);
+  --metadata-input-background: var(--aoi-night-canvas);
+  --metadata-input-background-hover: var(--aoi-night-panel);
+  --metadata-input-background-active: var(--aoi-night-surface);
+  --metadata-input-text-color: var(--aoi-night-text);
+  --metadata-property-background: var(--aoi-night-canvas);
+  --metadata-property-background-hover: var(--aoi-night-panel);
+  --metadata-property-background-active: var(--aoi-night-surface);
+  --table-background: var(--aoi-night-surface);
+  --table-border-color: var(--aoi-night-border);
+  --table-header-background: var(--aoi-night-canvas);
+  --table-header-background-hover: var(--aoi-night-panel);
+  --table-header-border-color: var(--aoi-night-border);
+  --table-header-color: var(--aoi-night-text);
+  --table-row-alt-background: var(--aoi-night-canvas);
+  --table-row-background-hover: var(--aoi-night-panel);
+  --table-row-alt-background-hover: var(--aoi-night-panel);
+  --table-selection: var(--aoi-night-info-soft);
+  --table-selection-border-color: var(--aoi-night-cobalt);
+  --table-text-color: var(--aoi-night-text);
+
+  /* Menus, modals, and settings */
+  --menu-background: var(--aoi-night-surface);
+  --menu-border-color: var(--aoi-night-border);
+  --menu-divider-color: var(--aoi-night-border);
+  --menu-shadow: 0 8px 30px var(--background-modifier-box-shadow);
+  --modal-background: var(--aoi-night-surface);
+  --modal-sidebar-background: var(--aoi-night-canvas);
+  --modal-border-color: var(--aoi-night-border);
+  --modal-shadow: 0 18px 52px var(--background-modifier-box-shadow);
+  --setting-group-heading-color: var(--aoi-night-text);
+  --setting-items-background: var(--aoi-night-canvas);
+  --setting-items-border-color: var(--aoi-night-border);
+}

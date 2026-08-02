@@ -1,0 +1,121 @@
+.markdown-source-view,
+.markdown-reading-view,
+.markdown-preview-view {
+  color: var(--text-normal);
+  background-color: var(--background-primary);
+}
+
+.markdown-source-view .cm-content,
+.markdown-rendered {
+  caret-color: var(--caret-color);
+}
+
+.markdown-source-view .cm-active.cm-line {
+  background-color: var(--background-modifier-hover);
+  border-radius: var(--radius-s);
+}
+
+.markdown-rendered ::selection,
+.markdown-source-view ::selection {
+  background-color: var(--text-selection);
+}
+
+.markdown-rendered blockquote {
+  color: var(--blockquote-color);
+  background-color: var(--blockquote-background-color);
+  border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
+  border-radius: 0 var(--radius-m) var(--radius-m) 0;
+  padding-block: var(--size-4-2);
+  padding-inline: var(--size-4-4);
+}
+
+.markdown-rendered pre,
+.markdown-source-view .HyperMD-codeblock {
+  color: var(--code-normal);
+  background-color: var(--code-background);
+  border: var(--code-border-width) solid var(--code-border-color);
+  border-radius: var(--code-radius);
+}
+
+.markdown-rendered :not(pre) > code,
+.markdown-source-view .cm-inline-code {
+  color: var(--code-normal);
+  background-color: var(--code-background);
+  border: var(--code-border-width) solid var(--code-border-color);
+  border-radius: var(--code-radius);
+  padding-inline: var(--size-2-1);
+}
+
+.task-list-item-checkbox {
+  accent-color: var(--checkbox-color);
+  border-color: var(--checkbox-border-color);
+  border-radius: var(--checkbox-radius);
+}
+
+.task-list-item-checkbox:hover {
+  accent-color: var(--checkbox-color-hover);
+  border-color: var(--checkbox-border-color-hover);
+}
+
+.task-list-item-checkbox:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: 2px;
+}
+
+.callout {
+  color: var(--text-normal);
+  background-color: var(--callout-content-background);
+  border-width: var(--callout-border-width);
+  border-radius: var(--callout-radius);
+  box-shadow: 0 1px 3px var(--background-modifier-box-shadow);
+}
+
+.metadata-container {
+  color: var(--metadata-input-text-color);
+  background-color: var(--metadata-background);
+  border: 1px solid var(--metadata-border-color);
+  border-radius: var(--metadata-border-radius);
+  padding: var(--size-4-3);
+}
+
+.metadata-property {
+  background-color: var(--metadata-property-background);
+  border-radius: var(--metadata-property-radius);
+}
+
+.metadata-property:hover {
+  background-color: var(--metadata-property-background-hover);
+}
+
+.markdown-rendered table {
+  color: var(--table-text-color);
+  background-color: var(--table-background);
+  border-color: var(--table-border-color);
+}
+
+.markdown-rendered th {
+  color: var(--table-header-color);
+  background-color: var(--table-header-background);
+  border-color: var(--table-header-border-color);
+}
+
+.markdown-rendered td {
+  border-color: var(--table-border-color);
+}
+
+.markdown-rendered tr:hover td {
+  background-color: var(--table-row-background-hover);
+}
+
+.internal-link,
+.external-link {
+  text-decoration-thickness: var(--link-decoration-thickness);
+  text-underline-offset: 0.16em;
+}
+
+.internal-link:focus-visible,
+.external-link:focus-visible {
+  outline: 2px solid var(--background-modifier-border-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-s);
+}

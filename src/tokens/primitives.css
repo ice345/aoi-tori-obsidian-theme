@@ -1,0 +1,68 @@
+:root {
+  /* Paper, cloud, and watercolor light */
+  --aoi-paper-warm: #fbfaf8;
+  --aoi-cloud-cool: #f6fafa;
+  --aoi-mist-blue: #e8f2f4;
+  --aoi-cloud-shadow: #dfecef;
+  --aoi-ice-border: #cbdfe8;
+  --aoi-watercolor-cyan: #b8dee8;
+  --aoi-powder-blue: #a8cde1;
+
+  /* Summer-sky ceiling and blue-bird structure */
+  --aoi-sky-blue: #83bee7;
+  --aoi-sky-deep: #65a8de;
+  --aoi-clear-cyan-blue: #3f97c5;
+  --aoi-focus-blue: #1558a0;
+  --aoi-link-blue: #1d5fae;
+  --aoi-cobalt-deep: #174678;
+  --aoi-indigo-deep: #303f65;
+
+  /* Ink hierarchy */
+  --aoi-ink-indigo: #292b3b;
+  --aoi-ink-strong: #3e4b5c;
+  --aoi-ink-muted: #586c7d;
+  --aoi-ink-faint: #627686;
+
+  /* Second voice */
+  --aoi-sakura-pale: #f7e9ed;
+  --aoi-sakura: #dca3bc;
+  --aoi-dusty-pink: #87506f;
+  --aoi-gray-violet-pale: #f0eaf5;
+  --aoi-gray-violet-deep: #66537d;
+
+  /* Warm counterpoint */
+  --aoi-warm-yellow-pale: #fbf3df;
+  --aoi-gold-orange: #e5a12a;
+  --aoi-gold-deep: #95550e;
+
+  /* Summer-night mode */
+  --aoi-night-canvas: #111827;
+  --aoi-night-surface: #172338;
+  --aoi-night-panel: #20344d;
+  --aoi-night-border: #36516c;
+  --aoi-night-text: #eaf3f5;
+  --aoi-night-muted: #b3c5d4;
+  --aoi-night-faint: #92a7b8;
+  --aoi-night-sky: #7fc3e8;
+  --aoi-night-cobalt: #8eaef2;
+  --aoi-night-sakura: #dea5c0;
+  --aoi-night-violet: #c2b1da;
+
+  /* Semantic safety colors */
+  --aoi-error: #a83246;
+  --aoi-error-soft: #f7e6e9;
+  --aoi-warning: #8a5a00;
+  --aoi-warning-soft: #fbf2dc;
+  --aoi-success: #276a53;
+  --aoi-success-soft: #e3f2ec;
+  --aoi-info: #245f90;
+  --aoi-info-soft: #e4f1f8;
+  --aoi-night-error: #ff9aa5;
+  --aoi-night-error-soft: #3b1f2a;
+  --aoi-night-warning: #f4c56a;
+  --aoi-night-warning-soft: #3a3020;
+  --aoi-night-success: #7bd6b0;
+  --aoi-night-success-soft: #19362f;
+  --aoi-night-info: #7fc3e8;
+  --aoi-night-info-soft: #1b3347;
+}

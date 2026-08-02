@@ -1,0 +1,9 @@
+node_modules/
+*.log
+.DS_Store
+coverage/
+dist/
+.analysis/
+test-vault-content/.obsidian/
+references/*
+!references/README.md
