@@ -1,0 +1,906 @@
+/* @settings
+
+name: Aoi Tori
+id: aoi-tori-theme
+settings:
+  - id: aoi-palette-heading
+    title: Palette
+    type: heading
+    level: 1
+  - id: aoi-sky-intensity
+    title: Sky wash intensity
+    description: Changes only the decorative sidebar wash, not text or focus colors.
+    type: class-select
+    allowEmpty: false
+    default: aoi-sky-balanced
+    options:
+      - label: Quiet
+        value: aoi-sky-quiet
+      - label: Balanced
+        value: aoi-sky-balanced
+      - label: Clear
+        value: aoi-sky-clear
+  - id: aoi-cobalt-intensity
+    title: Cobalt structure
+    description: Adjusts current navigation emphasis within accessible cobalt steps.
+    type: class-select
+    allowEmpty: false
+    default: aoi-cobalt-balanced
+    options:
+      - label: Soft
+        value: aoi-cobalt-soft
+      - label: Balanced
+        value: aoi-cobalt-balanced
+      - label: Decisive
+        value: aoi-cobalt-decisive
+  - id: aoi-sakura-amount
+    title: Sakura wash amount
+    description: Controls optional quote atmosphere without recoloring body text.
+    type: class-select
+    allowEmpty: false
+    default: aoi-sakura-balanced
+    options:
+      - label: Whisper
+        value: aoi-sakura-whisper
+      - label: Balanced
+        value: aoi-sakura-balanced
+      - label: Present
+        value: aoi-sakura-present
+  - id: aoi-violet-amount
+    title: Gray-violet wash amount
+    description: Controls the optional Properties wash.
+    type: class-select
+    allowEmpty: false
+    default: aoi-violet-balanced
+    options:
+      - label: Whisper
+        value: aoi-violet-whisper
+      - label: Balanced
+        value: aoi-violet-balanced
+      - label: Present
+        value: aoi-violet-present
+  - id: aoi-paper-temperature
+    title: Reading paper temperature
+    type: class-select
+    allowEmpty: false
+    default: aoi-paper-balanced
+    options:
+      - label: Cool cloud
+        value: aoi-paper-cool
+      - label: Warm paper
+        value: aoi-paper-balanced
+      - label: Warmer paper
+        value: aoi-paper-warmer
+  - id: aoi-sidebar-tint
+    title: Sidebar tint
+    type: class-select
+    allowEmpty: false
+    default: aoi-sidebar-mist
+    options:
+      - label: Cloud
+        value: aoi-sidebar-cloud
+      - label: Mist blue
+        value: aoi-sidebar-mist
+      - label: Pale aqua
+        value: aoi-sidebar-aqua
+  - id: aoi-light-contrast
+    title: Light-mode contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-light-contrast-standard
+    options:
+      - label: Standard
+        value: aoi-light-contrast-standard
+      - label: Higher
+        value: aoi-light-contrast-high
+  - id: aoi-dark-contrast
+    title: Dark-mode contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-dark-contrast-standard
+    options:
+      - label: Standard
+        value: aoi-dark-contrast-standard
+      - label: Higher
+        value: aoi-dark-contrast-high
+
+  - id: aoi-typography-heading
+    title: Typography
+    type: heading
+    level: 1
+  - id: aoi-interface-font
+    title: Interface font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-interface-font-system
+    options:
+      - label: System
+        value: aoi-interface-font-system
+      - label: Humanist
+        value: aoi-interface-font-humanist
+      - label: CJK sans
+        value: aoi-interface-font-cjk
+  - id: aoi-body-font
+    title: Body font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-body-font-literary
+    options:
+      - label: Literary serif
+        value: aoi-body-font-literary
+      - label: Modern serif
+        value: aoi-body-font-modern-serif
+      - label: Clean sans
+        value: aoi-body-font-sans
+  - id: aoi-monospace-font
+    title: Monospace font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-monospace-font-system
+    options:
+      - label: System mono
+        value: aoi-monospace-font-system
+      - label: Classic mono
+        value: aoi-monospace-font-classic
+  - id: --font-text-size
+    title: Body size
+    type: variable-number-slider
+    default: 16
+    format: px
+    min: 15
+    max: 20
+    step: 1
+  - id: --line-height-normal
+    title: Body line height
+    type: variable-number-slider
+    default: 1.75
+    min: 1.5
+    max: 1.9
+    step: 0.05
+  - id: --file-line-width
+    title: Reading width
+    type: variable-number-slider
+    default: 760
+    format: px
+    min: 620
+    max: 920
+    step: 20
+  - id: aoi-heading-weight
+    title: Heading weight
+    type: class-select
+    allowEmpty: false
+    default: aoi-heading-weight-balanced
+    options:
+      - label: Light
+        value: aoi-heading-weight-light
+      - label: Balanced
+        value: aoi-heading-weight-balanced
+      - label: Strong
+        value: aoi-heading-weight-strong
+  - id: aoi-workspace-heading
+    title: Workspace
+    type: heading
+    level: 1
+  - id: aoi-workspace-density
+    title: Workspace density
+    type: class-select
+    allowEmpty: false
+    default: aoi-density-default
+    options:
+      - label: Compact
+        value: aoi-density-compact
+      - label: Default
+        value: aoi-density-default
+      - label: Relaxed
+        value: aoi-density-relaxed
+  - id: aoi-tab-style
+    title: Active tab style
+    type: class-select
+    allowEmpty: false
+    default: aoi-tab-cobalt-line
+    options:
+      - label: Cobalt line
+        value: aoi-tab-cobalt-line
+      - label: Soft surface
+        value: aoi-tab-soft-surface
+  - id: aoi-sidebar-contrast
+    title: Sidebar contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-sidebar-contrast-standard
+    options:
+      - label: Soft
+        value: aoi-sidebar-contrast-soft
+      - label: Standard
+        value: aoi-sidebar-contrast-standard
+      - label: Strong
+        value: aoi-sidebar-contrast-strong
+  - id: aoi-border-strength
+    title: Border strength
+    type: class-select
+    allowEmpty: false
+    default: aoi-border-standard
+    options:
+      - label: Soft
+        value: aoi-border-soft
+      - label: Standard
+        value: aoi-border-standard
+      - label: Strong
+        value: aoi-border-strong
+  - id: aoi-status-visibility
+    title: Status bar visibility
+    type: class-select
+    allowEmpty: false
+    default: aoi-status-visible
+    options:
+      - label: Visible
+        value: aoi-status-visible
+      - label: Quiet
+        value: aoi-status-quiet
+      - label: Hidden
+        value: aoi-status-hidden
+  - id: aoi-watercolor-wash
+    title: Subtle watercolor wash
+    description: Controls decorative gradients only; content and interaction colors are unchanged.
+    type: class-select
+    allowEmpty: false
+    default: aoi-watercolor-wash-on
+    options:
+      - label: On
+        value: aoi-watercolor-wash-on
+      - label: Off
+        value: aoi-watercolor-wash-off
+
+  - id: aoi-editor-heading
+    title: Editor
+    type: heading
+    level: 1
+  - id: aoi-heading-accent
+    title: Heading accent level
+    type: class-select
+    allowEmpty: false
+    default: aoi-heading-accent-balanced
+    options:
+      - label: Quiet
+        value: aoi-heading-accent-quiet
+      - label: Balanced
+        value: aoi-heading-accent-balanced
+      - label: Strong
+        value: aoi-heading-accent-strong
+  - id: aoi-link-underline
+    title: Link underline
+    type: class-select
+    allowEmpty: false
+    default: aoi-link-underline-native
+    options:
+      - label: Native
+        value: aoi-link-underline-native
+      - label: Always
+        value: aoi-link-underline-always
+  - id: aoi-unresolved-emphasis
+    title: Unresolved-link emphasis
+    type: class-select
+    allowEmpty: false
+    default: aoi-unresolved-balanced
+    options:
+      - label: Quiet
+        value: aoi-unresolved-quiet
+      - label: Balanced
+        value: aoi-unresolved-balanced
+      - label: Strong
+        value: aoi-unresolved-strong
+  - id: aoi-active-line
+    title: Active line
+    type: class-select
+    allowEmpty: false
+    default: aoi-active-line-subtle
+    options:
+      - label: Off
+        value: aoi-active-line-off
+      - label: Subtle
+        value: aoi-active-line-subtle
+      - label: Clear
+        value: aoi-active-line-clear
+  - id: aoi-code-style
+    title: Code style
+    type: class-select
+    allowEmpty: false
+    default: aoi-code-bordered
+    options:
+      - label: Quiet
+        value: aoi-code-quiet
+      - label: Bordered
+        value: aoi-code-bordered
+  - id: aoi-quote-style
+    title: Quote second-voice accent
+    type: class-select
+    allowEmpty: false
+    default: aoi-quote-watercolor
+    options:
+      - label: Watercolor wash
+        value: aoi-quote-watercolor
+      - label: Clean line
+        value: aoi-quote-clean
+  - id: aoi-callout-style
+    title: Callout style
+    type: class-select
+    allowEmpty: false
+    default: aoi-callout-balanced
+    options:
+      - label: Quiet
+        value: aoi-callout-quiet
+      - label: Balanced
+        value: aoi-callout-balanced
+      - label: Airy
+        value: aoi-callout-airy
+  - id: aoi-table-density
+    title: Table density
+    type: class-select
+    allowEmpty: false
+    default: aoi-table-density-default
+    options:
+      - label: Compact
+        value: aoi-table-density-compact
+      - label: Default
+        value: aoi-table-density-default
+      - label: Relaxed
+        value: aoi-table-density-relaxed
+
+  - id: aoi-images-heading
+    title: Images
+    type: heading
+    level: 1
+  - id: --image-radius
+    title: Image radius
+    type: variable-number-slider
+    default: 8
+    format: px
+    min: 0
+    max: 16
+    step: 2
+  - id: aoi-image-border
+    title: Image border
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-border-hover
+    options:
+      - label: None
+        value: aoi-image-border-none
+      - label: On hover
+        value: aoi-image-border-hover
+      - label: Always
+        value: aoi-image-border-always
+  - id: aoi-image-shadow
+    title: Image shadow
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-shadow-none
+    options:
+      - label: None
+        value: aoi-image-shadow-none
+      - label: Subtle
+        value: aoi-image-shadow-subtle
+  - id: --aoi-image-selection-outline-width
+    title: Selected-image outline width
+    type: variable-number-slider
+    default: 1
+    format: px
+    min: 1
+    max: 3
+    step: 1
+  - id: aoi-image-selection-strength
+    title: Selected outline strength
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-selection-cobalt
+    options:
+      - label: Soft sky
+        value: aoi-image-selection-sky
+      - label: Cobalt
+        value: aoi-image-selection-cobalt
+      - label: Strong focus
+        value: aoi-image-selection-focus
+  - id: aoi-image-action-surface
+    title: Action button surface
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-action-default
+    options:
+      - label: Quiet
+        value: aoi-image-action-quiet
+      - label: Default
+        value: aoi-image-action-default
+      - label: Strong
+        value: aoi-image-action-strong
+  - id: aoi-card-image-fit-info
+    title: Bases card image fit
+    description: Use the native Cover image fit in each Bases view. Obsidian writes this per-view value inline, so Aoi Tori leaves that native setting authoritative.
+    type: info-text
+
+  - id: aoi-accessibility-heading
+    title: Accessibility
+    type: heading
+    level: 1
+  - id: aoi-reduce-motion
+    title: Reduce motion
+    description: Also follows the operating system reduced-motion preference.
+    type: class-toggle
+    default: false
+  - id: aoi-disable-decorative-gradients
+    title: Disable decorative gradients
+    type: class-toggle
+    default: false
+  - id: aoi-focus-strong
+    title: Increase focus visibility
+    type: class-toggle
+    default: false
+  - id: aoi-high-contrast
+    title: High contrast
+    description: Strengthens secondary text and icons without changing the core palette.
+    type: class-toggle
+    default: false
+  - id: aoi-stronger-borders
+    title: Stronger borders
+    type: class-toggle
+    default: false
+  - id: aoi-large-touch-targets
+    title: Larger touch targets
+    description: Raises supported mobile controls from 44px to 48px.
+    type: class-toggle
+    default: false
+*/
+
+body.aoi-sky-quiet {
+  --aoi-sidebar-wash-strength: 2%;
+}
+
+body.aoi-sky-balanced {
+  --aoi-sidebar-wash-strength: 5%;
+}
+
+body.aoi-sky-clear {
+  --aoi-sidebar-wash-strength: 7%;
+}
+
+body.theme-light.aoi-cobalt-soft {
+  --tab-text-color-focused-active-current: var(--aoi-link-blue);
+  --nav-item-color-active: var(--aoi-link-blue);
+  --nav-item-color-selected: var(--aoi-link-blue);
+}
+
+body.theme-light.aoi-cobalt-balanced {
+  --tab-text-color-focused-active-current: var(--aoi-cobalt-deep);
+  --nav-item-color-active: var(--aoi-cobalt-deep);
+  --nav-item-color-selected: var(--aoi-cobalt-deep);
+}
+
+body.theme-light.aoi-cobalt-decisive {
+  --tab-text-color-focused-active-current: var(--aoi-focus-blue);
+  --nav-item-color-active: var(--aoi-focus-blue);
+  --nav-item-color-selected: var(--aoi-focus-blue);
+}
+
+body.theme-dark.aoi-cobalt-soft {
+  --tab-text-color-focused-active-current: var(--aoi-night-sky);
+  --nav-item-color-active: var(--aoi-night-sky);
+  --nav-item-color-selected: var(--aoi-night-sky);
+}
+
+body.theme-dark.aoi-cobalt-balanced {
+  --tab-text-color-focused-active-current: var(--aoi-night-cobalt);
+  --nav-item-color-active: var(--aoi-night-cobalt);
+  --nav-item-color-selected: var(--aoi-night-cobalt);
+}
+
+body.theme-dark.aoi-cobalt-decisive {
+  --tab-text-color-focused-active-current: color-mix(
+    in srgb,
+    var(--aoi-night-cobalt) 80%,
+    var(--aoi-night-text)
+  );
+  --nav-item-color-active: var(--tab-text-color-focused-active-current);
+  --nav-item-color-selected: var(--tab-text-color-focused-active-current);
+}
+
+body.aoi-sakura-whisper {
+  --aoi-quote-wash-strength: 5%;
+}
+
+body.aoi-sakura-balanced {
+  --aoi-quote-wash-strength: 9%;
+}
+
+body.aoi-sakura-present {
+  --aoi-quote-wash-strength: 12%;
+}
+
+body.aoi-violet-whisper {
+  --aoi-properties-violet-wash-strength: 2%;
+}
+
+body.aoi-violet-balanced {
+  --aoi-properties-violet-wash-strength: 4%;
+}
+
+body.aoi-violet-present {
+  --aoi-properties-violet-wash-strength: 6%;
+}
+
+body.theme-light.aoi-paper-cool {
+  --background-primary: var(--aoi-cloud-cool);
+  --modal-background: var(--aoi-cloud-cool);
+}
+
+body.theme-light.aoi-paper-balanced {
+  --background-primary: var(--aoi-paper-warm);
+  --modal-background: var(--aoi-paper-warm);
+}
+
+body.theme-light.aoi-paper-warmer {
+  --background-primary: color-mix(in srgb, var(--aoi-paper-warm) 94%, var(--aoi-warm-yellow-pale));
+  --modal-background: var(--background-primary);
+}
+
+body.theme-light.aoi-sidebar-cloud {
+  --background-secondary: var(--aoi-cloud-cool);
+  --modal-sidebar-background: var(--aoi-cloud-cool);
+  --ribbon-background: var(--aoi-cloud-cool);
+  --tab-container-background: var(--aoi-cloud-cool);
+  --titlebar-background: var(--aoi-cloud-cool);
+}
+
+body.theme-light.aoi-sidebar-mist {
+  --background-secondary: var(--aoi-mist-blue);
+  --modal-sidebar-background: var(--aoi-mist-blue);
+  --ribbon-background: var(--aoi-mist-blue);
+  --tab-container-background: var(--aoi-mist-blue);
+  --titlebar-background: var(--aoi-mist-blue);
+}
+
+body.theme-light.aoi-sidebar-aqua {
+  --background-secondary: color-mix(in srgb, var(--aoi-mist-blue) 88%, var(--aoi-watercolor-cyan));
+  --modal-sidebar-background: var(--background-secondary);
+  --ribbon-background: var(--background-secondary);
+  --tab-container-background: var(--background-secondary);
+  --titlebar-background: var(--background-secondary);
+}
+
+body.theme-light.aoi-light-contrast-high {
+  --text-muted: var(--aoi-ink-strong);
+  --text-faint: var(--aoi-ink-muted);
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-dark-contrast-high {
+  --text-muted: var(--aoi-night-text);
+  --text-faint: var(--aoi-night-muted);
+  --background-modifier-border: color-mix(
+    in srgb,
+    var(--aoi-night-border) 62%,
+    var(--aoi-night-muted)
+  );
+}
+
+body.aoi-interface-font-humanist {
+  --font-interface-theme:
+    "Avenir Next", "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback), sans-serif;
+}
+
+body.aoi-interface-font-cjk {
+  --font-interface-theme: var(--aoi-cjk-sans-fallback), -apple-system, sans-serif;
+}
+
+body.aoi-body-font-modern-serif {
+  --font-text-theme: "Charter", "Georgia", var(--aoi-cjk-serif-fallback), serif;
+}
+
+body.aoi-body-font-sans {
+  --font-text-theme: var(--font-interface-theme);
+}
+
+body.aoi-monospace-font-classic {
+  --font-monospace-theme: "Menlo", "Consolas", "Noto Sans Mono", monospace;
+}
+
+body.aoi-heading-weight-light {
+  --h1-weight: 640;
+  --h2-weight: 610;
+  --h3-weight: 590;
+  --h4-weight: 560;
+  --h5-weight: 560;
+  --h6-weight: 560;
+}
+
+body.aoi-heading-weight-strong {
+  --h1-weight: 720;
+  --h2-weight: 690;
+  --h3-weight: 650;
+  --h4-weight: 620;
+  --h5-weight: 620;
+  --h6-weight: 620;
+}
+
+body.theme-light.aoi-heading-accent-quiet {
+  --h2-color: var(--aoi-indigo-deep);
+  --h3-color: var(--aoi-ink-strong);
+}
+
+body.theme-light.aoi-heading-accent-strong {
+  --h2-color: var(--aoi-focus-blue);
+  --h3-color: var(--aoi-indigo-deep);
+}
+
+body.theme-dark.aoi-heading-accent-quiet {
+  --h2-color: var(--aoi-night-muted);
+  --h3-color: var(--aoi-night-muted);
+}
+
+body.theme-dark.aoi-heading-accent-strong {
+  --h2-color: var(--aoi-night-cobalt);
+  --h3-color: var(--aoi-night-sky);
+}
+
+body.aoi-density-compact {
+  --header-height: 36px;
+  --tab-height: 34px;
+  --input-height: 32px;
+  --nav-item-padding: var(--size-2-1) var(--size-4-2);
+}
+
+body.aoi-density-relaxed {
+  --header-height: 44px;
+  --tab-height: 42px;
+  --input-height: 38px;
+  --nav-item-padding: var(--size-4-1) var(--size-4-3);
+}
+
+body.theme-light.aoi-sidebar-contrast-soft {
+  --nav-item-color: var(--aoi-ink-faint);
+  --nav-heading-color: var(--aoi-ink-strong);
+}
+
+body.theme-light.aoi-sidebar-contrast-strong {
+  --nav-item-color: var(--aoi-ink-strong);
+  --nav-heading-color: var(--aoi-indigo-deep);
+}
+
+body.theme-dark.aoi-sidebar-contrast-soft {
+  --nav-item-color: var(--aoi-night-faint);
+  --nav-heading-color: var(--aoi-night-muted);
+}
+
+body.theme-dark.aoi-sidebar-contrast-strong {
+  --nav-item-color: var(--aoi-night-text);
+  --nav-heading-color: var(--aoi-night-text);
+}
+
+body.theme-light.aoi-border-soft {
+  --background-modifier-border: color-mix(
+    in srgb,
+    var(--aoi-ice-border) 70%,
+    var(--aoi-paper-warm)
+  );
+}
+
+body.theme-light.aoi-border-strong {
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-border-soft {
+  --background-modifier-border: color-mix(
+    in srgb,
+    var(--aoi-night-border) 70%,
+    var(--aoi-night-canvas)
+  );
+}
+
+body.theme-dark.aoi-border-strong {
+  --background-modifier-border: color-mix(
+    in srgb,
+    var(--aoi-night-border) 68%,
+    var(--aoi-night-muted)
+  );
+}
+
+body.aoi-tab-soft-surface .workspace-tab-header.is-active {
+  box-shadow: inset 0 -1px 0 var(--interactive-accent);
+}
+
+body.aoi-status-quiet .status-bar {
+  opacity: 0.72;
+}
+
+body.aoi-status-hidden .status-bar {
+  display: none;
+}
+
+body.aoi-watercolor-wash-off
+  :where(
+    .workspace-split.mod-left-split,
+    .workspace-split.mod-right-split,
+    .metadata-container,
+    .markdown-rendered blockquote,
+    .callout
+  ) {
+  background-image: none;
+}
+
+body.aoi-link-underline-always {
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-external-decoration: underline;
+  --link-external-decoration-hover: underline;
+}
+
+body.aoi-unresolved-quiet {
+  --link-unresolved-color: var(--text-muted);
+  --link-unresolved-opacity: 0.72;
+}
+
+body.aoi-unresolved-strong {
+  --link-unresolved-opacity: 1;
+  --link-unresolved-decoration-color: var(--link-unresolved-color);
+}
+
+body.aoi-active-line-off {
+  --aoi-active-line-background: var(--background-primary);
+}
+
+body.aoi-active-line-clear {
+  --aoi-active-line-background: var(--background-modifier-active-hover);
+}
+
+body.aoi-code-quiet {
+  --code-border-width: 0;
+  --aoi-inline-code-border-width: 0;
+}
+
+body.aoi-code-bordered {
+  --code-border-width: 1px;
+  --aoi-inline-code-border-width: 1px;
+}
+
+body.aoi-quote-clean .markdown-rendered blockquote {
+  background-image: none;
+}
+
+body.aoi-callout-quiet {
+  --callout-padding: var(--size-4-2) var(--size-4-3);
+  --callout-radius: var(--radius-s);
+  --aoi-callout-wash-strength: 3%;
+}
+
+body.aoi-callout-airy {
+  --callout-padding: var(--size-4-4) var(--size-4-5);
+  --callout-radius: var(--radius-l);
+  --aoi-callout-wash-strength: 7%;
+}
+
+body.aoi-table-density-compact .markdown-rendered :where(th, td) {
+  padding: var(--size-2-3) var(--size-4-2);
+}
+
+body.aoi-table-density-relaxed .markdown-rendered :where(th, td) {
+  padding: var(--size-4-3) var(--size-4-4);
+}
+
+body.aoi-image-border-none {
+  --aoi-image-resting-outline-width: 0px;
+  --aoi-image-hover-outline-width: 0px;
+}
+
+body.aoi-image-border-always {
+  --aoi-image-resting-outline-width: 1px;
+  --aoi-image-hover-outline-width: 1px;
+}
+
+body.aoi-image-shadow-subtle {
+  --aoi-image-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+}
+
+body.theme-light.aoi-image-selection-sky {
+  --aoi-image-selection-color: var(--aoi-clear-cyan-blue);
+}
+
+body.theme-light.aoi-image-selection-cobalt {
+  --aoi-image-selection-color: var(--aoi-cobalt-deep);
+}
+
+body.theme-light.aoi-image-selection-focus {
+  --aoi-image-selection-color: var(--aoi-focus-blue);
+}
+
+body.theme-dark.aoi-image-selection-sky {
+  --aoi-image-selection-color: var(--aoi-night-sky);
+}
+
+body.theme-dark.aoi-image-selection-cobalt {
+  --aoi-image-selection-color: var(--aoi-night-cobalt);
+}
+
+body.theme-dark.aoi-image-selection-focus {
+  --aoi-image-selection-color: var(--aoi-night-text);
+}
+
+body.aoi-image-action-quiet {
+  --embed-actions-background: var(--background-primary);
+  --embed-actions-shadow: none;
+}
+
+body.aoi-image-action-strong {
+  --embed-actions-background: var(--background-secondary-alt);
+}
+
+body.aoi-reduce-motion {
+  --anim-duration-superfast: 0ms;
+  --anim-duration-fast: 0ms;
+  --anim-duration-moderate: 0ms;
+  --anim-duration-slow: 0ms;
+  --anim-motion-delay: 0ms;
+}
+
+body.aoi-reduce-motion
+  :is(
+    .workspace-tab-header,
+    .nav-file-title,
+    .nav-folder-title,
+    button,
+    input,
+    textarea,
+    select,
+    .dropdown,
+    .checkbox-container,
+    .clickable-icon,
+    .image-embed
+  ) {
+  transition: none;
+}
+
+body.aoi-reduce-motion :is(button, .clickable-icon):active {
+  transform: none;
+}
+
+body.aoi-disable-decorative-gradients
+  :where(
+    .workspace-split.mod-left-split,
+    .workspace-split.mod-right-split,
+    .metadata-container,
+    .markdown-rendered blockquote,
+    .callout
+  ) {
+  background-image: none;
+}
+
+body.aoi-focus-strong {
+  --aoi-focus-ring-width: 3px;
+}
+
+body.theme-light.aoi-high-contrast {
+  --text-muted: var(--aoi-ink-strong);
+  --text-faint: var(--aoi-ink-muted);
+  --icon-color: var(--aoi-ink-strong);
+  --icon-opacity: 1;
+}
+
+body.theme-dark.aoi-high-contrast {
+  --text-muted: var(--aoi-night-text);
+  --text-faint: var(--aoi-night-muted);
+  --icon-color: var(--aoi-night-text);
+  --icon-opacity: 1;
+}
+
+body.theme-light.aoi-stronger-borders {
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-stronger-borders {
+  --background-modifier-border: color-mix(
+    in srgb,
+    var(--aoi-night-border) 68%,
+    var(--aoi-night-muted)
+  );
+}
+
+body.aoi-large-touch-targets {
+  --aoi-touch-target-size: 48px;
+}

@@ -1,6 +1,6 @@
 # Attribution and provenance
 
-Status: Phase 1 research record plus Phase 2 implementation provenance, 2026-08-02.
+Status: Phase 1 research record plus Phase 2–3 implementation provenance, 2026-08-02.
 
 No external theme code, icon, font, image, screenshot, title treatment, or other release asset has
 been copied or adapted into Aoi Tori. The sources below informed analysis, architecture choices, or
@@ -39,12 +39,14 @@ Animation, Pony Canyon, the creators, or rights holders.
 
 ## Obsidian sources
 
-| Source                                                                                 | Role in this phase                                             | Material used                        |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------- | ------------------------------------ |
-| [Obsidian changelog](https://obsidian.md/changelog/)                                   | Current Desktop/Mobile/installer and 1.13 interaction baseline | Facts and compatibility requirements |
-| [Obsidian developer documentation](https://docs.obsidian.md/)                          | CSS variables, manifest, theme, submission, and policy rules   | Engineering guidance only            |
-| [Obsidian Community](https://community.obsidian.md/themes)                             | Current theme versions, Health/Review scorecards, and licenses | Research snapshot only               |
-| [Community/automated review announcement](https://obsidian.md/blog/future-of-plugins/) | Interpretation of Health/Review status and submission flow     | Policy facts only                    |
+| Source                                                                                 | Role in this phase                                             | Material used                           |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------- |
+| [Obsidian changelog](https://obsidian.md/changelog/)                                   | Current Desktop/Mobile/installer and 1.13 interaction baseline | Facts and compatibility requirements    |
+| [Obsidian developer documentation](https://docs.obsidian.md/)                          | CSS variables, manifest, theme, submission, and policy rules   | Engineering guidance only               |
+| [Obsidian Mobile help](https://obsidian.md/help/mobile)                                | Current mobile navigation, toolbar, drawer, and gesture model  | Testing expectations only               |
+| [Obsidian Community](https://community.obsidian.md/themes)                             | Current theme versions, Health/Review scorecards, and licenses | Research snapshot only                  |
+| [Community/automated review announcement](https://obsidian.md/blog/future-of-plugins/) | Interpretation of Health/Review status and submission flow     | Policy facts only                       |
+| [Style Settings](https://github.com/obsidian-community/obsidian-style-settings)        | Optional metadata schema and current plugin test target        | Schema usage only; no theme code copied |
 
 ## Community-theme research
 
@@ -65,6 +67,20 @@ attribution entry is required.
 The Phase 2 CSS modules, token names, test note, and diagnostic SVG were authored specifically for
 Aoi Tori. They do not adapt CSS, selectors, graphics, or assets from the researched themes or from
 the local reference images.
+
+Phase 3 adds only independently authored semantic-variable mappings, documentation, audit logic, and
+local test fixtures. The SVG/PNG/GIF/video frames use original geometric fields and paired curves;
+the WAV and one-page PDF are original diagnostics generated for the test Vault. No fixture is a
+release asset. `example.com` and one explicit placeholder-image URL are runtime connectivity tests
+only; neither URL is imported by CSS or packaged. No source code, icon, Canvas design, Bases layout,
+Graph palette, media, or screenshot was copied from another theme or from the local reference
+images.
+
+Phase 4's responsive CSS, accessibility media rules, Style Settings options, build metadata
+preservation, and audit checks were authored for Aoi Tori. The Style Settings project supplied only
+the public metadata contract and a local parser/runtime for verification; no preset, theme CSS,
+icon, asset, or implementation block was copied. Mobile behavior was derived from official Obsidian
+documentation and the locally rendered 1.13.4 DOM.
 
 ## Current attribution conclusion
 

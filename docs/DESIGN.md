@@ -1,8 +1,9 @@
 # Design system
 
-Status: Phase 2 core palette and minimum preview slice implemented, with the bounded Phase 2.5
-visual refinement completed on 2026-08-02. Image evidence remains in `docs/visual-analysis.md`; this
-document is the token and UI-role specification for the current review build.
+Status: Phase 2 core palette and Phase 2.5 visual refinement are preserved; Phase 3 desktop core
+view semantic mappings and actual-client validation were completed on 2026-08-02. Image evidence
+remains in `docs/visual-analysis.md`; this document is the token and UI-role specification for the
+current review build.
 
 ## Identity
 
@@ -368,6 +369,118 @@ text.
 - The theme-selected image outline is now 1 px with a 2 px offset. In 1.13.4 it coexists with the
   native inner selection cue and two native action buttons, uses no layout-changing border, and
   leaves the native interaction structure intact.
+
+## Phase 3 desktop core-view decisions
+
+Phase 3 does not change the approved primitive palette, typography, density, Callout, Quote,
+Properties, heading, code, or image-selection design. It extends only official Obsidian semantic
+variables so native desktop views inherit the same relationships without a separate visual system.
+
+### Embed and PDF surfaces
+
+- Loaded embeds keep their native geometry and controls. Light embeds use paper/cloud/ice roles;
+  dark embeds use night surface/canvas/border roles.
+- The start edge uses the existing accessible cobalt role, and hover uses an outline-like shadow
+  rather than overflow clipping or a fixed height.
+- PDF page, sidebar, thumbnail, and spread variables use the same paper/mist or night hierarchy.
+  Audio/video controls stay native. Non-image embeds are never routed through image rules.
+
+### Bases
+
+- Table headers and summaries use the reading surface; rows hover into mist/night panel; selected
+  cells use watercolor cyan or night info; active/focus cells add a cobalt outline-equivalent.
+- Cards use one quiet border shadow, cloud/night cover backing, and existing text roles. They do not
+  become saturated blue application cards.
+- Dense data preserves restrained borders and normal body ink. Group labels remain secondary, while
+  image covers supply content color rather than theme decoration.
+
+### Canvas
+
+- The Canvas base remains paper in light and night surface in dark, with an ice/night-border dot
+  grid. Groups and ordinary structure are deliberately low chroma.
+- Canvas color roles reuse accessible safety colors plus cyan sky and gray violet; no new palette
+  was introduced. The theme adds no heavy node shadow, blur, image filter, or animation.
+- Selected/editing/resizing behavior remains native so performance and interaction take priority
+  over extra watercolor effects.
+
+### Graph
+
+- Ordinary nodes are muted blue-gray; current nodes are cobalt; unresolved nodes are dusty pink;
+  tags are gray violet; attachments are sky blue; edges are quiet ice/night blue-gray.
+- This is the duet narrative expressed as sparse semantic roles, not every node becoming vivid blue.
+  `--graph-*` variables provide the entire mapping; no renderer-internal selector is used.
+
+### Desktop windows and fixtures
+
+- Pop-outs inherit the same variables without a main-window ancestor. Settings, note, Bases, Canvas,
+  and Graph windows therefore keep consistent paper/night surfaces and accessible focus.
+- Original Phase 3 diagnostic media uses only geometric circles, paired curves, mist fields, and a
+  tiny gold point. It exists under `test-vault-content/` for functional testing, not as a bundled
+  theme asset or final promotional image. No reference artwork, character, title, feather contour,
+  flower, logo, external font, or copied theme asset is present.
+
+## Phase 4 mobile, configuration, and accessibility decisions
+
+Phase 4 preserves the approved palette and density. It changes responsive geometry, touch reach,
+optional bounded variables, and system-accessibility responses rather than introducing a second
+mobile visual identity.
+
+### Mobile hierarchy and touch
+
+- Phone content uses the full available measure with 16 px file margins; tablet content retains a
+  roomier 24 px margin. Reading paper, mist panels, ink text, cobalt actions, and the independent
+  night palette remain unchanged.
+- Bottom navigation, the editing toolbar, drawers, phone Settings, and tablet tabs use the existing
+  semantic surfaces. A quiet one-pixel edge and native safe-area placement are retained; the theme
+  does not calculate or overwrite platform insets.
+- Important mobile navigation, toolbar, menu, Settings, image-action, Bases, Canvas, and Graph
+  controls receive a minimum 44×44 px target. The Toggle track itself remains native geometry; its
+  surrounding Settings control supplies the larger hit region.
+- Nested images use `max-inline-size: 100%`, automatic height, and `object-fit: contain`. No fixed
+  image height, global `img` rule, pointer suppression, clipping, filter, or hover-only essential
+  action is introduced.
+- Wide Markdown and Bases tables scroll within their native component instead of widening the
+  document. Cards reflow without page overflow. Bases card cover/contain remains the per-view native
+  `imageFit` setting because 1.13.4 writes `background-size` inline; overriding it would require the
+  forbidden `!important` and would conflict with document data.
+
+### Style Settings contract
+
+The default classes reproduce the reviewed theme exactly. The optional plugin parsed 48 settings
+with no metadata errors in Style Settings 1.0.9. Choices that affect contrast select between bounded
+semantic steps; users cannot enter arbitrary accent colors through this contract.
+
+| Group         | Exposed controls                                                                                                                   |
+| ------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| Palette       | sky, cobalt, sakura, gray-violet, paper temperature, sidebar tint, light contrast, dark contrast                                   |
+| Typography    | interface/body/monospace preset, 15–20 px body size, 1.5–1.9 line height, 620–920 px reading width, heading weight                 |
+| Workspace     | compact/default/relaxed density, active-tab style, sidebar contrast, border strength, status visibility, watercolor wash           |
+| Editor        | heading accent, link underline, unresolved-link emphasis, active line, code style, quote accent, Callout style, table density      |
+| Images        | radius, border, shadow, 1–3 px selected outline, selected-outline strength, action-button surface, native Bases image-fit guidance |
+| Accessibility | reduced motion, decorative-gradient removal, stronger focus, high contrast, stronger borders, 48 px controls                       |
+
+The sky/sakura/violet choices change decorative washes, not required text. Cobalt choices use
+prechecked functional steps. High-contrast mode strengthens muted text, icons, focus, and borders
+without changing safety meanings. Decorative gradients can be removed independently, and no option
+loads a remote resource or real watercolor texture.
+
+### Operating-system accessibility
+
+- `prefers-reduced-motion: reduce` removes theme transitions and pressed transforms; the Style
+  Settings switch supplies the same result for users who cannot set an OS preference.
+- `prefers-contrast: more` raises the focus ring to 3 px and strengthens muted text, icons, and
+  borders. The manual high-contrast option is bounded to the same accessible token families.
+- `forced-colors: active` removes decorative gradients, maps primary surfaces, text, fields,
+  actions, links, selection, and focus to system colors, underlines links, outlines current items,
+  preserves a structural Toggle track/thumb distinction, and keeps selected-image/callout edges.
+- Focus never depends only on a color fill. Selected images keep a non-layout outline; active
+  navigation keeps structure; Toggle state keeps thumb position and system-color contrast.
+- CSS does not reorder DOM, replace labels, or hide native controls, so screen-reader order remains
+  owned by Obsidian. CJK/system fallback stacks support OS font scaling without bundled fonts.
+
+The forced-colors rules were exercised through Chromium DevTools media emulation on macOS; they
+still require a real Windows High Contrast review. Real mobile virtual keyboards, gestures, and
+hardware safe areas likewise remain device-review prerequisites rather than inferred support.
 
 ## Shape, depth, and typography
 

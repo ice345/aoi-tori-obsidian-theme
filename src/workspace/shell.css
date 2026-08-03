@@ -19,7 +19,7 @@ body.is-popout-window .workspace {
 .theme-light :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split) {
   background-image: linear-gradient(
     145deg,
-    color-mix(in srgb, var(--color-cyan) 5%, transparent),
+    color-mix(in srgb, var(--color-cyan) var(--aoi-sidebar-wash-strength), transparent),
     transparent 36%
   );
 }
@@ -61,7 +61,7 @@ body.is-popout-window .workspace {
 }
 
 .workspace-tab-header:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: -2px;
 }
 
@@ -105,6 +105,6 @@ body.is-popout-window .workspace {
 
 .nav-file-title:focus-visible,
 .nav-folder-title:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }

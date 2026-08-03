@@ -1,0 +1,138 @@
+@media (prefers-reduced-motion: reduce) {
+  :is(
+    .workspace-tab-header,
+    .nav-file-title,
+    .nav-folder-title,
+    button,
+    input,
+    textarea,
+    select,
+    .dropdown,
+    .checkbox-container,
+    .clickable-icon,
+    .image-embed
+  ) {
+    transition: none;
+  }
+
+  :is(button, .clickable-icon):active {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --aoi-focus-ring-width: 3px;
+  }
+
+  .theme-light {
+    --text-muted: var(--aoi-ink-strong);
+    --text-faint: var(--aoi-ink-muted);
+    --icon-color: var(--aoi-ink-strong);
+    --background-modifier-border: var(--aoi-powder-blue);
+  }
+
+  .theme-dark {
+    --text-muted: var(--aoi-night-text);
+    --text-faint: var(--aoi-night-muted);
+    --icon-color: var(--aoi-night-text);
+    --background-modifier-border: color-mix(
+      in srgb,
+      var(--aoi-night-border) 62%,
+      var(--aoi-night-muted)
+    );
+  }
+}
+
+@media (forced-colors: active) {
+  body.theme-light,
+  body.theme-dark {
+    color-scheme: light dark;
+
+    --background-primary: Canvas;
+    --background-primary-alt: Canvas;
+    --background-secondary: Canvas;
+    --background-secondary-alt: Canvas;
+    --background-modifier-hover: Highlight;
+    --background-modifier-active-hover: Highlight;
+    --background-modifier-border: CanvasText;
+    --background-modifier-border-hover: Highlight;
+    --background-modifier-border-focus: Highlight;
+    --background-modifier-form-field: Field;
+    --background-modifier-form-field-hover: Field;
+    --text-normal: CanvasText;
+    --text-muted: CanvasText;
+    --text-faint: GrayText;
+    --text-on-accent: HighlightText;
+    --text-accent: LinkText;
+    --text-accent-hover: LinkText;
+    --interactive-normal: ButtonFace;
+    --interactive-hover: ButtonFace;
+    --interactive-accent: Highlight;
+    --interactive-accent-hover: Highlight;
+    --link-color: LinkText;
+    --link-color-hover: LinkText;
+    --link-external-color: LinkText;
+    --link-external-color-hover: LinkText;
+    --icon-color: ButtonText;
+    --icon-color-hover: Highlight;
+    --icon-color-active: Highlight;
+    --icon-color-focused: Highlight;
+    --input-text-bg-color: Field;
+    --input-text-fg-color: FieldText;
+    --input-unfocused-border-color: CanvasText;
+    --input-hover-border-color: Highlight;
+    --input-focus-border-color: Highlight;
+    --input-focus-outline: var(--aoi-focus-ring-width) solid Highlight;
+    --text-selection: Highlight;
+    --text-highlight-bg: Mark;
+    --caret-color: CanvasText;
+    --aoi-focus-ring-width: 3px;
+  }
+
+  :where(.workspace-split, .metadata-container, .markdown-rendered blockquote, .callout) {
+    background-image: none;
+  }
+
+  :where(.workspace-tab-header.is-active, .nav-file-title.is-active, .nav-folder-title.is-active) {
+    outline: var(--aoi-focus-ring-width) solid Highlight;
+    outline-offset: -3px;
+  }
+
+  :where(.internal-link, .external-link) {
+    text-decoration: underline;
+  }
+
+  .checkbox-container {
+    background-color: ButtonFace;
+    outline: 1px solid CanvasText;
+    outline-offset: -1px;
+    forced-color-adjust: none;
+  }
+
+  .checkbox-container.is-enabled {
+    background-color: Highlight;
+    outline-color: Highlight;
+  }
+
+  .checkbox-container::after {
+    background-color: ButtonText;
+  }
+
+  .checkbox-container.is-enabled::after {
+    background-color: HighlightText;
+  }
+
+  .checkbox-container:focus-visible {
+    outline: var(--aoi-focus-ring-width) solid Highlight;
+    outline-offset: var(--aoi-focus-ring-offset);
+  }
+
+  .image-embed.is-selected {
+    outline-color: Highlight;
+  }
+
+  :where(.callout, .metadata-container, .modal, .menu, .notice) {
+    border-color: CanvasText;
+  }
+}

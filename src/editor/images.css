@@ -1,25 +1,33 @@
 .image-embed {
+  outline: var(--aoi-image-resting-outline-width) solid var(--background-modifier-border);
+  outline-offset: 2px;
   border-radius: var(--image-radius);
+  box-shadow: var(--aoi-image-shadow);
   transition:
     outline-color var(--anim-duration-fast) var(--anim-motion-smooth),
     box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
 .image-embed:hover {
-  outline: 1px solid var(--background-modifier-border-hover);
+  outline-width: var(--aoi-image-hover-outline-width);
+  outline-color: var(--background-modifier-border-hover);
   outline-offset: 2px;
 }
 
 .image-embed.is-selected {
-  outline: 1px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-image-selection-outline-width) solid var(--aoi-image-selection-color);
   outline-offset: 2px;
 }
 
 .image-embed:focus-visible,
 .image-embed:focus-within {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
   box-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+}
+
+.markdown-reading-view .image-embed {
+  max-inline-size: var(--aoi-reading-image-max-width);
 }
 
 .image-embed .embed-action {
@@ -34,6 +42,6 @@
 
 .image-embed .embed-action:focus-visible,
 .image-embed .clickable-icon:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }

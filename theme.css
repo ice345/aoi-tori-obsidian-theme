@@ -3,6 +3,458 @@
  * Do not edit theme.css directly.
  * Build mode: development/readable
  */
+/* @settings
+
+name: Aoi Tori
+id: aoi-tori-theme
+settings:
+  - id: aoi-palette-heading
+    title: Palette
+    type: heading
+    level: 1
+  - id: aoi-sky-intensity
+    title: Sky wash intensity
+    description: Changes only the decorative sidebar wash, not text or focus colors.
+    type: class-select
+    allowEmpty: false
+    default: aoi-sky-balanced
+    options:
+      - label: Quiet
+        value: aoi-sky-quiet
+      - label: Balanced
+        value: aoi-sky-balanced
+      - label: Clear
+        value: aoi-sky-clear
+  - id: aoi-cobalt-intensity
+    title: Cobalt structure
+    description: Adjusts current navigation emphasis within accessible cobalt steps.
+    type: class-select
+    allowEmpty: false
+    default: aoi-cobalt-balanced
+    options:
+      - label: Soft
+        value: aoi-cobalt-soft
+      - label: Balanced
+        value: aoi-cobalt-balanced
+      - label: Decisive
+        value: aoi-cobalt-decisive
+  - id: aoi-sakura-amount
+    title: Sakura wash amount
+    description: Controls optional quote atmosphere without recoloring body text.
+    type: class-select
+    allowEmpty: false
+    default: aoi-sakura-balanced
+    options:
+      - label: Whisper
+        value: aoi-sakura-whisper
+      - label: Balanced
+        value: aoi-sakura-balanced
+      - label: Present
+        value: aoi-sakura-present
+  - id: aoi-violet-amount
+    title: Gray-violet wash amount
+    description: Controls the optional Properties wash.
+    type: class-select
+    allowEmpty: false
+    default: aoi-violet-balanced
+    options:
+      - label: Whisper
+        value: aoi-violet-whisper
+      - label: Balanced
+        value: aoi-violet-balanced
+      - label: Present
+        value: aoi-violet-present
+  - id: aoi-paper-temperature
+    title: Reading paper temperature
+    type: class-select
+    allowEmpty: false
+    default: aoi-paper-balanced
+    options:
+      - label: Cool cloud
+        value: aoi-paper-cool
+      - label: Warm paper
+        value: aoi-paper-balanced
+      - label: Warmer paper
+        value: aoi-paper-warmer
+  - id: aoi-sidebar-tint
+    title: Sidebar tint
+    type: class-select
+    allowEmpty: false
+    default: aoi-sidebar-mist
+    options:
+      - label: Cloud
+        value: aoi-sidebar-cloud
+      - label: Mist blue
+        value: aoi-sidebar-mist
+      - label: Pale aqua
+        value: aoi-sidebar-aqua
+  - id: aoi-light-contrast
+    title: Light-mode contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-light-contrast-standard
+    options:
+      - label: Standard
+        value: aoi-light-contrast-standard
+      - label: Higher
+        value: aoi-light-contrast-high
+  - id: aoi-dark-contrast
+    title: Dark-mode contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-dark-contrast-standard
+    options:
+      - label: Standard
+        value: aoi-dark-contrast-standard
+      - label: Higher
+        value: aoi-dark-contrast-high
+
+  - id: aoi-typography-heading
+    title: Typography
+    type: heading
+    level: 1
+  - id: aoi-interface-font
+    title: Interface font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-interface-font-system
+    options:
+      - label: System
+        value: aoi-interface-font-system
+      - label: Humanist
+        value: aoi-interface-font-humanist
+      - label: CJK sans
+        value: aoi-interface-font-cjk
+  - id: aoi-body-font
+    title: Body font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-body-font-literary
+    options:
+      - label: Literary serif
+        value: aoi-body-font-literary
+      - label: Modern serif
+        value: aoi-body-font-modern-serif
+      - label: Clean sans
+        value: aoi-body-font-sans
+  - id: aoi-monospace-font
+    title: Monospace font preset
+    type: class-select
+    allowEmpty: false
+    default: aoi-monospace-font-system
+    options:
+      - label: System mono
+        value: aoi-monospace-font-system
+      - label: Classic mono
+        value: aoi-monospace-font-classic
+  - id: --font-text-size
+    title: Body size
+    type: variable-number-slider
+    default: 16
+    format: px
+    min: 15
+    max: 20
+    step: 1
+  - id: --line-height-normal
+    title: Body line height
+    type: variable-number-slider
+    default: 1.75
+    min: 1.5
+    max: 1.9
+    step: 0.05
+  - id: --file-line-width
+    title: Reading width
+    type: variable-number-slider
+    default: 760
+    format: px
+    min: 620
+    max: 920
+    step: 20
+  - id: aoi-heading-weight
+    title: Heading weight
+    type: class-select
+    allowEmpty: false
+    default: aoi-heading-weight-balanced
+    options:
+      - label: Light
+        value: aoi-heading-weight-light
+      - label: Balanced
+        value: aoi-heading-weight-balanced
+      - label: Strong
+        value: aoi-heading-weight-strong
+  - id: aoi-workspace-heading
+    title: Workspace
+    type: heading
+    level: 1
+  - id: aoi-workspace-density
+    title: Workspace density
+    type: class-select
+    allowEmpty: false
+    default: aoi-density-default
+    options:
+      - label: Compact
+        value: aoi-density-compact
+      - label: Default
+        value: aoi-density-default
+      - label: Relaxed
+        value: aoi-density-relaxed
+  - id: aoi-tab-style
+    title: Active tab style
+    type: class-select
+    allowEmpty: false
+    default: aoi-tab-cobalt-line
+    options:
+      - label: Cobalt line
+        value: aoi-tab-cobalt-line
+      - label: Soft surface
+        value: aoi-tab-soft-surface
+  - id: aoi-sidebar-contrast
+    title: Sidebar contrast
+    type: class-select
+    allowEmpty: false
+    default: aoi-sidebar-contrast-standard
+    options:
+      - label: Soft
+        value: aoi-sidebar-contrast-soft
+      - label: Standard
+        value: aoi-sidebar-contrast-standard
+      - label: Strong
+        value: aoi-sidebar-contrast-strong
+  - id: aoi-border-strength
+    title: Border strength
+    type: class-select
+    allowEmpty: false
+    default: aoi-border-standard
+    options:
+      - label: Soft
+        value: aoi-border-soft
+      - label: Standard
+        value: aoi-border-standard
+      - label: Strong
+        value: aoi-border-strong
+  - id: aoi-status-visibility
+    title: Status bar visibility
+    type: class-select
+    allowEmpty: false
+    default: aoi-status-visible
+    options:
+      - label: Visible
+        value: aoi-status-visible
+      - label: Quiet
+        value: aoi-status-quiet
+      - label: Hidden
+        value: aoi-status-hidden
+  - id: aoi-watercolor-wash
+    title: Subtle watercolor wash
+    description: Controls decorative gradients only; content and interaction colors are unchanged.
+    type: class-select
+    allowEmpty: false
+    default: aoi-watercolor-wash-on
+    options:
+      - label: On
+        value: aoi-watercolor-wash-on
+      - label: Off
+        value: aoi-watercolor-wash-off
+
+  - id: aoi-editor-heading
+    title: Editor
+    type: heading
+    level: 1
+  - id: aoi-heading-accent
+    title: Heading accent level
+    type: class-select
+    allowEmpty: false
+    default: aoi-heading-accent-balanced
+    options:
+      - label: Quiet
+        value: aoi-heading-accent-quiet
+      - label: Balanced
+        value: aoi-heading-accent-balanced
+      - label: Strong
+        value: aoi-heading-accent-strong
+  - id: aoi-link-underline
+    title: Link underline
+    type: class-select
+    allowEmpty: false
+    default: aoi-link-underline-native
+    options:
+      - label: Native
+        value: aoi-link-underline-native
+      - label: Always
+        value: aoi-link-underline-always
+  - id: aoi-unresolved-emphasis
+    title: Unresolved-link emphasis
+    type: class-select
+    allowEmpty: false
+    default: aoi-unresolved-balanced
+    options:
+      - label: Quiet
+        value: aoi-unresolved-quiet
+      - label: Balanced
+        value: aoi-unresolved-balanced
+      - label: Strong
+        value: aoi-unresolved-strong
+  - id: aoi-active-line
+    title: Active line
+    type: class-select
+    allowEmpty: false
+    default: aoi-active-line-subtle
+    options:
+      - label: Off
+        value: aoi-active-line-off
+      - label: Subtle
+        value: aoi-active-line-subtle
+      - label: Clear
+        value: aoi-active-line-clear
+  - id: aoi-code-style
+    title: Code style
+    type: class-select
+    allowEmpty: false
+    default: aoi-code-bordered
+    options:
+      - label: Quiet
+        value: aoi-code-quiet
+      - label: Bordered
+        value: aoi-code-bordered
+  - id: aoi-quote-style
+    title: Quote second-voice accent
+    type: class-select
+    allowEmpty: false
+    default: aoi-quote-watercolor
+    options:
+      - label: Watercolor wash
+        value: aoi-quote-watercolor
+      - label: Clean line
+        value: aoi-quote-clean
+  - id: aoi-callout-style
+    title: Callout style
+    type: class-select
+    allowEmpty: false
+    default: aoi-callout-balanced
+    options:
+      - label: Quiet
+        value: aoi-callout-quiet
+      - label: Balanced
+        value: aoi-callout-balanced
+      - label: Airy
+        value: aoi-callout-airy
+  - id: aoi-table-density
+    title: Table density
+    type: class-select
+    allowEmpty: false
+    default: aoi-table-density-default
+    options:
+      - label: Compact
+        value: aoi-table-density-compact
+      - label: Default
+        value: aoi-table-density-default
+      - label: Relaxed
+        value: aoi-table-density-relaxed
+
+  - id: aoi-images-heading
+    title: Images
+    type: heading
+    level: 1
+  - id: --image-radius
+    title: Image radius
+    type: variable-number-slider
+    default: 8
+    format: px
+    min: 0
+    max: 16
+    step: 2
+  - id: aoi-image-border
+    title: Image border
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-border-hover
+    options:
+      - label: None
+        value: aoi-image-border-none
+      - label: On hover
+        value: aoi-image-border-hover
+      - label: Always
+        value: aoi-image-border-always
+  - id: aoi-image-shadow
+    title: Image shadow
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-shadow-none
+    options:
+      - label: None
+        value: aoi-image-shadow-none
+      - label: Subtle
+        value: aoi-image-shadow-subtle
+  - id: --aoi-image-selection-outline-width
+    title: Selected-image outline width
+    type: variable-number-slider
+    default: 1
+    format: px
+    min: 1
+    max: 3
+    step: 1
+  - id: aoi-image-selection-strength
+    title: Selected outline strength
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-selection-cobalt
+    options:
+      - label: Soft sky
+        value: aoi-image-selection-sky
+      - label: Cobalt
+        value: aoi-image-selection-cobalt
+      - label: Strong focus
+        value: aoi-image-selection-focus
+  - id: aoi-image-action-surface
+    title: Action button surface
+    type: class-select
+    allowEmpty: false
+    default: aoi-image-action-default
+    options:
+      - label: Quiet
+        value: aoi-image-action-quiet
+      - label: Default
+        value: aoi-image-action-default
+      - label: Strong
+        value: aoi-image-action-strong
+  - id: aoi-card-image-fit-info
+    title: Bases card image fit
+    description: Use the native Cover image fit in each Bases view. Obsidian writes this per-view value inline, so Aoi Tori leaves that native setting authoritative.
+    type: info-text
+
+  - id: aoi-accessibility-heading
+    title: Accessibility
+    type: heading
+    level: 1
+  - id: aoi-reduce-motion
+    title: Reduce motion
+    description: Also follows the operating system reduced-motion preference.
+    type: class-toggle
+    default: false
+  - id: aoi-disable-decorative-gradients
+    title: Disable decorative gradients
+    type: class-toggle
+    default: false
+  - id: aoi-focus-strong
+    title: Increase focus visibility
+    type: class-toggle
+    default: false
+  - id: aoi-high-contrast
+    title: High contrast
+    description: Strengthens secondary text and icons without changing the core palette.
+    type: class-toggle
+    default: false
+  - id: aoi-stronger-borders
+    title: Stronger borders
+    type: class-toggle
+    default: false
+  - id: aoi-large-touch-targets
+    title: Larger touch targets
+    description: Raises supported mobile controls from 44px to 48px.
+    type: class-toggle
+    default: false
+*/
+
 :root {
   --aoi-paper-warm: #fbfaf8;
   --aoi-cloud-cool: #f6fafa;
@@ -58,10 +510,11 @@
   --aoi-night-success-soft: #19362f;
   --aoi-night-info: #7fc3e8;
   --aoi-night-info-soft: #1b3347;
-  --font-interface-theme: -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", "Noto Sans CJK SC", "PingFang SC",
-    "Hiragino Sans", "Yu Gothic UI", sans-serif;
-  --font-text-theme: "Iowan Old Style", "Noto Serif", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC",
-    "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --aoi-cjk-sans-fallback: "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans", "Yu Gothic UI";
+  --aoi-cjk-serif-fallback: "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho";
+  --font-interface-theme: -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback),
+    sans-serif;
+  --font-text-theme: "Iowan Old Style", "Noto Serif", var(--aoi-cjk-serif-fallback), serif;
   --font-monospace-theme: "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
   --font-text-size: 16px;
   --line-height-normal: 1.75;
@@ -76,6 +529,21 @@
   --input-padding: 0 var(--size-4-2);
   --input-border-width: 1px;
   --input-border-width-focus: 1px;
+  --aoi-focus-ring-width: 2px;
+  --aoi-focus-ring-offset: 2px;
+  --aoi-active-line-background: var(--background-modifier-hover);
+  --aoi-image-resting-outline-width: 0px;
+  --aoi-image-hover-outline-width: 1px;
+  --aoi-image-selection-outline-width: 1px;
+  --aoi-image-selection-color: var(--background-modifier-border-focus);
+  --aoi-image-shadow: none;
+  --aoi-inline-code-border-width: var(--code-border-width);
+  --aoi-reading-image-max-width: 100%;
+  --aoi-touch-target-size: 44px;
+  --aoi-sidebar-wash-strength: 5%;
+  --aoi-quote-wash-strength: 9%;
+  --aoi-properties-violet-wash-strength: 4%;
+  --aoi-properties-cyan-wash-strength: 4%;
   --tab-radius: var(--radius-s);
   --tab-radius-active: var(--radius-m);
   --tab-outline-width: 1px;
@@ -304,6 +772,8 @@
   --embed-actions-background: var(--aoi-paper-warm);
   --embed-actions-blur: none;
   --embed-actions-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+  --embed-block-shadow-hover: 0 0 0 1px var(--aoi-ice-border), inset 0 0 0 1px var(--aoi-ice-border);
+  --embed-border-start: 2px solid var(--aoi-link-blue);
   --image-radius: var(--radius-m);
   --metadata-background: var(--aoi-cloud-cool);
   --metadata-border-color: color-mix(in srgb, var(--aoi-ice-border) 62%, var(--aoi-cloud-cool));
@@ -346,6 +816,51 @@
   --setting-group-heading-color: var(--aoi-indigo-deep);
   --setting-items-background: var(--aoi-cloud-cool);
   --setting-items-border-color: var(--aoi-ice-border);
+  --search-result-background: var(--aoi-paper-warm);
+  --bases-cards-background: var(--aoi-paper-warm);
+  --bases-cards-container-background: transparent;
+  --bases-cards-cover-background: var(--aoi-cloud-cool);
+  --bases-cards-shadow: 0 0 0 1px var(--aoi-ice-border);
+  --bases-cards-shadow-hover: 0 0 0 1px var(--aoi-powder-blue);
+  --bases-embed-border-color: var(--aoi-ice-border);
+  --bases-filter-input-background: var(--aoi-cloud-cool);
+  --bases-group-heading-property-color: var(--aoi-ink-muted);
+  --bases-table-border-color: var(--table-border-color);
+  --bases-table-cell-background-active: var(--aoi-paper-warm);
+  --bases-table-cell-background-disabled: var(--aoi-cloud-cool);
+  --bases-table-cell-background-selected: var(--aoi-watercolor-cyan);
+  --bases-table-cell-shadow-active: 0 0 0 2px var(--aoi-focus-blue);
+  --bases-table-cell-shadow-focus: 0 0 0 2px var(--aoi-link-blue);
+  --bases-table-group-background: var(--aoi-cloud-cool);
+  --bases-table-header-background: var(--aoi-paper-warm);
+  --bases-table-header-background-hover: var(--background-modifier-hover);
+  --bases-table-header-color: var(--aoi-ink-muted);
+  --bases-table-row-background-hover: var(--aoi-mist-blue);
+  --bases-table-summary-background: var(--aoi-paper-warm);
+  --bases-table-summary-background-hover: var(--background-modifier-hover);
+  --canvas-background: var(--aoi-paper-warm);
+  --canvas-dot-pattern: var(--aoi-ice-border);
+  --canvas-color: var(--aoi-powder-blue);
+  --canvas-color-1: var(--aoi-error);
+  --canvas-color-2: var(--aoi-gold-deep);
+  --canvas-color-3: var(--aoi-gold-orange);
+  --canvas-color-4: var(--aoi-success);
+  --canvas-color-5: var(--aoi-clear-cyan-blue);
+  --canvas-color-6: var(--aoi-gray-violet-deep);
+  --canvas-card-label-color: var(--aoi-ink-faint);
+  --graph-line: var(--aoi-ice-border);
+  --graph-node: var(--aoi-ink-muted);
+  --graph-node-attachment: var(--aoi-sky-deep);
+  --graph-node-focused: var(--aoi-link-blue);
+  --graph-node-tag: var(--aoi-gray-violet-deep);
+  --graph-node-unresolved: var(--aoi-dusty-pink-muted);
+  --graph-text: var(--aoi-ink-indigo);
+  --pdf-background: var(--aoi-paper-warm);
+  --pdf-page-background: var(--aoi-paper-warm);
+  --pdf-sidebar-background: var(--aoi-mist-blue);
+  --pdf-shadow: 0 2px 8px var(--background-modifier-box-shadow);
+  --pdf-spread-shadow: 0 0 0 1px var(--aoi-ice-border);
+  --pdf-thumbnail-shadow: 0 0 0 1px var(--aoi-ice-border), 0 2px 8px var(--background-modifier-box-shadow);
 }
 
 .theme-dark {
@@ -515,6 +1030,8 @@
   --embed-actions-background: var(--aoi-night-panel);
   --embed-actions-blur: none;
   --embed-actions-shadow: 0 2px 12px var(--background-modifier-box-shadow);
+  --embed-block-shadow-hover: 0 0 0 1px var(--aoi-night-border), inset 0 0 0 1px var(--aoi-night-border);
+  --embed-border-start: 2px solid var(--aoi-night-cobalt);
   --image-radius: var(--radius-m);
   --metadata-background: var(--aoi-night-canvas);
   --metadata-border-color: var(--aoi-night-border);
@@ -557,6 +1074,51 @@
   --setting-group-heading-color: var(--aoi-night-text);
   --setting-items-background: var(--aoi-night-canvas);
   --setting-items-border-color: var(--aoi-night-border);
+  --search-result-background: var(--aoi-night-surface);
+  --bases-cards-background: var(--aoi-night-surface);
+  --bases-cards-container-background: transparent;
+  --bases-cards-cover-background: var(--aoi-night-canvas);
+  --bases-cards-shadow: 0 0 0 1px var(--aoi-night-border);
+  --bases-cards-shadow-hover: 0 0 0 1px var(--aoi-night-sky);
+  --bases-embed-border-color: var(--aoi-night-border);
+  --bases-filter-input-background: var(--aoi-night-canvas);
+  --bases-group-heading-property-color: var(--aoi-night-muted);
+  --bases-table-border-color: var(--table-border-color);
+  --bases-table-cell-background-active: var(--aoi-night-surface);
+  --bases-table-cell-background-disabled: var(--aoi-night-canvas);
+  --bases-table-cell-background-selected: var(--aoi-night-info-soft);
+  --bases-table-cell-shadow-active: 0 0 0 2px var(--aoi-night-cobalt);
+  --bases-table-cell-shadow-focus: 0 0 0 2px var(--aoi-night-sky);
+  --bases-table-group-background: var(--aoi-night-canvas);
+  --bases-table-header-background: var(--aoi-night-surface);
+  --bases-table-header-background-hover: var(--background-modifier-hover);
+  --bases-table-header-color: var(--aoi-night-muted);
+  --bases-table-row-background-hover: var(--aoi-night-panel);
+  --bases-table-summary-background: var(--aoi-night-surface);
+  --bases-table-summary-background-hover: var(--background-modifier-hover);
+  --canvas-background: var(--aoi-night-surface);
+  --canvas-dot-pattern: var(--aoi-night-border);
+  --canvas-color: var(--aoi-night-border);
+  --canvas-color-1: var(--aoi-night-error);
+  --canvas-color-2: var(--aoi-night-warning);
+  --canvas-color-3: var(--aoi-night-sakura);
+  --canvas-color-4: var(--aoi-night-success);
+  --canvas-color-5: var(--aoi-night-sky);
+  --canvas-color-6: var(--aoi-night-violet);
+  --canvas-card-label-color: var(--aoi-night-faint);
+  --graph-line: var(--aoi-night-border);
+  --graph-node: var(--aoi-night-muted);
+  --graph-node-attachment: var(--aoi-night-sky);
+  --graph-node-focused: var(--aoi-night-cobalt);
+  --graph-node-tag: var(--aoi-night-violet);
+  --graph-node-unresolved: var(--aoi-night-sakura);
+  --graph-text: var(--aoi-night-text);
+  --pdf-background: var(--aoi-night-canvas);
+  --pdf-page-background: var(--aoi-night-surface);
+  --pdf-sidebar-background: var(--aoi-night-canvas);
+  --pdf-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+  --pdf-spread-shadow: 0 0 0 1px var(--aoi-night-border);
+  --pdf-thumbnail-shadow: 0 0 0 1px var(--aoi-night-border), 0 2px 10px var(--background-modifier-box-shadow);
 }
 
 body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .workspace {
@@ -570,7 +1132,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 
 .theme-light :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split) {
   background-image: linear-gradient(145deg,
-    color-mix(in srgb, var(--color-cyan) 5%, transparent),
+    color-mix(in srgb, var(--color-cyan) var(--aoi-sidebar-wash-strength), transparent),
     transparent 36%);
 }
 
@@ -610,7 +1172,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .workspace-tab-header:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: -2px;
 }
 
@@ -646,7 +1208,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .nav-file-title:focus-visible, .nav-folder-title:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }
 
@@ -660,7 +1222,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .markdown-source-view .cm-active.cm-line {
-  background-color: var(--background-modifier-hover);
+  background-color: var(--aoi-active-line-background);
   border-radius: var(--radius-s);
 }
 
@@ -672,7 +1234,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
   color: var(--blockquote-color);
   background-color: var(--blockquote-background-color);
   background-image: linear-gradient(to right,
-    color-mix(in srgb, var(--blockquote-border-color) 9%, transparent),
+    color-mix(in srgb, var(--blockquote-border-color) var(--aoi-quote-wash-strength), transparent),
     transparent 72%);
   border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
   border-radius: 0 var(--radius-m) var(--radius-m) 0;
@@ -690,7 +1252,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 .markdown-rendered :not(pre) > code, .markdown-source-view .cm-inline-code {
   color: var(--code-normal);
   background-color: var(--code-background);
-  border: var(--code-border-width) solid var(--code-border-color);
+  border: var(--aoi-inline-code-border-width) solid var(--code-border-color);
   border-radius: var(--code-radius);
   padding-inline: var(--size-2-1);
 }
@@ -707,8 +1269,8 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .task-list-item-checkbox:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
 }
 
 .callout {
@@ -828,9 +1390,13 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
   color: var(--metadata-input-text-color);
   background-color: var(--metadata-background);
   background-image: linear-gradient(135deg,
-      color-mix(in srgb, var(--color-purple) 4%, transparent),
+      color-mix(in srgb,
+        var(--color-purple) var(--aoi-properties-violet-wash-strength),
+        transparent),
       transparent 38%),
-    linear-gradient(315deg, color-mix(in srgb, var(--color-cyan) 4%, transparent), transparent 42%);
+    linear-gradient(315deg,
+      color-mix(in srgb, var(--color-cyan) var(--aoi-properties-cyan-wash-strength), transparent),
+      transparent 42%);
   border: 1px solid var(--metadata-border-color);
   border-radius: var(--metadata-border-radius);
   padding: var(--size-4-3);
@@ -876,31 +1442,39 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .internal-link:focus-visible, .external-link:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
   border-radius: var(--radius-s);
 }
 
 .image-embed {
+  outline: var(--aoi-image-resting-outline-width) solid var(--background-modifier-border);
+  outline-offset: 2px;
   border-radius: var(--image-radius);
+  box-shadow: var(--aoi-image-shadow);
   transition: outline-color var(--anim-duration-fast) var(--anim-motion-smooth),
     box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
 .image-embed:hover {
-  outline: 1px solid var(--background-modifier-border-hover);
+  outline-width: var(--aoi-image-hover-outline-width);
+  outline-color: var(--background-modifier-border-hover);
   outline-offset: 2px;
 }
 
 .image-embed.is-selected {
-  outline: 1px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-image-selection-outline-width) solid var(--aoi-image-selection-color);
   outline-offset: 2px;
 }
 
 .image-embed:focus-visible, .image-embed:focus-within {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
   box-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+}
+
+.markdown-reading-view .image-embed {
+  max-inline-size: var(--aoi-reading-image-max-width);
 }
 
 .image-embed .embed-action {
@@ -914,7 +1488,7 @@ body, .app-container, .workspace, body.is-popout-window, body.is-popout-window .
 }
 
 .image-embed .embed-action:focus-visible, .image-embed .clickable-icon:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }
 
@@ -960,8 +1534,8 @@ button:active {
 }
 
 button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
-  outline: var(--input-focus-outline);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--input-focus-border-color);
+  outline-offset: var(--aoi-focus-ring-offset);
 }
 
 button:disabled, input:disabled, textarea:disabled, select:disabled {
@@ -995,19 +1569,16 @@ input::placeholder, textarea::placeholder {
 
 .checkbox-container {
   background-color: var(--background-secondary-alt);
-  border: 1px solid var(--background-modifier-border);
-  transition: background-color var(--anim-duration-fast) var(--anim-motion-smooth),
-    border-color var(--anim-duration-fast) var(--anim-motion-smooth);
+  transition: background-color var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
 .checkbox-container.is-enabled {
   background-color: var(--interactive-accent);
-  border-color: var(--interactive-accent);
 }
 
 .checkbox-container:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
 }
 
 .clickable-icon {
@@ -1029,7 +1600,7 @@ input::placeholder, textarea::placeholder {
 
 .clickable-icon:focus-visible {
   color: var(--icon-color-focused);
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }
 
@@ -1052,7 +1623,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .menu-item:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: -2px;
 }
 
@@ -1106,7 +1677,7 @@ input::placeholder, textarea::placeholder {
 }
 
 .vertical-tab-nav-item:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: -2px;
 }
 
@@ -1121,4 +1692,641 @@ input::placeholder, textarea::placeholder {
 
 .setting-item-description {
   color: var(--text-muted);
+}
+
+body.is-mobile {
+  --file-line-width: 100%;
+  --file-margins-x: var(--size-4-4);
+  --file-margins-y: var(--size-4-4);
+}
+
+body.is-tablet {
+  --file-margins-x: var(--size-4-6);
+  --file-margins-y: var(--size-4-5);
+  --tab-height: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.mobile-navbar, .mobile-toolbar, .workspace-drawer-header) {
+  color: var(--text-normal);
+  background-color: var(--background-secondary);
+  border-color: var(--background-modifier-border);
+}
+
+body.is-mobile .mobile-navbar {
+  box-shadow: 0 -1px 8px var(--background-modifier-box-shadow);
+}
+
+body.is-mobile .mobile-toolbar-options-list-container {
+  background-color: var(--background-secondary-alt);
+  border-color: var(--background-modifier-border);
+  box-shadow: 0 -1px 8px var(--background-modifier-box-shadow);
+}
+
+body.is-mobile :where(.mobile-navbar-action, .mobile-toolbar-option, .workspace-drawer-header-icon, .view-action, .modal-close-button) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+  color: var(--icon-color);
+  border-radius: var(--radius-m);
+}
+
+body.is-mobile .mobile-toolbar-floating-options .mobile-toolbar-option {
+  min-inline-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.mobile-navbar-action, .mobile-toolbar-option, .workspace-drawer-header-icon, .view-action, .modal-close-button):active {
+  color: var(--icon-color-active);
+  background-color: var(--background-modifier-active-hover);
+}
+
+body.is-mobile :where(.menu-item, .vertical-tab-nav-item) {
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.bases-toolbar .text-icon-button, .canvas-control-item, .graph-controls .clickable-icon) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.nav-file-title, .nav-folder-title), body.is-mobile :where(button, input[type="text"], input[type="search"], textarea, select, .dropdown) {
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile .setting-item.mod-toggle .setting-item-control {
+  min-block-size: var(--aoi-touch-target-size);
+  align-items: center;
+}
+
+body.is-mobile :where(.workspace-drawer.mod-left, .workspace-drawer.mod-right) {
+  color: var(--text-normal);
+  background-color: var(--background-secondary);
+}
+
+body.is-mobile .workspace-drawer-header, body.is-phone .view-header {
+  border-block-end: 1px solid var(--background-modifier-border);
+}
+
+body.is-tablet .workspace-tab-header-container {
+  border-block-end-color: var(--tab-outline-color);
+}
+
+body.is-mobile :where(.markdown-source-view, .markdown-reading-view) .image-embed {
+  max-inline-size: 100%;
+}
+
+body.is-mobile :where(.markdown-source-view, .markdown-reading-view) .image-embed img {
+  object-fit: contain;
+  block-size: auto;
+  max-inline-size: 100%;
+}
+
+body.is-mobile .image-embed :where(.embed-action, .clickable-icon) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-phone .modal.mod-settings :where(.vertical-tab-header, .vertical-tab-content) {
+  color: var(--text-normal);
+  background-color: var(--modal-background);
+}
+
+body.is-phone .modal.mod-settings .vertical-tab-header {
+  border-inline-end: 0;
+}
+
+body.aoi-sky-quiet {
+  --aoi-sidebar-wash-strength: 2%;
+}
+
+body.aoi-sky-balanced {
+  --aoi-sidebar-wash-strength: 5%;
+}
+
+body.aoi-sky-clear {
+  --aoi-sidebar-wash-strength: 7%;
+}
+
+body.theme-light.aoi-cobalt-soft {
+  --tab-text-color-focused-active-current: var(--aoi-link-blue);
+  --nav-item-color-active: var(--aoi-link-blue);
+  --nav-item-color-selected: var(--aoi-link-blue);
+}
+
+body.theme-light.aoi-cobalt-balanced {
+  --tab-text-color-focused-active-current: var(--aoi-cobalt-deep);
+  --nav-item-color-active: var(--aoi-cobalt-deep);
+  --nav-item-color-selected: var(--aoi-cobalt-deep);
+}
+
+body.theme-light.aoi-cobalt-decisive {
+  --tab-text-color-focused-active-current: var(--aoi-focus-blue);
+  --nav-item-color-active: var(--aoi-focus-blue);
+  --nav-item-color-selected: var(--aoi-focus-blue);
+}
+
+body.theme-dark.aoi-cobalt-soft {
+  --tab-text-color-focused-active-current: var(--aoi-night-sky);
+  --nav-item-color-active: var(--aoi-night-sky);
+  --nav-item-color-selected: var(--aoi-night-sky);
+}
+
+body.theme-dark.aoi-cobalt-balanced {
+  --tab-text-color-focused-active-current: var(--aoi-night-cobalt);
+  --nav-item-color-active: var(--aoi-night-cobalt);
+  --nav-item-color-selected: var(--aoi-night-cobalt);
+}
+
+body.theme-dark.aoi-cobalt-decisive {
+  --tab-text-color-focused-active-current: color-mix(in srgb,
+    var(--aoi-night-cobalt) 80%,
+    var(--aoi-night-text));
+  --nav-item-color-active: var(--tab-text-color-focused-active-current);
+  --nav-item-color-selected: var(--tab-text-color-focused-active-current);
+}
+
+body.aoi-sakura-whisper {
+  --aoi-quote-wash-strength: 5%;
+}
+
+body.aoi-sakura-balanced {
+  --aoi-quote-wash-strength: 9%;
+}
+
+body.aoi-sakura-present {
+  --aoi-quote-wash-strength: 12%;
+}
+
+body.aoi-violet-whisper {
+  --aoi-properties-violet-wash-strength: 2%;
+}
+
+body.aoi-violet-balanced {
+  --aoi-properties-violet-wash-strength: 4%;
+}
+
+body.aoi-violet-present {
+  --aoi-properties-violet-wash-strength: 6%;
+}
+
+body.theme-light.aoi-paper-cool {
+  --background-primary: var(--aoi-cloud-cool);
+  --modal-background: var(--aoi-cloud-cool);
+}
+
+body.theme-light.aoi-paper-balanced {
+  --background-primary: var(--aoi-paper-warm);
+  --modal-background: var(--aoi-paper-warm);
+}
+
+body.theme-light.aoi-paper-warmer {
+  --background-primary: color-mix(in srgb, var(--aoi-paper-warm) 94%, var(--aoi-warm-yellow-pale));
+  --modal-background: var(--background-primary);
+}
+
+body.theme-light.aoi-sidebar-cloud {
+  --background-secondary: var(--aoi-cloud-cool);
+  --modal-sidebar-background: var(--aoi-cloud-cool);
+  --ribbon-background: var(--aoi-cloud-cool);
+  --tab-container-background: var(--aoi-cloud-cool);
+  --titlebar-background: var(--aoi-cloud-cool);
+}
+
+body.theme-light.aoi-sidebar-mist {
+  --background-secondary: var(--aoi-mist-blue);
+  --modal-sidebar-background: var(--aoi-mist-blue);
+  --ribbon-background: var(--aoi-mist-blue);
+  --tab-container-background: var(--aoi-mist-blue);
+  --titlebar-background: var(--aoi-mist-blue);
+}
+
+body.theme-light.aoi-sidebar-aqua {
+  --background-secondary: color-mix(in srgb, var(--aoi-mist-blue) 88%, var(--aoi-watercolor-cyan));
+  --modal-sidebar-background: var(--background-secondary);
+  --ribbon-background: var(--background-secondary);
+  --tab-container-background: var(--background-secondary);
+  --titlebar-background: var(--background-secondary);
+}
+
+body.theme-light.aoi-light-contrast-high {
+  --text-muted: var(--aoi-ink-strong);
+  --text-faint: var(--aoi-ink-muted);
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-dark-contrast-high {
+  --text-muted: var(--aoi-night-text);
+  --text-faint: var(--aoi-night-muted);
+  --background-modifier-border: color-mix(in srgb,
+    var(--aoi-night-border) 62%,
+    var(--aoi-night-muted));
+}
+
+body.aoi-interface-font-humanist {
+  --font-interface-theme: "Avenir Next", "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback), sans-serif;
+}
+
+body.aoi-interface-font-cjk {
+  --font-interface-theme: var(--aoi-cjk-sans-fallback), -apple-system, sans-serif;
+}
+
+body.aoi-body-font-modern-serif {
+  --font-text-theme: "Charter", "Georgia", var(--aoi-cjk-serif-fallback), serif;
+}
+
+body.aoi-body-font-sans {
+  --font-text-theme: var(--font-interface-theme);
+}
+
+body.aoi-monospace-font-classic {
+  --font-monospace-theme: "Menlo", "Consolas", "Noto Sans Mono", monospace;
+}
+
+body.aoi-heading-weight-light {
+  --h1-weight: 640;
+  --h2-weight: 610;
+  --h3-weight: 590;
+  --h4-weight: 560;
+  --h5-weight: 560;
+  --h6-weight: 560;
+}
+
+body.aoi-heading-weight-strong {
+  --h1-weight: 720;
+  --h2-weight: 690;
+  --h3-weight: 650;
+  --h4-weight: 620;
+  --h5-weight: 620;
+  --h6-weight: 620;
+}
+
+body.theme-light.aoi-heading-accent-quiet {
+  --h2-color: var(--aoi-indigo-deep);
+  --h3-color: var(--aoi-ink-strong);
+}
+
+body.theme-light.aoi-heading-accent-strong {
+  --h2-color: var(--aoi-focus-blue);
+  --h3-color: var(--aoi-indigo-deep);
+}
+
+body.theme-dark.aoi-heading-accent-quiet {
+  --h2-color: var(--aoi-night-muted);
+  --h3-color: var(--aoi-night-muted);
+}
+
+body.theme-dark.aoi-heading-accent-strong {
+  --h2-color: var(--aoi-night-cobalt);
+  --h3-color: var(--aoi-night-sky);
+}
+
+body.aoi-density-compact {
+  --header-height: 36px;
+  --tab-height: 34px;
+  --input-height: 32px;
+  --nav-item-padding: var(--size-2-1) var(--size-4-2);
+}
+
+body.aoi-density-relaxed {
+  --header-height: 44px;
+  --tab-height: 42px;
+  --input-height: 38px;
+  --nav-item-padding: var(--size-4-1) var(--size-4-3);
+}
+
+body.theme-light.aoi-sidebar-contrast-soft {
+  --nav-item-color: var(--aoi-ink-faint);
+  --nav-heading-color: var(--aoi-ink-strong);
+}
+
+body.theme-light.aoi-sidebar-contrast-strong {
+  --nav-item-color: var(--aoi-ink-strong);
+  --nav-heading-color: var(--aoi-indigo-deep);
+}
+
+body.theme-dark.aoi-sidebar-contrast-soft {
+  --nav-item-color: var(--aoi-night-faint);
+  --nav-heading-color: var(--aoi-night-muted);
+}
+
+body.theme-dark.aoi-sidebar-contrast-strong {
+  --nav-item-color: var(--aoi-night-text);
+  --nav-heading-color: var(--aoi-night-text);
+}
+
+body.theme-light.aoi-border-soft {
+  --background-modifier-border: color-mix(in srgb,
+    var(--aoi-ice-border) 70%,
+    var(--aoi-paper-warm));
+}
+
+body.theme-light.aoi-border-strong {
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-border-soft {
+  --background-modifier-border: color-mix(in srgb,
+    var(--aoi-night-border) 70%,
+    var(--aoi-night-canvas));
+}
+
+body.theme-dark.aoi-border-strong {
+  --background-modifier-border: color-mix(in srgb,
+    var(--aoi-night-border) 68%,
+    var(--aoi-night-muted));
+}
+
+body.aoi-tab-soft-surface .workspace-tab-header.is-active {
+  box-shadow: inset 0 -1px 0 var(--interactive-accent);
+}
+
+body.aoi-status-quiet .status-bar {
+  opacity: .72;
+}
+
+body.aoi-status-hidden .status-bar {
+  display: none;
+}
+
+body.aoi-watercolor-wash-off :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split, .metadata-container, .markdown-rendered blockquote, .callout) {
+  background-image: none;
+}
+
+body.aoi-link-underline-always {
+  --link-decoration: underline;
+  --link-decoration-hover: underline;
+  --link-external-decoration: underline;
+  --link-external-decoration-hover: underline;
+}
+
+body.aoi-unresolved-quiet {
+  --link-unresolved-color: var(--text-muted);
+  --link-unresolved-opacity: .72;
+}
+
+body.aoi-unresolved-strong {
+  --link-unresolved-opacity: 1;
+  --link-unresolved-decoration-color: var(--link-unresolved-color);
+}
+
+body.aoi-active-line-off {
+  --aoi-active-line-background: var(--background-primary);
+}
+
+body.aoi-active-line-clear {
+  --aoi-active-line-background: var(--background-modifier-active-hover);
+}
+
+body.aoi-code-quiet {
+  --code-border-width: 0;
+  --aoi-inline-code-border-width: 0;
+}
+
+body.aoi-code-bordered {
+  --code-border-width: 1px;
+  --aoi-inline-code-border-width: 1px;
+}
+
+body.aoi-quote-clean .markdown-rendered blockquote {
+  background-image: none;
+}
+
+body.aoi-callout-quiet {
+  --callout-padding: var(--size-4-2) var(--size-4-3);
+  --callout-radius: var(--radius-s);
+  --aoi-callout-wash-strength: 3%;
+}
+
+body.aoi-callout-airy {
+  --callout-padding: var(--size-4-4) var(--size-4-5);
+  --callout-radius: var(--radius-l);
+  --aoi-callout-wash-strength: 7%;
+}
+
+body.aoi-table-density-compact .markdown-rendered :where(th, td) {
+  padding: var(--size-2-3) var(--size-4-2);
+}
+
+body.aoi-table-density-relaxed .markdown-rendered :where(th, td) {
+  padding: var(--size-4-3) var(--size-4-4);
+}
+
+body.aoi-image-border-none {
+  --aoi-image-resting-outline-width: 0px;
+  --aoi-image-hover-outline-width: 0px;
+}
+
+body.aoi-image-border-always {
+  --aoi-image-resting-outline-width: 1px;
+  --aoi-image-hover-outline-width: 1px;
+}
+
+body.aoi-image-shadow-subtle {
+  --aoi-image-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+}
+
+body.theme-light.aoi-image-selection-sky {
+  --aoi-image-selection-color: var(--aoi-clear-cyan-blue);
+}
+
+body.theme-light.aoi-image-selection-cobalt {
+  --aoi-image-selection-color: var(--aoi-cobalt-deep);
+}
+
+body.theme-light.aoi-image-selection-focus {
+  --aoi-image-selection-color: var(--aoi-focus-blue);
+}
+
+body.theme-dark.aoi-image-selection-sky {
+  --aoi-image-selection-color: var(--aoi-night-sky);
+}
+
+body.theme-dark.aoi-image-selection-cobalt {
+  --aoi-image-selection-color: var(--aoi-night-cobalt);
+}
+
+body.theme-dark.aoi-image-selection-focus {
+  --aoi-image-selection-color: var(--aoi-night-text);
+}
+
+body.aoi-image-action-quiet {
+  --embed-actions-background: var(--background-primary);
+  --embed-actions-shadow: none;
+}
+
+body.aoi-image-action-strong {
+  --embed-actions-background: var(--background-secondary-alt);
+}
+
+body.aoi-reduce-motion {
+  --anim-duration-superfast: 0s;
+  --anim-duration-fast: 0s;
+  --anim-duration-moderate: 0s;
+  --anim-duration-slow: 0s;
+  --anim-motion-delay: 0s;
+}
+
+body.aoi-reduce-motion :is(.workspace-tab-header, .nav-file-title, .nav-folder-title, button, input, textarea, select, .dropdown, .checkbox-container, .clickable-icon, .image-embed) {
+  transition: none;
+}
+
+body.aoi-reduce-motion :is(button, .clickable-icon):active {
+  transform: none;
+}
+
+body.aoi-disable-decorative-gradients :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split, .metadata-container, .markdown-rendered blockquote, .callout) {
+  background-image: none;
+}
+
+body.aoi-focus-strong {
+  --aoi-focus-ring-width: 3px;
+}
+
+body.theme-light.aoi-high-contrast {
+  --text-muted: var(--aoi-ink-strong);
+  --text-faint: var(--aoi-ink-muted);
+  --icon-color: var(--aoi-ink-strong);
+  --icon-opacity: 1;
+}
+
+body.theme-dark.aoi-high-contrast {
+  --text-muted: var(--aoi-night-text);
+  --text-faint: var(--aoi-night-muted);
+  --icon-color: var(--aoi-night-text);
+  --icon-opacity: 1;
+}
+
+body.theme-light.aoi-stronger-borders {
+  --background-modifier-border: var(--aoi-powder-blue);
+}
+
+body.theme-dark.aoi-stronger-borders {
+  --background-modifier-border: color-mix(in srgb,
+    var(--aoi-night-border) 68%,
+    var(--aoi-night-muted));
+}
+
+body.aoi-large-touch-targets {
+  --aoi-touch-target-size: 48px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :is(.workspace-tab-header, .nav-file-title, .nav-folder-title, button, input, textarea, select, .dropdown, .checkbox-container, .clickable-icon, .image-embed) {
+    transition: none;
+  }
+
+  :is(button, .clickable-icon):active {
+    transform: none;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --aoi-focus-ring-width: 3px;
+  }
+
+  .theme-light {
+    --text-muted: var(--aoi-ink-strong);
+    --text-faint: var(--aoi-ink-muted);
+    --icon-color: var(--aoi-ink-strong);
+    --background-modifier-border: var(--aoi-powder-blue);
+  }
+
+  .theme-dark {
+    --text-muted: var(--aoi-night-text);
+    --text-faint: var(--aoi-night-muted);
+    --icon-color: var(--aoi-night-text);
+    --background-modifier-border: color-mix(in srgb,
+      var(--aoi-night-border) 62%,
+      var(--aoi-night-muted));
+  }
+}
+
+@media (forced-colors: active) {
+  body.theme-light, body.theme-dark {
+    color-scheme: light dark;
+    --background-primary: Canvas;
+    --background-primary-alt: Canvas;
+    --background-secondary: Canvas;
+    --background-secondary-alt: Canvas;
+    --background-modifier-hover: Highlight;
+    --background-modifier-active-hover: Highlight;
+    --background-modifier-border: CanvasText;
+    --background-modifier-border-hover: Highlight;
+    --background-modifier-border-focus: Highlight;
+    --background-modifier-form-field: Field;
+    --background-modifier-form-field-hover: Field;
+    --text-normal: CanvasText;
+    --text-muted: CanvasText;
+    --text-faint: GrayText;
+    --text-on-accent: HighlightText;
+    --text-accent: LinkText;
+    --text-accent-hover: LinkText;
+    --interactive-normal: ButtonFace;
+    --interactive-hover: ButtonFace;
+    --interactive-accent: Highlight;
+    --interactive-accent-hover: Highlight;
+    --link-color: LinkText;
+    --link-color-hover: LinkText;
+    --link-external-color: LinkText;
+    --link-external-color-hover: LinkText;
+    --icon-color: ButtonText;
+    --icon-color-hover: Highlight;
+    --icon-color-active: Highlight;
+    --icon-color-focused: Highlight;
+    --input-text-bg-color: Field;
+    --input-text-fg-color: FieldText;
+    --input-unfocused-border-color: CanvasText;
+    --input-hover-border-color: Highlight;
+    --input-focus-border-color: Highlight;
+    --input-focus-outline: var(--aoi-focus-ring-width) solid Highlight;
+    --text-selection: Highlight;
+    --text-highlight-bg: Mark;
+    --caret-color: CanvasText;
+    --aoi-focus-ring-width: 3px;
+  }
+
+  :where(.workspace-split, .metadata-container, .markdown-rendered blockquote, .callout) {
+    background-image: none;
+  }
+
+  :where(.workspace-tab-header.is-active, .nav-file-title.is-active, .nav-folder-title.is-active) {
+    outline: var(--aoi-focus-ring-width) solid Highlight;
+    outline-offset: -3px;
+  }
+
+  :where(.internal-link, .external-link) {
+    text-decoration: underline;
+  }
+
+  .checkbox-container {
+    outline-offset: -1px;
+    forced-color-adjust: none;
+    background-color: buttonface;
+    outline: 1px solid canvastext;
+  }
+
+  .checkbox-container.is-enabled {
+    background-color: highlight;
+    outline-color: highlight;
+  }
+
+  .checkbox-container:after {
+    background-color: buttontext;
+  }
+
+  .checkbox-container.is-enabled:after {
+    background-color: highlighttext;
+  }
+
+  .checkbox-container:focus-visible {
+    outline: var(--aoi-focus-ring-width) solid Highlight;
+    outline-offset: var(--aoi-focus-ring-offset);
+  }
+
+  .image-embed.is-selected {
+    outline-color: highlight;
+  }
+
+  :where(.callout, .metadata-container, .modal, .menu, .notice) {
+    border-color: canvastext;
+  }
 }

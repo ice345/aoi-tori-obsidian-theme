@@ -1,0 +1,122 @@
+body.is-mobile {
+  --file-line-width: 100%;
+  --file-margins-x: var(--size-4-4);
+  --file-margins-y: var(--size-4-4);
+}
+
+body.is-tablet {
+  --file-margins-x: var(--size-4-6);
+  --file-margins-y: var(--size-4-5);
+  --tab-height: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.mobile-navbar, .mobile-toolbar, .workspace-drawer-header) {
+  color: var(--text-normal);
+  background-color: var(--background-secondary);
+  border-color: var(--background-modifier-border);
+}
+
+body.is-mobile .mobile-navbar {
+  box-shadow: 0 -1px 8px var(--background-modifier-box-shadow);
+}
+
+body.is-mobile .mobile-toolbar-options-list-container {
+  background-color: var(--background-secondary-alt);
+  border-color: var(--background-modifier-border);
+  box-shadow: 0 -1px 8px var(--background-modifier-box-shadow);
+}
+
+body.is-mobile
+  :where(
+    .mobile-navbar-action,
+    .mobile-toolbar-option,
+    .workspace-drawer-header-icon,
+    .view-action,
+    .modal-close-button
+  ) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+  color: var(--icon-color);
+  border-radius: var(--radius-m);
+}
+
+body.is-mobile .mobile-toolbar-floating-options .mobile-toolbar-option {
+  min-inline-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile
+  :where(
+    .mobile-navbar-action,
+    .mobile-toolbar-option,
+    .workspace-drawer-header-icon,
+    .view-action,
+    .modal-close-button
+  ):active {
+  color: var(--icon-color-active);
+  background-color: var(--background-modifier-active-hover);
+}
+
+body.is-mobile :where(.menu-item, .vertical-tab-nav-item) {
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile
+  :where(.bases-toolbar .text-icon-button, .canvas-control-item, .graph-controls .clickable-icon) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile :where(.nav-file-title, .nav-folder-title) {
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile
+  :where(button, input[type="text"], input[type="search"], textarea, select, .dropdown) {
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-mobile .setting-item.mod-toggle .setting-item-control {
+  min-block-size: var(--aoi-touch-target-size);
+  align-items: center;
+}
+
+body.is-mobile :where(.workspace-drawer.mod-left, .workspace-drawer.mod-right) {
+  color: var(--text-normal);
+  background-color: var(--background-secondary);
+}
+
+body.is-mobile .workspace-drawer-header {
+  border-block-end: 1px solid var(--background-modifier-border);
+}
+
+body.is-phone .view-header {
+  border-block-end: 1px solid var(--background-modifier-border);
+}
+
+body.is-tablet .workspace-tab-header-container {
+  border-block-end-color: var(--tab-outline-color);
+}
+
+body.is-mobile :where(.markdown-source-view, .markdown-reading-view) .image-embed {
+  max-inline-size: 100%;
+}
+
+body.is-mobile :where(.markdown-source-view, .markdown-reading-view) .image-embed img {
+  max-inline-size: 100%;
+  block-size: auto;
+  object-fit: contain;
+}
+
+body.is-mobile .image-embed :where(.embed-action, .clickable-icon) {
+  min-inline-size: var(--aoi-touch-target-size);
+  min-block-size: var(--aoi-touch-target-size);
+}
+
+body.is-phone .modal.mod-settings :where(.vertical-tab-header, .vertical-tab-content) {
+  color: var(--text-normal);
+  background-color: var(--modal-background);
+}
+
+body.is-phone .modal.mod-settings .vertical-tab-header {
+  border-inline-end: 0;
+}

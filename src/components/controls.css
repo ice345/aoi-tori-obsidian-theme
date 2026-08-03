@@ -46,8 +46,8 @@ button:focus-visible,
 input:focus-visible,
 textarea:focus-visible,
 select:focus-visible {
-  outline: var(--input-focus-outline);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--input-focus-border-color);
+  outline-offset: var(--aoi-focus-ring-offset);
 }
 
 button:disabled,
@@ -95,20 +95,16 @@ textarea::placeholder {
 
 .checkbox-container {
   background-color: var(--background-secondary-alt);
-  border: 1px solid var(--background-modifier-border);
-  transition:
-    background-color var(--anim-duration-fast) var(--anim-motion-smooth),
-    border-color var(--anim-duration-fast) var(--anim-motion-smooth);
+  transition: background-color var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
 .checkbox-container.is-enabled {
   background-color: var(--interactive-accent);
-  border-color: var(--interactive-accent);
 }
 
 .checkbox-container:focus-visible {
-  outline: 2px solid var(--background-modifier-border-focus);
-  outline-offset: 2px;
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
 }
 
 .clickable-icon {
@@ -131,6 +127,6 @@ textarea::placeholder {
 
 .clickable-icon:focus-visible {
   color: var(--icon-color-focused);
-  outline: 2px solid var(--background-modifier-border-focus);
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
 }

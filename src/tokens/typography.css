@@ -1,10 +1,11 @@
 :root {
+  --aoi-cjk-sans-fallback: "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans", "Yu Gothic UI";
+  --aoi-cjk-serif-fallback:
+    "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho";
   --font-interface-theme:
-    -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", "Noto Sans CJK SC", "PingFang SC",
-    "Hiragino Sans", "Yu Gothic UI", sans-serif;
-  --font-text-theme:
-    "Iowan Old Style", "Noto Serif", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC",
-    "Hiragino Mincho ProN", "Yu Mincho", serif;
+    -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback),
+    sans-serif;
+  --font-text-theme: "Iowan Old Style", "Noto Serif", var(--aoi-cjk-serif-fallback), serif;
   --font-monospace-theme:
     "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
   --font-text-size: 16px;
@@ -20,6 +21,21 @@
   --input-padding: 0 var(--size-4-2);
   --input-border-width: 1px;
   --input-border-width-focus: 1px;
+  --aoi-focus-ring-width: 2px;
+  --aoi-focus-ring-offset: 2px;
+  --aoi-active-line-background: var(--background-modifier-hover);
+  --aoi-image-resting-outline-width: 0px;
+  --aoi-image-hover-outline-width: 1px;
+  --aoi-image-selection-outline-width: 1px;
+  --aoi-image-selection-color: var(--background-modifier-border-focus);
+  --aoi-image-shadow: none;
+  --aoi-inline-code-border-width: var(--code-border-width);
+  --aoi-reading-image-max-width: 100%;
+  --aoi-touch-target-size: 44px;
+  --aoi-sidebar-wash-strength: 5%;
+  --aoi-quote-wash-strength: 9%;
+  --aoi-properties-violet-wash-strength: 4%;
+  --aoi-properties-cyan-wash-strength: 4%;
   --tab-radius: var(--radius-s);
   --tab-radius-active: var(--radius-m);
   --tab-outline-width: 1px;

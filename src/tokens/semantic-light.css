@@ -179,6 +179,9 @@
   --embed-actions-background: var(--aoi-paper-warm);
   --embed-actions-blur: none;
   --embed-actions-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+  --embed-block-shadow-hover:
+    0 0 0 1px var(--aoi-ice-border), inset 0 0 0 1px var(--aoi-ice-border);
+  --embed-border-start: 2px solid var(--aoi-link-blue);
   --image-radius: var(--radius-m);
 
   /* Properties and tables */
@@ -227,4 +230,52 @@
   --setting-group-heading-color: var(--aoi-indigo-deep);
   --setting-items-background: var(--aoi-cloud-cool);
   --setting-items-border-color: var(--aoi-ice-border);
+
+  /* Desktop core views */
+  --search-result-background: var(--aoi-paper-warm);
+  --bases-cards-background: var(--aoi-paper-warm);
+  --bases-cards-container-background: transparent;
+  --bases-cards-cover-background: var(--aoi-cloud-cool);
+  --bases-cards-shadow: 0 0 0 1px var(--aoi-ice-border);
+  --bases-cards-shadow-hover: 0 0 0 1px var(--aoi-powder-blue);
+  --bases-embed-border-color: var(--aoi-ice-border);
+  --bases-filter-input-background: var(--aoi-cloud-cool);
+  --bases-group-heading-property-color: var(--aoi-ink-muted);
+  --bases-table-border-color: var(--table-border-color);
+  --bases-table-cell-background-active: var(--aoi-paper-warm);
+  --bases-table-cell-background-disabled: var(--aoi-cloud-cool);
+  --bases-table-cell-background-selected: var(--aoi-watercolor-cyan);
+  --bases-table-cell-shadow-active: 0 0 0 2px var(--aoi-focus-blue);
+  --bases-table-cell-shadow-focus: 0 0 0 2px var(--aoi-link-blue);
+  --bases-table-group-background: var(--aoi-cloud-cool);
+  --bases-table-header-background: var(--aoi-paper-warm);
+  --bases-table-header-background-hover: var(--background-modifier-hover);
+  --bases-table-header-color: var(--aoi-ink-muted);
+  --bases-table-row-background-hover: var(--aoi-mist-blue);
+  --bases-table-summary-background: var(--aoi-paper-warm);
+  --bases-table-summary-background-hover: var(--background-modifier-hover);
+  --canvas-background: var(--aoi-paper-warm);
+  --canvas-dot-pattern: var(--aoi-ice-border);
+  --canvas-color: var(--aoi-powder-blue);
+  --canvas-color-1: var(--aoi-error);
+  --canvas-color-2: var(--aoi-gold-deep);
+  --canvas-color-3: var(--aoi-gold-orange);
+  --canvas-color-4: var(--aoi-success);
+  --canvas-color-5: var(--aoi-clear-cyan-blue);
+  --canvas-color-6: var(--aoi-gray-violet-deep);
+  --canvas-card-label-color: var(--aoi-ink-faint);
+  --graph-line: var(--aoi-ice-border);
+  --graph-node: var(--aoi-ink-muted);
+  --graph-node-attachment: var(--aoi-sky-deep);
+  --graph-node-focused: var(--aoi-link-blue);
+  --graph-node-tag: var(--aoi-gray-violet-deep);
+  --graph-node-unresolved: var(--aoi-dusty-pink-muted);
+  --graph-text: var(--aoi-ink-indigo);
+  --pdf-background: var(--aoi-paper-warm);
+  --pdf-page-background: var(--aoi-paper-warm);
+  --pdf-sidebar-background: var(--aoi-mist-blue);
+  --pdf-shadow: 0 2px 8px var(--background-modifier-box-shadow);
+  --pdf-spread-shadow: 0 0 0 1px var(--aoi-ice-border);
+  --pdf-thumbnail-shadow:
+    0 0 0 1px var(--aoi-ice-border), 0 2px 8px var(--background-modifier-box-shadow);
 }

@@ -195,6 +195,9 @@
   --embed-actions-background: var(--aoi-night-panel);
   --embed-actions-blur: none;
   --embed-actions-shadow: 0 2px 12px var(--background-modifier-box-shadow);
+  --embed-block-shadow-hover:
+    0 0 0 1px var(--aoi-night-border), inset 0 0 0 1px var(--aoi-night-border);
+  --embed-border-start: 2px solid var(--aoi-night-cobalt);
   --image-radius: var(--radius-m);
 
   /* Properties and tables */
@@ -243,4 +246,52 @@
   --setting-group-heading-color: var(--aoi-night-text);
   --setting-items-background: var(--aoi-night-canvas);
   --setting-items-border-color: var(--aoi-night-border);
+
+  /* Desktop core views */
+  --search-result-background: var(--aoi-night-surface);
+  --bases-cards-background: var(--aoi-night-surface);
+  --bases-cards-container-background: transparent;
+  --bases-cards-cover-background: var(--aoi-night-canvas);
+  --bases-cards-shadow: 0 0 0 1px var(--aoi-night-border);
+  --bases-cards-shadow-hover: 0 0 0 1px var(--aoi-night-sky);
+  --bases-embed-border-color: var(--aoi-night-border);
+  --bases-filter-input-background: var(--aoi-night-canvas);
+  --bases-group-heading-property-color: var(--aoi-night-muted);
+  --bases-table-border-color: var(--table-border-color);
+  --bases-table-cell-background-active: var(--aoi-night-surface);
+  --bases-table-cell-background-disabled: var(--aoi-night-canvas);
+  --bases-table-cell-background-selected: var(--aoi-night-info-soft);
+  --bases-table-cell-shadow-active: 0 0 0 2px var(--aoi-night-cobalt);
+  --bases-table-cell-shadow-focus: 0 0 0 2px var(--aoi-night-sky);
+  --bases-table-group-background: var(--aoi-night-canvas);
+  --bases-table-header-background: var(--aoi-night-surface);
+  --bases-table-header-background-hover: var(--background-modifier-hover);
+  --bases-table-header-color: var(--aoi-night-muted);
+  --bases-table-row-background-hover: var(--aoi-night-panel);
+  --bases-table-summary-background: var(--aoi-night-surface);
+  --bases-table-summary-background-hover: var(--background-modifier-hover);
+  --canvas-background: var(--aoi-night-surface);
+  --canvas-dot-pattern: var(--aoi-night-border);
+  --canvas-color: var(--aoi-night-border);
+  --canvas-color-1: var(--aoi-night-error);
+  --canvas-color-2: var(--aoi-night-warning);
+  --canvas-color-3: var(--aoi-night-sakura);
+  --canvas-color-4: var(--aoi-night-success);
+  --canvas-color-5: var(--aoi-night-sky);
+  --canvas-color-6: var(--aoi-night-violet);
+  --canvas-card-label-color: var(--aoi-night-faint);
+  --graph-line: var(--aoi-night-border);
+  --graph-node: var(--aoi-night-muted);
+  --graph-node-attachment: var(--aoi-night-sky);
+  --graph-node-focused: var(--aoi-night-cobalt);
+  --graph-node-tag: var(--aoi-night-violet);
+  --graph-node-unresolved: var(--aoi-night-sakura);
+  --graph-text: var(--aoi-night-text);
+  --pdf-background: var(--aoi-night-canvas);
+  --pdf-page-background: var(--aoi-night-surface);
+  --pdf-sidebar-background: var(--aoi-night-canvas);
+  --pdf-shadow: 0 2px 10px var(--background-modifier-box-shadow);
+  --pdf-spread-shadow: 0 0 0 1px var(--aoi-night-border);
+  --pdf-thumbnail-shadow:
+    0 0 0 1px var(--aoi-night-border), 0 2px 10px var(--background-modifier-box-shadow);
 }

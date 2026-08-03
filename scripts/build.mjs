@@ -1,14 +1,23 @@
 import { bundle } from "lightningcss";
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const entryFile = path.join(projectRoot, "src", "index.css");
 const outputFile = path.join(projectRoot, "theme.css");
+const styleSettingsFile = path.join(projectRoot, "src", "settings", "style-settings.css");
 
 export async function build({ minify = false } = {}) {
   await mkdir(path.dirname(outputFile), { recursive: true });
+
+  const styleSettingsSource = await readFile(styleSettingsFile, "utf8");
+  const styleSettingsMetadata = styleSettingsSource.match(/\/\*\s*@settings[\s\S]*?\*\//)?.[0];
+  if (!styleSettingsMetadata) {
+    throw new Error(
+      "Style Settings metadata block is missing from src/settings/style-settings.css"
+    );
+  }
 
   const result = bundle({
     filename: entryFile,
@@ -29,8 +38,11 @@ export async function build({ minify = false } = {}) {
     ""
   ].join("\n");
 
-  await writeFile(outputFile, banner + result.code.toString(), "utf8");
-  console.log(`Built ${path.relative(projectRoot, outputFile)} (${result.code.length} bytes).`);
+  const output = `${banner}${styleSettingsMetadata}\n\n${result.code.toString()}`;
+  await writeFile(outputFile, output, "utf8");
+  console.log(
+    `Built ${path.relative(projectRoot, outputFile)} (${Buffer.byteLength(output)} bytes).`
+  );
 }
 
 const isDirectRun =

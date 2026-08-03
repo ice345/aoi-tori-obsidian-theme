@@ -1,6 +1,7 @@
 # Obsidian and community-theme research
 
-Status: Phase 1 snapshot completed 2026-08-02 (Asia/Shanghai).
+Status: Phase 1 research snapshot completed and the current Obsidian baseline rechecked for Phase 3
+on 2026-08-02 (Asia/Shanghai).
 
 This document records a time-sensitive research snapshot. Versions, scorecards, download counts, and
 repository heads can change after this date. Official Obsidian sources and each theme's own
@@ -45,10 +46,12 @@ Other relevant changes:
   theme values are a compatibility risk.
 - Pop-out windows, snippets, touch events, and older-installer image actions received fixes.
 
-The release notes describe behavior but do not expose a stable public DOM contract. A local Obsidian
-installation and cached `1.13.4` app code were found, but this research phase did not launch or
-instrument a test vault. Current DOM selectors were therefore not guessed; see
-`docs/obsidian-dom.md` for the environment and explicit inspection boundary.
+The release notes describe behavior but do not expose a stable public DOM contract. Phase 1 found a
+local 1.13.4 installation without instrumenting it; Phase 3 subsequently launched the real test
+Vault and confirmed Desktop/Installer 1.13.4 with Electron 43.1.1. The current public and latest
+published Catalyst entries were still 1.13.4 on 2026-08-02. Rendered selector evidence, official
+variables, and remaining limits are recorded in `docs/obsidian-dom.md` rather than inferred from
+release notes.
 
 ## Official CSS and submission guidance
 

@@ -3,8 +3,9 @@
 A watercolor-inspired Obsidian theme shaped by cloud white, clear sky blue, deep cobalt, subtle
 sakura pink, quiet distance, and two parallel voices.
 
-> **Project status:** early design and engineering scaffold. The theme is not ready for Community
-> Themes submission yet.
+> **Project status:** the desktop core, bounded mobile layout, Style Settings, and accessibility
+> pass are implemented and under review. The theme is not ready for Community Themes submission yet;
+> real iOS/iPadOS/Android and Windows forced-colors review remain release prerequisites.
 
 ## Name
 
@@ -46,7 +47,15 @@ documentation are starting points only.
 │   └── validate-manifest.mjs
 ├── src/
 │   ├── index.css
+│   ├── components/           # controls and overlays
+│   ├── editor/               # content and image states
+│   ├── platform/
+│   │   └── mobile.css        # mobile/tablet layout and touch targets
+│   ├── settings/
+│   │   └── style-settings.css
+│   ├── workspace/
 │   └── tokens/
+│       ├── accessibility.css
 │       ├── motion.css
 │       ├── primitives.css
 │       ├── semantic-dark.css
@@ -90,6 +99,10 @@ theme.css
 ```
 
 Then open **Settings → Appearance → Themes** and select **Aoi Tori**.
+
+The optional [Style Settings](https://github.com/obsidian-community/obsidian-style-settings) plugin
+exposes bounded palette, typography, workspace, editor, image, and accessibility controls. Aoi
+Tori's defaults are the complete intended theme and do not require that plugin.
 
 ## Commands
 
@@ -139,7 +152,7 @@ Before a release:
 3. Test light and dark modes.
 4. Test keyboard and Vim interactions.
 5. Test Live Preview image controls and lightbox behavior.
-6. Test settings, Bases, Canvas, pop-out windows, and mobile layouts.
+6. Test settings, Bases, Canvas, pop-out windows, and mobile layouts on actual target devices.
 7. Run `npm run check`.
 8. Review `docs/TESTING.md` and the release section of `PLANS.md`.
 

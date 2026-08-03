@@ -4,6 +4,6 @@ node_modules/
 coverage/
 dist/
 .analysis/
-test-vault-content/.obsidian/
+test-vault-content/
 references/*
 !references/README.md
