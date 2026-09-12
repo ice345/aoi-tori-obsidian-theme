@@ -1,43 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="288" viewBox="0 0 512 288" role="img" aria-label="Aoi Tori theme cover with light and dark Obsidian UI screenshots, paired blue and sakura curves, and an original cobalt feather mark">
-  <defs>
-    <clipPath id="light-shot">
-      <rect x="42" y="42" width="335" height="210" rx="10" />
-    </clipPath>
-    <clipPath id="dark-shot">
-      <rect x="302" y="82" width="158" height="100" rx="8" />
-    </clipPath>
-    <clipPath id="mobile-shot">
-      <rect x="400" y="36" width="54" height="117" rx="12" />
-    </clipPath>
-  </defs>
-
-  <rect width="512" height="288" fill="#FBFAF8" />
-  <path d="M-12 29 C75 -8 133 11 199 35 C143 76 81 80 6 58 Z" fill="#B8DEE8" opacity="0.18" />
-  <path d="M382 183 C442 165 499 180 530 229 C483 271 407 267 354 226 C357 207 366 193 382 183 Z" fill="#DCA3BC" opacity="0.16" />
-  <path d="M88 247 C134 270 214 269 285 246 C361 221 420 224 477 253" fill="none" stroke="#83BEE7" stroke-width="3.2" stroke-linecap="round" opacity="0.72" />
-  <path d="M94 259 C159 278 220 263 286 238 C354 211 421 220 482 244" fill="none" stroke="#DCA3BC" stroke-width="2.6" stroke-linecap="round" opacity="0.62" />
-
-  <rect x="39" y="39" width="341" height="216" rx="12" fill="#F6FAFA" opacity="0.92" />
-  <rect x="39" y="39" width="341" height="216" rx="12" fill="none" stroke="#CBDFE8" stroke-width="1.2" />
-  <image href="assets/screenshots/light.png" x="42" y="42" width="335" height="210" preserveAspectRatio="xMidYMid slice" clip-path="url(#light-shot)" />
-
-  <rect x="299" y="79" width="164" height="106" rx="10" fill="#172338" opacity="0.96" />
-  <rect x="299" y="79" width="164" height="106" rx="10" fill="none" stroke="#8EAEF2" stroke-width="1" opacity="0.55" />
-  <image href="assets/screenshots/dark.png" x="302" y="82" width="158" height="100" preserveAspectRatio="xMidYMid slice" clip-path="url(#dark-shot)" />
-
-  <rect x="397" y="33" width="60" height="123" rx="15" fill="#F6FAFA" />
-  <rect x="397" y="33" width="60" height="123" rx="15" fill="none" stroke="#CBDFE8" stroke-width="1" />
-  <image href="assets/screenshots/mobile.png" x="400" y="36" width="54" height="117" preserveAspectRatio="xMidYMid slice" clip-path="url(#mobile-shot)" />
-
-  <g transform="translate(38 208) rotate(-18)" fill="none" stroke="#174678" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M12 40 C28 22 50 10 78 5 C63 24 47 38 21 50" stroke-width="3.2" />
-    <path d="M19 47 C32 34 47 22 72 8" stroke-width="1.9" opacity="0.88" />
-    <path d="M30 34 C25 29 20 27 15 27" stroke-width="1.6" opacity="0.78" />
-    <path d="M39 27 C34 22 28 20 23 19" stroke-width="1.6" opacity="0.72" />
-    <path d="M49 21 C45 17 39 14 33 13" stroke-width="1.6" opacity="0.66" />
-    <path d="M44 30 C52 31 59 30 67 27" stroke-width="1.6" opacity="0.72" />
-    <path d="M34 39 C44 41 52 40 60 36" stroke-width="1.6" opacity="0.78" />
-  </g>
-
-  <circle cx="469" cy="221" r="4.2" fill="#E5A12A" />
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="480" viewBox="0 0 1600 480" role="img" aria-labelledby="title desc">
+<title id="title">Aoi Tori</title><desc id="desc">Watercolor light. Quiet night. An independent Obsidian theme.</desc>
+<defs><linearGradient id="day"><stop stop-color="#eaf4f4"/><stop offset=".52" stop-color="#f6f8f7"/><stop offset="1" stop-color="#f5eff4"/></linearGradient><linearGradient id="night"><stop stop-color="#1c272e"/><stop offset=".52" stop-color="#222a30"/><stop offset="1" stop-color="#29282f"/></linearGradient></defs>
+<path fill="url(#day)" d="M0 0h1600v480H0z"/>
+<path fill="url(#night)" d="M1080 0h520v480h-520z"/>
+<g font-family="Georgia,serif" fill="#292b3b"><text x="100" y="212" font-size="104">Aoi Tori</text></g>
+<g font-family="Arial,sans-serif"><text x="105" y="281" font-size="28" fill="#516577">Watercolor light. Quiet night.</text><text x="105" y="379" font-size="18" letter-spacing="3" fill="#516577">AN INDEPENDENT OBSIDIAN THEME</text></g>
+<g fill="none" stroke-width="2"><path d="M1170 180h330" stroke="#8aadd9"/><path d="M1170 212h250" stroke="#b8c4c8"/><path d="M1170 244h290" stroke="#b8c4c8"/><path d="M1170 310h180" stroke="#c2b1da"/></g>
 </svg>

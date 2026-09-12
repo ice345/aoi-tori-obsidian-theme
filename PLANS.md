@@ -56,6 +56,19 @@ push, or release packaging; Phase 5B/6 remain uncommitted.
 - Not started: real Obsidian interaction regression, Style Settings install/reset, Canvas/Graph/PDF/
   Bases regression against the Phase 6 selectors, real Windows High Contrast, physical devices.
 
+## README and screenshot refresh — 2026-09-13
+
+- Scope: update public documentation and capture the current theme in the local test Vault; preserve
+  theme code.
+- Completed: refreshed README and SVG cover; captured light, dark, and tablet-emulator views in
+  Obsidian 1.13.7 using the current theme. Restored desktop light mode afterward.
+- Validation: npm run check, git diff --check, README local links, SVG parsing, and visual
+  inspection of all three screenshots passed. No theme source changes.
+- Capture build SHA-256: 66f7d394ac38b3b7e67ffdcba942042fca656bdb29d7d64ed6f1fe8f5d0bbd55.
+- Scope remains documentation and promotional assets; screenshot capture does not close the
+  outstanding full interaction or physical-device test matrix. Commit and push authorized by the
+  user.
+
 ## Active objective
 
 Build the first maintainable Aoi Tori theme release with:

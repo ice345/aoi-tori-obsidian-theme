@@ -1,56 +1,58 @@
 # Aoi Tori
 
-Aoi Tori is an independent Obsidian community theme shaped by watercolor cloud white, clear sky
-blue, deep cobalt, quiet sakura pink, gray-violet second voices, and a summer-night dark mode.
+A quiet Obsidian theme with watercolor cyan, warm paper, a soft blush counterpoint, and an
+independent cool-grey dark mode. Built for reading, writing, and connected thoughts.
 
 This is an unofficial project. It is not affiliated with Obsidian, Kyoto Animation, Pony Canyon, or
 any film, studio, brand, or rights holder. The theme does not include official artwork, screenshots,
 logos, character art, reference images, remote fonts, or remote images.
 
-![Aoi Tori cover](assets/cover.png)
+![Aoi Tori — watercolor light, quiet night](assets/cover.svg)
 
 ## Screenshots
 
-### Light mode
+Captured on 2026-09-13 in Obsidian Desktop **1.13.7** on macOS, using the current source build and
+an original demonstration note. These are actual app captures.
+
+### Light — cyan, paper, blush
 
 ![Aoi Tori light mode](assets/screenshots/light.png)
 
-### Dark mode
+### Dark — a quiet, cool-grey night
 
 ![Aoi Tori dark mode](assets/screenshots/dark.png)
 
-### Mobile layout preview
+### Tablet layout — desktop emulation
 
-![Aoi Tori mobile layout preview](assets/screenshots/mobile.png)
+![Aoi Tori dark reading view in desktop mobile emulation](assets/screenshots/mobile.png)
 
-The mobile screenshot is from Obsidian Desktop's mobile emulator and controlled phone-class viewport
-testing. Physical iOS, iPadOS, and Android devices still need real-device review.
+The third capture uses Obsidian Desktop's mobile emulator at a tablet-sized window. It is a layout
+preview, not a physical iPad or phone test. Physical iOS, iPadOS, and Android testing remains open.
 
 ## Design idea
 
-Aoi Tori is not meant to be a generic blue dashboard. The light mode uses warm paper and cool
-glass-mist surfaces for long reading, while cobalt marks the current state, links, primary actions,
-selected images, and keyboard focus. Sakura pink and gray violet appear sparingly as a second voice
-rather than a full pink theme. A very small gold-orange accent is reserved for optional decoration.
+The default **Duet** palette gives each side of the workspace its own temperature: watercolor cyan
+on the left, a nearly white bridge in the centre, and a pale blush on the right. The reading surface
+stays warm and opaque, with clear ink and cobalt links, selection, and keyboard focus. Subtle static
+washes add atmosphere without textures, blur, or animated backgrounds.
 
-Dark mode is a separate night palette rather than an inversion of the light mode: low-chroma cool
-grey surfaces that keep a violet leaning, ice-white text, and quiet cobalt interaction. The left and
-right sidebars carry their own subtle temperature, and the theme avoids neon, glass blur, and heavy
-shadows.
+Dark mode has its own low-chroma cool-grey surfaces, ice-white text, and restrained blue
+interactions. A slightly cooler left edge and a violet-leaning right edge preserve the duet without
+turning the reading area into a bright gradient. Feather and music callouts offer small, optional
+accents.
 
 ## Features
 
 - Light and dark modes.
-- Warm paper reading surface and cool glass-mist workspace panels.
+- Duet sidebars with a neutral bridge and a stable warm-paper reading surface.
 - Accessible deep-ink body text and cobalt interaction states.
 - Styled Live Preview, Source mode, and Reading view.
 - Headings, links, unresolved links, lists, task lists, blockquotes, callouts, Properties, tables,
   inline code, code blocks, selection, highlight, and focus states.
 - Buttons, inputs, textareas, dropdowns, toggles, menus, modals, tooltips, notices, and Settings
   controls.
-- Tested desktop support for image selection, image actions, resize, Lightbox, pop-outs, narrow
-  windows, Vim image commands, Bases, Canvas, Graph, embeds, and core views.
-- Bounded mobile layout rules for Obsidian 1.13.4 responsive/mobile-emulation surfaces.
+- Native image interactions and semantic styling for Bases, Canvas, Graph, and core views.
+- Responsive mobile and tablet rules; see the validation scope below.
 - Optional Style Settings support with constrained palette, typography, workspace, editor, image,
   and accessibility controls.
 - Reduced motion, increased contrast, and forced-colors CSS responses.
@@ -121,30 +123,31 @@ Aoi Tori works without any community plugin. If you install
 48 bounded settings for palette, typography, workspace density, editor accents, image states, and
 accessibility.
 
-The defaults are the intended design. The Style Settings options do not allow arbitrary essential
-text colors and do not load remote assets.
+The defaults are the intended design. Choose **Duet** for the two-sided light palette, or Cloud /
+Glass mist / Pale aqua for matching cool sidebars. These sidebar tint choices affect light mode;
+dark mode keeps its independent palette. Soft sidebar contrast changes weight and hierarchy while
+preserving readable text colours.
 
-## Supported Obsidian versions
+Other controls include wash strength, paper warmth, reading fonts, density, stronger focus, higher
+contrast, reduced motion, and disabling decorative gradients. Essential text colours remain
+constrained, and no option loads remote assets.
 
-- Minimum version candidate: Obsidian `1.13.4`
-- Actual tested desktop version: Obsidian `1.13.4`
-- Actual tested installer version: `1.13.4`
+## Compatibility and validation
 
-The minimum is intentionally not lowered because the current implementation was validated against
-Obsidian 1.13.4 image, Settings, Bases, Canvas, Graph, mobile-emulation, and accessibility behavior.
+Minimum declared version: **Obsidian 1.13.4**. The current desktop visual review and the screenshots
+above use **1.13.7** on macOS. Theme version **0.9.0** remains a public testing candidate.
 
-## Tested platform
+| Scope                                                                            | Evidence                                                                                  |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Current palette, reading view, and desktop/tablet-emulator screenshots           | Obsidian 1.13.7 on macOS                                                                  |
+| Image editing, Vim, Bases, Canvas, Graph, pop-outs, and mobile layout regression | Earlier 1.13.4 pass; full regression has not been repeated for the latest palette changes |
+| Style Settings installation and reset                                            | Earlier 1.0.9 plugin pass; current settings cascade has automated coverage                |
+| Current build, CSS lint, formatting, repository audit, and manifest              | `npm run check`                                                                           |
+| Colour validation                                                                | 45 static contrast pairs and 582 token-cascade scenarios                                  |
 
-Tested during the release-candidate pass:
-
-- macOS 26.5 on Apple silicon
-- Obsidian Desktop `1.13.4`
-- Installer `1.13.4`
-- Electron `43.1.1`
-- Light and dark modes
-- Vim off and on for desktop image interactions
-- Style Settings `1.0.9` in a local test Vault
-- Obsidian Desktop mobile emulator and controlled phone/tablet viewport classes
+The scenario checker models supported CSS variables and setting combinations. It is not a complete
+browser renderer or a replacement for Obsidian interaction testing. See
+[the testing record](docs/TESTING.md) for per-feature evidence and remaining work.
 
 ## Not yet tested on real devices
 
@@ -178,11 +181,12 @@ Obsidian 1.13.4. Physical mobile and broad plugin-overlay testing remain open.
 
 ## Accessibility
 
-- Configured WCAG contrast pairs pass in light and dark modes.
+- Configured contrast pairs and setting scenarios pass in light and dark modes.
 - Focus is visible for keyboard navigation and selected images.
 - Reduced motion removes nonessential theme transitions.
 - Increased contrast strengthens muted text, borders, and focus.
-- Forced-colors rules were checked through Chromium emulation.
+- Forced-colors rules have Chromium-emulation evidence and token-cascade checks.
+- Automated checks do not yet cover every final painted property or interaction state.
 
 Real Windows High Contrast and assistive-technology sessions are still required before a final
 stable release.
@@ -258,11 +262,11 @@ Engineering research used official Obsidian documentation, the current Community
 Style Settings metadata documentation, and public theme repositories for release-structure
 comparison only. No external theme code, icons, fonts, images, or assets were copied.
 
-See `docs/attribution.md` for details.
+See [attribution](docs/attribution.md) for details.
 
 ## License
 
-MIT. See `LICENSE`.
+MIT. See [LICENSE](LICENSE).
 
 Reference images and any third-party works used for private visual analysis retain their original
 copyrights and are not covered by this repository's license.
