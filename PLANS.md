@@ -288,9 +288,9 @@ No new Style Settings entries. Aqua sidebar remains the cyan escape hatch.
 - [x] Sync `docs/DESIGN.md` and `docs/visual-analysis.md`.
 - [x] Run `npm run format` and `npm run check`. Passed on 2026-09-10. Dark link measures 6.79:1.
 - [x] Real Obsidian 1.13.7 screenshots from `test-vault-content`. Saved under ignored
-      `.analysis/glass-duet/obsidian-*.png`. Theme symlink was retargeted from
-      `/Users/ice/Code/Obsidian-theme/aoi-tori-theme-starter` to this checkout so the vault loads
-      the Phase 5B CSS. `obsidian.json` restored after quit.
+      `.analysis/glass-duet/obsidian-*.png`. The theme symlink was retargeted from the earlier
+      checkout of this repository to this one so the vault loads the Phase 5B CSS. `obsidian.json`
+      restored after quit.
 - [x] Property key icon and key text share `--metadata-label-background`. The whole Properties card
       is not recolored; values stay on the card surface.
 
