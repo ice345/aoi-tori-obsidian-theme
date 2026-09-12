@@ -1,4 +1,11 @@
 node_modules
-theme.css
 package-lock.json
 references
+dist/
+
+# Local harness configuration owned by the omp tool (mode 0600), not project source.
+.omp/config.yml
+.omp/config.yml.lock
+
+# Local working note produced by the author for a one-off checkout comparison.
+checkout-diff.md

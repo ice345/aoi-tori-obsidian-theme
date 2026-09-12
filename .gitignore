@@ -5,5 +5,22 @@ coverage/
 dist/
 .analysis/
 test-vault-content/
+
+# Reference artwork is a local design input only (see references/README.md) and is
+# never redistributed. The directory itself is ignored except its README, and the
+# loose-image rules below are anchored to the repository root so that a reference
+# image dropped next to the sources cannot be committed by accident. They do not
+# affect assets/, which holds the theme's own cover and screenshots.
 references/*
 !references/README.md
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
+
+# Local working material written by the author, not project sources.
+checkout-diff.md
+
+# Configuration for the omp harness used on this machine (mode 0600).
+.omp/
