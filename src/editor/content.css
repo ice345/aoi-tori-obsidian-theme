@@ -20,6 +20,119 @@
   background-color: var(--text-selection);
 }
 
+.markdown-rendered :where(strong em, strong i, b em, b i, em strong, i strong, em b, i b),
+.markdown-source-view .cm-strong.cm-em {
+  color: var(--aoi-strong-italic-text);
+  font-weight: var(--bold-weight);
+}
+
+.markdown-source-view .cm-strong:not(.cm-formatting):not(.cm-em) {
+  color: var(--aoi-strong-text);
+  font-weight: var(--bold-weight);
+}
+
+.markdown-source-view .cm-em:not(.cm-formatting):not(.cm-strong) {
+  color: var(--aoi-italic-text);
+}
+
+.markdown-rendered del,
+.markdown-source-view .cm-strikethrough {
+  color: var(--aoi-strikethrough-text);
+  text-decoration-color: var(--aoi-strikethrough-line);
+  text-decoration-thickness: 0.08em;
+}
+
+.markdown-rendered del :where(.internal-link, .external-link) {
+  color: var(--aoi-strikethrough-text);
+  text-decoration-color: var(--aoi-strikethrough-line);
+}
+
+.markdown-rendered mark,
+.markdown-source-view .cm-highlight {
+  color: var(--aoi-highlight-text);
+  background-color: var(--text-highlight-bg);
+  border-radius: var(--radius-s);
+  padding-inline: 0.08em;
+}
+
+.markdown-rendered a.tag {
+  border-color: var(--tag-border-color);
+}
+
+.markdown-rendered a.tag:focus-visible {
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
+}
+
+.markdown-rendered .task-list-item.is-checked,
+.markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="x"],
+.markdown-source-view.mod-cm6 .HyperMD-task-line[data-task="X"] {
+  color: var(--aoi-task-done-text);
+  text-decoration-color: var(--aoi-task-done-line);
+}
+
+/* The gradient is the default look, but a solid colour must always exist beneath
+   it so the rule survives when decorative gradients are switched off. */
+.markdown-rendered hr,
+.markdown-source-view.mod-cm6 hr {
+  height: var(--hr-thickness);
+  background-color: var(--hr-color);
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    var(--hr-color) 22%,
+    var(--aoi-strikethrough-line) 50%,
+    var(--hr-color) 78%,
+    transparent
+  );
+  border: 0;
+}
+
+.markdown-rendered kbd,
+.markdown-source-view kbd {
+  color: var(--text-normal);
+  background-color: var(--background-modifier-form-field);
+  border: var(--input-border-width) solid var(--input-unfocused-border-color);
+  border-radius: var(--radius-s);
+  box-shadow: inset 0 -1px 0 var(--background-modifier-border);
+  padding: 0.08em 0.42em;
+}
+
+.markdown-rendered .footnotes {
+  color: var(--text-muted);
+  border-color: var(--hr-color);
+}
+
+.markdown-rendered :where(.footnote-ref, .footnote-link),
+.markdown-source-view .cm-footref {
+  color: var(--aoi-footnote-text);
+}
+
+.markdown-rendered :where(.footnote-ref, .footnote-link):hover {
+  color: var(--text-accent-hover);
+}
+
+.markdown-rendered :where(.footnote-ref, .footnote-link):focus-visible {
+  outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
+  outline-offset: var(--aoi-focus-ring-offset);
+  border-radius: var(--radius-s);
+}
+
+.markdown-source-view .cm-formatting,
+.markdown-source-view .cm-formatting.cm-strong,
+.markdown-source-view .cm-formatting.cm-em,
+.markdown-source-view .cm-formatting.cm-strong.cm-em,
+.markdown-source-view .cm-formatting.cm-strikethrough,
+.markdown-source-view .cm-formatting.cm-highlight,
+.markdown-source-view .cm-formatting-link,
+.markdown-source-view .cm-formatting-header,
+.markdown-source-view .cm-formatting-quote,
+.markdown-source-view .cm-formatting-list,
+.markdown-source-view .cm-formatting-task {
+  color: var(--aoi-markdown-formatting-text);
+  font-weight: var(--font-weight);
+}
+
 .markdown-rendered blockquote {
   color: var(--blockquote-color);
   background-color: var(--blockquote-background-color);
@@ -227,6 +340,19 @@
 
 .metadata-property:hover {
   background-color: var(--metadata-property-background-hover);
+}
+
+.metadata-property-key {
+  --background-modifier-form-field: transparent;
+  --input-shadow: none;
+
+  align-items: center;
+}
+
+.metadata-property .metadata-property-key > * {
+  background: none;
+  box-shadow: none;
+  border-color: transparent;
 }
 
 .markdown-rendered table {
