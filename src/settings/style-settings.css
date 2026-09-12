@@ -73,13 +73,18 @@ settings:
         value: aoi-paper-warmer
   - id: aoi-sidebar-tint
     title: Sidebar tint
+    description: Duet is the recommended default and gives the left and right
+      sidebars their own watercolour voice. Cloud, Glass mist and Pale aqua keep
+      the earlier single-tint light appearance.
     type: class-select
     allowEmpty: false
-    default: aoi-sidebar-mist
+    default: aoi-sidebar-duet
     options:
+      - label: Duet (recommended)
+        value: aoi-sidebar-duet
       - label: Cloud
         value: aoi-sidebar-cloud
-      - label: Mist blue
+      - label: Glass mist
         value: aoi-sidebar-mist
       - label: Pale aqua
         value: aoi-sidebar-aqua
@@ -205,6 +210,8 @@ settings:
         value: aoi-tab-soft-surface
   - id: aoi-sidebar-contrast
     title: Sidebar contrast
+    description: Soft uses a lighter nav weight and quieter headings rather than lighter
+      text, because the light sidebars have no room for a lower-contrast step above 4.5:1.
     type: class-select
     allowEmpty: false
     default: aoi-sidebar-contrast-standard
@@ -503,27 +510,41 @@ body.theme-dark.aoi-cobalt-decisive {
 }
 
 body.aoi-sakura-whisper {
-  --aoi-quote-wash-strength: 5%;
+  --aoi-quote-wash-strength: 6%;
 }
 
 body.aoi-sakura-balanced {
-  --aoi-quote-wash-strength: 9%;
-}
-
-body.aoi-sakura-present {
   --aoi-quote-wash-strength: 12%;
 }
 
+body.aoi-sakura-present {
+  --aoi-quote-wash-strength: 16%;
+}
+
+/* Dark keeps its own, much lower ladder: the same 12% would read as a pink card
+   on a neutral night face. */
+body.theme-dark.aoi-sakura-whisper {
+  --aoi-quote-wash-strength: 2%;
+}
+
+body.theme-dark.aoi-sakura-balanced {
+  --aoi-quote-wash-strength: 4%;
+}
+
+body.theme-dark.aoi-sakura-present {
+  --aoi-quote-wash-strength: 6%;
+}
+
 body.aoi-violet-whisper {
-  --aoi-properties-violet-wash-strength: 2%;
+  --aoi-properties-violet-wash-strength: 3%;
 }
 
 body.aoi-violet-balanced {
-  --aoi-properties-violet-wash-strength: 4%;
+  --aoi-properties-violet-wash-strength: 8%;
 }
 
 body.aoi-violet-present {
-  --aoi-properties-violet-wash-strength: 6%;
+  --aoi-properties-violet-wash-strength: 12%;
 }
 
 body.theme-light.aoi-paper-cool {
@@ -541,7 +562,14 @@ body.theme-light.aoi-paper-warmer {
   --modal-background: var(--background-primary);
 }
 
+/* Legacy single-tint options: both sides share one cold surface and the central
+   bridge returns to neutral, so an old choice never mixes an old base with a new
+   pink right edge. */
 body.theme-light.aoi-sidebar-cloud {
+  --aoi-workspace-left-surface: var(--aoi-cloud-cool);
+  --aoi-workspace-right-surface: var(--aoi-cloud-cool);
+  --aoi-workspace-bridge-surface: var(--aoi-paper-warm);
+  --aoi-workspace-right-wash: var(--aoi-clear-cyan-blue);
   --background-secondary: var(--aoi-cloud-cool);
   --modal-sidebar-background: var(--aoi-cloud-cool);
   --ribbon-background: var(--aoi-cloud-cool);
@@ -550,6 +578,10 @@ body.theme-light.aoi-sidebar-cloud {
 }
 
 body.theme-light.aoi-sidebar-mist {
+  --aoi-workspace-left-surface: var(--aoi-mist-blue);
+  --aoi-workspace-right-surface: var(--aoi-mist-blue);
+  --aoi-workspace-bridge-surface: var(--aoi-paper-warm);
+  --aoi-workspace-right-wash: var(--aoi-clear-cyan-blue);
   --background-secondary: var(--aoi-mist-blue);
   --modal-sidebar-background: var(--aoi-mist-blue);
   --ribbon-background: var(--aoi-mist-blue);
@@ -558,7 +590,15 @@ body.theme-light.aoi-sidebar-mist {
 }
 
 body.theme-light.aoi-sidebar-aqua {
-  --background-secondary: color-mix(in srgb, var(--aoi-mist-blue) 88%, var(--aoi-watercolor-cyan));
+  --aoi-workspace-left-surface: color-mix(
+    in srgb,
+    var(--aoi-mist-blue) 88%,
+    var(--aoi-watercolor-cyan)
+  );
+  --aoi-workspace-right-surface: var(--aoi-workspace-left-surface);
+  --aoi-workspace-bridge-surface: var(--aoi-paper-warm);
+  --aoi-workspace-right-wash: var(--aoi-clear-cyan-blue);
+  --background-secondary: var(--aoi-workspace-left-surface);
   --modal-sidebar-background: var(--background-secondary);
   --ribbon-background: var(--background-secondary);
   --tab-container-background: var(--background-secondary);
@@ -654,9 +694,18 @@ body.aoi-density-relaxed {
   --nav-item-padding: var(--size-4-1) var(--size-4-3);
 }
 
+/* Sidebar contrast ladder.
+   A lighter nav-text step is not available in light mode: the measured lightest
+   colour that still clears 4.5:1 on the worst sidebar background (Aqua + Sky=Clear)
+   is only 0.003 lightness away from the standard step, so the two are visually
+   identical. Soft therefore expresses itself through weight and hierarchy instead
+   of lowering text contrast. Obsidian consumes `--nav-item-weight` on
+   `.tree-item-self`, and `.tree-item-self.is-active` re-declares
+   `--nav-item-weight-active` afterwards, so the active row keeps its semibold cue. */
 body.theme-light.aoi-sidebar-contrast-soft {
-  --nav-item-color: var(--aoi-ink-faint);
-  --nav-heading-color: var(--aoi-ink-strong);
+  --nav-item-color: var(--aoi-ink-muted-side);
+  --nav-heading-color: var(--aoi-ink-muted-side);
+  --nav-item-weight: var(--font-light);
 }
 
 body.theme-light.aoi-sidebar-contrast-strong {
@@ -667,6 +716,7 @@ body.theme-light.aoi-sidebar-contrast-strong {
 body.theme-dark.aoi-sidebar-contrast-soft {
   --nav-item-color: var(--aoi-night-faint);
   --nav-heading-color: var(--aoi-night-muted);
+  --nav-item-weight: var(--font-light);
 }
 
 body.theme-dark.aoi-sidebar-contrast-strong {
@@ -714,15 +764,29 @@ body.aoi-status-hidden .status-bar {
   display: none;
 }
 
-body.aoi-watercolor-wash-off
-  :where(
-    .workspace-split.mod-left-split,
-    .workspace-split.mod-right-split,
-    .metadata-container,
-    .markdown-rendered blockquote,
-    .callout
-  ) {
+/* Both switches remove decorative gradients from the same object list, and each
+   keeps the HR rule visible through the solid background-color fallback.
+   Explicit selectors, not `:where()`: the split rules in shell.css are 0,2,0, so a
+   0,1,1 switch would lose the cascade. No forced override is used. */
+body.aoi-watercolor-wash-off .workspace-split.mod-left-split,
+body.aoi-watercolor-wash-off .workspace-split.mod-right-split,
+body.aoi-watercolor-wash-off .metadata-container,
+body.aoi-watercolor-wash-off .markdown-rendered blockquote,
+body.aoi-watercolor-wash-off .callout,
+body.aoi-disable-decorative-gradients .workspace-split.mod-left-split,
+body.aoi-disable-decorative-gradients .workspace-split.mod-right-split,
+body.aoi-disable-decorative-gradients .metadata-container,
+body.aoi-disable-decorative-gradients .markdown-rendered blockquote,
+body.aoi-disable-decorative-gradients .callout {
   background-image: none;
+}
+
+body.aoi-watercolor-wash-off .markdown-rendered hr,
+body.aoi-watercolor-wash-off .markdown-source-view.mod-cm6 hr,
+body.aoi-disable-decorative-gradients .markdown-rendered hr,
+body.aoi-disable-decorative-gradients .markdown-source-view.mod-cm6 hr {
+  background-image: none;
+  background-color: var(--hr-color);
 }
 
 body.aoi-link-underline-always {
@@ -860,17 +924,6 @@ body.aoi-reduce-motion :is(button, .clickable-icon):active {
   transform: none;
 }
 
-body.aoi-disable-decorative-gradients
-  :where(
-    .workspace-split.mod-left-split,
-    .workspace-split.mod-right-split,
-    .metadata-container,
-    .markdown-rendered blockquote,
-    .callout
-  ) {
-  background-image: none;
-}
-
 body.aoi-focus-strong {
   --aoi-focus-ring-width: 3px;
 }
@@ -887,6 +940,31 @@ body.theme-dark.aoi-high-contrast {
   --text-faint: var(--aoi-night-muted);
   --icon-color: var(--aoi-night-text);
   --icon-opacity: 1;
+}
+
+/* High contrast must also reach the sidebar navigation, tab, titlebar and status
+   tokens. Those are independent aliases, so strengthening `--text-muted` never
+   changes them, and the `aoi-light-contrast-high` block sits before the sidebar
+   contrast ladder. These rules are placed after it so equal specificity resolves
+   in favour of the accessibility intent. */
+body.theme-light.aoi-high-contrast,
+body.theme-light.aoi-light-contrast-high {
+  --nav-item-color: var(--aoi-ink-strong);
+  --nav-heading-color: var(--aoi-indigo-deep);
+  --nav-item-weight: var(--font-normal);
+  --tab-text-color: var(--aoi-ink-strong);
+  --titlebar-text-color: var(--aoi-ink-strong);
+  --status-bar-text-color: var(--aoi-ink-strong);
+}
+
+body.theme-dark.aoi-high-contrast,
+body.theme-dark.aoi-dark-contrast-high {
+  --nav-item-color: var(--aoi-night-text);
+  --nav-heading-color: var(--aoi-night-text);
+  --nav-item-weight: var(--font-normal);
+  --tab-text-color: var(--aoi-night-text);
+  --titlebar-text-color: var(--aoi-night-text);
+  --status-bar-text-color: var(--aoi-night-text);
 }
 
 body.theme-light.aoi-stronger-borders {
