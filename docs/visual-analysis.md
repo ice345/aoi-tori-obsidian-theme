@@ -1,8 +1,60 @@
 # Visual analysis
 
-Status: Phase 1 image analysis complete and Phase 2 palette implemented on 2026-08-02. This file
-preserves the visual evidence; `docs/DESIGN.md` is the final UI-role specification for the current
-review build.
+Status: Phase 1 image analysis complete and Phase 2 palette implemented on 2026-08-02. Phase 5B
+updates the implemented mist/cloud/ice and night-cobalt steps toward glass-grey panels and steel
+night interaction. Phase 6 adds the left/bridge/right spatial relationship and an independently
+derived dark palette; its official-site evidence and reference-to-UI translation are recorded below.
+This file preserves the visual evidence; `docs/DESIGN.md` is the final UI-role specification for the
+current review build.
+
+## Phase 6 official-site and reference evidence
+
+Measured 2026-09-11/12. These are readings taken from the live site and from the local reference
+files; they are **UI design values**, not claimed official colour specifications.
+
+### Official site backgrounds (live computed styles)
+
+| Section             | Live value                                            |
+| ------------------- | ----------------------------------------------------- |
+| `.introductionWrap` | `linear-gradient(to right, #D3F4F8 0%, #FFEBF9 100%)` |
+| `.ticketWrap`       | `linear-gradient(to right, #E6EFFF 0%, #FFE3E3 100%)` |
+| `.goodsWrap`        | `linear-gradient(to right, #FFF0F0 0%, #D1FCFF 100%)` |
+| `body`              | `background: #fff`                                    |
+
+The three gradients share one structure: lightness stays nearly fixed (L 0.94–0.97), chroma stays
+low (C 0.016–0.044), and only hue travels — by 131°, 116° and 176° respectively. The site therefore
+carries its two voices as hue motion inside one band, on a plain white ground, rather than as two
+adjacent coloured panels. The site's own pink family sits at H 336–359°, which is close to the
+theme's existing `--aoi-sakura-pale` (H 358.0°) and `--aoi-sakura` (H 350.9°).
+
+### Reference-image measurement
+
+Hue and chroma were measured per image in OKLCH. Family proportions are shares of the total pixel
+count; the warm/cool split is by hue, not by image grouping.
+
+| Reference              | Glass white | Rose white | Violet-white | Deep ink |
+| ---------------------- | ----------- | ---------- | ------------ | -------- |
+| `8a0e7011…png`         | 95.0%       | 0.0%       | 0.2%         | 0.2%     |
+| `5ecd7474…jpg`         | 83.9%       | 0.0%       | 0.6%         | 0.3%     |
+| `155e3f22…png`         | 34.7%       | 2.1%       | 3.0%         | 0.0%     |
+| `c5b00c9e…png`         | 0.0%        | 85.4%      | 12.9%        | 0.4%     |
+| `file_0000…jpg`        | 0.3%        | 55.5%      | 28.1%        | 0.3%     |
+| `Liz To Aoi Tori.jpeg` | 16.0%       | 0.5%       | 53.4%        | 5.2%     |
+
+Area-weighted across the six watercolour references: glass white H 194.7° (25.6% of pixels), rose
+white H 18.6° (17.0%), violet-white H 297.2° (8.4%), deep ink H 292.4° (1.2%). The violet axis is
+consistent between the near-white and the deep ink, which is why the dark palette derives its depth
+from that family. The deep-ink figure is thin — it rests almost entirely on the key visual — while
+the violet axis is independently supported by the 8.4% violet-white share.
+
+Critically, **no single reference image mixes a large glass-white area with a large rose-white
+area**; each is dominated by one family. The theme's earlier attempt to use a blush reading field
+beside a cyan panel combined two different compositions and was withdrawn. Phase 6 instead keeps a
+near-white paper core and moves the two voices to the sidebars.
+
+Chroma medians of the coloured pixels: blue family C 0.0194 (H 201°), pink family C 0.0157 (H ~6°).
+Phase 6's sidebar endpoints (`#EAF4F4`, `#F5EFF4`) sit at C 0.0106 and 0.0092 — deliberately below
+those medians because the sidebars also carry dense small text and icons.
 
 ## Method and evidence limits
 
@@ -223,37 +275,44 @@ These values were chosen after the image review and adjusted for semantic contra
 direct pixel picks. Final complete names, safety colors, and UI roles are specified in
 `docs/DESIGN.md`.
 
-| Candidate                | Value     | Evidence and intended role                                      |
-| ------------------------ | --------- | --------------------------------------------------------------- |
-| `--aoi-paper-warm`       | `#FBFAF8` | Warm-neutral paper balance; primary light reading surface       |
-| `--aoi-cloud-cool`       | `#F6FAFA` | Cool cloud highlight; raised/alternate surface                  |
-| `--aoi-mist-blue`        | `#E8F2F4` | Low-chroma cyan panel and hover family                          |
-| `--aoi-cloud-shadow`     | `#DFECEF` | Stronger inactive/panel separation                              |
-| `--aoi-ice-border`       | `#CBDFE8` | Thin ice-blue boundaries                                        |
-| `--aoi-watercolor-cyan`  | `#B8DEE8` | Watercolor wash; decorative/information surface only            |
-| `--aoi-sky-blue`         | `#83BEE7` | Atmospheric sky; non-text mixed fill                            |
-| `--aoi-sky-deep`         | `#65A8DE` | Clear sky bridge; native decorative blue                        |
-| `--aoi-link-blue`        | `#1D5FAE` | Accessible light-mode links, actions, and current state         |
-| `--aoi-cobalt-deep`      | `#174678` | Pressed state and deep blue structural accent                   |
-| `--aoi-ink-muted`        | `#586C7D` | Accessible muted text on paper                                  |
-| `--aoi-ink-strong`       | `#3E4B5C` | Secondary strong text, code punctuation, and outlines           |
-| `--aoi-ink-indigo`       | `#292B3B` | Violet-navy body text and deepest light-mode anchor             |
-| `--aoi-sakura-pale`      | `#F7E9ED` | Liz/quote/card wash                                             |
-| `--aoi-sakura`           | `#DCA3BC` | Decorative second voice and dual-curve graphic                  |
-| `--aoi-dusty-pink`       | `#87506F` | Text-capable secondary accent                                   |
-| `--aoi-gray-violet-pale` | `#F0EAF5` | Tertiary wash                                                   |
-| `--aoi-gray-violet-deep` | `#66537D` | Text-capable gray-violet accent                                 |
-| `--aoi-gold-orange`      | `#E5A12A` | Tiny decorative warm point only                                 |
-| `--aoi-gold-deep`        | `#95550E` | Text-capable warm variant for the limited roles that require it |
-| `--aoi-night-canvas`     | `#111827` | Deep summer-night canvas                                        |
-| `--aoi-night-surface`    | `#172338` | Primary dark-mode reading surface                               |
-| `--aoi-night-panel`      | `#20344D` | Raised dark panel                                               |
-| `--aoi-night-text`       | `#EAF3F5` | Main dark-mode text                                             |
-| `--aoi-night-muted`      | `#B3C5D4` | Muted dark-mode text                                            |
-| `--aoi-night-sky`        | `#7FC3E8` | Dark-mode sky interaction                                       |
-| `--aoi-night-cobalt`     | `#8EAEF2` | Dark-mode focus/link/current state                              |
-| `--aoi-night-sakura`     | `#DEA5C0` | Dark-mode second voice                                          |
-| `--aoi-night-violet`     | `#C2B1DA` | Dark-mode tertiary voice                                        |
+| Candidate                | Value     | Evidence and intended role                                       |
+| ------------------------ | --------- | ---------------------------------------------------------------- |
+| `--aoi-paper-warm`       | `#FBFAF8` | Warm-neutral paper balance; primary light reading surface        |
+| `--aoi-cloud-cool`       | `#F5F8F7` | Cool cloud highlight; raised/alternate surface                   |
+| `--aoi-mist-blue`        | `#E4ECEB` | Low-chroma glass-grey panel and hover family                     |
+| `--aoi-cloud-shadow`     | `#D7E1E0` | Stronger inactive/panel separation                               |
+| `--aoi-ice-border`       | `#C3D2D2` | Thin ice-grey boundaries                                         |
+| `--aoi-watercolor-cyan`  | `#B8DEE8` | Watercolor wash; decorative/information surface only             |
+| `--aoi-sky-blue`         | `#83BEE7` | Atmospheric sky; non-text mixed fill                             |
+| `--aoi-sky-deep`         | `#65A8DE` | Clear sky bridge; native decorative blue                         |
+| `--aoi-link-blue`        | `#1D5FAE` | Accessible light-mode links, actions, and current state          |
+| `--aoi-cobalt-deep`      | `#174678` | Pressed state and deep blue structural accent                    |
+| `--aoi-ink-muted`        | `#586C7D` | Accessible muted text on paper                                   |
+| `--aoi-ink-strong`       | `#3E4B5C` | Secondary strong text, code punctuation, and outlines            |
+| `--aoi-ink-indigo`       | `#292B3B` | Violet-navy body text and deepest light-mode anchor              |
+| `--aoi-sakura-pale`      | `#F7E9ED` | Liz/quote/card wash                                              |
+| `--aoi-sakura`           | `#DCA3BC` | Decorative second voice and dual-curve graphic                   |
+| `--aoi-dusty-pink`       | `#87506F` | Text-capable secondary accent                                    |
+| `--aoi-gray-violet-pale` | `#F0EAF5` | Tertiary wash                                                    |
+| `--aoi-gray-violet-deep` | `#66537D` | Text-capable gray-violet accent                                  |
+| `--aoi-gold-orange`      | `#E5A12A` | Tiny decorative warm point only                                  |
+| `--aoi-gold-deep`        | `#95550E` | Text-capable warm variant for the limited roles that require it  |
+| `--aoi-night-canvas`     | `#191F26` | Deepest night surface (Phase 6; was `#111827`)                   |
+| `--aoi-night-surface`    | `#222A30` | Primary dark-mode reading surface (Phase 6; was `#172338`)       |
+| `--aoi-night-panel`      | `#2C343C` | Raised dark panel (Phase 6; was `#20344D`)                       |
+| `--aoi-night-border`     | `#46535F` | Night boundary (Phase 6; was `#36516C`)                          |
+| `--aoi-night-left`       | `#1C272E` | Left night surface (Phase 6)                                     |
+| `--aoi-night-right`      | `#29282F` | Right night surface (Phase 6)                                    |
+| `--aoi-night-text`       | `#E5EBEB` | Main dark-mode text (Phase 6; was `#EAF3F5`)                     |
+| `--aoi-night-muted`      | `#B8C4C8` | Muted dark-mode text (Phase 6; was `#B3C5D4`)                    |
+| `--aoi-night-sky`        | `#7FC3E8` | Dark-mode sky interaction                                        |
+| `--aoi-night-cobalt`     | `#8AADD9` | Dark-mode focus/link/current state (retained in Phase 6 round 1) |
+| `--aoi-night-sakura`     | `#DEA5C0` | Dark-mode second voice                                           |
+| `--aoi-night-violet`     | `#C2B1DA` | Dark-mode tertiary voice                                         |
+
+Phase 6 replaced the navy night surfaces because they reused the accent's hue as the plane. The
+light rows above remain Phase 2 evidence and are unchanged; `docs/DESIGN.md` holds the current
+authoritative table.
 
 ## Contrast evidence
 
@@ -265,7 +324,7 @@ WCAG relative-luminance calculations for the planned text/focus pairs:
 | Ink 800 / Paper 0        |  8.51:1 | Strong secondary text/code                    |
 | Ink 650 / Paper 0        |  5.22:1 | Muted text                                    |
 | Cobalt 700 / Paper 0     |  6.10:1 | Link, primary action, focus                   |
-| Cobalt 700 / Mist 100    |  5.59:1 | Interaction on tinted panels                  |
+| Cobalt 700 / Mist 100    |  5.30:1 | Interaction on tinted panels                  |
 | Sakura 700 / Paper 0     |  5.91:1 | Limited text accent                           |
 | Lilac 700 / Paper 0      |  6.50:1 | Limited text accent                           |
 | Gold 700 / Paper 0       |  5.62:1 | Functional warm text, only if needed          |
@@ -273,7 +332,7 @@ WCAG relative-luminance calculations for the planned text/focus pairs:
 | Night text / Night 950   | 15.74:1 | Dark body text                                |
 | Night muted / Night 900  |  8.89:1 | Dark muted text                               |
 | Night sky / Night 900    |  8.15:1 | Dark secondary interaction                    |
-| Night cobalt / Night 900 |  7.11:1 | Dark link/current/focus                       |
+| Night cobalt / Night 900 |  6.79:1 | Dark link/current/focus                       |
 | Night sakura / Night 900 |  7.68:1 | Dark second voice                             |
 | Night lilac / Night 900  |  7.94:1 | Dark tertiary voice                           |
 

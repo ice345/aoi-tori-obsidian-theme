@@ -1,6 +1,7 @@
 # Attribution and provenance
 
-Status: Phase 1 research record plus Phase 2–3 implementation provenance, 2026-08-02.
+Status: Phase 1 research record plus Phase 2–5A implementation and release-candidate provenance,
+2026-08-03.
 
 No external theme code, icon, font, image, screenshot, title treatment, or other release asset has
 been copied or adapted into Aoi Tori. The sources below informed analysis, architecture choices, or
@@ -33,20 +34,22 @@ Obsidian. It may not use these references as a background or collage.
 | [Official Japanese site](https://liz-bluebird.com/)                                        | Confirmed the fairy-tale/music framing and official terminology                                          | Concepts only; no artwork, logo, title, or text copied |
 | [Director Naoko Yamada interview](https://liz-bluebird.com/interview/)                     | Informed the UI translation of quiet accumulation, interpersonal distance, breath, warmth, and restraint | Paraphrased design interpretation only                 |
 | [Pony Canyon official English synopsis](https://ponycanyon.us/show/liz-and-the-blue-bird/) | Confirmed the oboe/flute duet and the near-but-not-aligned relationship                                  | Paraphrased narrative context only                     |
+| [Official site stylesheet](https://liz-bluebird.com/css/common.css)                        | Read live computed background gradients and colour values as evidence for the two-voice relationship     | Values studied as data; no CSS copied or redistributed |
 
 The resulting UI narrative is original design analysis. It does not claim endorsement by Kyoto
 Animation, Pony Canyon, the creators, or rights holders.
 
 ## Obsidian sources
 
-| Source                                                                                 | Role in this phase                                             | Material used                           |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------- | --------------------------------------- |
-| [Obsidian changelog](https://obsidian.md/changelog/)                                   | Current Desktop/Mobile/installer and 1.13 interaction baseline | Facts and compatibility requirements    |
-| [Obsidian developer documentation](https://docs.obsidian.md/)                          | CSS variables, manifest, theme, submission, and policy rules   | Engineering guidance only               |
-| [Obsidian Mobile help](https://obsidian.md/help/mobile)                                | Current mobile navigation, toolbar, drawer, and gesture model  | Testing expectations only               |
-| [Obsidian Community](https://community.obsidian.md/themes)                             | Current theme versions, Health/Review scorecards, and licenses | Research snapshot only                  |
-| [Community/automated review announcement](https://obsidian.md/blog/future-of-plugins/) | Interpretation of Health/Review status and submission flow     | Policy facts only                       |
-| [Style Settings](https://github.com/obsidian-community/obsidian-style-settings)        | Optional metadata schema and current plugin test target        | Schema usage only; no theme code copied |
+| Source                                                                                 | Role in this phase                                                     | Material used                           |
+| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- | --------------------------------------- |
+| [Obsidian changelog](https://obsidian.md/changelog/)                                   | Current Desktop/Mobile/installer and 1.13 interaction baseline         | Facts and compatibility requirements    |
+| [Obsidian developer documentation](https://docs.obsidian.md/)                          | CSS variables, manifest, theme, submission, and policy rules           | Engineering guidance only               |
+| [Obsidian Mobile help](https://obsidian.md/help/mobile)                                | Current mobile navigation, toolbar, drawer, and gesture model          | Testing expectations only               |
+| [Obsidian Community](https://community.obsidian.md/themes)                             | Current theme versions, Health/Review scorecards, and licenses         | Research snapshot only                  |
+| [Community/automated review announcement](https://obsidian.md/blog/future-of-plugins/) | Interpretation of Health/Review status and submission flow             | Policy facts only                       |
+| [obsidianmd/obsidian-releases](https://github.com/obsidianmd/obsidian-releases)        | Current theme index, screenshot paths, and accepted repository records | Release-structure evidence only         |
+| [Style Settings](https://github.com/obsidian-community/obsidian-style-settings)        | Optional metadata schema and current plugin test target                | Schema usage only; no theme code copied |
 
 ## Community-theme research
 
@@ -81,6 +84,15 @@ preservation, and audit checks were authored for Aoi Tori. The Style Settings pr
 the public metadata contract and a local parser/runtime for verification; no preset, theme CSS,
 icon, asset, or implementation block was copied. Mobile behavior was derived from official Obsidian
 documentation and the locally rendered 1.13.4 DOM.
+
+Phase 5A's `assets/screenshots/light.png`, `assets/screenshots/dark.png`, and
+`assets/screenshots/mobile.png` were cropped or resized from this repository's own real Obsidian Aoi
+Tori review screenshots under ignored `.analysis/`. They contain UI evidence only and no reference
+artwork. `assets/cover.svg` is an original abstract composition using those UI screenshots, two
+original near-parallel curves, low-opacity color fields, one tiny gold point, and a geometrically
+constructed cobalt feather mark. `assets/cover.png` is rendered from that SVG. No official title
+treatment, character, flower, bird, feather outline, poster, screenshot, reference crop, remote
+image, Base64 asset, or external theme asset was used.
 
 ## Current attribution conclusion
 

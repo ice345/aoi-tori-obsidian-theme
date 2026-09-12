@@ -92,6 +92,37 @@ unavailable. The current Community Themes detail did not expose a Health/Review 
 Stock Settings also did not expose a validation-error textarea in this test configuration; these
 states remain untested rather than inferred.
 
+### Destructive button and Markdown variable evidence
+
+Obsidian 1.13.4's installed application stylesheet defines button text through the internal
+`--text-color` custom property on `button:not(.clickable-icon)`. It also defines `button.mod-cta`,
+`button.mod-warning`, `button.mod-destructive`, and `button.mod-destructive.mod-cta`. The
+destructive CTA rule sets `--text-color: var(--text-on-accent)` while using
+`--background-modifier-error` as the background. With Aoi Tori's intentionally soft error modifier,
+that state can become white text on a pale error surface unless the theme explicitly separates
+secondary and primary destructive semantics.
+
+The same installed stylesheet confirms current support for the official Markdown variables used in
+this pass: `--bold-modifier`, `--bold-color`, `--bold-weight`, `--italic-color`, `--italic-weight`,
+`--text-highlight-bg`, `--tag-color`, `--tag-background`, `--tag-border-color`, `--hr-color`,
+`--hr-thickness`, `--checklist-done-decoration`, and `--checklist-done-color`.
+
+The current source therefore styles destructive buttons through stable button state classes and
+keeps Markdown text rules scoped to `.markdown-rendered` and `.markdown-source-view`. No new
+renderer-internal selector, `!important`, or `:has()` is introduced. A controlled in-window fixture
+using `button.mod-warning.mod-cta`, `button.mod-warning`, and disabled destructive CTA confirmed the
+final computed light primary destructive state as `rgb(251, 250, 248)` text on `rgb(168, 50, 70)`
+background, and focus-visible as `rgb(21, 88, 160) solid 2px` with a `2px` offset outside the error
+border. Dark primary destructive computed as `rgb(234, 243, 245)` text on `rgb(127, 42, 57)`
+background with a night-error border.
+
+Live computed Markdown samples also showed that Obsidian's official emphasis variables do not
+consistently color CodeMirror strong text inside quote/callout states. The theme therefore adds
+Markdown-source scoped `.cm-strong:not(.cm-formatting):not(.cm-em)` and
+`.cm-em:not(.cm-formatting):not(.cm-strong)` fallbacks, plus a formatting-token reset that keeps
+Markdown marks visible but subdued. A natural destructive confirmation modal remains a manual visual
+test item when such a modal is exposed without forcing a destructive user-data operation.
+
 ### Phase 3.5 Toggle geometry evidence
 
 Target: Obsidian and Installer 1.13.4, Electron 43.1.1, macOS 26.5 arm64, Retina DPR 2 at 100% UI
@@ -193,6 +224,24 @@ macOS. Windows/Linux title bars, ultrawide hardware, forced-colors, touch, and m
 untested in this Phase 3 record; the bounded emulation evidence below supersedes only the responsive
 and CSS-media portions.
 
+### Phase 6 internal selectors
+
+These selectors were added after the 1.13.4 record above and are the highest-risk internal DOM the
+theme still targets. All were observed in the 1.13.7 client, not guessed.
+
+| Selector                                                                                                                     | Why it is needed                                                                                                                                                                                  | If it changes                                                                              |
+| ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| `.workspace-ribbon.mod-left::before`                                                                                         | Obsidian paints the top-left traffic-light strip from the shared `--titlebar-background`. That one token also feeds the right-hand controls, so the corner is pinned to the left surface instead. | Corner reverts to the titlebar colour; the right toggle keeps its own rule. Cosmetic only. |
+| `.sidebar-toggle-button.mod-right`, `.mod-macos.is-hidden-frameless:not(.is-popout-window) .sidebar-toggle-button.mod-right` | The sidebar collapse controls do not sit on their default side, so each is mapped to its own sidebar surface.                                                                                     | Toggle picks up the wrong side's surface. Cosmetic only.                                   |
+| `.workspace-split.mod-root .workspace-leaf`, `.workspace-leaf-content`, `.view-content`                                      | The root split is cleared so the neutral bridge shows behind the central tab bar; the leaf re-applies opaque paper.                                                                               | Empty tab-bar area can lose the bridge, or the reading surface can turn transparent.       |
+| `body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile` (and the right-split twin)          | Obsidian paints the vault switcher from `--background-secondary`, which is the generic mist role rather than that sidebar's surface.                                                              | Vault switcher strips show the mist role instead of the sidebar tint. Cosmetic only.       |
+| `.workspace-split.mod-left-split .workspace-leaf-content` / `.workspace-split.mod-right-split .workspace-leaf-content`       | Sidebar leaves are made transparent so the sidebar surface shows through.                                                                                                                         | Sidebar leaves revert to the paper role and the tint is hidden behind them.                |
+
+The third row is the only one that can affect non-Markdown views, because it sets a background on
+`.view-content` for every view type in the root split, not just Markdown. Canvas, Graph, PDF, Bases,
+and the sidebar Search / Backlinks views have **not** been re-checked against the current build;
+they were exercised before these rules existed. Treat that as an open regression item, not a pass.
+
 ## Phase 4 mobile-responsive DOM evidence
 
 ### Environment and scope
@@ -247,9 +296,19 @@ Chromium media emulation produced these actual computed outcomes:
   ButtonFace/CanvasText track and thumb distinction; Settings buttons have visible system borders;
   the phone Settings modal remains within the viewport.
 
-`forced-colors` still requires Windows High Contrast manual validation. The rule is intentionally
-scoped to `body.theme-light` and `body.theme-dark` so it outranks theme token mappings without
-`!important`; decorative gradients are removed while native semantics remain available.
+`forced-colors` still requires Windows High Contrast manual validation. The rule is scoped to the
+theme roots plus a `[class*="aoi-"]` guard so it ties with the theme's own setting classes (all
+`(0,2,1)`) and wins on import order, without `!important`. The earlier form listed only
+`body.theme-light` / `body.theme-dark` at `(0,1,1)`, which every setting class outranked — that is
+how `Cobalt`, `Paper`, the contrast switches, and the border-strength settings leaked their tokens
+back into forced-colors. Do not replace the guard with an explicit list of setting classes; the list
+went stale as soon as a setting was added. Decorative gradients are removed while native semantics
+remain available.
+
+The same `(0,2,1)` tie applies to the two gradient switches (`aoi-watercolor-wash-off`,
+`aoi-disable-decorative-gradients`). The decoration-removal rules therefore name those classes
+explicitly at an equal-or-higher specificity instead of using `:where()`, which resolves to zero and
+loses.
 
 ## Risk register and regression boundary
 

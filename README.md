@@ -1,164 +1,268 @@
 # Aoi Tori
 
-A watercolor-inspired Obsidian theme shaped by cloud white, clear sky blue, deep cobalt, subtle
-sakura pink, quiet distance, and two parallel voices.
+Aoi Tori is an independent Obsidian community theme shaped by watercolor cloud white, clear sky
+blue, deep cobalt, quiet sakura pink, gray-violet second voices, and a summer-night dark mode.
 
-> **Project status:** the desktop core, bounded mobile layout, Style Settings, and accessibility
-> pass are implemented and under review. The theme is not ready for Community Themes submission yet;
-> real iOS/iPadOS/Android and Windows forced-colors review remain release prerequisites.
+This is an unofficial project. It is not affiliated with Obsidian, Kyoto Animation, Pony Canyon, or
+any film, studio, brand, or rights holder. The theme does not include official artwork, screenshots,
+logos, character art, reference images, remote fonts, or remote images.
 
-## Name
+![Aoi Tori cover](assets/cover.png)
 
-**Aoi Tori** comes from the Japanese phrase **青い鳥** — “blue bird”. The name echoes the visual and
-emotional language associated with _Liz and the Blue Bird_, but this repository is an independent,
-unofficial project and does not contain official artwork, logos, or bundled film assets.
+## Screenshots
 
-## Design direction
+### Light mode
 
-Aoi Tori should feel:
+![Aoi Tori light mode](assets/screenshots/light.png)
 
-- Bright, airy, and suitable for long reading sessions.
-- Blue-and-white without turning every element blue.
-- Watercolor-soft without blurring text or reducing performance.
-- Calm and spacious rather than glossy, neon, or heavily glassmorphic.
-- Native enough to feel at home on macOS while remaining usable on Windows, Linux, iOS, and Android.
-- Carefully compatible with current Obsidian editor, image, settings, Bases, Canvas, and mobile
-  interactions.
+### Dark mode
 
-Reference images placed in `references/` are the primary visual source. Hex colors in the
-documentation are starting points only.
+![Aoi Tori dark mode](assets/screenshots/dark.png)
 
-## Repository layout
+### Mobile layout preview
+
+![Aoi Tori mobile layout preview](assets/screenshots/mobile.png)
+
+The mobile screenshot is from Obsidian Desktop's mobile emulator and controlled phone-class viewport
+testing. Physical iOS, iPadOS, and Android devices still need real-device review.
+
+## Design idea
+
+Aoi Tori is not meant to be a generic blue dashboard. The light mode uses warm paper and cool
+glass-mist surfaces for long reading, while cobalt marks the current state, links, primary actions,
+selected images, and keyboard focus. Sakura pink and gray violet appear sparingly as a second voice
+rather than a full pink theme. A very small gold-orange accent is reserved for optional decoration.
+
+Dark mode is a separate night palette rather than an inversion of the light mode: low-chroma cool
+grey surfaces that keep a violet leaning, ice-white text, and quiet cobalt interaction. The left and
+right sidebars carry their own subtle temperature, and the theme avoids neon, glass blur, and heavy
+shadows.
+
+## Features
+
+- Light and dark modes.
+- Warm paper reading surface and cool glass-mist workspace panels.
+- Accessible deep-ink body text and cobalt interaction states.
+- Styled Live Preview, Source mode, and Reading view.
+- Headings, links, unresolved links, lists, task lists, blockquotes, callouts, Properties, tables,
+  inline code, code blocks, selection, highlight, and focus states.
+- Buttons, inputs, textareas, dropdowns, toggles, menus, modals, tooltips, notices, and Settings
+  controls.
+- Tested desktop support for image selection, image actions, resize, Lightbox, pop-outs, narrow
+  windows, Vim image commands, Bases, Canvas, Graph, embeds, and core views.
+- Bounded mobile layout rules for Obsidian 1.13.4 responsive/mobile-emulation surfaces.
+- Optional Style Settings support with constrained palette, typography, workspace, editor, image,
+  and accessibility controls.
+- Reduced motion, increased contrast, and forced-colors CSS responses.
+
+## Install
+
+After Aoi Tori is accepted into Obsidian Community Themes, install it from:
 
 ```text
-.
-├── AGENTS.md
-├── PLANS.md
-├── README.md
-├── manifest.json
-├── package.json
-├── theme.css                  # generated; do not edit directly
-├── references/                # local design references; exclude copyrighted files from releases
-├── scripts/
-│   ├── audit-css.mjs
-│   ├── build.mjs
-│   ├── check-contrast.mjs
-│   ├── dev.mjs
-│   └── validate-manifest.mjs
-├── src/
-│   ├── index.css
-│   ├── components/           # controls and overlays
-│   ├── editor/               # content and image states
-│   ├── platform/
-│   │   └── mobile.css        # mobile/tablet layout and touch targets
-│   ├── settings/
-│   │   └── style-settings.css
-│   ├── workspace/
-│   └── tokens/
-│       ├── accessibility.css
-│       ├── motion.css
-│       ├── primitives.css
-│       ├── semantic-dark.css
-│       ├── semantic-light.css
-│       └── typography.css
-└── docs/
-    ├── ARCHITECTURE.md
-    ├── DESIGN.md
-    ├── TESTING.md
-    ├── attribution.md
-    ├── contrast-pairs.json
-    ├── obsidian-dom.md
-    └── visual-analysis.md
+Settings -> Appearance -> Themes -> Manage
 ```
 
-## Requirements
+Until then, use the manual installation steps below.
+
+## Manual install
+
+1. Download or build the release package for the version you want to test.
+2. Copy the theme files into your Vault:
+
+   ```text
+   <Vault>/.obsidian/themes/Aoi Tori/
+   ```
+
+3. The installed folder must contain:
+
+   ```text
+   manifest.json
+   theme.css
+   ```
+
+4. Open Obsidian and choose:
+
+   ```text
+   Settings -> Appearance -> Themes -> Aoi Tori
+   ```
+
+For this repository, `npm run package` creates a clean local package at:
+
+```text
+dist/Aoi-Tori/
+```
+
+The generated artifacts have separate purposes. `npm run build` writes the readable, formatted
+development/install artifact to the repository root at `theme.css`. `npm run package` runs the full
+quality gate and writes the minified release artifact directly to `dist/Aoi-Tori/theme.css` while
+copying `manifest.json` there. Both files are generated from `src/`; do not edit either file
+directly. The `@settings` metadata comment is preserved in both forms.
+
+## Aoi Tori callouts
+
+Two semantic callout types ship with the theme. Both use Obsidian's built-in icon registry, so no
+community plugin or bundled asset is required:
+
+```markdown
+> [!aoi-tori] A short note worth keeping The feather marks a passage the reader wants to return to.
+
+> [!second-voice] A second reading The music marks a counterpoint, a dialogue, or a listening note.
+```
+
+They are optional. A note that never uses them still gets the full theme, and the callouts do not
+replace any Obsidian functional icon. A `[!bluebird]` type is proposed but not shipped: Obsidian
+1.13.7 does not register `lucide-bird`, and the theme does not bundle remote or third-party icons.
+
+## Style Settings
+
+Aoi Tori works without any community plugin. If you install
+[Style Settings](https://github.com/obsidian-community/obsidian-style-settings), the theme exposes
+48 bounded settings for palette, typography, workspace density, editor accents, image states, and
+accessibility.
+
+The defaults are the intended design. The Style Settings options do not allow arbitrary essential
+text colors and do not load remote assets.
+
+## Supported Obsidian versions
+
+- Minimum version candidate: Obsidian `1.13.4`
+- Actual tested desktop version: Obsidian `1.13.4`
+- Actual tested installer version: `1.13.4`
+
+The minimum is intentionally not lowered because the current implementation was validated against
+Obsidian 1.13.4 image, Settings, Bases, Canvas, Graph, mobile-emulation, and accessibility behavior.
+
+## Tested platform
+
+Tested during the release-candidate pass:
+
+- macOS 26.5 on Apple silicon
+- Obsidian Desktop `1.13.4`
+- Installer `1.13.4`
+- Electron `43.1.1`
+- Light and dark modes
+- Vim off and on for desktop image interactions
+- Style Settings `1.0.9` in a local test Vault
+- Obsidian Desktop mobile emulator and controlled phone/tablet viewport classes
+
+## Not yet tested on real devices
+
+- iPhone and iPad
+- Android phone and tablet
+- Real mobile virtual keyboard, safe-area hardware, long-press, swipe, pan, pinch, and double-tap
+  flows
+- Windows and Linux desktop window chrome
+- Real Windows High Contrast
+- Screen-reader sessions
+- Broad third-party plugin compatibility
+
+## Live Preview images
+
+Aoi Tori preserves Obsidian's native image workflow. The theme does not apply destructive global
+`img` rules, does not hide image controls, does not disable pointer events, and does not animate
+image width or height.
+
+Desktop Obsidian 1.13.4 testing covered pointer and keyboard image selection, copy/cut/delete,
+grow/shrink/reset, Enter and Tab editing flows, Space and zoom-button Lightbox, resize, images in
+lists, quotes, callouts, tables, embeds, pop-outs, narrow windows, and Vim image commands.
+
+## Bases, Canvas, and Graph
+
+Bases, Canvas, and Graph use Obsidian's official CSS variables where possible. The theme avoids
+renderer-internal selectors for these views so that native virtualization, resizing, and drawing
+remain owned by Obsidian.
+
+Desktop testing covered Bases Table/Cards, Canvas nodes/groups/controls, and Graph node roles in
+Obsidian 1.13.4. Physical mobile and broad plugin-overlay testing remain open.
+
+## Accessibility
+
+- Configured WCAG contrast pairs pass in light and dark modes.
+- Focus is visible for keyboard navigation and selected images.
+- Reduced motion removes nonessential theme transitions.
+- Increased contrast strengthens muted text, borders, and focus.
+- Forced-colors rules were checked through Chromium emulation.
+
+Real Windows High Contrast and assistive-technology sessions are still required before a final
+stable release.
+
+## Development
+
+Requirements:
 
 - Node.js 20 or newer
 - npm
-- A local Obsidian vault for manual testing
-- Obsidian developer tools for DOM inspection
+- A local Obsidian test Vault
 
-## Setup
+Commands:
 
 ```bash
 npm install
 npm run build
+npm run format
+npm run check
+npm run package
 ```
 
-Copy or symlink this repository into a vault theme directory:
+`theme.css` and `dist/Aoi-Tori/theme.css` are generated from `src/index.css`. Do not edit either
+generated file directly.
 
-```text
-<Vault>/.obsidian/themes/Aoi Tori/
-```
-
-The theme directory must contain at least:
-
-```text
-manifest.json
-theme.css
-```
-
-Then open **Settings → Appearance → Themes** and select **Aoi Tori**.
-
-The optional [Style Settings](https://github.com/obsidian-community/obsidian-style-settings) plugin
-exposes bounded palette, typography, workspace, editor, image, and accessibility controls. Aoi
-Tori's defaults are the complete intended theme and do not require that plugin.
-
-## Commands
+Useful commands:
 
 ```bash
 npm run dev           # watch source CSS and rebuild theme.css
 npm run build         # build readable theme.css
-npm run format        # format supported repository files
-npm run format:check  # verify formatting
-npm run lint          # run CSS lint and formatting checks
-npm run audit         # enforce repository/theme safety rules
-npm run contrast      # verify configured text/background contrast pairs
-npm run check         # run the complete quality gate
-npm run release       # run checks and create minified theme.css
+npm run format        # format supported files
+npm run lint          # CSS lint and formatting check
+npm run audit         # repository and theme safety audit
+npm run contrast      # configured contrast pairs
+npm run scenarios     # setting-matrix contrast and forced-colors scenarios
+npm run check         # complete local quality gate
+npm run release       # check and rebuild the minified dist/Aoi-Tori package
+npm run package       # check, build dist/Aoi-Tori/theme.css, and copy its manifest
 ```
 
-## Working with Codex or another coding agent
+## Report an issue
 
-The root `AGENTS.md` is the authoritative repository instruction file. For complex work, update
-`PLANS.md` before implementation. Do not edit generated `theme.css` directly.
+Please include:
 
-A useful task request should identify:
+- Obsidian version
+- Installer version
+- Theme version
+- Operating system
+- Light or dark mode
+- Style Settings status
+- Enabled community plugins
+- Reproduction steps
+- Screenshot or recording, with private content redacted
+- DevTools DOM or Console information when relevant
 
-- The Obsidian version being targeted.
-- The UI or interaction being changed.
-- Which reference images matter.
-- Whether the task includes research, implementation, testing, or release preparation.
-- The expected evidence, such as screenshots, DOM notes, or command output.
+Do not upload an entire private Vault.
 
-## Visual references
+## Known limits
 
-Place reference images in `references/` and update `docs/visual-analysis.md`.
+- `0.9.0` is a public testing candidate, not a final stable `1.0.0`.
+- The theme has not been submitted to Community Themes yet.
+- Physical mobile devices and real Windows High Contrast remain untested.
+- Third-party plugin compatibility is intentionally limited.
+- Promotional assets are original UI-based graphics only; reference artwork is never bundled.
 
-Rules:
+## Credits
 
-- Images are for local analysis and design reference.
-- Do not bundle copyrighted reference images in release artifacts.
-- Do not publish film screenshots or promotional art as the theme cover.
-- The final theme must rely on CSS and original abstract presentation assets.
-- Extracted colors must be adjusted for UI semantics and accessibility.
+Aoi Tori's visual system was derived from local reference-image analysis recorded in
+`docs/visual-analysis.md` and `docs/DESIGN.md`. The reference images remain local design inputs and
+are not redistributed.
 
-## Release principles
+Engineering research used official Obsidian documentation, the current Community Theme release flow,
+Style Settings metadata documentation, and public theme repositories for release-structure
+comparison only. No external theme code, icons, fonts, images, or assets were copied.
 
-Before a release:
-
-1. Verify the current Obsidian changelog and theme documentation.
-2. Review relevant community-theme Health/Review findings.
-3. Test light and dark modes.
-4. Test keyboard and Vim interactions.
-5. Test Live Preview image controls and lightbox behavior.
-6. Test settings, Bases, Canvas, pop-out windows, and mobile layouts on actual target devices.
-7. Run `npm run check`.
-8. Review `docs/TESTING.md` and the release section of `PLANS.md`.
+See `docs/attribution.md` for details.
 
 ## License
 
-The intended project license is MIT. Add the final copyright holder and year before a public
-release.
+MIT. See `LICENSE`.
 
-Reference images retain their original copyrights and are not covered by this repository’s license.
+Reference images and any third-party works used for private visual analysis retain their original
+copyrights and are not covered by this repository's license.

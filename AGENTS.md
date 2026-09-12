@@ -113,6 +113,12 @@ Check configured color contrast pairs:
 npm run contrast
 ```
 
+Check setting combinations and forced-colors scenarios against the built CSS:
+
+```bash
+npm run scenarios
+```
+
 Run the complete local quality gate:
 
 ```bash

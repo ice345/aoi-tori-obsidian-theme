@@ -1,9 +1,10 @@
 # Design system
 
 Status: Phase 2 core palette and Phase 2.5 visual refinement are preserved; Phase 3 desktop core
-view semantic mappings and actual-client validation were completed on 2026-08-02. Image evidence
-remains in `docs/visual-analysis.md`; this document is the token and UI-role specification for the
-current review build.
+view semantic mappings and actual-client validation were completed on 2026-08-02. Phase 5B shifts
+light panels toward glass-grey, raises default second-voice washes, and recedes night cobalt from
+neon. Image evidence remains in `docs/visual-analysis.md`; this document is the token and UI-role
+specification for the current review build.
 
 ## Identity
 
@@ -73,9 +74,9 @@ Use two neighboring but non-identical voices:
 - **primary voice:** sky-to-cobalt blue;
 - **secondary voice:** sakura-to-gray-purple, with lilac as the bridge.
 
-They may appear as paired metadata, paired decorative curves, or different callout details. They
-must not become a rainbow heading system, a gender code, or competing primary actions. Meaning must
-remain understandable without color.
+They appear as quote washes, Properties lilac, and unresolved-link pink. They must not become a
+rainbow heading system, a gender code, or competing primary actions. Meaning must remain
+understandable without color.
 
 ### Music and breath
 
@@ -136,10 +137,10 @@ directly; light and dark semantic files map them to official Obsidian variables 
 | Primitive               | Value     | Visual purpose                                       |
 | ----------------------- | --------- | ---------------------------------------------------- |
 | `--aoi-paper-warm`      | `#FBFAF8` | Warm paper-white primary reading field               |
-| `--aoi-cloud-cool`      | `#F6FAFA` | Cool cloud-white raised surface                      |
-| `--aoi-mist-blue`       | `#E8F2F4` | Mist-blue sidebar and quiet panel                    |
-| `--aoi-cloud-shadow`    | `#DFECEF` | Cloud shadow and stronger inactive surface           |
-| `--aoi-ice-border`      | `#CBDFE8` | Ice-blue one-pixel boundary                          |
+| `--aoi-cloud-cool`      | `#F5F8F7` | Cool cloud-white raised surface                      |
+| `--aoi-mist-blue`       | `#E4ECEB` | Glass-grey sidebar and quiet panel                   |
+| `--aoi-cloud-shadow`    | `#D7E1E0` | Cloud shadow and stronger inactive surface           |
+| `--aoi-ice-border`      | `#C3D2D2` | Ice-grey one-pixel boundary                          |
 | `--aoi-watercolor-cyan` | `#B8DEE8` | Translucent-looking wash and non-text selection      |
 | `--aoi-powder-blue`     | `#A8CDE1` | Uniform/powder-blue midtone and hover boundary       |
 | `--aoi-sky-blue`        | `#83BEE7` | Atmospheric sky used through quiet mixed fills       |
@@ -170,19 +171,22 @@ directly; light and dark semantic files map them to official Obsidian variables 
 
 ### Independent summer-night palette
 
-| Primitive             | Value     | Visual purpose                        |
-| --------------------- | --------- | ------------------------------------- |
-| `--aoi-night-canvas`  | `#111827` | Deepest night canvas                  |
-| `--aoi-night-surface` | `#172338` | Main night reading surface            |
-| `--aoi-night-panel`   | `#20344D` | Raised blue-night panel               |
-| `--aoi-night-border`  | `#36516C` | Night boundary                        |
-| `--aoi-night-text`    | `#EAF3F5` | Ice-cloud primary text                |
-| `--aoi-night-muted`   | `#B3C5D4` | Secondary night text and icons        |
-| `--aoi-night-faint`   | `#92A7B8` | Faint night structure                 |
-| `--aoi-night-sky`     | `#7FC3E8` | Secondary night interaction           |
-| `--aoi-night-cobalt`  | `#8EAEF2` | Primary night link, action, and focus |
-| `--aoi-night-sakura`  | `#DEA5C0` | Sparse night second voice             |
-| `--aoi-night-violet`  | `#C2B1DA` | Night lilac bridge                    |
+| Primitive                 | Value     | Visual purpose                        |
+| ------------------------- | --------- | ------------------------------------- |
+| `--aoi-night-canvas`      | `#191F26` | Deepest night canvas                  |
+| `--aoi-night-surface`     | `#222A30` | Main night reading surface            |
+| `--aoi-night-panel`       | `#2C343C` | Raised night panel                    |
+| `--aoi-night-border`      | `#46535F` | Night boundary                        |
+| `--aoi-night-left`        | `#1C272E` | Left night sidebar surface            |
+| `--aoi-night-right`       | `#29282F` | Right night sidebar surface           |
+| `--aoi-night-text`        | `#E5EBEB` | Ice-cloud primary text                |
+| `--aoi-night-strong-text` | `#DAE8F4` | Strongest night text step             |
+| `--aoi-night-muted`       | `#B8C4C8` | Secondary night text and icons        |
+| `--aoi-night-faint`       | `#9DADB4` | Faint night structure                 |
+| `--aoi-night-sky`         | `#7FC3E8` | Secondary night interaction           |
+| `--aoi-night-cobalt`      | `#8AADD9` | Primary night link, action, and focus |
+| `--aoi-night-sakura`      | `#DEA5C0` | Sparse night second voice             |
+| `--aoi-night-violet`      | `#C2B1DA` | Night lilac bridge                    |
 
 ### Preserved safety semantics
 
@@ -200,16 +204,16 @@ contain no literal colors. The principal mapping is:
 
 | UI role                         | Light mapping                                   | Dark mapping                                    |
 | ------------------------------- | ----------------------------------------------- | ----------------------------------------------- |
-| Reading / raised / side surface | warm paper / cloud / mist                       | night surface / panel / canvas                  |
-| Hover / selected fill           | mixed sky wash / cloud shadow                   | panel mixed with sky/cobalt                     |
-| Border / keyboard focus         | ice border / focus blue                         | night border / night cobalt                     |
+| Reading / raised / side surface | warm paper / cloud / glass mist                 | night surface / panel / canvas                  |
+| Hover / selected fill           | quiet sky wash / glass shadow                   | panel mixed with sky/cobalt                     |
+| Border / keyboard focus         | ice-grey border / focus blue                    | night border / night cobalt                     |
 | Body / secondary / faint text   | ink indigo / ink muted / ink faint              | night text / night muted / night faint          |
 | Link / current / primary action | link blue, then deep cobalt on hover            | night cobalt, then night sky on hover           |
 | Unresolved link                 | muted dusty pink plus wavy sakura underline     | night sakura plus wavy violet underline         |
 | Input and secondary control     | cloud field with ice/powder boundary            | night canvas with border/sky boundary           |
 | Selection / highlight           | watercolor cyan mix / pale warm yellow          | cobalt mix / translucent night warning          |
 | Code / quote / callout          | cloud code, sakura quote, preserved safety hues | canvas code, panel quote, preserved safety hues |
-| Properties / table              | cloud/mist/ice hierarchy                        | canvas/panel/border hierarchy                   |
+| Properties / table              | cloud card; icon and key share lilac            | canvas card; icon and key share panel           |
 | Menu / modal / Settings         | cloud or paper above a mist sidebar             | night surface above a canvas sidebar            |
 
 Official variables cover backgrounds, text, links, controls, icons, navigation, tabs, metadata,
@@ -228,8 +232,9 @@ variable alone cannot express the requested slice.
 - The reference gold `#E5A12A` measures only 2.13:1 on warm paper. It remains decorative; the deeper
   `#95550E` is reserved for readable warm code/value roles, while warnings retain their own semantic
   amber.
-- Dark mode interaction blues were lightened relative to source cobalt so links and focus remain
-  visible on all three night surfaces without becoming neon.
+- Dark mode interaction blues stay lighter than source cobalt so links and focus remain visible on
+  all three night surfaces. Night cobalt is `#8AADD9` (6.79:1 on the reading surface), steel rather
+  than electric lavender.
 
 ## Color roles
 
@@ -282,24 +287,119 @@ or focus.
 Light mode is the primary Aoi Tori identity:
 
 - warm-neutral paper reading surface;
-- cloud-white raised areas and mist-blue secondary panels;
+- cloud-white raised areas and glass-grey secondary panels;
 - deep violet-navy body text;
 - cobalt links, focus, current state, and primary action;
-- pale cyan hover/selection fills with an additional non-color cue;
-- sparse sakura/lilac second voice;
+- quiet sky hover/selection fills with an additional non-color cue;
+- sakura/lilac second voice on quotes, Properties, and unresolved links;
 - thin borders and little or no shadow.
 
 The interface should feel high-key and calm without washing out control boundaries.
 
 ## Dark mode
 
-Dark mode represents a summer night and the close-up's deep ink, not an inverted daytime palette:
+Dark mode is a separate night register, not an inverted daytime palette. It is derived from the
+film's only dark material — the violet-navy ink — rather than from the accent blue, and Phase 6
+supersedes the earlier navy version recorded below it:
 
-- deep navy canvas, slightly lighter reading surface, and blue-raised panels;
-- ice-blue-white body text and readable muted text;
-- brighter cobalt/sky interactions that remain distinct from body text;
+- near-neutral cool grey surfaces with a violet leaning (`#191F26` canvas, `#222A30` reading,
+  `#2C343C` raised), so the plane and the interaction colour no longer share one hue;
+- left and right sides keep their own temperature (`#1C272E` / `#29282F`);
+- ice-white body text and readable muted text drawn from the film's glass-white family;
+- cobalt and sky interactions stay the brightest elements on screen;
 - softened sakura/lilac details;
 - no neon glow, true-black default, glass blur, or automatic image filter.
+
+Earlier description (historical, superseded by Phase 6): "a summer night with deep navy canvas,
+slightly lighter reading surface, and blue-raised panels". The navy surfaces were withdrawn because
+they reused the accent's hue as the plane.
+
+## Phase 6 space and dark re-derivation
+
+Implemented from `docs/aesthetic-audit-2026-09-11.md` §12. Light keeps paper, ink, link and focus
+unchanged and gains a spatial relationship instead of a restyle.
+
+### Light: two voices with a bridge
+
+| Role                             | Light value | Purpose                                                  |
+| -------------------------------- | ----------- | -------------------------------------------------------- |
+| `--aoi-workspace-left-surface`   | `#EAF4F4`   | Left navigation. Watercolour cyan white.                 |
+| `--aoi-workspace-bridge-surface` | `#F6F8F7`   | Central shell, status bar, sidebar-less windows.         |
+| `--aoi-workspace-right-surface`  | `#F5EFF4`   | Right outline/backlinks. Blush glass white.              |
+| Reading paper                    | `#FBFAF8`   | Unchanged. The Markdown core never carries the gradient. |
+
+Each sidebar draws one static horizontal wash that fades inward: the left from
+`--aoi-workspace-left-wash`, the right from `--aoi-workspace-right-wash`. Strength comes from the
+existing `--aoi-sidebar-wash-strength` (Quiet/Balanced/Clear `2%/5%/7%`). The centre is not the
+arithmetic mean of the two ends; both ends converge on near-white so the bridge stays a wide quiet
+platform rather than a grey-violet band.
+
+### Dark: derived, not inverted
+
+Night surfaces move off navy and stop sharing the accent's hue with the reading plane:
+
+| Token                 | Was       | Now       |
+| --------------------- | --------- | --------- |
+| `--aoi-night-canvas`  | `#111827` | `#191F26` |
+| `--aoi-night-surface` | `#172338` | `#222A30` |
+| `--aoi-night-panel`   | `#20344D` | `#2C343C` |
+| `--aoi-night-border`  | `#36516C` | `#46535F` |
+| `--aoi-night-text`    | `#EAF3F5` | `#E5EBEB` |
+| `--aoi-night-muted`   | `#B3C5D4` | `#B8C4C8` |
+| `--aoi-night-faint`   | `#92A7B8` | `#9DADB4` |
+| `--aoi-night-left`    | —         | `#1C272E` |
+| `--aoi-night-right`   | —         | `#29282F` |
+
+`--aoi-night-cobalt` stays `#8AADD9` for this round so the effect of the surfaces can be judged
+separately from the interaction blue. Dark quote wash has its own ladder (Whisper/Balanced/Present
+`2%/4%/6%`) because the light 12% reads as a pink card on a neutral night face.
+
+The dark active and selected navigation backgrounds are bounded by that decision. Navigation text
+switches to `--aoi-night-cobalt` in those states, so every percent of cobalt mixed into the surface
+raises the background luminance towards the text. At the original `78%`/`84%` mixes the pairs
+measured `3.63:1` and `3.91:1` against the sidebar; both are now `92%` panel, which measures
+`4.72:1` and `4.63:1`. The tint still separates active and selected rows from the hover surface, and
+the active row keeps its `--font-semibold` weight, so the state is not carried by colour alone.
+Light mode is unaffected: `--nav-item-color-active` there is `--aoi-cobalt-deep` on
+`--aoi-cloud-shadow`, which measures `7.21:1`.
+
+Dark is deliberately _not_ the light palette inverted, and it is also not the earlier "summer night"
+navy. Navy was the wrong choice for a different reason than inversion: it reused the accent's hue as
+the plane, leaving no chromatic separation between surface and interaction. This is recorded as an
+original UI translation, not an official movie night palette.
+
+### Settings migration
+
+`Sidebar tint` gains `Duet` (recommended) as the new default. Cloud / Glass mist / Pale aqua keep
+their earlier single-tint light meaning; they now also unify both sides to one cold surface and
+return the bridge to neutral, so an old choice cannot combine an old base with a new blush edge.
+Dark has no sidebar-tint class and therefore always uses the new night surfaces.
+
+`Sidebar contrast` cannot be a colour ladder in light mode. The light sidebars sit close to the
+4.5:1 floor already: the measured lightest nav text that still clears it on the worst background
+(Aqua with the Clear 7% wash) is only 0.003 lightness away from the standard step, so the two are
+indistinguishable. `Soft` therefore lowers the nav weight to `--font-light` (300) and stops
+promoting headings to indigo, instead of lowering text contrast. `Strong` still darkens the text.
+Every high-contrast path — the theme's High contrast switch, Light contrast = High,
+`prefers-contrast: more` and forced colours — resets the weight to normal, so a user who asks for
+more contrast never keeps the light weight. Obsidian consumes `--nav-item-weight` on
+`.tree-item-self` and re-declares `--nav-item-weight-active` on the active row afterwards, so the
+current file keeps its semibold cue.
+
+### Layer note
+
+Obsidian paints `--background-secondary` on `.workspace-tabs .workspace-leaf`, which sits above the
+split. Sidebar `.workspace-leaf` and `.workspace-leaf-content` are therefore both cleared; the
+central leaf remains opaque at `--background-primary` so long-form reading keeps a stable plane.
+
+## Phase 5B glass-grey duet
+
+A bounded atmosphere pass after Phase 5A. Paper, ink, and light-mode link/focus cobalt are
+unchanged. Light mist/cloud/ice shift toward glass-grey; the selected-file sky mix drops from 17% to
+10%. Default quote wash is 12% and Properties violet wash is 8%, with Style Settings Whisper/Present
+still available. Night cobalt is `#8AADD9`. The Aqua sidebar option remains for a more cyan panel.
+Sky, powder, and watercolor cyan stay as chroma ceiling, not default panel color. Property keys keep
+the second voice on the icon and key together; values stay on the card surface.
 
 ## Phase 2.5 visual refinement
 
@@ -482,6 +582,70 @@ The forced-colors rules were exercised through Chromium DevTools media emulation
 still require a real Windows High Contrast review. Real mobile virtual keyboards, gestures, and
 hardware safe areas likewise remain device-review prerequisites rather than inferred support.
 
+## Release-candidate semantic polish
+
+The pre-RC Markdown polish keeps the approved light palette intact and treats Markdown syntax as
+document semantics, not a color showcase. Aoi Tori now uses four stable semantic color families:
+
+- **ink indigo and deep cobalt:** structure, strong emphasis, links, focus, and action;
+- **gray violet and sakura:** second voice, aside-like emphasis, deleted text lines, and unresolved
+  softness;
+- **warm gold:** highlight and brief attention, never essential small text on paper;
+- **mist blue and watercolor cyan:** technical or auxiliary surfaces, tags, rules, and quiet fields.
+
+### Destructive buttons
+
+The screenshot failure came from a destructive confirmation button that combined Obsidian's CTA and
+danger states. Obsidian 1.13.4 defines `button.mod-destructive.mod-cta` with
+`--text-color: var(--text-on-accent)` on `--background-modifier-error`; because Aoi Tori's error
+modifier is a soft watercolor pink-red surface, the result was white text on a pale error
+background. The theme now sets both `--text-color` and `color` for destructive buttons so Obsidian's
+button base rule and the theme rule agree.
+
+Two destructive levels are used:
+
+- Secondary destructive actions use a soft error surface with deep error text and a low-strength
+  error border.
+- Primary destructive confirmations use an accessible solid error background with warm/ice text and
+  an error border. The cobalt focus ring remains outside the error border and does not replace the
+  danger cue.
+
+Pink stays distinct from error red: sakura remains a second-voice/decorative color, while
+`--aoi-error` and `--aoi-night-error*` carry destructive semantics.
+
+### Markdown emphasis
+
+- Bold uses `--bold-color` and `--bold-weight`, with `--aoi-strong-weight: 640`. It is deep indigo
+  in light mode and a quiet night-text/cobalt step in dark mode, with weight doing most of the work.
+  It deliberately avoids bright sky blue because bold is too frequent for a high-chroma interaction
+  color.
+- Italic uses `--italic-color`, leaning toward gray violet because it represents the second voice.
+  It does not use sakura by default; sakura is too decorative and would make long italic text feel
+  sentimental and harder to read.
+- Bold italic combines stronger weight with the same gray-violet bridge rather than introducing a
+  third saturated color.
+- Strikethrough reduces text toward muted and uses sakura/night-sakura for the line only. It does
+  not use error red because deletion markup is an editorial state, not a destructive operation.
+- Highlight uses a warm-yellow watercolor surface with normal ink or night text. It avoids orange
+  text and avoids a fluorescent dark-mode marker.
+
+### Tags, tasks, footnotes, KBD, and HR
+
+Tags use the official `--tag-*` variables: cloud/mist surfaces, cobalt text, ice borders, and a
+separate focus outline. Completed task text uses muted body color with a violet/sakura line instead
+of green. Footnotes use gray violet and return to cobalt on hover/focus. Markdown `<kbd>` uses the
+same mist/field surface language as inputs. Horizontal rules are one-pixel watercolor lines with a
+cyan body and a restrained sakura center point, with night mode using night border/cobalt/violet
+relationships.
+
+The current implementation uses official variables where Obsidian exposes them (`--bold-color`,
+`--bold-weight`, `--bold-modifier`, `--italic-color`, `--text-highlight-bg`, `--tag-*`, `--hr-*`,
+and `--checklist-done-*`). Low-specificity Markdown-scoped selectors cover missing details such as
+CodeMirror quote/callout strong color, strikethrough line color, bold-italic color, footnote focus,
+`<kbd>`, and the gradient horizontal rule. Source/Live Preview Markdown formatting tokens stay
+visible in faint gray-blue and do not inherit emphasis weight. No global `strong`, `em`, `del`, or
+`mark` selector is introduced.
+
 ## Shape, depth, and typography
 
 - Prefer subtle radii and keep native control geometry recognizable.
@@ -550,6 +714,26 @@ Phase 1 defines a future design vocabulary but does not generate final promotion
 - Do not use the reference characters, official title, official artwork, logos, flowers, feather
   contour, or original compositions.
 - Produce and inspect the final 512×288 marketplace image only in the release phase.
+
+### Phase 5A release-candidate presentation assets
+
+The first release-candidate presentation assets are:
+
+- `assets/screenshots/light.png`
+- `assets/screenshots/dark.png`
+- `assets/screenshots/mobile.png`
+- `assets/cover.svg`
+- `assets/cover.png`
+
+The three screenshots are cropped or resized from this repository's own Aoi Tori Obsidian review
+screenshots. The cover is an original SVG composition using a large light-mode UI screenshot, small
+dark/mobile UI fragments, two near-parallel sky/sakura curves, low-opacity wash fields, one tiny
+gold-orange point, and a simplified geometric cobalt feather. It uses no text, no embedded font, no
+remote image, no Base64 asset, no reference artwork, and no copied title/flower/feather contour.
+
+The 512×288 `assets/cover.png` is the Community Theme cover candidate for user review. It is a
+repository presentation asset and must not be imported into `src/` or packaged into the installed
+theme directory.
 
 ## Accessibility and compatibility
 

@@ -1,5 +1,130 @@
 # Testing
 
+## Phase 6 space and dark re-derivation review
+
+Implemented from `docs/aesthetic-audit-2026-09-11.md` §12 and exercised on 2026-09-12 in the
+installed Obsidian 1.13.7 desktop client on macOS, frameless full-screen, with the theme symlinked
+from `test-vault-content/.obsidian/themes/Aoi Tori` to this checkout.
+
+**Pixel evidence, not computed style.** An earlier round of this pass was misread: the split's
+computed background was already the new value while the rendered pixels stayed mist, because
+Obsidian paints `--background-secondary` on `.workspace-tabs .workspace-leaf` above the split. Every
+result below is a modal read of the rendered PNG with `body.is-focused` true.
+
+### V01 default, both sidebars, no Style Settings
+
+| Region                                                    | Light             | Dark              |
+| --------------------------------------------------------- | ----------------- | ----------------- |
+| Traffic-light corner, left pane, vault strip, left toggle | `#EAF4F4` H197.0° | `#1C272E` H236.5° |
+| Central tab bar (empty area), status bar                  | `#F6F8F7` H165.1° | `#232A30` H244.2° |
+| Central reading pane                                      | `#FBFAF8` H84.6°  | `#232A30` H244.2° |
+| Right toggle, right pane                                  | `#F5EFF4` H331.0° | `#29282F` H292.1° |
+
+Contrast at the measured surfaces, body / nav-or-secondary: light 12.47/5.39, 13.10/5.11,
+13.39/5.22, 12.33/5.33; dark 12.63/8.53, 12.05/8.14, 12.10/8.18.
+
+### Worst-case tint (Sky = Clear, outer edge)
+
+The figures above use the untinted surface. The shipped background is surface **plus** wash, so the
+extreme was measured separately: the 7% wash at the outer edge composites to `#DEEDF1` (left) and
+`#EBE4EC` (right), and nav text there measures 5.03:1 and 4.84:1. Real pixels at that setting read
+`#DFEDF1` and `#EBE4EC`, matching the model, and return to the plain surface at the inner edge.
+
+An earlier revision of this pass shipped `--nav-item-color` at `--aoi-ink-muted` and measured 4.54:1
+/ 4.37:1 at the same points — the right side below the 4.5 floor. `--aoi-ink-muted-side` (`#516577`)
+is used for text on the tinted surfaces; `--text-muted` keeps its paper value.
+
+### Layout variants (dark)
+
+| Layout        | Left strip                      | Centre            | Right strip                          |
+| ------------- | ------------------------------- | ----------------- | ------------------------------------ |
+| Both sidebars | `#1C272E` H236.5°               | `#232A30` H244.2° | `#29282F` H292.1°                    |
+| Left only     | `#1C272E` H236.5°               | `#232A30` H244.2° | `#232A30` (bridge, no blush remnant) |
+| No sidebar    | neutral night family throughout |                   |                                      |
+
+### Component surfaces (dark, composited)
+
+| Surface               | Measured              | Body / secondary                    |
+| --------------------- | --------------------- | ----------------------------------- |
+| Reading               | `#232A30` H244.2°     | 12.05 / 8.14                        |
+| Quote                 | `#333941` H260.1°     | 9.71 / 6.56                         |
+| Code / inline code    | `#191F26` H252.5°     | 13.76 / 9.30                        |
+| HR                    | `#47535F` H248.4°     | visible against `#232A30`           |
+| Properties card / key | `#191F26` / `#2C343C` | card and key remain distinguishable |
+
+Quote sits `ΔL +0.076` above the dark reading surface at a `ΔH +23.6°` shift, so the default 4%
+(Balanced) wash reads as a tint rather than a pink card. Code is a `ΔL −0.044` step from the reading
+surface, a shallow well rather than a blue-black recess.
+
+The quote row above and this paragraph were re-measured on 2026-09-13 from the current build,
+because the earlier record quoted the 2% Whisper level while Balanced 4% is the shipped default.
+Measured in an isolated Chromium page against the built `theme.css`, compositing the blockquote
+gradient over its base colour:
+
+| Mode / level   | Wash | Composited quote | ΔL vs reading surface | ΔH        | Chroma   |
+| -------------- | ---- | ---------------- | --------------------- | --------- | -------- |
+| Light Whisper  | 6%   | `#F3F3F3`        | `+0.005`              | `+130.6°` | `0.0010` |
+| Light Balanced | 12%  | `#F2EEF0`        | `−0.007`              | `+148.1°` | `0.0053` |
+| Light Present  | 16%  | `#F1EAEE`        | `−0.015`              | `+149.5°` | `0.0082` |
+| Dark Whisper   | 2%   | `#30363F`        | `+0.065`              | `+17.6°`  | `0.0175` |
+| Dark Balanced  | 4%   | `#333941`        | `+0.076`              | `+23.6°`  | `0.0171` |
+| Dark Present   | 6%   | `#373B44`        | `+0.086`              | `+29.8°`  | `0.0169` |
+
+These are computed-CSS measurements, not Obsidian screenshots. The `90-final-light.png` /
+`91-final-dark.png` captures predate this round and were **not** re-taken, so they are not evidence
+for the current default.
+
+### Missing icon registry
+
+`[!aoi-tori]` and `[!second-voice]` resolve to inline SVG in 1.13.7. `lucide-bird` is **not**
+registered in this client, so `[!bluebird]` is deferred. No remote SVG or guessed id was added.
+
+### Mobile drawer
+
+With `dev:mobile on` (desktop emulator, `is-mobile` true, `is-phone` false, 1188 px) the left drawer
+resolved to `rgb(28,39,46)` = `#1C272E`, the left night surface, with a transparent header.
+Phone-class layout and physical devices remain untested.
+
+### Verification status
+
+One matrix, so a simulated check is never read as a real-device pass. "Simulated" means an isolated
+Chromium page rendering the built `theme.css` with forced body classes and CDP media emulation; it
+tests the author CSS cascade, not Obsidian's own rendering or the operating system.
+
+The nav-state row loads Obsidian's own consumption rules (`.tree-item-self.is-active`,
+`.is-selected`, and `:hover` from `app.css`) because the theme styles `.nav-file-title.is-active`
+only and leaves `--nav-item-color-selected` / `--nav-item-background-selected` to the client.
+Without those rules the selected state silently falls back to the base colour and reads as a pass it
+never earned. The forced-colors row also covers the theme's own setting classes: they declare the
+same tokens at equal specificity, so any check that sets only `theme-light` / `theme-dark` misses
+them.
+
+`npm run scenarios` is the repeatable form of every "Simulated pass" row below. It parses the built
+`theme.css` with `lightningcss` and resolves the real cascade — source order, specificity, and the
+`forced-colors` / `prefers-contrast` media queries — over 582 scenarios. It runs inside
+`npm run check`, so a regression fails the gate instead of waiting for a review. The Chromium runs
+were the independent check on that script: reverting the Soft fix makes the script exit 1, and
+perturbing `--aoi-workspace-tint-max-aqua` by one hex step fails the derived-versus-precomputed
+assertion, so both the fix and the constants are genuinely covered.
+
+| Check                                                             | Status                  | Evidence                                                                                                                          |
+| ----------------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Theme High contrast + sidebar contrast Soft                       | Simulated pass          | Nav text resolves to `#3E4B5C`, 6.81:1 at Aqua + Clear                                                                            |
+| Light contrast = High + Soft                                      | Simulated pass          | 6.81:1                                                                                                                            |
+| `prefers-contrast: more` + Soft                                   | Simulated pass          | 6.81:1                                                                                                                            |
+| `forced-colors: active`, 2 themes x 4 sidebar x 2 switches        | Simulated pass          | 24/24: `Canvas` surfaces, `CanvasText` text, `none` decoration, HR `CanvasText`                                                   |
+| Navigation base / hover / active / selected / focus               | Simulated pass          | 120/120 (24 scenarios x 5 states) at or above 4.5:1; worst pairs dark active 4.72:1, dark selected 4.63:1                         |
+| Soft nav weight, and its reset on high contrast                   | Simulated pass          | Soft 300, active row still 600; class switch, Light contrast = High, `prefers-contrast: more` and forced colours all reset to 400 |
+| Real Windows High Contrast                                        | **Untested**            | Requires a Windows host                                                                                                           |
+| Style Settings install / reset / plugin disable                   | **Untested this round** | Last exercised 2026-08-03 on Style Settings 1.0.9                                                                                 |
+| Cloud / Mist / Aqua -> Duet migration                             | **Untested this round** | Cascade verified only                                                                                                             |
+| Canvas / Graph / PDF / Bases / search in sidebar                  | **Untested this round** | Central surface and transparent leaves not re-checked                                                                             |
+| Pop-out, multi-note split, single sidebar, narrow and phone-class | **Untested this round** | —                                                                                                                                 |
+
+`checkout-diff.md` and `.omp/config.yml` are local working material, not project sources; both are
+listed with an explanatory comment in `.prettierignore` so `npm run format:check` no longer reports
+them.
+
 ## Phase 4 mobile and accessibility review
 
 Phase 4 was exercised on 2026-08-03 in the installed Obsidian/Installer 1.13.4 desktop client on
@@ -24,6 +149,11 @@ duration `0s`), `prefers-contrast: more` (3 px focus), and `forced-colors: activ
 forced colors, links were system-colored and underlined, a phone Settings Toggle retained a system
 track/thumb distinction, and Settings buttons retained visible system boundaries. Windows High
 Contrast remains a required real-platform check.
+
+That 2026-08-03 pass did not test the theme's own sidebar decoration under forced colors. A
+2026-09-13 review found the theme's `background-image: none` rules lost the cascade to the sidebar
+and HR rules, and that the sidebar options could still override the `Canvas` surfaces. Both are
+fixed and covered by the simulated matrix above; the real Windows check is still outstanding.
 
 Untested: physical iPhone/iPad/Android phone/tablet, real safe-area hardware, virtual-keyboard
 avoidance, long-press, swipe dismissal, drag/pan, pinch zoom, double-tap zoom, mobile previous/next,
@@ -90,9 +220,80 @@ A successful automated check does not replace manual Obsidian testing.
 
 The audit also checks that every CSS import stays under `src/`, that built CSS contains no
 `.analysis/`, `test-vault-content/`, or `references/raw/` path, that the four styled image selectors
-are recorded in `docs/obsidian-dom.md`, that the required Phase 3 fixture set exists, and that Style
-Settings metadata/groups survive the build. These are release-boundary checks, not permission to
-package the fixture directory.
+are recorded in `docs/obsidian-dom.md`, and that Style Settings metadata/groups survive the build.
+When the ignored local `test-vault-content/Phase 3` tree exists, the audit also verifies the
+required fixture set. In a clean CI checkout where that ignored tree is absent, the audit warns and
+continues. These are release-boundary checks, not permission to package the fixture directory.
+
+## Release-candidate package test
+
+For a release-candidate pass, run:
+
+```bash
+npm run format
+npm run check
+npm run package
+```
+
+`npm run package` must produce `dist/Aoi-Tori/` with only `manifest.json` and `theme.css`. The
+package audit must reject local absolute paths, remote CSS resources, Base64 assets, source/test
+markers, and unexpected files, then print SHA-256 values for the packaged files.
+
+The root `theme.css` is the readable generated artifact used by review and Git diff. The package
+script first runs `npm run check` (which rebuilds that root file), then generates the minified
+`dist/Aoi-Tori/theme.css` directly; it must not copy a minified file over the root artifact. Both
+artifacts must retain the complete `@settings` metadata comment.
+
+Install the package into a fresh ignored test Vault rather than relying only on the development
+symlink:
+
+```text
+<Clean Test Vault>/.obsidian/themes/Aoi Tori/
+├── manifest.json
+└── theme.css
+```
+
+Record whether Obsidian recognized the theme, whether light and dark modes opened, whether the
+optional Style Settings plugin was absent or present, whether a restart preserved the theme, whether
+the manifest name/version matched the package, and whether the Console exposed resource-loading
+errors caused by the theme.
+
+Do not mark physical mobile devices, Windows/Linux window chrome, real Windows High Contrast,
+assistive technologies, or broad third-party plugin compatibility as passed from this clean-install
+test unless those environments were actually used.
+
+## Release-candidate Markdown semantic polish
+
+The pre-RC visual polish adds `test-vault-content/Aoi-Tori-Markdown-Semantics.md` as ignored local
+review content. It covers Chinese/Japanese/English mixed text, bold, italic, bold italic,
+strikethrough, highlight, tags, tasks, footnotes, links, `<kbd>`, tables, quote and Callout nested
+emphasis, long emphasis paragraphs, and continuous highlights.
+
+For this pass, run:
+
+```bash
+npm run format
+npm run build
+npm run lint
+npm run audit
+npm run contrast
+npm run validate:manifest
+npm run check
+npm run package
+```
+
+The contrast configuration must include destructive primary/secondary buttons, bold, italic,
+highlight, and tags in both light and dark modes. Keep `test-vault-content/` and
+`.analysis/semantic-polish/` out of release packages. When screenshots are produced, store them only
+under `.analysis/semantic-polish/`.
+
+The 2026-08-03 semantic-polish review used Obsidian Desktop/Installer 1.13.4 on macOS with the local
+theme symlinked from the repository root. Screenshots were captured for light/dark destructive
+buttons, focus-visible, Reading, Live Preview, Source mode, tags/tasks, and footnotes/KBD/HR. UI
+zoom smoke covered 90%, 100%, and 110%; narrow-window smoke used a 760 px wide window; pop-out smoke
+opened the current Markdown file in a new window and closed it after verifying the theme and active
+file. Copy/cut/paste mutation flows and Vim mode were not repeated in this bounded visual-polish
+pass.
 
 ## Phase 3 fixture discipline
 

@@ -2,9 +2,9 @@
 
 ## Purpose
 
-Aoi Tori uses modular source CSS and produces one installable `theme.css`. The architecture
-separates visual primitives, semantic Obsidian mappings, component behavior, and generated release
-output.
+Aoi Tori uses modular source CSS and produces a readable review artifact plus a minified installable
+`theme.css`. The architecture separates visual primitives, semantic Obsidian mappings, component
+behavior, and generated release output.
 
 ## Build flow
 
@@ -23,10 +23,11 @@ src/index.css
       ↓
 scripts/build.mjs
       ↓
-theme.css
+theme.css (readable root artifact)
+      └── npm run package → dist/Aoi-Tori/theme.css (minified package artifact)
 ```
 
-`theme.css` is generated and must not be edited directly.
+Both CSS artifacts are generated and must not be edited directly.
 
 ## Layers
 
@@ -134,14 +135,22 @@ A component module must:
 - Document any internal DOM dependency.
 - Include keyboard, reduced-motion, and dark-mode considerations.
 
-### 5. Build artifact
+### 5. Build artifacts
+
+The two generated CSS files have different review and distribution purposes:
 
 ```text
-theme.css
+theme.css                 # readable, formatted root artifact
+dist/Aoi-Tori/theme.css   # minified install/release artifact
 ```
 
-The release artifact contains bundled CSS imports. Development builds are readable. Release builds
-are minified.
+`build()` in `scripts/build.mjs` requires an explicit `outputFile` and accepts `minify`. The
+`npm run build` script passes `theme.css` with `minify: false`, using Lightning CSS plus the
+repository's Prettier configuration to produce stable readable CSS while keeping the complete
+`@settings` comment. `scripts/package.mjs` runs the full quality gate first, then calls the same
+builder with `outputFile` set directly to `dist/Aoi-Tori/theme.css` and `minify: true`; it never
+overwrites the root artifact. `dist/` is ignored, so only the root readable artifact is visible in
+normal source review.
 
 ## Dependency policy
 
@@ -171,13 +180,33 @@ Do not manually edit:
 
 ```text
 theme.css
+dist/Aoi-Tori/theme.css
 ```
 
 Generated output is reproducible using:
 
 ```bash
 npm run build
+npm run package
 ```
+
+## Release package
+
+`npm run package` prepares the local release-candidate install directory:
+
+```text
+dist/Aoi-Tori/
+├── manifest.json
+└── theme.css
+```
+
+The command runs the local quality gate, creates a minified generated CSS file directly at
+`dist/Aoi-Tori/theme.css`, rebuilds only the validated package path under `dist/`, copies the
+manifest, checks for local paths, remote CSS resources, Base64 assets, test/reference/source
+markers, unexpected files, and prints a SHA-256 line for each packaged file.
+
+`dist/` is ignored and is not a source or documentation directory. Repository presentation assets
+such as `assets/cover.png` and README screenshots stay outside the installed theme package.
 
 ## Future module layout
 

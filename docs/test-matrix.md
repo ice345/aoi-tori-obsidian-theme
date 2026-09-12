@@ -252,3 +252,56 @@ All files are ignored local QA evidence and are not release/promotional assets.
 | Style Settings                        | `.analysis/phase-4-review/style-settings-tablet.png`                                                           |
 | High contrast                         | `.analysis/phase-4-review/high-contrast-light.png`                                                             |
 | Reduced motion and gradients disabled | `.analysis/phase-4-review/reduced-motion-gradients-disabled-light.png`                                         |
+
+# Release-candidate Markdown semantic polish
+
+Status: implemented and reviewed locally on 2026-08-03. Screenshot evidence is ignored local QA
+evidence only.
+
+## Semantic polish environment
+
+| Item                 | Value                                                                 |
+| -------------------- | --------------------------------------------------------------------- |
+| Obsidian target      | Desktop `1.13.4`                                                      |
+| Installer target     | `1.13.4`                                                              |
+| Host                 | macOS 26.5 Apple silicon                                              |
+| Theme revision       | Uncommitted Release Candidate working tree                            |
+| Test note            | `test-vault-content/Aoi-Tori-Markdown-Semantics.md`                   |
+| Screenshot directory | `.analysis/semantic-polish/`                                          |
+| Scope                | Destructive buttons and high-frequency Markdown semantics; no plugins |
+
+## Semantic polish matrix
+
+| Surface / state                                       | Result  | Evidence / limitation                                                                                    |
+| ----------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------- |
+| Destructive `mod-warning` secondary button            | Pass    | Uses soft error background, deep error text, error border, and cobalt focus via semantic variables       |
+| Destructive `mod-destructive.mod-cta` primary button  | Pass    | Overrides Obsidian's white `--text-color` conflict with solid error surface and warm/night readable text |
+| Disabled destructive button                           | Pass    | Disabled rule resets both `--text-color` and visible color to faint text and disabled surface            |
+| Bold / italic / bold italic                           | Pass    | Official bold/italic variables plus scoped CodeMirror rules align Reading, Live Preview, and Source      |
+| Strikethrough and completed tasks                     | Pass    | Muted text plus sakura/gray-violet line; no error red or green whole-line treatment                      |
+| Highlight                                             | Pass    | Warm-yellow or night-warning soft surface with normal readable text                                      |
+| Tags                                                  | Pass    | Official `--tag-*` variables map cloud/night panels, cobalt text, border, hover, and focus               |
+| Footnotes, `<kbd>`, and horizontal rule               | Pass    | Markdown-scoped rules use second-voice footnotes, form-like keys, and a one-pixel watercolor rule        |
+| Source, Live Preview, and Reading consistency         | Pass    | Actual Obsidian screenshots captured; Source formatting tokens remain visible and subdued                |
+| UI zoom 90% / 100% / 110%, narrow, and pop-out states | Partial | Smoke passed; copy/cut/paste mutation flows and Vim mode remain manual RC checks                         |
+
+## Semantic polish screenshots
+
+All paths are ignored local QA evidence and are not release/promotional assets.
+
+| Screenshot                            | Path                                                                  |
+| ------------------------------------- | --------------------------------------------------------------------- |
+| Destructive button before             | `.analysis/semantic-polish/destructive-button-before.png`             |
+| Destructive button light              | `.analysis/semantic-polish/destructive-button-light.png`              |
+| Destructive button dark               | `.analysis/semantic-polish/destructive-button-dark.png`               |
+| Destructive button focus              | `.analysis/semantic-polish/destructive-button-focus.png`              |
+| Markdown semantics light reading      | `.analysis/semantic-polish/markdown-semantics-light-reading.png`      |
+| Markdown semantics light Live Preview | `.analysis/semantic-polish/markdown-semantics-light-live-preview.png` |
+| Markdown semantics dark reading       | `.analysis/semantic-polish/markdown-semantics-dark-reading.png`       |
+| Markdown semantics dark Live Preview  | `.analysis/semantic-polish/markdown-semantics-dark-live-preview.png`  |
+| Markdown semantics light Source       | `.analysis/semantic-polish/markdown-semantics-light-source.png`       |
+| Markdown semantics dark Source        | `.analysis/semantic-polish/markdown-semantics-dark-source.png`        |
+| Tags and tasks light                  | `.analysis/semantic-polish/tags-and-tasks-light.png`                  |
+| Tags and tasks dark                   | `.analysis/semantic-polish/tags-and-tasks-dark.png`                   |
+| Footnotes, KBD, and HR light          | `.analysis/semantic-polish/footnotes-kbd-hr-light.png`                |
+| Footnotes, KBD, and HR dark           | `.analysis/semantic-polish/footnotes-kbd-hr-dark.png`                 |

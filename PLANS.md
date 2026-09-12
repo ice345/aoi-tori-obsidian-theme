@@ -3,6 +3,59 @@
 This project is complex enough to justify a durable execution plan. Keep this file concise, current,
 and evidence-based.
 
+## 2026-09-13 implementation review
+
+- Scope: review the current Phase 6 implementation against the aesthetic handoff; do not fix theme
+  code in this pass.
+- Review source/settings cascade, reproduce the quality gates, inspect saved final screenshots, and
+  document actionable findings in `docs/implementation-review-2026-09-13.md`.
+- Status: complete; see the review document for three actionable findings, remaining validation
+  gaps, and the next implementation sequence. Theme source and existing user changes are preserved.
+  Full check currently fails CSS lint; independent audit, contrast, and manifest checks pass.
+
+## 2026-09-13 review fixes
+
+Implementation pass addressing `docs/implementation-review-2026-09-13.md`. No version bump, commit,
+push, or release packaging; Phase 5B/6 remain uncommitted.
+
+- **R3** — added the missing empty line before the new primitive comment. `.omp/config.yml` and
+  `checkout-diff.md` are local working material, not project sources; both are now listed with
+  explanatory comments in `.prettierignore`. `npm run check` runs to completion again.
+- **R1** — `aoi-sidebar-contrast-soft` no longer reuses `--aoi-ink-faint`. A lighter nav-text step
+  is not available in light mode: the measured lightest colour clearing 4.5:1 on the worst sidebar
+  background (Aqua + Sky=Clear) is 0.003 lightness from the standard step. Soft now lowers the nav
+  weight to `--font-light` and stops promoting headings to indigo instead, so the setting has a
+  visible effect without lowering contrast; the active row keeps its semibold cue because Obsidian
+  re-declares `--nav-item-weight-active` after `--nav-item-weight`. Theme High contrast, Light
+  contrast = High, `prefers-contrast: more` and forced colours all reset the weight to normal, and
+  all four now reach the nav, tab, titlebar and status tokens, which `--text-muted` alone did not
+  cover.
+- **R2** — both forced-colors cascade chains are closed. The surface/text block is guarded by
+  `[class*="aoi-"]` at `(0,2,1)` because the theme's 80+ setting classes declare the same tokens at
+  that specificity; an explicit list had already gone stale. Decoration removal names the two
+  gradient switches explicitly instead of using `:where()`, and the HR fallback outranks their
+  `background-color`. Navigation, tab, titlebar, status, list-marker and HR tokens now map to system
+  colours.
+- **Also fixed, found by the review's hover/active/focus requirement** — dark
+  `--nav-item-background-active`/`-selected` mixed `22%`/`16%` of the accent into the panel while
+  the text switched to `--aoi-night-cobalt`, measuring `3.63:1` and `3.91:1`. Both are now `92%`
+  panel, measuring `4.72:1` and `4.63:1`.
+- **Evidence** — new `--aoi-workspace-tint-max-aqua` primitive and a 45th contrast pair so the Aqua
+  extreme is gated. New `npm run scenarios` (`scripts/check-scenarios.mjs`), wired into
+  `npm run check` after `contrast`. It parses the built `theme.css` with the existing `lightningcss`
+  dependency and resolves the real cascade — source order, specificity, and the `forced-colors` /
+  `prefers-contrast` media queries — instead of the static checker's per-file regex. 582 scenarios
+  cover both modes x four sidebar options x three Sky levels x three sidebar-contrast levels x four
+  accessibility paths x two media modes, plus nav base/hover/active/selected/focus and the
+  forced-colors setting-class negatives. It also asserts that the wash background derived from the
+  live surface, wash colour and strength equals the precomputed tint-max primitives, so those
+  constants cannot silently drift. Reverting the Soft fix makes it exit 1.
+- Simulated verification outside the script: 198 forced-colors combinations and 120 nav-state
+  combinations in an isolated Chromium page. Recorded in `docs/TESTING.md` as a single matrix that
+  separates simulated, real-device, and untested rows.
+- Not started: real Obsidian interaction regression, Style Settings install/reset, Canvas/Graph/PDF/
+  Bases regression against the Phase 6 selectors, real Windows High Contrast, physical devices.
+
 ## Active objective
 
 Build the first maintainable Aoi Tori theme release with:
@@ -14,9 +67,354 @@ Build the first maintainable Aoi Tori theme release with:
 - Reproducible build, lint, audit, contrast, and release commands.
 - Documentation suitable for future Community Themes submission.
 
+## Current audit — 2026-09-11
+
+Documentation-only aesthetic audit requested by the user: compare the current Phase 5B source and
+local reference image with the film website and official interviews; assess a left watercolor /
+white bridge / right blush composition, independent dark mode, and suitable motif sources. Deliver
+`docs/aesthetic-audit-2026-09-11.md`. Preserve all existing uncommitted implementation and release
+work.
+
+- [x] Read repository guidance, source tokens, component rules, and historical evidence.
+- [x] Inspect the named reference image and existing Obsidian screenshots.
+- [x] Inspect the official website visually and read its live background styles and asset
+      references.
+- [x] Write the detailed findings, proposed changes, implementation sequence, and acceptance
+      criteria.
+- [x] Run validation and record current failures separately from this documentation change.
+
+Decision: the user's request opens discussion of wider static gradients and sparse motifs despite
+older DESIGN restrictions. These are proposals only; this audit does not enact CSS exceptions or
+redistribute official art. Public theme assets retain the independent-project boundary in AGENTS.md.
+Dark palette candidates are original UI translations, not claimed official movie night colors.
+
+Result: audit document complete; implementation remains proposed. Build regenerated `theme.css`
+byte-identically (88,942 bytes). CSS lint, 14-file audit, 28 contrast pairs, manifest validation,
+and touched-document formatting pass. Full `npm run check` stops at the pre-existing formatting
+issue in `checkout-diff.md`, which is preserved. No source, release metadata, package, or Obsidian
+settings changes; no new manual Obsidian test claims. See the report for candidate values, source
+links, known limits, and the staged implementation/acceptance plan.
+
+### Implementation handoff specification — follow-up
+
+The user requests more explicit instructions for another AI to implement correctly. Expand the same
+audit document with a normative task sequence, token/selector mapping, configuration migration,
+cascade and fallback rules, regression cases, and a copyable execution brief. This follow-up edits
+only documentation; candidate visuals remain unimplemented.
+
+- [x] Recheck current workspace, settings, content, mobile, and audit code for concrete constraints.
+- [x] Add and review the detailed handoff specification.
+- [x] Validate the touched documents and confirm implementation files are unchanged.
+
+Result: section 12 now specifies T00–T09, token assignments, Duet option migration, dark Quote
+strength, CSS cascade and inheritance safeguards, HR/system-color fallbacks, V01–V14 acceptance
+cases, and a copyable implementation prompt. Documentation formatting passes; existing source and
+generated CSS hashes remain unchanged. No new implementation or manual-test claim.
+
 ## Current phase
 
-**Phase 4 — Mobile, Style Settings, and accessibility (complete; awaiting release review)**
+**Phase 6 — Aesthetic audit implementation (T00–T09; core complete, real-device items open)**
+
+Implements `docs/aesthetic-audit-2026-09-11.md` chapter 12. Light keeps paper, ink, link and focus
+unchanged and gains a left watercolour-cyan / neutral bridge / right blush spatial relationship.
+Dark gets independently derived low-chroma night surfaces instead of a blue-tinted inversion.
+
+Token layer (`primitives.css`):
+
+- New: `--aoi-air-cyan-white` `#EAF4F4`, `--aoi-air-cyan-bloom` `#DDEFF3`, `--aoi-air-bridge-white`
+  `#F6F8F7`, `--aoi-air-blush-white` `#F5EFF4`, `--aoi-air-blush-bloom` `#EFE5EF`.
+- New: `--aoi-night-left` `#1C272E`, `--aoi-night-right` `#29282F`.
+- Night per §5.2: canvas `#111827`→`#191F26`, surface `#172338`→`#222A30`, panel
+  `#20344D`→`#2C343C`, border `#36516C`→`#46535F`, text `#EAF3F5`→`#E5EBEB`, muted
+  `#B3C5D4`→`#B8C4C8`, faint `#92A7B8`→`#9DADB4`.
+- `--aoi-night-cobalt` `#8AADD9` retained for the first round, per the handoff specification.
+
+Role layer: `--aoi-workspace-left-surface`, `-right-surface`, `-bridge-surface`, `-left-wash`,
+`-right-wash` mapped independently in both mode files. `--background-secondary` keeps its generic
+mist role and is not repurposed as the right-hand colour.
+
+- [x] T00 Baseline hashes recorded; existing uncommitted work preserved. `git status` shows 25
+      modified plus 13 untracked entries before and after this phase.
+- [x] T01 Primitives and mode role tokens added; night values follow §5.2.
+- [x] T02 `shell.css` split into independent left/right rules; central shell and status bar use the
+      bridge; ribbon follows the left edge; tab bars are transparent so each region shows its own
+      surface.
+- [x] T03 Night surfaces traced across `semantic-dark.css`; existing semantic roles reused so that
+      inputs, menus, tables, Callout, Properties and code follow the new surfaces. Dark quote wash
+      gets its own ladder.
+- [x] T04 `aoi-sidebar-duet` added as the new default; Cloud/Mist/Aqua keep the earlier single-tint
+      light appearance and now also unify both sides and neutralise the bridge. Dark quote wash
+      ladder is 2%/4%/6%.
+- [x] T05 HR always carries `background-color: var(--hr-color)` beneath the gradient; both
+      gradient-off switches now share one object list including HR; forced-colors maps the three new
+      role tokens to `Canvas` and flattens HR to `CanvasText`.
+- [x] T06 Mobile left/right drawers use their own surfaces; pop-outs and sidebar-less windows get
+      the neutral bridge automatically through `.workspace`.
+- [x] T07 `[!aoi-tori]` and `[!second-voice]` verified to render inline icons in Obsidian 1.13.7.
+      `lucide-bird` is **not registered** in this client, so the optional `[!bluebird]` type is
+      deferred rather than guessed.
+- [x] T08 `npm run check` runs; build, CSS lint, 14-file audit and manifest validation pass.
+      Contrast gate expanded from 28 to 38 pairs including left/right/bridge surfaces; all pass,
+      with light muted-on-right at 4.81:1 as the tightest.
+- [x] T09 `theme.css` regenerated from `src/` (92,029 bytes).
+
+Real Obsidian 1.13.7 pixel verification of V01 (no Style Settings, both sidebars):
+
+| Region        | Light             | Dark              |
+| ------------- | ----------------- | ----------------- |
+| Left sidebar  | `#EAF4F4` H197.0° | `#1C272E` H236.5° |
+| Centre        | `#FBFAF8` H84.6°  | `#232A30` H244.2° |
+| Right sidebar | `#F5EFF4` H331.0° | `#29282F` H292.1° |
+
+Contrast at those measured surfaces: light 12.47/4.86, 13.39/5.22, 12.33/4.81; dark 12.63/8.53,
+12.05/8.14, 12.10/8.18 (body / secondary).
+
+**Resolved during implementation:** the first attempt left `.workspace-tabs .workspace-leaf` painted
+with `--background-secondary` above the split, so pixels stayed mist while the split's computed
+background was already correct. Sidebar `.workspace-leaf` is now cleared alongside
+`.workspace-leaf-content`; the central leaf stays opaque at `--background-primary`.
+
+**Second review round — per-side chrome.** The user reported that the traffic-light corner, the
+vault-switcher strip and the right-hand collapse button did not match their own side. Three separate
+causes were confirmed by pixel reads with the window focused:
+
+| Symptom                                              | Cause                                                                                                                                                                                     | Fix                                                                                                                          |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Top-left corner and left pane differed while focused | `--titlebar-background` also feeds `body.is-focused` → `--titlebar-background-focused`, and Obsidian paints `.workspace-ribbon.mod-left:before` from it                                   | `--titlebar-background(-focused)` set to the neutral bridge; `.workspace-ribbon.mod-left::before` pinned to the left surface |
+| Vault-switcher strip stayed mist                     | Obsidian sets `background-color: var(--background-secondary)` on `body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile`                                 | matched selector paints the left surface, plus the right-side equivalent                                                     |
+| Right collapse button showed the left cyan           | `.mod-macos.is-hidden-frameless:not(.is-popout-window) .sidebar-toggle-button.mod-right` reads `--tab-container-background`, which derives from the single global `--titlebar-background` | explicit per-side rules for `.sidebar-toggle-button.mod-left` and `.mod-right`                                               |
+| Central tab bar showed paper instead of the bridge   | Obsidian paints `.workspace-split.mod-root` with `--background-primary`, hiding the bridge                                                                                                | root split cleared; `.workspace-leaf` / `.workspace-leaf-content` / `.view-content` keep the opaque paper                    |
+
+Verified by pixel reads with `body.is-focused` true, both modes:
+
+| Region                                                       | Light                 | Dark                  |
+| ------------------------------------------------------------ | --------------------- | --------------------- |
+| Traffic-light corner / left pane / vault strip / left toggle | all `#EAF4F4` H197.0° | all `#1C272E` H236.5° |
+| Central tab bar (empty area) / status bar                    | `#F6F8F7` H165.1°     | `#232A30` H244.2°     |
+| Central reading pane                                         | `#FBFAF8` H84.6°      | `#232A30` H244.2°     |
+| Right toggle / right pane                                    | all `#F5EFF4` H331.0° | all `#29282F` H292.1° |
+
+**Central transition is intentionally absent.** Per §12.5 the central Markdown core stays opaque and
+the "bridge" is realised as the visible neutral central tab bar plus the paper relationship, not as
+a gradient behind text. §4.3 item 4 states the more visible continuous gradient belongs to the
+periphery or empty views, and §12.1 item 3 rejects claiming a gradient that opaque children cover.
+
+**Third round — T05 and layout verification.** Both decorative-gradient switches and forced-colors
+were exercised.
+
+| Check                                          | Result                                                                                                                                                                                                  |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `aoi-watercolor-wash-off` on left/right splits | `background-image: none`; base surfaces `#1C272E` / `#29282F` retained                                                                                                                                  |
+| `aoi-disable-decorative-gradients` on the same | identical result                                                                                                                                                                                        |
+| Reset after either switch                      | gradient restored                                                                                                                                                                                       |
+| HR with either switch on                       | solid `#46535F` 1px line retained, only the gradient removed                                                                                                                                            |
+| forced-colors emulation (CDP, Chromium)        | left/right/bridge surfaces → `Canvas`; `--text-normal` → `CanvasText`; `--text-faint` → `GrayText`; accent → `Highlight`; links → `LinkText`; focus ring 3px; HR → solid `CanvasText`, gradient removed |
+| Layout: both sidebars                          | left `#1C272E`, centre `#232A30`, right `#29282F`                                                                                                                                                       |
+| Layout: left only                              | left `#1C272E`; centre and right side return to the bridge with no blush remnant                                                                                                                        |
+| Layout: no sidebar                             | neutral night family throughout, no cyan or blush leak                                                                                                                                                  |
+| Mobile drawer (`dev:mobile on`)                | left drawer `#1C272E`, transparent header                                                                                                                                                               |
+
+**Specificity defect found and fixed.** The two off switches were written as `body.aoi-… :where(…)`,
+which resolves to 0,1,1 and lost the cascade to the new 0,2,0 split rules in `shell.css`; the
+gradient stayed on. Both switches now use explicit selectors (0,2,1) with no `!important`, and the
+shared object list keeps them from drifting apart.
+
+**Not verified for T05/T06:** real Windows High Contrast, pop-out windows and multi-note split,
+phone-class and physical mobile layouts, and the Style Settings plugin itself.
+
+**Fourth round — worst-case tint contrast and default parity.** Two review findings, both confirmed.
+
+_Worst-case contrast._ The 38-pair gate sampled each side surface as a flat token, but the shipped
+background is token **plus** wash gradient, so the reported 4.86:1 was the untinted midpoint rather
+than the extreme. Compositing the strongest wash (Sky = Clear, 7%) at the outer edge gives `#DEEDF1`
+/ `#EBE4EC`, where `--nav-item-color` measured **4.54:1** on the left and **4.37:1** on the right —
+the right side was below the 4.5 floor. Root cause is not the wash: the audit's own blush bloom
+`#EFE5EF` already measures 4.44:1 against the same muted text, so the AA margin was gone before any
+gradient was drawn. Light paper gives muted text only +0.72 of margin, the left surface +0.36, the
+right surface +0.31.
+
+Fix: a dedicated `--aoi-ink-muted-side` (`#516577`) for text on the tinted side surfaces, applied to
+`--nav-item-color`, `--tab-text-color` and `--titlebar-text-color`. `--text-muted` keeps its paper
+value so body text is unchanged. Worst case becomes 5.03:1 left / 4.84:1 right.
+
+The gate now carries the extreme rather than the midpoint: four precomputed composite tokens
+(`--aoi-workspace-{left,right}-tint-max[-night]`) are checked directly. Pairs grew 38 → 44. Real
+pixels at Clear confirm the model: left outer edge `#DFEDF1`, right outer edge `#EBE4EC`, both
+returning to the plain surface at the inner edge.
+
+_Default parity._ §12.4 sets the dark quote ladder to Whisper/Balanced/Present = 2/4/6%, and the
+Style Settings metadata default is `aoi-sakura-balanced`, but `semantic-dark.css` shipped 2%. With
+the plugin installed and reset, dark therefore resolved to 4% while the no-plugin default resolved
+to 2%, violating §12.1 item 6. `semantic-dark.css` is now 4% (quote body 9.66:1, secondary 6.53:1).
+A sweep of every `@settings` default against its class rule found no other mismatch:
+`aoi-sky-balanced` 5%, `aoi-violet-balanced` 8% and `aoi-callout-balanced` (no rule; mode defaults
+5% light / 6% dark) all match their no-plugin values.
+
+_Documentation sync._ `README.md`, `docs/DESIGN.md` and the primitive evidence map in
+`docs/visual-analysis.md` still described the withdrawn navy night. All three now state the Phase 6
+values, with the superseded ones explicitly marked as historical rather than left as contradictions.
+
+**Still open (not claimed as tested):** V02–V05 and V07–V14 remaining cases; the Style Settings
+plugin install/reset and Cloud/Mist/Aqua/Duet switching; pop-out windows and multi-note split;
+narrow and phone-class viewports and physical mobile; RTL; real Windows High Contrast;
+assistive-technology sessions; the pre-existing `checkout-diff.md` formatting failure in
+`npm run check`; and the deferred `[!bluebird]` type.
+
+No commit, push, version bump, or package rebuild was requested. `checkout-diff.md` is untouched
+because it is a pre-existing user document.
+
+## Previous phase
+
+**Phase 5B — Glass-grey duet refinement (complete; awaiting user visual review)**
+
+Bounded atmosphere pass on top of uncommitted Phase 5A. Paper, ink, and light-mode link/focus cobalt
+stay. No version bump, commit, push, or release packaging.
+
+Approved production values (preview was slightly exaggerated):
+
+- `--aoi-cloud-cool` `#F6FAFA` → `#F5F8F7`
+- `--aoi-mist-blue` `#E8F2F4` → `#E4ECEB`
+- `--aoi-cloud-shadow` `#DFECEF` → `#D7E1E0`
+- `--aoi-ice-border` `#CBDFE8` → `#C3D2D2`
+- light `--background-modifier-hover` sky mix `17%` → `10%`
+- `--aoi-night-cobalt` `#8EAEF2` → `#8AADD9` (surface 6.79:1, canvas 7.65:1, panel 5.46:1)
+- quote wash default `9%` → `12%` (whisper `6%`, present `16%`)
+- properties violet wash default `4%` → `8%` (whisper `3%`, present `12%`)
+
+No new Style Settings entries. Aqua sidebar remains the cyan escape hatch.
+
+- [x] Record this phase without rewriting Phase 5A results.
+- [x] Update primitives, light hover mix, wash defaults, and Style Settings ladders.
+- [x] Sync `docs/DESIGN.md` and `docs/visual-analysis.md`.
+- [x] Run `npm run format` and `npm run check`. Passed on 2026-09-10. Dark link measures 6.79:1.
+- [x] Real Obsidian 1.13.7 screenshots from `test-vault-content`. Saved under ignored
+      `.analysis/glass-duet/obsidian-*.png`. Theme symlink was retargeted from
+      `/Users/ice/Code/Obsidian-theme/aoi-tori-theme-starter` to this checkout so the vault loads
+      the Phase 5B CSS. `obsidian.json` restored after quit.
+- [x] Property key icon and key text share `--metadata-label-background`. The whole Properties card
+      is not recolored; values stay on the card surface.
+
+No commit, push, version bump, or package rebuild was requested.
+
+## Previous phase
+
+**Phase 5A — Release Candidate and public testing preparation (complete with release blockers)**
+
+### Build artifact strategy adjustment (complete)
+
+The repository is correcting the generated-artifact boundary after the release packaging script
+overwrote the root `theme.css` with its minified output. The readable development artifact will be
+written to the repository root, while `npm run package` will write the minified artifact directly to
+`dist/Aoi-Tori/theme.css`. Both files remain generated from `src/`; neither will be hand-edited.
+
+- [x] Make `build()` require an explicit output path and minification mode at each caller.
+- [x] Format the readable root artifact while preserving the complete `@settings` metadata block.
+- [x] Build the minified package artifact directly under `dist/Aoi-Tori/` without touching root
+      `theme.css`.
+- [x] Verify both artifacts, documentation, and quality gates.
+
+**Build artifact result:** `npm run build` now writes the Prettier-formatted readable artifact to
+root `theme.css` (2,507 lines, 79,073 bytes) with `Build mode: development/readable`.
+`npm run package` runs `npm run check` first, then calls `build({ outputFile, minify: true })`
+directly for `dist/Aoi-Tori/theme.css` (the CSS body is one minified line; the preserved `@settings`
+comment remains multiline). The package manifest is copied separately, and the root file remains
+readable after packaging. Metadata is byte-identical and Lightning CSS normalization confirms
+semantic CSS equivalence between both artifacts.
+
+### Release-candidate semantic polish (completed)
+
+The current bounded RC polish fixes the destructive confirmation-button contrast and adds Aoi
+Tori-specific Markdown semantics without redesigning the approved light palette, adding Style
+Settings entries, broadening plugin compatibility, creating a release, committing, or pushing.
+
+- [x] Re-read the attached task, repository instructions, design, architecture, testing, DOM, and
+      matrix documentation.
+- [x] Confirm the working branch is `master` and preserve existing uncommitted Phase 5A changes.
+- [x] Record the pre-change `npm run check` baseline as passing.
+- [x] Confirm Obsidian 1.13.4's installed stylesheet supports the targeted official Markdown
+      variables and exposes `button.mod-destructive.mod-cta`.
+- [x] Implement destructive secondary and primary semantics without changing global
+      `--text-on-accent`.
+- [x] Implement scoped Markdown semantics for bold, italic, bold italic, strikethrough, highlight,
+      tags, completed tasks, footnotes, `<kbd>`, horizontal rules, and source-formatting marks.
+- [x] Add local ignored Markdown semantic test content and expand contrast pairs.
+- [x] Capture the requested ignored review screenshots in `.analysis/semantic-polish/`.
+- [x] Run the final `npm run format`, `npm run build`, `npm run lint`, `npm run audit`,
+      `npm run contrast`, `npm run validate:manifest`, `npm run check`, and `npm run package`.
+
+**Current evidence:** the screenshot issue is caused by Obsidian's destructive CTA state applying
+`--text-color: var(--text-on-accent)` to a soft error background. The fix sets both `--text-color`
+and `color` through new destructive semantic tokens. The expanded contrast gate currently measures
+light destructive primary at 6.27:1, light destructive secondary at 5.44:1, dark destructive primary
+at 8.13:1, and dark destructive secondary at 7.36:1. Real Obsidian 1.13.4 computed styles for the
+fixture button confirmed the primary destructive focus ring as `rgb(21, 88, 160) solid 2px` with a
+`2px` offset outside the error border.
+
+**Manual/visual evidence:** the ignored semantic test note was reviewed in Obsidian Desktop
+1.13.4/Installer 1.13.4 on macOS in light, dark, Reading, Live Preview, and Source views. UI zoom
+0.9/1.0/1.1, a 760 px narrow window, and one pop-out window smoke passed without horizontal document
+overflow or theme loss. Copy/cut/paste mutation flows and Vim mode were not repeated in this bounded
+polish pass and remain manual release-candidate checks.
+
+**Final quality result:** the full required command sequence passed on 2026-08-03. Root `theme.css`
+is readable at 2,770 lines / 88,518 bytes; release `dist/Aoi-Tori/theme.css` is minified at 457
+lines / 80,806 bytes. `npm run package` produced `manifest.json` SHA-256
+`63c43169f73761b4a0dc3ec21ff2898b472526c9b4e7100e689864238abf08ae` and `theme.css` SHA-256
+`29a53bb7c94cc0771eb3ce38898373833a4eb22c302b0b836653abe583760ef2`.
+
+Phase 5A packages the completed theme as a `0.9.0` public-test Release Candidate. It does not
+redesign the palette, add broad compatibility features, create a GitHub Release, tag, push, commit,
+or submit to Community Themes.
+
+### Phase 5A execution boundary
+
+- [x] Re-read the attached task, repository rules, current README, plan, architecture, design,
+      testing, DOM, matrix, research, and attribution records.
+- [x] Confirm `master`, clean worktree, recent Phase 3.5 / Phase 4 commit `817a629`, and passing
+      pre-change `npm run check`.
+- [x] Verify current official release/submission requirements from Obsidian sources and current
+      accepted Community Theme repositories.
+- [x] Prepare `0.9.0` manifest/package metadata, MIT license, release README, attribution, and
+      release research documentation without changing the theme name.
+- [x] Create original repository screenshots/cover assets from real Aoi Tori Obsidian UI evidence,
+      with no reference artwork or remote assets.
+- [x] Add a repeatable `npm run package` command that checks, creates a release build, rebuilds only
+      `dist/Aoi-Tori`, audits contents, and reports SHA-256 values.
+- [x] Perform a clean install test from `dist/Aoi-Tori` into an ignored temporary Vault and record
+      exact tested and untested states.
+- [x] Add lightweight CI, issue templates, contributing guidance, release notes, and a release
+      checklist.
+- [x] Run the requested final `npm run format`, `npm run check`, and `npm run package` sequence and
+      record results.
+
+The official docs currently confirm that the first Community Theme submission happens through
+`community.obsidian.md`, that the release tag must match `manifest.json` version, and that the
+GitHub release must attach `manifest.json` and `theme.css`. Current accepted themes still vary in
+where screenshots live (`screenshot.png`, `screenshots/...`, `assets/...`), so screenshot path
+acceptance is recorded as a practical observation rather than a stronger official guarantee.
+
+Phase 4's local audit expected ignored `test-vault-content/Phase 3` fixtures to exist, while Phase
+5A requires CI to run in a clean checkout where ignored local Vault content is absent. The release
+decision is to keep strict fixture checks whenever that local tree exists, but downgrade the missing
+tree to an audit warning for clean CI. Release package checks remain strict and still reject test
+Vault content.
+
+**Phase 5A result:** `manifest.json` and `package.json` are prepared as `0.9.0`, the project now has
+an MIT `LICENSE`, release-facing README, current official release research, release notes,
+contribution/issue templates, CI, original UI-based screenshot assets, and a repeatable package
+command. `npm run package` produces only `manifest.json` and `theme.css` under ignored
+`dist/Aoi-Tori`; the current package SHA-256 values are
+`63c43169f73761b4a0dc3ec21ff2898b472526c9b4e7100e689864238abf08ae` for `manifest.json` and
+`e6ecd03585ad6ee3584aef833a395d7c84cee524f6899d6a5533c977996339eb` for the minified `theme.css`. The
+clean install package copied into an ignored fresh Vault and matched the package hashes, but the
+real Obsidian clean-Vault UI launch/restart check could not be completed without force-closing the
+user's existing Obsidian session. That UI clean-install pass, physical mobile, Windows/Linux, real
+Windows High Contrast, and assistive-technology testing remain prerequisites before a final `1.0.0`
+or real Community submission.
+
+## Previous phase
+
+**Phase 4 — Mobile, Style Settings, and accessibility (complete; commit `817a629`)**
 
 Phase 3.5 preserves the reviewed Phase 3 visual system and repairs the Settings Toggle geometry
 against the actual Obsidian 1.13.4 DOM. Phase 4 may begin only after the Toggle repair, evidence,
@@ -461,34 +859,35 @@ the interaction was tested.
 
 Record decisions that affect architecture, compatibility, licensing, or visual identity.
 
-| Date       | Decision                                                                                                                      | Reason                                                                                         | Consequence                                                                                    |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| 2026-08-02 | Use `Aoi Tori` as the working name                                                                                            | It reflects 青い鳥 more directly than Aozora                                                   | Use `--aoi-*` token prefix                                                                     |
-| 2026-08-02 | Reference images outrank supplied HEX values                                                                                  | The images carry the intended atmosphere and color relationships                               | HEX values remain adjustable anchors                                                           |
-| 2026-08-02 | Do not edit `theme.css` directly                                                                                              | It is a generated release artifact                                                             | All styling work happens in `src/`                                                             |
-| 2026-08-02 | Do not create a SKILL yet                                                                                                     | No repository workflow has been repeated enough to stabilize                                   | Revisit after release audits become recurring                                                  |
-| 2026-08-02 | Use warm paper and cool cloud/mist as distinct white families                                                                 | The primary images consistently balance paper warmth against cool atmospheric light            | Main reading surfaces stay warm-neutral; panels may lean cool                                  |
-| 2026-08-02 | Separate watercolor cyan, clear sky, and cobalt interaction blue                                                              | The images give these blues different value, chroma, and narrative roles                       | Pale cyan is a surface; sky is atmosphere; accessible cobalt is functional                     |
-| 2026-08-02 | Use violet-navy ink instead of pure black                                                                                     | The close-up supplies the missing structural dark and keeps the palette coherent               | Body text, outlines, code, and dark surfaces use an ink/night family                           |
-| 2026-08-02 | Limit sakura/lilac to a sparse second voice and gold orange to a micro-accent                                                 | Their small image area matters narratively but does not justify broad UI coverage              | No pink workspace, rainbow headings, or gold replacement for warning semantics                 |
-| 2026-08-02 | Approve an original abstract feather, two near-parallel curves, pale fields, and cloud-white space as future graphic language | These translate feather, duet, watercolor, and distance without copying reference art          | Final cover waits until Phase 6 and uses an actual Aoi Tori UI screenshot                      |
-| 2026-08-02 | Keep native 1.13 image behavior until current DOM evidence exists                                                             | Release notes define behavior but not stable selectors; Phase 1 did not instrument a vault     | No custom zoom/grid/resizing CSS or internal selectors before Phase 4 inspection               |
-| 2026-08-02 | Treat Community Health/Review as time-stamped guidance, not a safety ranking                                                  | Scorecards are automated, evolving, and may contain false positives or negatives               | Record exact findings and keep Aoi Tori's target at zero `!important` and zero `:has()`        |
-| 2026-08-02 | Preserve the existing unborn `master` branch during engineering normalization                                                 | The repository was already initialized; the request only required `main` when initializing     | Do not reinitialize or rename; report the actual branch                                        |
-| 2026-08-02 | Treat watercolor/work-related imagery as Tier A and the saturated summer-sky pair as Tier B                                   | The current user decision narrows the Phase 1 hierarchy                                        | Tier B sets clarity/chroma limits but cannot determine UI area ratios                          |
-| 2026-08-02 | Combine roadmap Phase 2 with a bounded slice of Phase 3/4 for this review build                                               | The current task explicitly requests final tokens plus a real preview slice                    | Mark only implemented/tested rows complete; keep broader compatibility work pending            |
-| 2026-08-02 | Approve `.image-embed.is-selected` and `.embed-action` only after rendered 1.13.4 DOM inspection                              | Pointer selection and actions were observed in the disposable local Vault                      | Style a non-layout cobalt outline and action states; leave resize/lightbox DOM native          |
-| 2026-08-02 | Keep all 53 Phase 2 primitive colors only because each has a current semantic reference                                       | The task requires removing unused token candidates                                             | Phase 2.5 may add a used accessible step, but no dormant primitive remains                     |
-| 2026-08-02 | Record the local installer as 1.13.4 for Phase 2                                                                              | Both Settings and the application bundle reported 1.13.4 during the actual test                | Supersede, but do not erase, the earlier Phase 1 observation of a 1.12.7 shell                 |
-| 2026-08-02 | Use only cold-start-verified 1.13.4 Lucide IDs for Phase 2.5 Callouts                                                         | Hot reload left even native Callout SVGs empty; cold start produced reliable registry evidence | Use `lucide-info` when `lucide-circle-info` fails; add no external/custom icon asset           |
-| 2026-08-02 | Express watercolor air with bounded static semantic gradients                                                                 | Small hue layers improve the summer-watercolor identity without raster texture or blur         | Keep paper/text/actions solid; cap each refined component at two simple gradient layers        |
-| 2026-08-02 | Keep `.callout-content` transparent and let the parent own the surface                                                        | The native opaque content layer masked the parent wash as a nested white/black rectangle       | Preserve one continuous Callout ground without changing body text or spacing                   |
-| 2026-08-02 | Create one Phase 2.5 checkpoint before starting Phase 3                                                                       | The current user explicitly requested staging and committing this reviewed baseline            | Phase 3 work starts from that commit and remains uncommitted without new authorization         |
-| 2026-08-03 | Remove the theme-added physical Toggle border instead of repositioning the thumb                                              | The border shrank a fixed native track content box and produced asymmetric 3 px / 1 px gaps    | Native checked transforms, active expansion, dimensions, and 2 px / 2 px centering stay intact |
-| 2026-08-03 | Treat desktop mobile emulation as responsive evidence, not device certification                                               | No iOS/iPadOS/Android simulator or hardware is installed                                       | Record physical gestures, keyboard, safe areas, and platform rendering as untested             |
-| 2026-08-03 | Keep Bases card image fit document-owned                                                                                      | Obsidian writes the Base view's `imageFit` as an inline style                                  | Style Settings gives native guidance instead of using `!important`                             |
-| 2026-08-03 | Preserve Style Settings metadata explicitly in the build                                                                      | Lightning CSS strips the plugin metadata comment while bundling                                | Build prepends the source block and audit verifies its groups in source and output             |
-| 2026-08-03 | Provide both OS-media and optional manual accessibility responses                                                             | OS preferences should work without a plugin, while manual controls help users without them     | Reduced motion, contrast, focus, borders, targets, gradients, and forced colors remain bounded |
+| Date       | Decision                                                                                                                      | Reason                                                                                         | Consequence                                                                                                |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| 2026-08-02 | Use `Aoi Tori` as the working name                                                                                            | It reflects 青い鳥 more directly than Aozora                                                   | Use `--aoi-*` token prefix                                                                                 |
+| 2026-08-02 | Reference images outrank supplied HEX values                                                                                  | The images carry the intended atmosphere and color relationships                               | HEX values remain adjustable anchors                                                                       |
+| 2026-08-02 | Do not edit `theme.css` directly                                                                                              | It is a generated release artifact                                                             | All styling work happens in `src/`                                                                         |
+| 2026-08-02 | Do not create a SKILL yet                                                                                                     | No repository workflow has been repeated enough to stabilize                                   | Revisit after release audits become recurring                                                              |
+| 2026-08-02 | Use warm paper and cool cloud/mist as distinct white families                                                                 | The primary images consistently balance paper warmth against cool atmospheric light            | Main reading surfaces stay warm-neutral; panels may lean cool                                              |
+| 2026-08-02 | Separate watercolor cyan, clear sky, and cobalt interaction blue                                                              | The images give these blues different value, chroma, and narrative roles                       | Pale cyan is a surface; sky is atmosphere; accessible cobalt is functional                                 |
+| 2026-08-02 | Use violet-navy ink instead of pure black                                                                                     | The close-up supplies the missing structural dark and keeps the palette coherent               | Body text, outlines, code, and dark surfaces use an ink/night family                                       |
+| 2026-08-02 | Limit sakura/lilac to a sparse second voice and gold orange to a micro-accent                                                 | Their small image area matters narratively but does not justify broad UI coverage              | No pink workspace, rainbow headings, or gold replacement for warning semantics                             |
+| 2026-08-02 | Approve an original abstract feather, two near-parallel curves, pale fields, and cloud-white space as future graphic language | These translate feather, duet, watercolor, and distance without copying reference art          | Final cover waits until Phase 6 and uses an actual Aoi Tori UI screenshot                                  |
+| 2026-08-02 | Keep native 1.13 image behavior until current DOM evidence exists                                                             | Release notes define behavior but not stable selectors; Phase 1 did not instrument a vault     | No custom zoom/grid/resizing CSS or internal selectors before Phase 4 inspection                           |
+| 2026-08-02 | Treat Community Health/Review as time-stamped guidance, not a safety ranking                                                  | Scorecards are automated, evolving, and may contain false positives or negatives               | Record exact findings and keep Aoi Tori's target at zero `!important` and zero `:has()`                    |
+| 2026-08-02 | Preserve the existing unborn `master` branch during engineering normalization                                                 | The repository was already initialized; the request only required `main` when initializing     | Do not reinitialize or rename; report the actual branch                                                    |
+| 2026-08-02 | Treat watercolor/work-related imagery as Tier A and the saturated summer-sky pair as Tier B                                   | The current user decision narrows the Phase 1 hierarchy                                        | Tier B sets clarity/chroma limits but cannot determine UI area ratios                                      |
+| 2026-08-02 | Combine roadmap Phase 2 with a bounded slice of Phase 3/4 for this review build                                               | The current task explicitly requests final tokens plus a real preview slice                    | Mark only implemented/tested rows complete; keep broader compatibility work pending                        |
+| 2026-08-02 | Approve `.image-embed.is-selected` and `.embed-action` only after rendered 1.13.4 DOM inspection                              | Pointer selection and actions were observed in the disposable local Vault                      | Style a non-layout cobalt outline and action states; leave resize/lightbox DOM native                      |
+| 2026-08-02 | Keep all 53 Phase 2 primitive colors only because each has a current semantic reference                                       | The task requires removing unused token candidates                                             | Phase 2.5 may add a used accessible step, but no dormant primitive remains                                 |
+| 2026-08-02 | Record the local installer as 1.13.4 for Phase 2                                                                              | Both Settings and the application bundle reported 1.13.4 during the actual test                | Supersede, but do not erase, the earlier Phase 1 observation of a 1.12.7 shell                             |
+| 2026-08-02 | Use only cold-start-verified 1.13.4 Lucide IDs for Phase 2.5 Callouts                                                         | Hot reload left even native Callout SVGs empty; cold start produced reliable registry evidence | Use `lucide-info` when `lucide-circle-info` fails; add no external/custom icon asset                       |
+| 2026-08-02 | Express watercolor air with bounded static semantic gradients                                                                 | Small hue layers improve the summer-watercolor identity without raster texture or blur         | Keep paper/text/actions solid; cap each refined component at two simple gradient layers                    |
+| 2026-08-02 | Keep `.callout-content` transparent and let the parent own the surface                                                        | The native opaque content layer masked the parent wash as a nested white/black rectangle       | Preserve one continuous Callout ground without changing body text or spacing                               |
+| 2026-08-02 | Create one Phase 2.5 checkpoint before starting Phase 3                                                                       | The current user explicitly requested staging and committing this reviewed baseline            | Phase 3 work starts from that commit and remains uncommitted without new authorization                     |
+| 2026-08-03 | Remove the theme-added physical Toggle border instead of repositioning the thumb                                              | The border shrank a fixed native track content box and produced asymmetric 3 px / 1 px gaps    | Native checked transforms, active expansion, dimensions, and 2 px / 2 px centering stay intact             |
+| 2026-08-03 | Treat desktop mobile emulation as responsive evidence, not device certification                                               | No iOS/iPadOS/Android simulator or hardware is installed                                       | Record physical gestures, keyboard, safe areas, and platform rendering as untested                         |
+| 2026-08-03 | Keep Bases card image fit document-owned                                                                                      | Obsidian writes the Base view's `imageFit` as an inline style                                  | Style Settings gives native guidance instead of using `!important`                                         |
+| 2026-08-03 | Preserve Style Settings metadata explicitly in the build                                                                      | Lightning CSS strips the plugin metadata comment while bundling                                | Build prepends the source block and audit verifies its groups in source and output                         |
+| 2026-08-03 | Provide both OS-media and optional manual accessibility responses                                                             | OS preferences should work without a plugin, while manual controls help users without them     | Reduced motion, contrast, focus, borders, targets, gradients, and forced colors remain bounded             |
+| 2026-08-03 | Keep readable and release CSS as separate generated outputs                                                                   | Packaging previously overwrote the reviewable root file with its minified result               | `build()` receives `outputFile` and `minify`; root stays formatted and `dist/Aoi-Tori` stays install-ready |
 
 ## Phase 1 result
 
