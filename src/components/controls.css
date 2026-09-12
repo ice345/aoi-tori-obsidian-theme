@@ -1,6 +1,8 @@
 button,
 .mod-cta,
 .mod-warning {
+  --text-color: var(--text-normal);
+
   color: var(--text-normal);
   background-color: var(--interactive-normal);
   border: var(--input-border-width) solid var(--background-modifier-border);
@@ -21,21 +23,55 @@ button:hover {
 }
 
 button.mod-cta {
+  --text-color: var(--text-on-accent);
+
   color: var(--text-on-accent);
   background-color: var(--interactive-accent);
   border-color: var(--interactive-accent);
 }
 
 button.mod-cta:hover {
+  --text-color: var(--text-on-accent);
+
   color: var(--text-on-accent);
   background-color: var(--interactive-accent-hover);
   border-color: var(--interactive-accent-hover);
 }
 
-button.mod-warning {
-  color: var(--text-error);
-  background-color: var(--background-modifier-error);
-  border-color: var(--text-error);
+button.mod-warning,
+button.mod-destructive {
+  --text-color: var(--aoi-destructive-secondary-text);
+
+  color: var(--aoi-destructive-secondary-text);
+  background-color: var(--aoi-destructive-secondary-background);
+  border-color: var(--aoi-destructive-secondary-border);
+}
+
+button.mod-warning:hover,
+button.mod-destructive:hover {
+  --text-color: var(--aoi-destructive-secondary-text);
+
+  color: var(--aoi-destructive-secondary-text);
+  background-color: var(--aoi-destructive-secondary-background-hover);
+  border-color: var(--aoi-destructive-secondary-border);
+}
+
+button.mod-warning.mod-cta,
+button.mod-destructive.mod-cta {
+  --text-color: var(--aoi-destructive-primary-text);
+
+  color: var(--aoi-destructive-primary-text);
+  background-color: var(--aoi-destructive-primary-background);
+  border-color: var(--aoi-destructive-primary-border);
+}
+
+button.mod-warning.mod-cta:hover,
+button.mod-destructive.mod-cta:hover {
+  --text-color: var(--aoi-destructive-primary-text);
+
+  color: var(--aoi-destructive-primary-text);
+  background-color: var(--aoi-destructive-primary-background-hover);
+  border-color: var(--aoi-destructive-primary-border);
 }
 
 button:active {
@@ -51,9 +87,34 @@ select:focus-visible {
 }
 
 button:disabled,
+button[aria-disabled="true"],
+button[disabled="true"],
+button.mod-cta:disabled,
+button.mod-cta[aria-disabled="true"],
+button.mod-cta[disabled="true"],
+button.mod-warning:disabled,
+button.mod-warning[aria-disabled="true"],
+button.mod-warning[disabled="true"],
+button.mod-destructive:disabled,
+button.mod-destructive[aria-disabled="true"],
+button.mod-destructive[disabled="true"],
+button.mod-warning.mod-cta:disabled,
+button.mod-warning.mod-cta[aria-disabled="true"],
+button.mod-warning.mod-cta[disabled="true"],
+button.mod-destructive.mod-cta:disabled,
+button.mod-destructive.mod-cta[aria-disabled="true"],
+button.mod-destructive.mod-cta[disabled="true"],
+button.mod-warning.mod-cta:disabled:hover,
+button.mod-warning.mod-cta[aria-disabled="true"]:hover,
+button.mod-warning.mod-cta[disabled="true"]:hover,
+button.mod-destructive.mod-cta:disabled:hover,
+button.mod-destructive.mod-cta[aria-disabled="true"]:hover,
+button.mod-destructive.mod-cta[disabled="true"]:hover,
 input:disabled,
 textarea:disabled,
 select:disabled {
+  --text-color: var(--text-faint);
+
   color: var(--text-faint);
   background-color: var(--background-secondary-alt);
   border-color: var(--input-disabled-border-color);
