@@ -56,6 +56,48 @@
     "minimum": 3
   },
   {
+    "name": "Light destructive primary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--aoi-destructive-primary-text",
+    "background": "--aoi-destructive-primary-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light destructive secondary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--aoi-destructive-secondary-text",
+    "background": "--aoi-destructive-secondary-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light bold",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--aoi-strong-text",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light italic",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--aoi-italic-text",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light highlight",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--aoi-highlight-text",
+    "background": "--aoi-highlight-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light tag",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--tag-color",
+    "background": "--tag-background",
+    "minimum": 4.5
+  },
+  {
     "name": "Dark body text",
     "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
     "foreground": "--text-normal",
@@ -110,5 +152,166 @@
     "foreground": "--background-modifier-border-focus",
     "background": "--background-primary",
     "minimum": 3
+  },
+  {
+    "name": "Dark destructive primary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--aoi-destructive-primary-text",
+    "background": "--aoi-destructive-primary-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark destructive secondary button text",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--aoi-destructive-secondary-text",
+    "background": "--aoi-destructive-secondary-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark bold",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--aoi-strong-text",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark italic",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--aoi-italic-text",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark highlight",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--aoi-highlight-text",
+    "background": "--aoi-highlight-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark tag",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--tag-color",
+    "background": "--tag-background",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light body text on left surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-normal",
+    "background": "--aoi-workspace-left-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light muted text on left surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-workspace-left-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light muted text on right surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-workspace-right-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light link on right surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--link-color",
+    "background": "--aoi-workspace-right-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light muted text on bridge surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-workspace-bridge-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark body text on left surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-normal",
+    "background": "--aoi-workspace-left-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark muted text on left surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-workspace-left-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark muted text on right surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-workspace-right-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark link on right surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--link-color",
+    "background": "--aoi-workspace-right-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark muted text on raised panel",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-muted",
+    "background": "--aoi-night-panel",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light nav text at maximum left tint",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-left-tint-max",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light nav text at maximum right tint",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-right-tint-max",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light nav text on left surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-left-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light nav text on right surface",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-right-surface",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark nav text at maximum left tint",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-left-tint-max-night",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark nav text at maximum right tint",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-right-tint-max-night",
+    "minimum": 4.5
+  },
+  {
+    "name": "Light nav text on deepest sidebar (Aqua + maximum wash)",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--nav-item-color",
+    "background": "--aoi-workspace-tint-max-aqua",
+    "minimum": 4.5
   }
 ]
