@@ -80,12 +80,18 @@ body.is-mobile .setting-item.mod-toggle .setting-item-control {
   align-items: center;
 }
 
-body.is-mobile :where(.workspace-drawer.mod-left, .workspace-drawer.mod-right) {
+body.is-mobile .workspace-drawer.mod-left {
   color: var(--text-normal);
-  background-color: var(--background-secondary);
+  background-color: var(--aoi-workspace-left-surface);
+}
+
+body.is-mobile .workspace-drawer.mod-right {
+  color: var(--text-normal);
+  background-color: var(--aoi-workspace-right-surface);
 }
 
 body.is-mobile .workspace-drawer-header {
+  background-color: transparent;
   border-block-end: 1px solid var(--background-modifier-border);
 }
 

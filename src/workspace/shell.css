@@ -11,34 +11,106 @@ body.is-popout-window .workspace {
   background-color: var(--background-primary);
 }
 
-.workspace-split.mod-left-split,
-.workspace-split.mod-right-split {
-  background-color: var(--background-secondary);
-}
-
-.theme-light :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split) {
+.workspace-split.mod-left-split {
+  background-color: var(--aoi-workspace-left-surface);
   background-image: linear-gradient(
-    145deg,
-    color-mix(in srgb, var(--color-cyan) var(--aoi-sidebar-wash-strength), transparent),
-    transparent 36%
+    to right,
+    color-mix(
+      in srgb,
+      var(--aoi-workspace-left-wash) var(--aoi-sidebar-wash-strength),
+      transparent
+    ),
+    transparent 72%
   );
 }
 
+.workspace-split.mod-right-split {
+  background-color: var(--aoi-workspace-right-surface);
+  background-image: linear-gradient(
+    to left,
+    color-mix(
+      in srgb,
+      var(--aoi-workspace-right-wash) var(--aoi-sidebar-wash-strength),
+      transparent
+    ),
+    transparent 72%
+  );
+}
+
+/* Central shell: the bridge between the two voices. Pop-outs and windows without
+   sidebars get the neutral bridge as their default, independent of any split. */
+.workspace {
+  background-color: var(--aoi-workspace-bridge-surface);
+}
+
+/* The ribbon continues the left edge; the status bar stays a neutral stable face
+   so status text never inherits the right-hand blush. */
 .workspace-ribbon {
-  background-color: var(--ribbon-background);
+  background-color: var(--aoi-workspace-left-surface);
   border-inline-end: 1px solid var(--background-modifier-border);
+}
+
+/* Obsidian paints the top-left corner (the traffic-light strip) from the global
+   `--titlebar-background`, which also feeds the right-hand controls. That single
+   token cannot describe both sides, so the corner is pinned to the left surface
+   and the right-hand controls get their own rule below. */
+.workspace-ribbon.mod-left::before {
+  background-color: var(--aoi-workspace-left-surface);
 }
 
 .status-bar {
   color: var(--status-bar-text-color);
-  background-color: var(--status-bar-background);
+  background-color: var(--aoi-workspace-bridge-surface);
   border-color: var(--status-bar-border-color);
   box-shadow: none;
 }
 
+/* Tab bars are transparent so each region shows its own surface: the central bar
+   therefore reads as the bridge, and each sidebar bar as its own tint. */
 .workspace-tab-header-container {
-  background-color: var(--tab-container-background);
+  background-color: transparent;
   border-block-end: 1px solid var(--tab-outline-color);
+}
+
+/* Sidebar collapse controls sit on their own side, not on the left default. */
+.sidebar-toggle-button.mod-left {
+  background-color: var(--aoi-workspace-left-surface);
+}
+
+.sidebar-toggle-button.mod-right,
+.mod-macos.is-hidden-frameless:not(.is-popout-window) .sidebar-toggle-button.mod-right {
+  background-color: var(--aoi-workspace-right-surface);
+}
+
+/* Obsidian paints `.workspace-split.mod-root` with `--background-primary`, which
+   hid the bridge behind the central tab bar. The split itself is cleared so the
+   neutral bridge is visible in the empty tab-bar area, while the leaf keeps the
+   opaque paper the reading surface needs. */
+.workspace-split.mod-root {
+  background-color: transparent;
+}
+
+.workspace-split.mod-root .workspace-leaf,
+.workspace-split.mod-root .workspace-leaf-content,
+.workspace-split.mod-root .view-content {
+  background-color: var(--background-primary);
+}
+
+/* Obsidian paints the vault switcher strip from `--background-secondary`, which is
+   the generic mist role and not this sidebar's surface. */
+body:not(.is-mobile) .workspace-split.mod-left-split .workspace-sidedock-vault-profile {
+  background-color: var(--aoi-workspace-left-surface);
+  border-top-color: var(--background-modifier-border);
+}
+
+body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-profile {
+  background-color: var(--aoi-workspace-right-surface);
+  border-top-color: var(--background-modifier-border);
+}
+
+.workspace-split.mod-left-split .workspace-drawer-vault-switcher,
+.workspace-split.mod-right-split .workspace-drawer-vault-switcher {
+  background-color: transparent;
 }
 
 .workspace-tab-header {
@@ -70,14 +142,13 @@ body.is-popout-window .workspace {
   background-color: var(--background-primary);
 }
 
+/* Sidebar leaf shells show the split's own surface; the reading pane stays opaque.
+   Obsidian paints `--background-secondary` on `.workspace-tabs .workspace-leaf`,
+   which sits above the split, so that layer must be cleared too. */
+.workspace-split.mod-left-split .workspace-leaf,
+.workspace-split.mod-right-split .workspace-leaf,
 .workspace-split.mod-left-split .workspace-leaf-content,
 .workspace-split.mod-right-split .workspace-leaf-content {
-  background-color: var(--background-secondary);
-}
-
-.theme-light
-  :where(.workspace-split.mod-left-split, .workspace-split.mod-right-split)
-  .workspace-leaf-content {
   background-color: transparent;
 }
 
