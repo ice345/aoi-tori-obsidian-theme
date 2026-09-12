@@ -1,15 +1,20 @@
 import { bundle } from "lightningcss";
+import prettier from "prettier";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const entryFile = path.join(projectRoot, "src", "index.css");
-const outputFile = path.join(projectRoot, "theme.css");
 const styleSettingsFile = path.join(projectRoot, "src", "settings", "style-settings.css");
 
-export async function build({ minify = false } = {}) {
-  await mkdir(path.dirname(outputFile), { recursive: true });
+export async function build({ outputFile, minify = false } = {}) {
+  if (!outputFile) {
+    throw new Error("build() requires an explicit outputFile path");
+  }
+
+  const resolvedOutputFile = path.resolve(projectRoot, outputFile);
+  await mkdir(path.dirname(resolvedOutputFile), { recursive: true });
 
   const styleSettingsSource = await readFile(styleSettingsFile, "utf8");
   const styleSettingsMetadata = styleSettingsSource.match(/\/\*\s*@settings[\s\S]*?\*\//)?.[0];
@@ -31,17 +36,25 @@ export async function build({ minify = false } = {}) {
 
   const banner = [
     "/*",
-    " * Aoi Tori — generated from src/index.css",
-    " * Do not edit theme.css directly.",
+    " * Aoi Tori - generated theme artifact",
+    " * Do not edit generated CSS directly.",
     ` * Build mode: ${minify ? "release/minified" : "development/readable"}`,
     " */",
     ""
   ].join("\n");
 
-  const output = `${banner}${styleSettingsMetadata}\n\n${result.code.toString()}`;
-  await writeFile(outputFile, output, "utf8");
+  const bundledCss = result.code.toString();
+  // The readable root artifact is formatted with the repository's Prettier CSS parser. The
+  // complete metadata comment is included in the same parse, while minified package output
+  // intentionally skips formatting so its CSS body stays compact.
+  const rawOutput = `${banner}${styleSettingsMetadata}\n\n${bundledCss}`;
+  const prettierConfig = minify ? null : await prettier.resolveConfig(resolvedOutputFile);
+  const output = minify
+    ? rawOutput
+    : await prettier.format(rawOutput, { ...prettierConfig, parser: "css" });
+  await writeFile(resolvedOutputFile, output, "utf8");
   console.log(
-    `Built ${path.relative(projectRoot, outputFile)} (${Buffer.byteLength(output)} bytes).`
+    `Built ${path.relative(projectRoot, resolvedOutputFile)} (${Buffer.byteLength(output)} bytes).`
   );
 }
 
@@ -50,8 +63,16 @@ const isDirectRun =
 
 if (isDirectRun) {
   const minify = process.argv.includes("--minify");
-  build({ minify }).catch((error) => {
-    console.error(error);
+  const outputFlagIndex = process.argv.indexOf("--output-file");
+  const outputFile = outputFlagIndex >= 0 ? process.argv[outputFlagIndex + 1] : "theme.css";
+
+  if (!outputFile || outputFile.startsWith("--")) {
+    console.error("--output-file requires a path");
     process.exitCode = 1;
-  });
+  } else {
+    build({ outputFile, minify }).catch((error) => {
+      console.error(error);
+      process.exitCode = 1;
+    });
+  }
 }

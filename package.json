@@ -1,6 +1,6 @@
 {
   "name": "aoi-tori-obsidian-theme",
-  "version": "0.1.0",
+  "version": "0.9.0",
   "private": true,
   "description": "A watercolor blue-bird-inspired Obsidian community theme.",
   "type": "module",
@@ -9,17 +9,19 @@
   },
   "scripts": {
     "dev": "node scripts/dev.mjs",
-    "build": "node scripts/build.mjs",
+    "build": "node scripts/build.mjs --output-file theme.css",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint:css": "stylelint \"src/**/*.css\"",
     "lint": "npm run lint:css && npm run format:check",
     "audit": "node scripts/audit-css.mjs",
     "contrast": "node scripts/check-contrast.mjs",
+    "scenarios": "node scripts/check-scenarios.mjs",
     "validate:manifest": "node scripts/validate-manifest.mjs",
-    "check": "npm run build && npm run lint && npm run audit && npm run contrast && npm run validate:manifest",
+    "check": "npm run build && npm run lint && npm run audit && npm run contrast && npm run scenarios && npm run validate:manifest",
     "test": "npm run check",
-    "release": "npm run check && node scripts/build.mjs --minify"
+    "release": "npm run package",
+    "package": "node scripts/package.mjs"
   },
   "devDependencies": {
     "chokidar": "^4.0.3",

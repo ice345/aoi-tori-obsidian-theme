@@ -13,7 +13,7 @@ async function rebuild(reason) {
   running = true;
   try {
     console.log(`\nRebuilding after ${reason}...`);
-    await build();
+    await build({ outputFile: "theme.css", minify: false });
   } catch (error) {
     console.error(error);
   } finally {
