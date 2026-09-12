@@ -1,0 +1,86 @@
+name: Visual issue
+description: Report a visual mismatch, contrast concern, spacing issue, or unwanted style.
+title: "[Visual]: "
+labels:
+  - visual
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please share focused screenshots rather than an entire private Vault.
+  - type: input
+    id: component
+    attributes:
+      label: Component or view
+      placeholder: "Callout / Settings Toggle / Bases Cards / Canvas / mobile toolbar"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected visual result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual visual result
+    validations:
+      required: true
+  - type: input
+    id: obsidian-version
+    attributes:
+      label: Obsidian and installer version
+      placeholder: "Obsidian 1.13.4, Installer 1.13.4"
+    validations:
+      required: true
+  - type: input
+    id: theme-version
+    attributes:
+      label: Theme version
+      placeholder: "0.9.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS 26.5 / Windows 11 / iOS / Android"
+    validations:
+      required: true
+  - type: dropdown
+    id: color-scheme
+    attributes:
+      label: Color scheme
+      options:
+        - Light
+        - Dark
+        - Both
+    validations:
+      required: true
+  - type: input
+    id: zoom
+    attributes:
+      label: UI zoom
+      placeholder: "100%"
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot
+      description: Redact private content first.
+    validations:
+      required: true
+  - type: dropdown
+    id: default-theme
+    attributes:
+      label: Does it reproduce in Obsidian's Default theme?
+      options:
+        - "No"
+        - "Yes"
+        - "Not checked"
+    validations:
+      required: true
+  - type: textarea
+    id: notes
+    attributes:
+      label: Additional context

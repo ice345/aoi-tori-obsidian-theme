@@ -1,0 +1,97 @@
+name: Bug report
+description: Report a broken interaction, unreadable state, or theme regression.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for testing Aoi Tori. Please do not upload your entire private Vault.
+  - type: input
+    id: obsidian-version
+    attributes:
+      label: Obsidian version
+      placeholder: "1.13.4"
+    validations:
+      required: true
+  - type: input
+    id: installer-version
+    attributes:
+      label: Installer version
+      placeholder: "1.13.4"
+    validations:
+      required: true
+  - type: input
+    id: theme-version
+    attributes:
+      label: Theme version
+      placeholder: "0.9.0"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "macOS 26.5 / Windows 11 / iOS / Android"
+    validations:
+      required: true
+  - type: dropdown
+    id: color-scheme
+    attributes:
+      label: Color scheme
+      options:
+        - Light
+        - Dark
+        - Both
+    validations:
+      required: true
+  - type: dropdown
+    id: style-settings
+    attributes:
+      label: Style Settings enabled
+      options:
+        - "No"
+        - "Yes"
+        - "Not installed"
+    validations:
+      required: true
+  - type: textarea
+    id: plugins
+    attributes:
+      label: Community plugins
+      description: List relevant enabled plugins, or say Restricted mode / none.
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Please include the smallest note or UI path that reproduces the issue.
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: textarea
+    id: screenshot
+    attributes:
+      label: Screenshot or recording
+      description: Drag images here if useful. Redact private content first.
+  - type: textarea
+    id: devtools
+    attributes:
+      label: DevTools DOM or Console information
+      description:
+        Include this only when relevant, especially for image, Canvas, Bases, or plugin UI issues.
