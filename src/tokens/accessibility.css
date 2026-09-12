@@ -25,14 +25,28 @@
     --aoi-focus-ring-width: 3px;
   }
 
-  .theme-light {
+  /* The sidebar contrast classes are (0,2,1); these selectors match that so the
+     operating-system preference wins over any theme-level sidebar option. */
+  body.theme-light,
+  body.theme-light.aoi-sidebar-contrast-soft,
+  body.theme-light.aoi-sidebar-contrast-standard,
+  body.theme-light.aoi-sidebar-contrast-strong {
     --text-muted: var(--aoi-ink-strong);
     --text-faint: var(--aoi-ink-muted);
     --icon-color: var(--aoi-ink-strong);
     --background-modifier-border: var(--aoi-powder-blue);
+    --nav-item-color: var(--aoi-ink-strong);
+    --nav-heading-color: var(--aoi-indigo-deep);
+    --nav-item-weight: var(--font-normal);
+    --tab-text-color: var(--aoi-ink-strong);
+    --titlebar-text-color: var(--aoi-ink-strong);
+    --status-bar-text-color: var(--aoi-ink-strong);
   }
 
-  .theme-dark {
+  body.theme-dark,
+  body.theme-dark.aoi-sidebar-contrast-soft,
+  body.theme-dark.aoi-sidebar-contrast-standard,
+  body.theme-dark.aoi-sidebar-contrast-strong {
     --text-muted: var(--aoi-night-text);
     --text-faint: var(--aoi-night-muted);
     --icon-color: var(--aoi-night-text);
@@ -41,12 +55,26 @@
       var(--aoi-night-border) 62%,
       var(--aoi-night-muted)
     );
+    --nav-item-color: var(--aoi-night-text);
+    --nav-heading-color: var(--aoi-night-text);
+    --nav-item-weight: var(--font-normal);
+    --tab-text-color: var(--aoi-night-text);
+    --titlebar-text-color: var(--aoi-night-text);
+    --status-bar-text-color: var(--aoi-night-text);
   }
 }
 
 @media (forced-colors: active) {
+  /* Theme settings declare these same tokens on `body.theme-*.<aoi class>` at
+     (0,2,1), so `body.theme-light` alone at (0,1,1) loses to any of the theme's 80+
+     setting classes — sidebar tints, cobalt, paper, contrast, border strength. An
+     explicit list drifts every time a setting is added, which is exactly how the
+     earlier leak happened, so the guard matches the class prefix instead. It is
+     (0,2,1) as well and this file is imported last, so the ties resolve here. */
   body.theme-light,
-  body.theme-dark {
+  body.theme-light[class*="aoi-"],
+  body.theme-dark,
+  body.theme-dark[class*="aoi-"] {
     color-scheme: light dark;
 
     --background-primary: Canvas;
@@ -87,11 +115,55 @@
     --text-selection: Highlight;
     --text-highlight-bg: Mark;
     --caret-color: CanvasText;
+    --aoi-workspace-left-surface: Canvas;
+    --aoi-workspace-right-surface: Canvas;
+    --aoi-workspace-bridge-surface: Canvas;
+    --nav-item-color: CanvasText;
+    --nav-item-color-hover: CanvasText;
+    --nav-item-color-active: CanvasText;
+    --nav-item-color-selected: CanvasText;
+    --nav-heading-color: CanvasText;
+    --nav-item-weight: var(--font-normal);
+    --nav-collapse-icon-color: CanvasText;
+    --tab-text-color: CanvasText;
+    --tab-text-color-active: CanvasText;
+    --tab-text-color-focused-active-current: CanvasText;
+    --titlebar-text-color: CanvasText;
+    --status-bar-text-color: CanvasText;
+    --list-marker-color: CanvasText;
+    --hr-color: CanvasText;
     --aoi-focus-ring-width: 3px;
   }
 
-  :where(.workspace-split, .metadata-container, .markdown-rendered blockquote, .callout) {
+  /* Decoration removal has to beat the normal split rules (0,2,0) and both
+     gradient-off switches (0,3,1 / 0,2,2). `:where()` would resolve to zero and
+     lose, so the switches are named explicitly. */
+  body .workspace-split.mod-left-split,
+  body .workspace-split.mod-right-split,
+  body .metadata-container,
+  body .markdown-rendered blockquote,
+  body .callout,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients)
+    .workspace-split.mod-left-split,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients)
+    .workspace-split.mod-right-split,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients) .metadata-container,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients)
+    .markdown-rendered
+    blockquote,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients) .callout {
     background-image: none;
+  }
+
+  /* The HR fallback must also outrank both switches' `background-color`. */
+  body .markdown-rendered hr,
+  body .markdown-source-view.mod-cm6 hr,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients) .markdown-rendered hr,
+  body:is(.aoi-watercolor-wash-off, .aoi-disable-decorative-gradients)
+    .markdown-source-view.mod-cm6
+    hr {
+    background-image: none;
+    background-color: CanvasText;
   }
 
   :where(.workspace-tab-header.is-active, .nav-file-title.is-active, .nav-folder-title.is-active) {

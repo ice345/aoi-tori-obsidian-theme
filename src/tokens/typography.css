@@ -33,8 +33,8 @@
   --aoi-reading-image-max-width: 100%;
   --aoi-touch-target-size: 44px;
   --aoi-sidebar-wash-strength: 5%;
-  --aoi-quote-wash-strength: 9%;
-  --aoi-properties-violet-wash-strength: 4%;
+  --aoi-quote-wash-strength: 12%;
+  --aoi-properties-violet-wash-strength: 8%;
   --aoi-properties-cyan-wash-strength: 4%;
   --tab-radius: var(--radius-s);
   --tab-radius-active: var(--radius-m);

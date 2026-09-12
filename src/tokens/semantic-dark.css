@@ -56,9 +56,26 @@
   --text-warning: var(--aoi-night-warning);
   --text-success: var(--aoi-night-success);
   --text-selection: color-mix(in srgb, var(--aoi-night-cobalt) 38%, transparent);
-  --text-highlight-bg: color-mix(in srgb, var(--aoi-night-warning) 28%, transparent);
+  --aoi-highlight-text: var(--aoi-night-text);
+  --aoi-highlight-background: var(--aoi-night-warning-soft);
+  --text-highlight-bg: var(--aoi-highlight-background);
   --text-highlight-bg-active: color-mix(in srgb, var(--aoi-night-sakura) 30%, transparent);
   --caret-color: var(--aoi-night-cobalt);
+  --aoi-strong-text: var(--aoi-night-strong-text);
+  --aoi-strong-weight: 640;
+  --aoi-strong-italic-text: var(--aoi-night-violet);
+  --aoi-italic-text: var(--aoi-night-violet);
+  --aoi-strikethrough-text: var(--aoi-night-muted);
+  --aoi-strikethrough-line: var(--aoi-night-sakura);
+  --aoi-task-done-text: var(--aoi-night-muted);
+  --aoi-task-done-line: var(--aoi-night-violet);
+  --aoi-footnote-text: var(--aoi-night-violet);
+  --aoi-markdown-formatting-text: var(--aoi-night-faint);
+  --bold-modifier: 240;
+  --bold-color: var(--aoi-strong-text);
+  --bold-weight: var(--aoi-strong-weight);
+  --italic-color: var(--aoi-italic-text);
+  --italic-weight: inherit;
 
   /* Links and interactions */
   --interactive-normal: var(--aoi-night-panel);
@@ -66,6 +83,26 @@
   --interactive-accent: var(--aoi-night-cobalt);
   --interactive-accent-hover: var(--aoi-night-sky);
   --interactive-success: var(--aoi-night-success);
+  --aoi-destructive-secondary-background: var(--aoi-night-error-soft);
+  --aoi-destructive-secondary-background-hover: color-mix(
+    in srgb,
+    var(--aoi-night-error-soft) 80%,
+    var(--aoi-night-error)
+  );
+  --aoi-destructive-secondary-text: var(--aoi-night-error);
+  --aoi-destructive-secondary-border: color-mix(
+    in srgb,
+    var(--aoi-night-error) 50%,
+    var(--aoi-night-error-soft)
+  );
+  --aoi-destructive-primary-background: var(--aoi-night-error-solid);
+  --aoi-destructive-primary-background-hover: color-mix(
+    in srgb,
+    var(--aoi-night-error-solid) 82%,
+    var(--aoi-night-error)
+  );
+  --aoi-destructive-primary-text: var(--aoi-night-text);
+  --aoi-destructive-primary-border: var(--aoi-night-error);
   --link-color: var(--aoi-night-cobalt);
   --link-color-hover: var(--aoi-night-sky);
   --link-external-color: var(--aoi-night-sky);
@@ -94,8 +131,13 @@
   --input-shadow-hover: 0 2px 8px var(--background-modifier-box-shadow);
 
   /* Workspace */
-  --titlebar-background: var(--aoi-night-canvas);
-  --titlebar-background-focused: var(--aoi-night-surface);
+  --aoi-workspace-left-surface: var(--aoi-night-left);
+  --aoi-workspace-right-surface: var(--aoi-night-right);
+  --aoi-workspace-bridge-surface: var(--aoi-night-surface);
+  --aoi-workspace-left-wash: var(--aoi-night-sky);
+  --aoi-workspace-right-wash: var(--aoi-night-violet);
+  --titlebar-background: var(--aoi-workspace-bridge-surface);
+  --titlebar-background-focused: var(--aoi-workspace-bridge-surface);
   --titlebar-border-color: var(--aoi-night-border);
   --titlebar-text-color: var(--aoi-night-muted);
   --titlebar-text-color-focused: var(--aoi-night-text);
@@ -120,14 +162,20 @@
   --nav-item-color-active: var(--aoi-night-cobalt);
   --nav-item-color-selected: var(--aoi-night-cobalt);
   --nav-item-background-hover: var(--aoi-night-panel);
+
+  /* The accent proportions are bounded by the active/selected text contrast:
+     nav text switches to night-cobalt in those states, and mixing the accent into
+     the background raises the background luminance towards that text. At 22% the
+     active pair measured 3.63:1 and the selected pair 3.91:1 against the sidebar;
+     8% keeps both above 4.5:1 while still separating them from the hover surface. */
   --nav-item-background-active: color-mix(
     in srgb,
-    var(--aoi-night-panel) 78%,
+    var(--aoi-night-panel) 92%,
     var(--aoi-night-cobalt)
   );
   --nav-item-background-selected: color-mix(
     in srgb,
-    var(--aoi-night-panel) 84%,
+    var(--aoi-night-panel) 92%,
     var(--aoi-night-sky)
   );
   --nav-heading-color: var(--aoi-night-text);
@@ -144,6 +192,7 @@
   --h5-color: var(--aoi-night-muted);
   --h6-color: var(--aoi-night-faint);
   --hr-color: var(--aoi-night-border);
+  --hr-thickness: 1px;
   --indentation-guide-color: var(--aoi-night-border);
   --indentation-guide-color-active: var(--aoi-night-sky);
   --list-marker-color: var(--aoi-night-cobalt);
@@ -154,6 +203,17 @@
   --checkbox-border-color: var(--aoi-night-border);
   --checkbox-border-color-hover: var(--aoi-night-cobalt);
   --checkbox-marker-color: var(--aoi-night-canvas);
+  --checklist-done-decoration: line-through;
+  --checklist-done-color: var(--aoi-task-done-text);
+  --tag-color: var(--aoi-night-cobalt);
+  --tag-color-hover: var(--aoi-night-sky);
+  --tag-background: var(--aoi-night-panel);
+  --tag-background-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
+  --tag-border-color: var(--aoi-night-border);
+  --tag-border-color-hover: var(--aoi-night-cobalt);
+  --tag-border-width: 1px;
+  --tag-decoration: none;
+  --tag-decoration-hover: none;
 
   /* Code, quotes, callouts, and embeds */
   --code-background: var(--aoi-night-canvas);
@@ -172,6 +232,7 @@
   --blockquote-background-color: var(--aoi-night-panel);
   --blockquote-border-color: var(--aoi-night-sakura);
   --blockquote-color: var(--aoi-night-text);
+  --aoi-quote-wash-strength: 4%;
   --callout-content-background: color-mix(
     in srgb,
     var(--aoi-night-canvas) 88%,
@@ -208,15 +269,16 @@
   --metadata-divider-color-focus: var(--aoi-night-cobalt);
   --metadata-label-background: var(--aoi-night-panel);
   --metadata-label-background-hover: var(--aoi-night-info-soft);
+  --metadata-label-background-active: var(--aoi-night-info-soft);
   --metadata-label-text-color: var(--aoi-night-muted);
   --metadata-label-text-color-hover: var(--aoi-night-text);
-  --metadata-input-background: var(--aoi-night-canvas);
-  --metadata-input-background-hover: var(--aoi-night-panel);
-  --metadata-input-background-active: var(--aoi-night-surface);
+  --metadata-input-background: transparent;
+  --metadata-input-background-hover: transparent;
+  --metadata-input-background-active: transparent;
   --metadata-input-text-color: var(--aoi-night-text);
-  --metadata-property-background: var(--aoi-night-canvas);
-  --metadata-property-background-hover: var(--aoi-night-panel);
-  --metadata-property-background-active: var(--aoi-night-surface);
+  --metadata-property-background: transparent;
+  --metadata-property-background-hover: color-mix(in srgb, var(--aoi-night-sky) 14%, transparent);
+  --metadata-property-background-active: color-mix(in srgb, var(--aoi-night-sky) 20%, transparent);
   --table-background: var(--aoi-night-surface);
   --table-border-color: color-mix(in srgb, var(--aoi-night-border) 70%, var(--aoi-night-canvas));
   --table-header-background: var(--aoi-night-canvas);

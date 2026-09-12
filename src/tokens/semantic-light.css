@@ -16,7 +16,7 @@
   --background-primary-alt: var(--aoi-cloud-cool);
   --background-secondary: var(--aoi-mist-blue);
   --background-secondary-alt: var(--aoi-cloud-shadow);
-  --background-modifier-hover: color-mix(in srgb, var(--aoi-sky-blue) 17%, transparent);
+  --background-modifier-hover: color-mix(in srgb, var(--aoi-sky-blue) 10%, transparent);
   --background-modifier-active-hover: var(--aoi-cloud-shadow);
   --background-modifier-border: var(--aoi-ice-border);
   --background-modifier-border-hover: var(--aoi-powder-blue);
@@ -52,9 +52,26 @@
   --text-warning: var(--aoi-warning);
   --text-success: var(--aoi-success);
   --text-selection: color-mix(in srgb, var(--aoi-watercolor-cyan) 72%, transparent);
-  --text-highlight-bg: var(--aoi-warm-yellow-pale);
+  --aoi-highlight-text: var(--aoi-ink-indigo);
+  --aoi-highlight-background: var(--aoi-warm-yellow-pale);
+  --text-highlight-bg: var(--aoi-highlight-background);
   --text-highlight-bg-active: var(--aoi-sakura-pale);
   --caret-color: var(--aoi-focus-blue);
+  --aoi-strong-text: var(--aoi-indigo-deep);
+  --aoi-strong-weight: 640;
+  --aoi-strong-italic-text: var(--aoi-gray-violet-deep);
+  --aoi-italic-text: var(--aoi-gray-violet-deep);
+  --aoi-strikethrough-text: var(--aoi-ink-muted);
+  --aoi-strikethrough-line: var(--aoi-sakura);
+  --aoi-task-done-text: var(--aoi-ink-muted);
+  --aoi-task-done-line: var(--aoi-dusty-pink-muted);
+  --aoi-footnote-text: var(--aoi-gray-violet-deep);
+  --aoi-markdown-formatting-text: var(--aoi-ink-faint);
+  --bold-modifier: 240;
+  --bold-color: var(--aoi-strong-text);
+  --bold-weight: var(--aoi-strong-weight);
+  --italic-color: var(--aoi-italic-text);
+  --italic-weight: inherit;
 
   /* Links and interactions */
   --interactive-normal: var(--aoi-cloud-cool);
@@ -62,6 +79,26 @@
   --interactive-accent: var(--aoi-link-blue);
   --interactive-accent-hover: var(--aoi-cobalt-deep);
   --interactive-success: var(--aoi-success);
+  --aoi-destructive-secondary-background: var(--aoi-error-soft);
+  --aoi-destructive-secondary-background-hover: color-mix(
+    in srgb,
+    var(--aoi-error-soft) 84%,
+    var(--aoi-error)
+  );
+  --aoi-destructive-secondary-text: var(--aoi-error);
+  --aoi-destructive-secondary-border: color-mix(
+    in srgb,
+    var(--aoi-error) 58%,
+    var(--aoi-error-soft)
+  );
+  --aoi-destructive-primary-background: var(--aoi-error);
+  --aoi-destructive-primary-background-hover: color-mix(
+    in srgb,
+    var(--aoi-error) 86%,
+    var(--aoi-ink-indigo)
+  );
+  --aoi-destructive-primary-text: var(--aoi-paper-warm);
+  --aoi-destructive-primary-border: var(--aoi-error);
   --link-color: var(--aoi-link-blue);
   --link-color-hover: var(--aoi-cobalt-deep);
   --link-external-color: var(--aoi-link-blue);
@@ -90,10 +127,15 @@
   --input-shadow-hover: 0 2px 7px var(--background-modifier-box-shadow);
 
   /* Workspace */
-  --titlebar-background: var(--aoi-mist-blue);
-  --titlebar-background-focused: var(--aoi-cloud-cool);
+  --aoi-workspace-left-surface: var(--aoi-air-cyan-white);
+  --aoi-workspace-right-surface: var(--aoi-air-blush-white);
+  --aoi-workspace-bridge-surface: var(--aoi-air-bridge-white);
+  --aoi-workspace-left-wash: var(--aoi-clear-cyan-blue);
+  --aoi-workspace-right-wash: var(--aoi-gray-violet-deep);
+  --titlebar-background: var(--aoi-workspace-bridge-surface);
+  --titlebar-background-focused: var(--aoi-workspace-bridge-surface);
   --titlebar-border-color: var(--aoi-ice-border);
-  --titlebar-text-color: var(--aoi-ink-muted);
+  --titlebar-text-color: var(--aoi-ink-muted-side);
   --titlebar-text-color-focused: var(--aoi-ink-indigo);
   --ribbon-background: var(--aoi-mist-blue);
   --ribbon-background-collapsed: var(--aoi-cloud-shadow);
@@ -104,14 +146,14 @@
   --tab-background-active: var(--aoi-paper-warm);
   --tab-outline-color: var(--aoi-ice-border);
   --tab-divider-color: var(--aoi-ice-border);
-  --tab-text-color: var(--aoi-ink-muted);
+  --tab-text-color: var(--aoi-ink-muted-side);
   --tab-text-color-active: var(--aoi-indigo-deep);
   --tab-text-color-focused: var(--aoi-ink-strong);
   --tab-text-color-focused-active: var(--aoi-cobalt-deep);
   --tab-text-color-focused-active-current: var(--aoi-cobalt-deep);
 
   /* Navigation */
-  --nav-item-color: var(--aoi-ink-muted);
+  --nav-item-color: var(--aoi-ink-muted-side);
   --nav-item-color-hover: var(--aoi-ink-strong);
   --nav-item-color-active: var(--aoi-cobalt-deep);
   --nav-item-color-selected: var(--aoi-cobalt-deep);
@@ -131,7 +173,8 @@
   --h4-color: var(--aoi-ink-strong);
   --h5-color: var(--aoi-ink-muted);
   --h6-color: var(--aoi-ink-faint);
-  --hr-color: var(--aoi-ice-border);
+  --hr-color: var(--aoi-watercolor-cyan);
+  --hr-thickness: 1px;
   --indentation-guide-color: var(--aoi-ice-border);
   --indentation-guide-color-active: var(--aoi-powder-blue);
   --list-marker-color: var(--aoi-link-blue);
@@ -142,6 +185,17 @@
   --checkbox-border-color: var(--aoi-powder-blue);
   --checkbox-border-color-hover: var(--aoi-focus-blue);
   --checkbox-marker-color: var(--aoi-paper-warm);
+  --checklist-done-decoration: line-through;
+  --checklist-done-color: var(--aoi-task-done-text);
+  --tag-color: var(--aoi-link-blue);
+  --tag-color-hover: var(--aoi-cobalt-deep);
+  --tag-background: var(--aoi-cloud-cool);
+  --tag-background-hover: var(--aoi-mist-blue);
+  --tag-border-color: var(--aoi-ice-border);
+  --tag-border-color-hover: var(--aoi-powder-blue);
+  --tag-border-width: 1px;
+  --tag-decoration: none;
+  --tag-decoration-hover: none;
 
   /* Code, quotes, callouts, and embeds */
   --code-background: var(--aoi-cloud-cool);
@@ -192,15 +246,16 @@
   --metadata-divider-color-focus: var(--aoi-focus-blue);
   --metadata-label-background: var(--aoi-gray-violet-pale);
   --metadata-label-background-hover: var(--aoi-sakura-pale);
+  --metadata-label-background-active: var(--aoi-sakura-pale);
   --metadata-label-text-color: var(--aoi-ink-muted);
   --metadata-label-text-color-hover: var(--aoi-ink-strong);
-  --metadata-input-background: var(--aoi-cloud-cool);
-  --metadata-input-background-hover: var(--aoi-mist-blue);
-  --metadata-input-background-active: var(--aoi-paper-warm);
+  --metadata-input-background: transparent;
+  --metadata-input-background-hover: transparent;
+  --metadata-input-background-active: transparent;
   --metadata-input-text-color: var(--aoi-ink-indigo);
-  --metadata-property-background: var(--aoi-cloud-cool);
-  --metadata-property-background-hover: var(--aoi-mist-blue);
-  --metadata-property-background-active: var(--aoi-paper-warm);
+  --metadata-property-background: transparent;
+  --metadata-property-background-hover: color-mix(in srgb, var(--aoi-mist-blue) 55%, transparent);
+  --metadata-property-background-active: color-mix(in srgb, var(--aoi-mist-blue) 70%, transparent);
   --table-background: var(--aoi-paper-warm);
   --table-border-color: color-mix(in srgb, var(--aoi-ice-border) 72%, var(--aoi-paper-warm));
   --table-header-background: var(--aoi-mist-blue);
