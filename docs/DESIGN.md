@@ -502,6 +502,27 @@ mattered more than its fill: canvas is already the deepest surface, so mixing it
 would move it toward the page rather than away. Its remedy is the outer boundary, which the
 structural role already provides.
 
+### Contrast and border settings
+
+Four settings touch accessibility, and the audit asks for their responsibilities to be written down
+so a name matches what it does. They are not interchangeable:
+
+| Setting                           | Text and icons | Structural borders | Control outlines | Focus and selection |
+| --------------------------------- | -------------- | ------------------ | ---------------- | ------------------- |
+| High contrast (toggle)            | yes            | no                 | no               | unchanged           |
+| Light/Dark contrast = High        | yes            | yes                | yes              | unchanged           |
+| `prefers-contrast: more`          | yes            | yes                | yes              | 3 px ring           |
+| Border strength, Stronger borders | no             | yes                | yes              | unchanged           |
+
+The toggle is deliberately narrower than its name suggests, and its description now says so: it
+strengthens secondary text, icons and navigation labels, and leaves borders to the two border
+settings. A reader who wants everything stronger should use Light/Dark contrast, which also carries
+the border roles.
+
+What every path shares is a floor rather than a ceiling: no border setting takes a control outline
+below the 3:1 non-text minimum, `Soft` quiets only the decorative dividers, and none of the four
+weakens a focus or selection colour.
+
 ### Callout icon and structure specification
 
 Obsidian 1.13.4 was cold-started with the test note and each final `--callout-icon` value was

@@ -95,6 +95,8 @@ settings:
         value: aoi-sidebar-aqua
   - id: aoi-light-contrast
     title: Light-mode contrast
+    description: High strengthens secondary text, icons and every structural and control
+      border in light mode.
     type: class-select
     allowEmpty: false
     default: aoi-light-contrast-standard
@@ -105,6 +107,8 @@ settings:
         value: aoi-light-contrast-high
   - id: aoi-dark-contrast
     title: Dark-mode contrast
+    description: High strengthens secondary text, icons and every structural and control
+      border in dark mode.
     type: class-select
     allowEmpty: false
     default: aoi-dark-contrast-standard
@@ -229,6 +233,8 @@ settings:
         value: aoi-sidebar-contrast-strong
   - id: aoi-border-strength
     title: Border strength
+    description: Soft quiets decorative dividers only. Strong and Stronger also raise
+      control outlines; no level takes one below the 3:1 non-text minimum.
     type: class-select
     allowEmpty: false
     default: aoi-border-standard
@@ -448,11 +454,14 @@ settings:
     default: false
   - id: aoi-high-contrast
     title: High contrast
-    description: Strengthens secondary text and icons without changing the core palette.
+    description: Strengthens secondary text, icons and navigation labels. It does not
+      change borders; use Border strength or Stronger borders for those.
     type: class-toggle
     default: false
   - id: aoi-stronger-borders
     title: Stronger borders
+    description: Strengthens structural dividers and control outlines beyond the Border
+      strength setting. Focus and selection colours are never weakened.
     type: class-toggle
     default: false
   - id: aoi-large-touch-targets
