@@ -123,9 +123,24 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
 ### B. Gates and automation
 
 - [x] B0 - section 8.2.1 native consumption contract. Done.
-- [ ] **B1 - section 8.2.2 browser computed-style test is not gated.** It is a local fixture under
-      `.analysis/`. Decide the local-versus-CI conditions and, if it is to be a gate, state the
-      purpose and boundaries of any new dev dependency in `PLANS.md`; no runtime dependency.
+- [x] **B1 - section 8.2.2 browser computed-style test.** Done without adding a dependency. The
+      audit asks to settle the local-versus-CI conditions and prefer the existing runtime, so rather
+      than ship a headless-browser devDependency the harness now resolves **real properties** on
+      synthetic elements, not only custom properties. `collectRules` records a watched property set
+      alongside the custom ones, `resolveElementProperty` cascades those declarations and
+      substitutes `var()` against the element's own resolved custom properties, and the native
+      contract gained the rules Obsidian uses to consume them
+      (`.callout { mix-blend-mode: var(--callout-blend-mode); border-width: var(--callout-border-width) }`).
+      Obsidian's own stylesheet is still never bundled. Two obstacles had to be solved. Lightningcss
+      returns shorthand declarations containing `var()` as `unparsed`, so the whole `.callout` rule
+      was opaque; the `unparsed` shape does expose `propertyId` and the token list, and a
+      shorthand's first token is the width. And `mix-blend-mode` is never declared by the theme at
+      all — it is consumed by native — which the contract now models. The four assertions fail on
+      the pre-repair tree with the same values the browser measured: removing
+      `--callout-blend-mode: normal` reports `resolved to darken` / `lighten`, and moving
+      `--callout-border-width` back to `:root` reports `resolved to 0px, expected 2px`. The Chromium
+      fixture stays as the independent cross-check; the harness is the CI gate.
+
 - [ ] **B2 - section 8.2.3 final pixel test.** Sample container interiors, gradient start / middle /
       end, the outside background and the side edge; exclude text, shadow and antialiasing samples;
       record DPI, zoom and tolerance.
