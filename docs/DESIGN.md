@@ -470,6 +470,30 @@ heights and letter spacing, the three font stacks, `--line-height-normal`, `--li
 They are listed in `PLANS.md` as their own decision, and the gate does not assert them, so they
 cannot be changed by accident.
 
+### Container hierarchy
+
+Not every surface below the 3:1 non-text ratio is a defect. Decorative containers only need a
+continuous fill and a readable structure, and this project's low bound for them is about 1.15:1
+against the page. Two of them fell short in ways that destroyed hierarchy rather than merely looking
+quiet.
+
+The dark table header shared `--aoi-night-canvas` with the zebra rows, so a header cell and an
+alternating row were literally the same colour: the table had no header. It takes the panel now,
+which measures 1.154:1 against the page and 1.315:1 against the rows. The header grid had also been
+a second, weaker mix of the same border role as the body grid, leaving the two within 1.53:1 and
+1.44:1 of the page, so it takes the role directly and reads as the stronger line.
+
+The highlight sat at 1.126:1 in dark and 1.060:1 in light. Both are now frozen washes over the
+warning hue, measuring 1.358:1 and 1.181:1, precomputed as primitives because the static contrast
+gate reads six-digit hex only.
+
+Two things are deliberately **not** changed. Menu and modal backgrounds equal the page, which is not
+an error: the native border and shadow carry the layer, and the audit asks only that the boundary
+and overlay be confirmed. The Properties fill stays at canvas for the same reason its boundary
+mattered more than its fill: canvas is already the deepest surface, so mixing it toward the panel
+would move it toward the page rather than away. Its remedy is the outer boundary, which the
+structural role already provides.
+
 ### Callout icon and structure specification
 
 Obsidian 1.13.4 was cold-started with the test note and each final `--callout-icon` value was

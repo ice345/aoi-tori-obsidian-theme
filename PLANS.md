@@ -88,10 +88,21 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       separately declared table variable that also had to be routed. Verified in Chromium: all eight
       components take four or five distinct values across the levels, and the gate fails on the
       pre-repair tree.
-- [ ] **A2 - R01 weak hierarchy** (P2, audit 5 / 6). Tables, Properties, menus, modals, tags, plain
-      highlight (`#3A3020`, 1.13:1 against body), search hits and unchecked checkboxes (1.85:1).
-      Enhance per the quantified results without brightening globally or merging selected, active
-      and hover states.
+- [x] **A2 - R01 weak hierarchy.** Done for the structural collapses. The dark table header shared
+      `--aoi-night-canvas` with the zebra rows, so a header cell and an alternating row were the
+      same colour and the table had no header hierarchy at all; it now takes the panel, which
+      measures 1.154:1 against the page and 1.315:1 against the rows. The header grid took a second,
+      weaker mix of the same border role, leaving it within 1.53:1 and 1.44:1 of the page; it now
+      uses the role directly. The highlight sat at 1.126:1 in dark and 1.060:1 in light, below the
+      1.15:1 container separation, and both are frozen washes now measuring 1.358:1 and 1.181:1. All
+      four are asserted in the gate and fail on the pre-repair tree. Deliberately unchanged: **menu
+      and modal backgrounds equal the page**, which the audit states is not automatically an error
+      because the native border and shadow carry the layer; the **Properties fill** stays at canvas,
+      because the audit's remedy for it is the boundary and A1 already routes
+      `--metadata-border-color` through the structural role; and the **in-document search
+      highlight** is drawn by Obsidian's own hardcoded colours rather than a theme token, so it can
+      only be judged in a real client (C3).
+
 - [x] **A3 - R02 default scope drift.** Done for geometry, and the finding is larger than the three
       names R02 listed. Diffing every theme `:root` declaration against the native `body` set: 65
       names clash and **41 of them held a different value from the one the theme intends**, so the
