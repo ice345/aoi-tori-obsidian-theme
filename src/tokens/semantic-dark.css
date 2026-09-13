@@ -25,6 +25,20 @@
   --background-modifier-border: var(--aoi-night-border);
   --background-modifier-border-hover: var(--aoi-night-sky);
   --background-modifier-border-focus: var(--aoi-night-cobalt);
+
+  /* Border roles. Components consume these rather than the primitive, so the
+     Border strength and Stronger borders settings reach every boundary instead of
+     only `--background-modifier-border`.
+
+     `structural` is a decorative divider: tables, cards, code, tags. It stays quiet
+     at the default and only steps up when asked.
+
+     `control` outlines a shape that is the only thing identifying a control — an
+     input whose fill is 1.14:1 against the page, and an unchecked checkbox. It
+     therefore starts at the 3:1 non-text minimum against the lightest surface it can
+     sit on (the panel, #2C343C) rather than below it. */
+  --aoi-border-structural: var(--aoi-night-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 58%, var(--aoi-night-muted));
   --background-modifier-form-field: var(--aoi-night-canvas);
   --background-modifier-form-field-hover: var(--aoi-night-panel);
   --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-night-canvas) 70%, transparent);
@@ -132,7 +146,7 @@
   --input-text-bg-color: var(--aoi-night-canvas);
   --input-text-fg-color: var(--aoi-night-text);
   --input-placeholder-color: var(--aoi-night-faint);
-  --input-unfocused-border-color: var(--aoi-night-border);
+  --input-unfocused-border-color: var(--aoi-border-control);
   --input-hover-border-color: var(--aoi-night-sky);
   --input-focus-border-color: var(--aoi-night-cobalt);
   --input-disabled-border-color: var(--aoi-night-panel);
@@ -210,7 +224,7 @@
   --list-marker-color-collapsed: var(--aoi-night-sakura);
   --checkbox-color: var(--aoi-night-cobalt);
   --checkbox-color-hover: var(--aoi-night-sky);
-  --checkbox-border-color: var(--aoi-night-border);
+  --checkbox-border-color: var(--aoi-border-control);
   --checkbox-border-color-hover: var(--aoi-night-cobalt);
   --checkbox-marker-color: var(--aoi-night-canvas);
   --checklist-done-decoration: line-through;
@@ -219,7 +233,7 @@
   --tag-color-hover: var(--aoi-night-sky);
   --tag-background: var(--aoi-night-panel);
   --tag-background-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
-  --tag-border-color: var(--aoi-night-border);
+  --tag-border-color: var(--aoi-border-structural);
   --tag-border-color-hover: var(--aoi-night-cobalt);
   --tag-border-width: 1px;
   --tag-decoration: none;
@@ -227,7 +241,7 @@
 
   /* Code, quotes, callouts, and embeds */
   --code-background: var(--aoi-night-canvas);
-  --code-border-color: var(--aoi-night-border);
+  --code-border-color: var(--aoi-border-structural);
   --code-normal: var(--aoi-night-text);
   --code-comment: var(--aoi-night-faint);
   --code-function: var(--aoi-night-cobalt);
@@ -276,7 +290,7 @@
 
   /* Properties and tables */
   --metadata-background: var(--aoi-night-canvas);
-  --metadata-border-color: var(--aoi-night-border);
+  --metadata-border-color: var(--aoi-border-structural);
   --metadata-divider-color: var(--aoi-night-border);
   --metadata-divider-color-hover: var(--aoi-night-sky);
   --metadata-divider-color-focus: var(--aoi-night-cobalt);
@@ -293,12 +307,16 @@
   --metadata-property-background-hover: color-mix(in srgb, var(--aoi-night-sky) 14%, transparent);
   --metadata-property-background-active: color-mix(in srgb, var(--aoi-night-sky) 20%, transparent);
   --table-background: var(--aoi-night-surface);
-  --table-border-color: color-mix(in srgb, var(--aoi-night-border) 70%, var(--aoi-night-canvas));
+  --table-border-color: color-mix(
+    in srgb,
+    var(--aoi-border-structural) 70%,
+    var(--aoi-night-canvas)
+  );
   --table-header-background: var(--aoi-night-canvas);
   --table-header-background-hover: var(--aoi-night-panel);
   --table-header-border-color: color-mix(
     in srgb,
-    var(--aoi-night-border) 76%,
+    var(--aoi-border-structural) 76%,
     var(--aoi-night-canvas)
   );
   --table-header-color: var(--aoi-night-text);
@@ -311,12 +329,12 @@
 
   /* Menus, modals, and settings */
   --menu-background: var(--aoi-night-surface);
-  --menu-border-color: var(--aoi-night-border);
+  --menu-border-color: var(--aoi-border-structural);
   --menu-divider-color: var(--aoi-night-border);
   --menu-shadow: 0 8px 30px var(--background-modifier-box-shadow);
   --modal-background: var(--aoi-night-surface);
   --modal-sidebar-background: var(--aoi-night-canvas);
-  --modal-border-color: var(--aoi-night-border);
+  --modal-border-color: var(--aoi-border-structural);
   --modal-shadow: 0 18px 52px var(--background-modifier-box-shadow);
   --setting-group-heading-color: var(--aoi-night-text);
   --setting-items-background: var(--aoi-night-canvas);

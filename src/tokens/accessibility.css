@@ -35,6 +35,8 @@
     --text-faint: var(--aoi-ink-muted);
     --icon-color: var(--aoi-ink-strong);
     --background-modifier-border: var(--aoi-powder-blue);
+    --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 45%, var(--aoi-ink-muted));
+    --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
     --nav-item-color: var(--aoi-ink-strong);
     --nav-heading-color: var(--aoi-indigo-deep);
     --nav-item-weight: var(--font-normal);
@@ -55,6 +57,12 @@
       var(--aoi-night-border) 62%,
       var(--aoi-night-muted)
     );
+    --aoi-border-structural: color-mix(
+      in srgb,
+      var(--aoi-night-border) 55%,
+      var(--aoi-night-muted)
+    );
+    --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 30%, var(--aoi-night-muted));
     --nav-item-color: var(--aoi-night-text);
     --nav-heading-color: var(--aoi-night-text);
     --nav-item-weight: var(--font-normal);

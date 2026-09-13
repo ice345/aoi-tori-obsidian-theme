@@ -609,6 +609,8 @@ body.theme-light.aoi-light-contrast-high {
   --text-muted: var(--aoi-ink-strong);
   --text-faint: var(--aoi-ink-muted);
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 45%, var(--aoi-ink-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-dark-contrast-high {
@@ -619,6 +621,8 @@ body.theme-dark.aoi-dark-contrast-high {
     var(--aoi-night-border) 62%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-night-border) 55%, var(--aoi-night-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 30%, var(--aoi-night-muted));
 }
 
 body.aoi-interface-font-humanist {
@@ -724,16 +728,23 @@ body.theme-dark.aoi-sidebar-contrast-strong {
   --nav-heading-color: var(--aoi-night-text);
 }
 
+/* Soft quiets the decorative dividers only. It deliberately does not lower
+   `--aoi-border-control`: an input or an unchecked checkbox is identified by its
+   outline, and 1.4:1 would leave the shape unreadable. The focus and selection
+   colours are likewise untouched by every border setting. */
 body.theme-light.aoi-border-soft {
   --background-modifier-border: color-mix(
     in srgb,
     var(--aoi-ice-border) 70%,
     var(--aoi-paper-warm)
   );
+  --aoi-border-structural: var(--background-modifier-border);
 }
 
 body.theme-light.aoi-border-strong {
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: var(--background-modifier-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 18%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-border-soft {
@@ -742,6 +753,7 @@ body.theme-dark.aoi-border-soft {
     var(--aoi-night-border) 70%,
     var(--aoi-night-canvas)
   );
+  --aoi-border-structural: var(--background-modifier-border);
 }
 
 body.theme-dark.aoi-border-strong {
@@ -750,6 +762,8 @@ body.theme-dark.aoi-border-strong {
     var(--aoi-night-border) 68%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: var(--background-modifier-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 42%, var(--aoi-night-muted));
 }
 
 body.aoi-tab-soft-surface .workspace-tab-header.is-active {
@@ -969,6 +983,8 @@ body.theme-dark.aoi-dark-contrast-high {
 
 body.theme-light.aoi-stronger-borders {
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 55%, var(--aoi-ink-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-stronger-borders {
@@ -977,6 +993,8 @@ body.theme-dark.aoi-stronger-borders {
     var(--aoi-night-border) 68%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-night-border) 55%, var(--aoi-night-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 32%, var(--aoi-night-muted));
 }
 
 body.aoi-large-touch-targets {

@@ -21,6 +21,12 @@
   --background-modifier-border: var(--aoi-ice-border);
   --background-modifier-border-hover: var(--aoi-powder-blue);
   --background-modifier-border-focus: var(--aoi-focus-blue);
+
+  /* Border roles, the light counterpart of the pair in `semantic-dark.css`. The
+     control step starts at the 3:1 non-text minimum against its own field and page
+     fills rather than below it, because the input fill is only 1.02:1 against paper. */
+  --aoi-border-structural: var(--aoi-ice-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 35%, var(--aoi-ink-muted));
   --background-modifier-form-field: var(--aoi-cloud-cool);
   --background-modifier-form-field-hover: var(--aoi-mist-blue);
   --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-indigo-deep) 14%, transparent);
@@ -128,7 +134,7 @@
   --input-text-bg-color: var(--aoi-cloud-cool);
   --input-text-fg-color: var(--aoi-ink-indigo);
   --input-placeholder-color: var(--aoi-ink-faint);
-  --input-unfocused-border-color: var(--aoi-ice-border);
+  --input-unfocused-border-color: var(--aoi-border-control);
   --input-hover-border-color: var(--aoi-powder-blue);
   --input-focus-border-color: var(--aoi-focus-blue);
   --input-disabled-border-color: var(--aoi-cloud-shadow);
@@ -192,7 +198,7 @@
   --list-marker-color-collapsed: var(--aoi-dusty-pink);
   --checkbox-color: var(--aoi-link-blue);
   --checkbox-color-hover: var(--aoi-cobalt-deep);
-  --checkbox-border-color: var(--aoi-powder-blue);
+  --checkbox-border-color: var(--aoi-border-control);
   --checkbox-border-color-hover: var(--aoi-focus-blue);
   --checkbox-marker-color: var(--aoi-paper-warm);
   --checklist-done-decoration: line-through;
@@ -201,7 +207,7 @@
   --tag-color-hover: var(--aoi-cobalt-deep);
   --tag-background: var(--aoi-cloud-cool);
   --tag-background-hover: var(--aoi-mist-blue);
-  --tag-border-color: var(--aoi-ice-border);
+  --tag-border-color: var(--aoi-border-structural);
   --tag-border-color-hover: var(--aoi-powder-blue);
   --tag-border-width: 1px;
   --tag-decoration: none;
@@ -209,7 +215,7 @@
 
   /* Code, quotes, callouts, and embeds */
   --code-background: var(--aoi-cloud-cool);
-  --code-border-color: var(--aoi-ice-border);
+  --code-border-color: var(--aoi-border-structural);
   --code-normal: var(--aoi-ink-strong);
   --code-comment: var(--aoi-ink-muted);
   --code-function: var(--aoi-cobalt-deep);
@@ -250,7 +256,11 @@
 
   /* Properties and tables */
   --metadata-background: var(--aoi-cloud-cool);
-  --metadata-border-color: color-mix(in srgb, var(--aoi-ice-border) 62%, var(--aoi-cloud-cool));
+  --metadata-border-color: color-mix(
+    in srgb,
+    var(--aoi-border-structural) 62%,
+    var(--aoi-cloud-cool)
+  );
   --metadata-divider-color: color-mix(in srgb, var(--aoi-ice-border) 54%, var(--aoi-cloud-cool));
   --metadata-divider-color-hover: var(--aoi-powder-blue);
   --metadata-divider-color-focus: var(--aoi-focus-blue);
@@ -267,12 +277,12 @@
   --metadata-property-background-hover: color-mix(in srgb, var(--aoi-mist-blue) 55%, transparent);
   --metadata-property-background-active: color-mix(in srgb, var(--aoi-mist-blue) 70%, transparent);
   --table-background: var(--aoi-paper-warm);
-  --table-border-color: color-mix(in srgb, var(--aoi-ice-border) 72%, var(--aoi-paper-warm));
+  --table-border-color: color-mix(in srgb, var(--aoi-border-structural) 72%, var(--aoi-paper-warm));
   --table-header-background: var(--aoi-mist-blue);
   --table-header-background-hover: var(--aoi-cloud-shadow);
   --table-header-border-color: color-mix(
     in srgb,
-    var(--aoi-powder-blue) 62%,
+    var(--aoi-border-structural) 62%,
     var(--aoi-paper-warm)
   );
   --table-header-color: var(--aoi-indigo-deep);
@@ -285,12 +295,12 @@
 
   /* Menus, modals, and settings */
   --menu-background: var(--aoi-cloud-cool);
-  --menu-border-color: var(--aoi-ice-border);
+  --menu-border-color: var(--aoi-border-structural);
   --menu-divider-color: var(--aoi-ice-border);
   --menu-shadow: 0 8px 28px var(--background-modifier-box-shadow);
   --modal-background: var(--aoi-paper-warm);
   --modal-sidebar-background: var(--aoi-mist-blue);
-  --modal-border-color: var(--aoi-ice-border);
+  --modal-border-color: var(--aoi-border-structural);
   --modal-shadow: 0 18px 48px var(--background-modifier-box-shadow);
   --setting-group-heading-color: var(--aoi-indigo-deep);
   --setting-items-background: var(--aoi-cloud-cool);
