@@ -151,8 +151,17 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       interior painted `#222A30`, the same as the page; the container is invisible" in dark and "the
       inline-start edge painted `#EDF2F3`, expected `#245F90`" in light; against the current build
       both modes pass and paint the surface, the semantic edge and a fading wash.
-- [ ] **B3 - section 8.2.4 default consistency test.** Compare no-plugin, all-default-classes,
-      post-reset and post-disable-plugin states.
+- [x] **B3 - section 8.2.4 default consistency test.** Done, and it found a real defect. Style
+      Settings applies thirty classes **and** writes its five variable settings as inline custom
+      properties on `body`, where they outrank every selector. Modelling both states in the harness
+      showed the theme rendering two different reading surfaces for the same defaults:
+      `--line-height-normal` was 1.5 without the plugin and 1.75 with it, and `--file-line-width`
+      700px against 760px, because both were declared at `:root` and lost to the native `body`
+      values while the plugin's inline values won. Both moved into the mode layer, exactly where the
+      A3 geometry went, and the two states now agree on every token in both modes. The gate asserts
+      zero differences, so a future setting that only the plugin can apply fails. Note this is a
+      visible change for no-plugin users: the reading surface moves from 1.5/700px to the 1.75/760px
+      the theme always intended and the plugin already delivered.
 - [ ] **B4 - section 8.2.5 state and nesting test.** Code, image, quote, table and
       two-to-three-level nested Callouts.
 - [x] **B5 - section 8.3 reverse tests.** Done, all eight. Five were already covered (blend, Callout

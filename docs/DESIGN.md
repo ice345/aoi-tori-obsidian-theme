@@ -464,11 +464,19 @@ intends. The Callout and input shapes, the Properties card and settings row radi
 the active navigation weight were all Obsidian's defaults, not the theme's. Thirteen geometry and
 interaction values moved into the mode layer, where they now take effect and are asserted.
 
-The 27 clashing typography names were deliberately **not** moved. Heading families, sizes, line
-heights and letter spacing, the three font stacks, `--line-height-normal`, `--line-height-tight` and
-`--file-line-width` would all change the reading surface that the accepted screenshots already show.
-They are listed in `PLANS.md` as their own decision, and the gate does not assert them, so they
-cannot be changed by accident.
+Two of the clashing typography names were moved after all, and not for taste reasons. Style Settings
+has a variable slider for `--line-height-normal` and `--file-line-width` and writes it as an inline
+custom property on `body`, where it outranks every selector in the stylesheet. Declared at `:root`
+the theme value lost to the native `body` value, so the theme rendered 1.5 and 700px without the
+plugin and 1.75 and 760px with it — two different reading surfaces for the same defaults. They now
+sit in the mode layer and the two states agree. This is visible for no-plugin users: the reading
+surface moves to the values the theme always intended and the plugin already delivered.
+
+The remaining 27 clashing typography names were deliberately **not** moved. Heading families, sizes,
+line heights and letter spacing, the three font stacks, `--line-height-normal`,
+`--line-height-tight` and `--file-line-width` would all change the reading surface that the accepted
+screenshots already show. They are listed in `PLANS.md` as their own decision, and the gate does not
+assert them, so they cannot be changed by accident.
 
 ### Container hierarchy
 
