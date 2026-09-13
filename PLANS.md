@@ -111,10 +111,13 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       post-reset and post-disable-plugin states.
 - [ ] **B4 - section 8.2.5 state and nesting test.** Code, image, quote, table and
       two-to-three-level nested Callouts.
-- [ ] **B5 - section 8.3 reverse tests.** Six of eight are covered (blend, Callout width, code
-      width, active-line alias, image-selection alias, and Stronger borders changing only the shared
-      token, which now fails pre-repair). Missing: restoring a fixed wash on the safety Callouts,
-      and a brighter Callout surface at Airy 7% dropping link contrast.
+- [x] **B5 - section 8.3 reverse tests.** Done, all eight. Five were already covered (blend, Callout
+      width, code width, active-line alias, image-selection alias) and A1 added the sixth (Stronger
+      borders changing only the shared token). The last two need a Callout element rather than the
+      body, because the wash strength and the type colour resolve on the element: - a fixed wash on
+      the safety family fails with 24 reports, one per type per setting; - a brighter Callout
+      surface fails on link contrast: at the current `#2C343C` the Airy 7% wash leaves the link at
+      4.68-4.74:1, and the mutated surface drops it to 2.15:1.
 
 ### C. Real-environment regression
 
