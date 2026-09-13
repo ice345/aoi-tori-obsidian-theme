@@ -92,11 +92,22 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       highlight (`#3A3020`, 1.13:1 against body), search hits and unchecked checkboxes (1.85:1).
       Enhance per the quantified results without brightening globally or merging selected, active
       and hover states.
-- [ ] **A3 - R02 default scope drift** (P2, audit 4.6). Callout radius is still 4px rather than the
-      declared 8px, the Callout title weight resolves to 640 rather than medium, and
-      `--font-text-theme` is the native placeholder at `body`. Same root cause as A1. Fix as
-      separate controlled items with before/after comparison; do not migrate the rest of
-      `typography.css` off `:root`, which would move accepted typography.
+- [x] **A3 - R02 default scope drift.** Done for geometry, and the finding is larger than the three
+      names R02 listed. Diffing every theme `:root` declaration against the native `body` set: 65
+      names clash and **41 of them held a different value from the one the theme intends**, so the
+      theme was rendering Obsidian's defaults for Callout and input shape, the Properties card and
+      settings row radius, `--radius-xl`, and the active navigation weight. 13 geometry and
+      interaction values moved into the mode layer and are asserted in the gate; 24 of the 65
+      happened to coincide with the native value and needed nothing. **Deferred, 27 typography
+      names.** Not applied, because doing so would change typography the accepted screenshots
+      already show, and R02 warns against migrating the whole file at once. Each needs its own
+      before/after decision: font stacks (3) `--font-text-theme`, `--font-interface-theme`,
+      `--font-monospace-theme`; heading families, sizes, line heights and letter spacing (21)
+      `--h1-font` through `--h6-font`, `--h1-size` through `--h6-size`, `--h1-line-height` through
+      `--h6-line-height`, `--h1-letter-spacing` to `--h3-letter-spacing`; reading metrics (3)
+      `--line-height-normal` (intent 1.75, actual 1.5), `--line-height-tight` (1.35 vs 1.3) and
+      `--file-line-width` (760px vs 700px). The gate deliberately does **not** assert these, so they
+      cannot be changed by accident.
 
 ### B. Gates and automation
 

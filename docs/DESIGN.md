@@ -458,6 +458,18 @@ the mode block.
 Both are worth checking for whenever a declared value appears to have no effect. Neither produces a
 warning; the declaration simply never arrives.
 
+Diffing every `:root` declaration against the native `body` set showed how far the second class had
+spread: 65 names clash, and 41 of them were rendering a different value from the one this repository
+intends. The Callout and input shapes, the Properties card and settings row radii, `--radius-xl` and
+the active navigation weight were all Obsidian's defaults, not the theme's. Thirteen geometry and
+interaction values moved into the mode layer, where they now take effect and are asserted.
+
+The 27 clashing typography names were deliberately **not** moved. Heading families, sizes, line
+heights and letter spacing, the three font stacks, `--line-height-normal`, `--line-height-tight` and
+`--file-line-width` would all change the reading surface that the accepted screenshots already show.
+They are listed in `PLANS.md` as their own decision, and the gate does not assert them, so they
+cannot be changed by accident.
+
 ### Callout icon and structure specification
 
 Obsidian 1.13.4 was cold-started with the test note and each final `--callout-icon` value was
