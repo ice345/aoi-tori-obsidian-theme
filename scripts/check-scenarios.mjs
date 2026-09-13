@@ -1278,6 +1278,96 @@ for (const mode of ["theme-light", "theme-dark"]) {
   }
 }
 
+/* The border roles exist so that a strengthening setting reaches every boundary
+   instead of only `--background-modifier-border`. These assert both halves: that each
+   level moves the roles, and that no level drops a control outline below the 3:1
+   non-text minimum. Before the roles existed every check here resolved to the mode's
+   standard border colour, because the components consumed the primitive directly. */
+const BORDER_LEVELS = [
+  ["standard", null],
+  ["soft", "aoi-border-soft"],
+  ["strong", "aoi-border-strong"],
+  ["stronger", "aoi-stronger-borders"],
+  ["contrast", null]
+];
+
+for (const mode of ["theme-light", "theme-dark"]) {
+  const roleColor = (evaluation, name) => {
+    const value = evaluation.resolved.get(name);
+    return value && value.kind === "color" ? value : null;
+  };
+
+  const standard = resolveScenario({ mode, bodyClasses: [mode] });
+  const standardStructural = roleColor(standard, "--aoi-border-structural");
+  const standardControl = roleColor(standard, "--aoi-border-control");
+
+  if (!standardStructural || !standardControl) {
+    failures.push(
+      `${mode}: the border roles do not resolve, so no setting can reach the components`
+    );
+    continue;
+  }
+
+  /* Only the surfaces that actually carry a control in that mode: a light input or
+     checkbox sits on paper or the cloud field fill, never on the night panel, and a
+     dark one sits on the night surface, the canvas field, or the panel behind a tag. */
+  const surfaceNames =
+    mode === "theme-light"
+      ? ["--background-primary", "--background-modifier-form-field"]
+      : ["--background-primary", "--background-modifier-form-field", "--aoi-night-panel"];
+
+  for (const [level, className] of BORDER_LEVELS.slice(1)) {
+    const scenario =
+      level === "contrast"
+        ? {
+            mode,
+            bodyClasses: [
+              mode,
+              mode === "theme-light" ? "aoi-light-contrast-high" : "aoi-dark-contrast-high"
+            ]
+          }
+        : { mode, bodyClasses: [mode, className] };
+    const evaluation = resolveScenario(scenario);
+    const label = `${mode} ${level} borders`;
+
+    const structural = roleColor(evaluation, "--aoi-border-structural");
+    if (!structural) {
+      failures.push(`${label}: --aoi-border-structural does not resolve`);
+    } else if (formatHex(structural) === formatHex(standardStructural)) {
+      failures.push(
+        `${label}: --aoi-border-structural stayed ${formatHex(structural)}; the setting did not reach the dividers`
+      );
+    }
+
+    const control = roleColor(evaluation, "--aoi-border-control");
+    if (!control) {
+      failures.push(`${label}: --aoi-border-control does not resolve`);
+      continue;
+    }
+    const worst = Math.min(
+      ...surfaceNames.map((name) => {
+        const surface = evaluation.resolved.get(name);
+        if (!surface || surface.kind !== "color") return 21;
+        return contrastRatio(control, surface);
+      })
+    );
+    if (worst < 3) {
+      failures.push(
+        `${label}: --aoi-border-control ${formatHex(control)} is ${worst.toFixed(2)}:1 against its surface, below the 3:1 non-text minimum`
+      );
+    }
+  }
+
+  /* Soft is the one level that legitimately quiets the dividers, so it is excluded
+     from the "must differ" half above; its control floor is still asserted by the
+     same loop, because Soft no longer lowers `--aoi-border-control`. */
+  if (formatHex(standardControl) === formatHex(standardStructural)) {
+    failures.push(
+      `${mode}: control and structural borders share ${formatHex(standardControl)}; the control role is not carrying its own minimum`
+    );
+  }
+}
+
 if (failures.length) {
   console.error(`\n${failures.length} scenario failure${failures.length === 1 ? "" : "s"}:`);
   for (const failure of failures) console.error(`- ${failure}`);
