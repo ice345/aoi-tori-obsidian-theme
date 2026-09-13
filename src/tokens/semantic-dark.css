@@ -45,6 +45,16 @@
   --background-modifier-info: var(--aoi-night-info-soft);
   --background-modifier-message: var(--aoi-night-panel);
 
+  /* Theme aliases over the native variables above. Declared at `:root` they were
+     invalid at computed-value time, because the variables they reference only
+     exist inside this block; that is why the default active line rendered
+     transparent and the theme's own selected-image outline never appeared until a
+     setting class supplied the value. The selected-image default matches the
+     shipped setting default (Cobalt) so the no-plugin and default-class
+     appearances agree. */
+  --aoi-active-line-background: var(--background-modifier-hover);
+  --aoi-image-selection-color: var(--aoi-night-cobalt);
+
   /* Text and selection */
   --text-normal: var(--aoi-night-text);
   --text-muted: var(--aoi-night-muted);

@@ -23,13 +23,10 @@
   --input-border-width-focus: 1px;
   --aoi-focus-ring-width: 2px;
   --aoi-focus-ring-offset: 2px;
-  --aoi-active-line-background: var(--background-modifier-hover);
   --aoi-image-resting-outline-width: 0px;
   --aoi-image-hover-outline-width: 1px;
   --aoi-image-selection-outline-width: 1px;
-  --aoi-image-selection-color: var(--background-modifier-border-focus);
   --aoi-image-shadow: none;
-  --aoi-inline-code-border-width: var(--code-border-width);
   --aoi-reading-image-max-width: 100%;
   --aoi-touch-target-size: 44px;
   --aoi-sidebar-wash-strength: 5%;
@@ -45,9 +42,7 @@
   --nav-item-radius: var(--radius-s);
   --nav-item-weight-active: var(--font-semibold);
   --code-radius: var(--radius-s);
-  --code-border-width: 1px;
   --blockquote-border-thickness: 2px;
-  --callout-border-width: 2px;
   --callout-border-opacity: 0.34;
   --callout-radius: var(--radius-m);
   --callout-title-weight: var(--font-medium);
@@ -84,4 +79,21 @@
   --h1-letter-spacing: -0.02em;
   --h2-letter-spacing: -0.012em;
   --h3-letter-spacing: -0.006em;
+}
+
+/* Geometry and aliases that must resolve in the mode layer.
+   Obsidian declares `--callout-border-width: 0px` and `--code-border-width: 0px` on
+   `body`, which is a type selector and therefore beats a `:root` declaration no
+   matter the file order. The mode class is a class selector, so the same values
+   declared here win outright, and the shape of the cascade no longer depends on
+   which stylesheet the browser parsed last.
+
+   The aliases below are the same problem in a different form: they reference
+   variables that only exist inside `.theme-light` / `.theme-dark`, so at `:root`
+   they were invalid at computed-value time and silently produced nothing. */
+.theme-light,
+.theme-dark {
+  --callout-border-width: 2px;
+  --code-border-width: 1px;
+  --aoi-inline-code-border-width: var(--code-border-width);
 }
