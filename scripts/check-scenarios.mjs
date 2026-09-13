@@ -1493,6 +1493,45 @@ for (const mode of ["theme-light", "theme-dark"]) {
   }
 }
 
+/* Audit R01. The surfaces that share a colour and therefore carry no hierarchy. The table
+   header used to equal the zebra row exactly, so the table had no header at all, and both
+   the highlight and the Callout-free containers sat below the 1.15:1 separation this
+   project asks of an ordinary content container. Menu and modal backgrounds equal the page
+   by design and are deliberately not asserted. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const resolved = resolveScenario({ mode, bodyClasses: [mode] }).resolved;
+  const color = (name) => {
+    const value = resolved.get(name);
+    return value && value.kind === "color" ? value : null;
+  };
+  const page = color("--background-primary");
+  const header = color("--table-header-background");
+  const zebra = color("--table-row-alt-background");
+  const highlight = color("--aoi-highlight-background");
+
+  if (!page || !header || !zebra || !highlight) {
+    failures.push(`${mode}: a hierarchy surface did not resolve`);
+    continue;
+  }
+  if (formatHex(header) === formatHex(zebra)) {
+    failures.push(
+      `${mode}: the table header and the zebra row share ${formatHex(header)}; the table has no header hierarchy`
+    );
+  }
+  const headerPage = contrastRatio(header, page);
+  if (headerPage < 1.15) {
+    failures.push(
+      `${mode}: the table header is ${headerPage.toFixed(3)}:1 against the page, below the 1.15:1 container separation`
+    );
+  }
+  const highlightPage = contrastRatio(highlight, page);
+  if (highlightPage < 1.15) {
+    failures.push(
+      `${mode}: the highlight is ${highlightPage.toFixed(3)}:1 against the page, below the 1.15:1 container separation`
+    );
+  }
+}
+
 if (failures.length) {
   console.error(`\n${failures.length} scenario failure${failures.length === 1 ? "" : "s"}:`);
   for (const failure of failures) console.error(`- ${failure}`);
