@@ -213,8 +213,12 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       incomplete; redo it after quitting Obsidian normally or on a fresh account, then confirm theme
       selection, light/dark switching, Style Settings absent and present, restart persistence, and a
       clean Console.
-- [ ] **E2** Real release: version decision (currently `0.9.0`), `npm run release`, and package
-      verification.
+- [x] **E2** Release package verified. `npm run package` from a clean `dist/` produces
+      `dist/Aoi-Tori/{theme.css,manifest.json}`, 91391 and 142 bytes, with SHA-256 reported for
+      each. The packaged CSS contains no `src/` reference, no `node_modules`, no local path, no
+      remote http/https resource, no `@import`, no `@font-face` and no Base64 asset; it has zero
+      `!important` and zero `:has()`, and it parses cleanly with lightningcss. Version stays 0.9.0;
+      a real release still needs the E1 launch and a version decision. verification.
 
 ### F. Deferred
 
@@ -222,7 +226,9 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       guessed id was added.
 - [ ] **F2** Obsidian 1.14.1 Catalyst compatibility: coloured highlight, Bases layout and input
       hover changes need separate verification. Do not raise the target version without testing it.
-- [ ] **F3** Document the division of labour between High contrast, Dark contrast High,
+- [x] **F3** Division of labour documented. The four accessibility settings are tabulated in
+      `docs/DESIGN.md` and each now carries a description in the Style Settings metadata, including
+      the deliberate limit that the High contrast toggle does not touch borders.
       `prefers-contrast: more` and Stronger borders so each setting name matches what it actually
       does (audit 7.3).
 
