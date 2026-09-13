@@ -544,9 +544,7 @@ settings:
   --font-monospace-theme:
     "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
   --font-text-size: 16px;
-  --line-height-normal: 1.75;
   --line-height-tight: 1.35;
-  --file-line-width: 760px;
   --radius-s: 4px;
   --radius-m: 8px;
   --radius-l: 12px;
@@ -620,6 +618,8 @@ settings:
   --radius-xl: 16px;
   --tab-radius-active: var(--radius-m);
   --nav-item-weight-active: var(--font-semibold);
+  --line-height-normal: 1.75;
+  --file-line-width: 760px;
 }
 
 :root {
