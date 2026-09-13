@@ -164,6 +164,17 @@ body {
   --radius-xl: 24px;
   --tab-radius-active: 6px 6px 0 0;
   --nav-item-weight-active: inherit;
+  --font-text-size: 16px;
+  --line-height-normal: 1.5;
+  --line-height-tight: 1.3;
+  --file-line-width: 700px;
+  --image-radius: 4px;
+  --h1-size: 1.618em;
+  --h2-size: 1.462em;
+  --h3-size: 1.318em;
+  --h4-size: 1.188em;
+  --h5-size: 1.076em;
+  --h6-size: 1em;
 }
 .theme-light {
   --highlight-mix-blend-mode: darken;
@@ -1682,6 +1693,78 @@ for (const mode of ["theme-light", "theme-dark"]) {
     if (formatValue(value) !== expected) {
       failures.push(`${mode} ${label}: resolved to ${formatValue(value)}, expected ${expected}`);
     }
+  }
+}
+
+/* Audit 8.2.4. Style Settings applies classes and, for its five variable settings, writes
+   inline custom properties on `body`. Inline wins over every selector, so the plugin state and
+   the no-plugin state can disagree even though both are "the defaults". */
+const PLUGIN_DEFAULT_CLASSES = [
+  "aoi-sky-balanced",
+  "aoi-cobalt-balanced",
+  "aoi-sakura-balanced",
+  "aoi-violet-balanced",
+  "aoi-paper-balanced",
+  "aoi-sidebar-duet",
+  "aoi-interface-font-system",
+  "aoi-body-font-literary",
+  "aoi-monospace-font-system",
+  "aoi-heading-weight-balanced",
+  "aoi-density-default",
+  "aoi-tab-cobalt-line",
+  "aoi-status-visible",
+  "aoi-watercolor-wash-on",
+  "aoi-heading-accent-balanced",
+  "aoi-link-underline-native",
+  "aoi-unresolved-balanced",
+  "aoi-active-line-subtle",
+  "aoi-code-bordered",
+  "aoi-quote-watercolor",
+  "aoi-callout-balanced",
+  "aoi-table-density-default",
+  "aoi-image-border-hover",
+  "aoi-image-shadow-none",
+  "aoi-image-selection-cobalt",
+  "aoi-image-action-default"
+];
+
+const PLUGIN_DEFAULT_VARIABLES = [
+  ["--font-text-size", "16px"],
+  ["--line-height-normal", "1.75"],
+  ["--file-line-width", "760px"],
+  ["--image-radius", "8px"],
+  ["--aoi-image-selection-outline-width", "1px"]
+];
+
+function parseInlineValue(raw) {
+  const length = /^(-?[\d.]+)(px|em|rem|%)$/.exec(raw);
+  if (length) return { kind: "length", value: Number(length[1]), unit: length[2] };
+  if (/^-?[\d.]+$/.test(raw)) return { kind: "number", value: Number(raw) };
+  return { kind: "ident", name: raw };
+}
+
+for (const mode of ["theme-light", "theme-dark"]) {
+  const bare = resolveScenario({ mode, bodyClasses: [mode] }).resolved.entries;
+  const plugin = resolveScenario({
+    mode,
+    bodyClasses: [mode, ...PLUGIN_DEFAULT_CLASSES]
+  }).resolved.entries;
+  /* Style Settings writes its variable settings inline on `body`, where they outrank every
+     selector, so the plugin state is the stylesheet state plus those five values. */
+  const merged = new Map(plugin);
+  for (const [name, raw] of PLUGIN_DEFAULT_VARIABLES) merged.set(name, parseInlineValue(raw));
+
+  const names = new Set([...bare.keys(), ...merged.keys()]);
+  const differences = [];
+  for (const name of [...names].sort()) {
+    const a = formatValue(bare.get(name));
+    const b = formatValue(merged.get(name));
+    if (a !== b) differences.push(`${name} is ${a} without the plugin and ${b} with it`);
+  }
+  for (const difference of differences) {
+    failures.push(
+      `${mode} defaults disagree: ${difference}; a setting the plugin can apply must also be the theme default`
+    );
   }
 }
 
