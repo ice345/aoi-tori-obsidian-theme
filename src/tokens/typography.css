@@ -15,12 +15,6 @@
   --radius-s: 4px;
   --radius-m: 8px;
   --radius-l: 12px;
-  --radius-xl: 16px;
-  --input-radius: var(--radius-m);
-  --input-height: 34px;
-  --input-padding: 0 var(--size-4-2);
-  --input-border-width: 1px;
-  --input-border-width-focus: 1px;
   --aoi-focus-ring-width: 2px;
   --aoi-focus-ring-offset: 2px;
   --aoi-image-resting-outline-width: 0px;
@@ -34,23 +28,15 @@
   --aoi-properties-violet-wash-strength: 8%;
   --aoi-properties-cyan-wash-strength: 4%;
   --tab-radius: var(--radius-s);
-  --tab-radius-active: var(--radius-m);
   --tab-outline-width: 1px;
   --tab-font-size: var(--font-ui-small);
   --status-bar-font-size: var(--font-ui-smaller);
   --status-bar-radius: var(--radius-m) 0 0 0;
   --nav-item-radius: var(--radius-s);
-  --nav-item-weight-active: var(--font-semibold);
   --code-radius: var(--radius-s);
   --blockquote-border-thickness: 2px;
-  --callout-border-opacity: 0.34;
-  --callout-radius: var(--radius-m);
-  --callout-title-weight: var(--font-medium);
-  --metadata-border-radius: var(--radius-m);
-  --metadata-property-radius: var(--radius-s);
   --menu-radius: var(--radius-m);
   --modal-radius: var(--radius-l);
-  --setting-items-radius: var(--radius-m);
   --checkbox-radius: var(--radius-s);
   --h1-font: var(--font-interface);
   --h2-font: var(--font-interface);
@@ -96,4 +82,29 @@
   --callout-border-width: 2px;
   --code-border-width: 1px;
   --aoi-inline-code-border-width: var(--code-border-width);
+
+  /* Component geometry with the same problem, found by diffing every `:root`
+     declaration against the native `body` set: 41 of 65 clashing names held a
+     different value from the one this file intends, so the theme was rendering with
+     Obsidian's defaults for Callout and input shape, the Properties card radius, the
+     settings row radius, `--radius-xl` and the active navigation weight.
+
+     Only geometry and interaction are moved here. The clashing typography values -
+     heading sizes, line heights, letter spacing, the font stacks, `--font-text-size`
+     and `--file-line-width` - are deliberately left alone, because applying them
+     would change typography that the accepted screenshots already show. They are
+     listed in PLANS.md as their own decision. */
+  --callout-radius: var(--radius-m);
+  --callout-title-weight: var(--font-medium);
+  --callout-border-opacity: 0.34;
+  --input-height: 34px;
+  --input-padding: 0 var(--size-4-2);
+  --input-radius: var(--radius-m);
+  --input-border-width-focus: 1px;
+  --metadata-border-radius: var(--radius-m);
+  --metadata-property-radius: var(--radius-s);
+  --setting-items-radius: var(--radius-m);
+  --radius-xl: 16px;
+  --tab-radius-active: var(--radius-m);
+  --nav-item-weight-active: var(--font-semibold);
 }
