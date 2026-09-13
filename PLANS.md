@@ -162,8 +162,19 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       zero differences, so a future setting that only the plugin can apply fails. Note this is a
       visible change for no-plugin users: the reading surface moves from 1.5/700px to the 1.75/760px
       the theme always intended and the plugin already delivered.
-- [ ] **B4 - section 8.2.5 state and nesting test.** Code, image, quote, table and
-      two-to-three-level nested Callouts.
+- [x] **B4 - section 8.2.5 state and nesting test.** Done for the structural half. A nested
+      `.callout[data-callout="info"]` inside an `error` one is compared against the same type
+      standing alone: the audit's warning was that the type default would be inherited rather than
+      declared per element, and moving that default onto the mode block reproduces it as "nested
+      info resolves 5.00% but standalone info resolves 6.00%; nesting changed the type resolution".
+      The colour is checked the same way, and code inside a Callout must keep its own
+      `--code-border-width: 1px` rather than inheriting the container. Building this exposed a
+      harness bug rather than a theme one: `var(--x, fallback)` ignored the fallback, so the whole
+      two-layer strength design read as unresolved. The fallback is now evaluated, which is what the
+      browser does and what the design depends on. Not covered, because they are interactions rather
+      than resolutions: a Callout holding an image, a quote or a table, and same-fill states
+      distinguished by their full signal set. Those need a real client and are listed under C and D.
+
 - [x] **B5 - section 8.3 reverse tests.** Done, all eight. Five were already covered (blend, Callout
       width, code width, active-line alias, image-selection alias) and A1 added the sixth (Stronger
       borders changing only the shared token). The last two need a Callout element rather than the
