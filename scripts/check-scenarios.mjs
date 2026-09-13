@@ -723,7 +723,19 @@ function evalTokens(tokens, lookup) {
 
 function evalOne(token, lookup) {
   if (token.type === "color") return evalColor(token.value);
-  if (token.type === "var") return lookup(token.value.name.ident);
+  if (token.type === "var") {
+    const value = lookup(token.value.name.ident);
+    /* `var(--x, fallback)` is how the Callout strength lets the user override sit in front
+       of the type default. Without this the fallback is ignored and the property reads as
+       unresolved, which is a harness bug, not a theme one. */
+    if (
+      token.value.fallback &&
+      (value.kind === "unresolved" || value.kind === "unset" || value.kind === "empty")
+    ) {
+      return evalTokens(token.value.fallback, lookup);
+    }
+    return value;
+  }
   if (token.type === "function") {
     if (token.value.name === "color-mix") return evalColorMix(token.value.arguments, lookup);
     throw new Error(`Unsupported function: ${token.value.name}`);
@@ -1764,6 +1776,69 @@ for (const mode of ["theme-light", "theme-dark"]) {
   for (const difference of differences) {
     failures.push(
       `${mode} defaults disagree: ${difference}; a setting the plugin can apply must also be the theme default`
+    );
+  }
+}
+
+/* Audit 8.2.5. The audit's specific warning for the strength design was that a nested
+   Callout must not inherit its parent's type value: the type default is declared on the
+   element precisely so the inner one resolves its own. A nested pair and a Callout holding
+   code are the two structures that can expose a mistake here. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const html = createElement("html", []);
+  const body = createElement("body", [mode]);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+
+  const outer = createElement("div", ["callout"]);
+  outer.attributes.set("data-callout", "error");
+  const outerResolved = resolveSpecified(
+    cascadeCustomProperties(outer, [html, body], env, bodySpecified)
+  );
+
+  const inner = createElement("div", ["callout"]);
+  inner.attributes.set("data-callout", "info");
+  const innerResolved = resolveSpecified(
+    cascadeCustomProperties(inner, [html, body, outer], env, outerResolved.entries)
+  );
+
+  /* Compare the nested Callout against the same type standing alone. Comparing it against
+     the outer one would be wrong in light mode, where the theme deliberately uses a single
+     strength for every type; the property that must hold in both modes is that nesting does
+     not change the result. */
+  const standalone = createElement("div", ["callout"]);
+  standalone.attributes.set("data-callout", "info");
+  const standaloneResolved = resolveSpecified(
+    cascadeCustomProperties(standalone, [html, body], env, bodySpecified)
+  );
+
+  const strength = (r) => formatValue(r.get("--aoi-callout-wash-strength"));
+  const colour = (r) => formatHex(requireColor(r, "--callout-color"));
+
+  if (strength(innerResolved) !== strength(standaloneResolved)) {
+    failures.push(
+      `${mode} nested Callout: nested info resolves ${strength(innerResolved)} but standalone info resolves ${strength(standaloneResolved)}; nesting changed the type resolution`
+    );
+  }
+  if (colour(innerResolved) !== colour(standaloneResolved)) {
+    failures.push(
+      `${mode} nested Callout: nested info took ${colour(innerResolved)} but standalone info is ${colour(standaloneResolved)}`
+    );
+  }
+  if (colour(outerResolved) === colour(innerResolved)) {
+    failures.push(`${mode} nested Callout: error and info share ${colour(innerResolved)}`);
+  }
+
+  /* Code inside a Callout must keep its own border rather than inheriting the container. */
+  const pre = createElement("pre", []);
+  const preResolved = resolveSpecified(
+    cascadeCustomProperties(pre, [html, body, outer], env, outerResolved.entries)
+  );
+  const codeWidth = formatValue(preResolved.get("--code-border-width"));
+  if (codeWidth !== "1px") {
+    failures.push(
+      `${mode} code inside a Callout: --code-border-width is ${codeWidth}, expected 1px`
     );
   }
 }
