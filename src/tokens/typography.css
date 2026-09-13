@@ -9,9 +9,7 @@
   --font-monospace-theme:
     "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
   --font-text-size: 16px;
-  --line-height-normal: 1.75;
   --line-height-tight: 1.35;
-  --file-line-width: 760px;
   --radius-s: 4px;
   --radius-m: 8px;
   --radius-l: 12px;
@@ -107,4 +105,12 @@
   --radius-xl: 16px;
   --tab-radius-active: var(--radius-m);
   --nav-item-weight-active: var(--font-semibold);
+
+  /* Style Settings has a variable slider for each of these, and writes it as an inline
+     custom property on `body`, where it outranks every selector. Declared at `:root` the
+     theme value lost to the native `body` one, so the theme rendered 1.5 and 700px without
+     the plugin and 1.75 and 760px with it: two different reading surfaces for the same
+     defaults. They belong in the mode layer like the geometry. */
+  --line-height-normal: 1.75;
+  --file-line-width: 760px;
 }
