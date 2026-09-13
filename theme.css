@@ -662,6 +662,8 @@ settings:
   --background-modifier-border: var(--aoi-ice-border);
   --background-modifier-border-hover: var(--aoi-powder-blue);
   --background-modifier-border-focus: var(--aoi-focus-blue);
+  --aoi-border-structural: var(--aoi-ice-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 35%, var(--aoi-ink-muted));
   --background-modifier-form-field: var(--aoi-cloud-cool);
   --background-modifier-form-field-hover: var(--aoi-mist-blue);
   --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-indigo-deep) 14%, transparent);
@@ -755,7 +757,7 @@ settings:
   --input-text-bg-color: var(--aoi-cloud-cool);
   --input-text-fg-color: var(--aoi-ink-indigo);
   --input-placeholder-color: var(--aoi-ink-faint);
-  --input-unfocused-border-color: var(--aoi-ice-border);
+  --input-unfocused-border-color: var(--aoi-border-control);
   --input-hover-border-color: var(--aoi-powder-blue);
   --input-focus-border-color: var(--aoi-focus-blue);
   --input-disabled-border-color: var(--aoi-cloud-shadow);
@@ -813,7 +815,7 @@ settings:
   --list-marker-color-collapsed: var(--aoi-dusty-pink);
   --checkbox-color: var(--aoi-link-blue);
   --checkbox-color-hover: var(--aoi-cobalt-deep);
-  --checkbox-border-color: var(--aoi-powder-blue);
+  --checkbox-border-color: var(--aoi-border-control);
   --checkbox-border-color-hover: var(--aoi-focus-blue);
   --checkbox-marker-color: var(--aoi-paper-warm);
   --checklist-done-decoration: line-through;
@@ -822,13 +824,13 @@ settings:
   --tag-color-hover: var(--aoi-cobalt-deep);
   --tag-background: var(--aoi-cloud-cool);
   --tag-background-hover: var(--aoi-mist-blue);
-  --tag-border-color: var(--aoi-ice-border);
+  --tag-border-color: var(--aoi-border-structural);
   --tag-border-color-hover: var(--aoi-powder-blue);
   --tag-border-width: 1px;
   --tag-decoration: none;
   --tag-decoration-hover: none;
   --code-background: var(--aoi-cloud-cool);
-  --code-border-color: var(--aoi-ice-border);
+  --code-border-color: var(--aoi-border-structural);
   --code-normal: var(--aoi-ink-strong);
   --code-comment: var(--aoi-ink-muted);
   --code-function: var(--aoi-cobalt-deep);
@@ -867,7 +869,11 @@ settings:
   --embed-border-start: 2px solid var(--aoi-link-blue);
   --image-radius: var(--radius-m);
   --metadata-background: var(--aoi-cloud-cool);
-  --metadata-border-color: color-mix(in srgb, var(--aoi-ice-border) 62%, var(--aoi-cloud-cool));
+  --metadata-border-color: color-mix(
+    in srgb,
+    var(--aoi-border-structural) 62%,
+    var(--aoi-cloud-cool)
+  );
   --metadata-divider-color: color-mix(in srgb, var(--aoi-ice-border) 54%, var(--aoi-cloud-cool));
   --metadata-divider-color-hover: var(--aoi-powder-blue);
   --metadata-divider-color-focus: var(--aoi-focus-blue);
@@ -884,12 +890,12 @@ settings:
   --metadata-property-background-hover: color-mix(in srgb, var(--aoi-mist-blue) 55%, transparent);
   --metadata-property-background-active: color-mix(in srgb, var(--aoi-mist-blue) 70%, transparent);
   --table-background: var(--aoi-paper-warm);
-  --table-border-color: color-mix(in srgb, var(--aoi-ice-border) 72%, var(--aoi-paper-warm));
+  --table-border-color: color-mix(in srgb, var(--aoi-border-structural) 72%, var(--aoi-paper-warm));
   --table-header-background: var(--aoi-mist-blue);
   --table-header-background-hover: var(--aoi-cloud-shadow);
   --table-header-border-color: color-mix(
     in srgb,
-    var(--aoi-powder-blue) 62%,
+    var(--aoi-border-structural) 62%,
     var(--aoi-paper-warm)
   );
   --table-header-color: var(--aoi-indigo-deep);
@@ -900,12 +906,12 @@ settings:
   --table-selection-border-color: var(--aoi-focus-blue);
   --table-text-color: var(--aoi-ink-indigo);
   --menu-background: var(--aoi-cloud-cool);
-  --menu-border-color: var(--aoi-ice-border);
+  --menu-border-color: var(--aoi-border-structural);
   --menu-divider-color: var(--aoi-ice-border);
   --menu-shadow: 0 8px 28px var(--background-modifier-box-shadow);
   --modal-background: var(--aoi-paper-warm);
   --modal-sidebar-background: var(--aoi-mist-blue);
-  --modal-border-color: var(--aoi-ice-border);
+  --modal-border-color: var(--aoi-border-structural);
   --modal-shadow: 0 18px 48px var(--background-modifier-box-shadow);
   --setting-group-heading-color: var(--aoi-indigo-deep);
   --setting-items-background: var(--aoi-cloud-cool);
@@ -981,6 +987,8 @@ settings:
   --background-modifier-border: var(--aoi-night-border);
   --background-modifier-border-hover: var(--aoi-night-sky);
   --background-modifier-border-focus: var(--aoi-night-cobalt);
+  --aoi-border-structural: var(--aoi-night-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 58%, var(--aoi-night-muted));
   --background-modifier-form-field: var(--aoi-night-canvas);
   --background-modifier-form-field-hover: var(--aoi-night-panel);
   --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-night-canvas) 70%, transparent);
@@ -1074,7 +1082,7 @@ settings:
   --input-text-bg-color: var(--aoi-night-canvas);
   --input-text-fg-color: var(--aoi-night-text);
   --input-placeholder-color: var(--aoi-night-faint);
-  --input-unfocused-border-color: var(--aoi-night-border);
+  --input-unfocused-border-color: var(--aoi-border-control);
   --input-hover-border-color: var(--aoi-night-sky);
   --input-focus-border-color: var(--aoi-night-cobalt);
   --input-disabled-border-color: var(--aoi-night-panel);
@@ -1140,7 +1148,7 @@ settings:
   --list-marker-color-collapsed: var(--aoi-night-sakura);
   --checkbox-color: var(--aoi-night-cobalt);
   --checkbox-color-hover: var(--aoi-night-sky);
-  --checkbox-border-color: var(--aoi-night-border);
+  --checkbox-border-color: var(--aoi-border-control);
   --checkbox-border-color-hover: var(--aoi-night-cobalt);
   --checkbox-marker-color: var(--aoi-night-canvas);
   --checklist-done-decoration: line-through;
@@ -1149,13 +1157,13 @@ settings:
   --tag-color-hover: var(--aoi-night-sky);
   --tag-background: var(--aoi-night-panel);
   --tag-background-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
-  --tag-border-color: var(--aoi-night-border);
+  --tag-border-color: var(--aoi-border-structural);
   --tag-border-color-hover: var(--aoi-night-cobalt);
   --tag-border-width: 1px;
   --tag-decoration: none;
   --tag-decoration-hover: none;
   --code-background: var(--aoi-night-canvas);
-  --code-border-color: var(--aoi-night-border);
+  --code-border-color: var(--aoi-border-structural);
   --code-normal: var(--aoi-night-text);
   --code-comment: var(--aoi-night-faint);
   --code-function: var(--aoi-night-cobalt);
@@ -1195,7 +1203,7 @@ settings:
   --embed-border-start: 2px solid var(--aoi-night-cobalt);
   --image-radius: var(--radius-m);
   --metadata-background: var(--aoi-night-canvas);
-  --metadata-border-color: var(--aoi-night-border);
+  --metadata-border-color: var(--aoi-border-structural);
   --metadata-divider-color: var(--aoi-night-border);
   --metadata-divider-color-hover: var(--aoi-night-sky);
   --metadata-divider-color-focus: var(--aoi-night-cobalt);
@@ -1212,12 +1220,16 @@ settings:
   --metadata-property-background-hover: color-mix(in srgb, var(--aoi-night-sky) 14%, transparent);
   --metadata-property-background-active: color-mix(in srgb, var(--aoi-night-sky) 20%, transparent);
   --table-background: var(--aoi-night-surface);
-  --table-border-color: color-mix(in srgb, var(--aoi-night-border) 70%, var(--aoi-night-canvas));
+  --table-border-color: color-mix(
+    in srgb,
+    var(--aoi-border-structural) 70%,
+    var(--aoi-night-canvas)
+  );
   --table-header-background: var(--aoi-night-canvas);
   --table-header-background-hover: var(--aoi-night-panel);
   --table-header-border-color: color-mix(
     in srgb,
-    var(--aoi-night-border) 76%,
+    var(--aoi-border-structural) 76%,
     var(--aoi-night-canvas)
   );
   --table-header-color: var(--aoi-night-text);
@@ -1228,12 +1240,12 @@ settings:
   --table-selection-border-color: var(--aoi-night-cobalt);
   --table-text-color: var(--aoi-night-text);
   --menu-background: var(--aoi-night-surface);
-  --menu-border-color: var(--aoi-night-border);
+  --menu-border-color: var(--aoi-border-structural);
   --menu-divider-color: var(--aoi-night-border);
   --menu-shadow: 0 8px 30px var(--background-modifier-box-shadow);
   --modal-background: var(--aoi-night-surface);
   --modal-sidebar-background: var(--aoi-night-canvas);
-  --modal-border-color: var(--aoi-night-border);
+  --modal-border-color: var(--aoi-border-structural);
   --modal-shadow: 0 18px 52px var(--background-modifier-box-shadow);
   --setting-group-heading-color: var(--aoi-night-text);
   --setting-items-background: var(--aoi-night-canvas);
@@ -2448,6 +2460,8 @@ body.theme-light.aoi-light-contrast-high {
   --text-muted: var(--aoi-ink-strong);
   --text-faint: var(--aoi-ink-muted);
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 45%, var(--aoi-ink-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-dark-contrast-high {
@@ -2458,6 +2472,8 @@ body.theme-dark.aoi-dark-contrast-high {
     var(--aoi-night-border) 62%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-night-border) 55%, var(--aoi-night-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 30%, var(--aoi-night-muted));
 }
 
 body.aoi-interface-font-humanist {
@@ -2561,10 +2577,13 @@ body.theme-light.aoi-border-soft {
     var(--aoi-ice-border) 70%,
     var(--aoi-paper-warm)
   );
+  --aoi-border-structural: var(--background-modifier-border);
 }
 
 body.theme-light.aoi-border-strong {
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: var(--background-modifier-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 18%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-border-soft {
@@ -2573,6 +2592,7 @@ body.theme-dark.aoi-border-soft {
     var(--aoi-night-border) 70%,
     var(--aoi-night-canvas)
   );
+  --aoi-border-structural: var(--background-modifier-border);
 }
 
 body.theme-dark.aoi-border-strong {
@@ -2581,6 +2601,8 @@ body.theme-dark.aoi-border-strong {
     var(--aoi-night-border) 68%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: var(--background-modifier-border);
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 42%, var(--aoi-night-muted));
 }
 
 body.aoi-tab-soft-surface .workspace-tab-header.is-active {
@@ -2791,6 +2813,8 @@ body.theme-dark.aoi-dark-contrast-high {
 
 body.theme-light.aoi-stronger-borders {
   --background-modifier-border: var(--aoi-powder-blue);
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 55%, var(--aoi-ink-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
 }
 
 body.theme-dark.aoi-stronger-borders {
@@ -2799,6 +2823,8 @@ body.theme-dark.aoi-stronger-borders {
     var(--aoi-night-border) 68%,
     var(--aoi-night-muted)
   );
+  --aoi-border-structural: color-mix(in srgb, var(--aoi-night-border) 55%, var(--aoi-night-muted));
+  --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 32%, var(--aoi-night-muted));
 }
 
 body.aoi-large-touch-targets {
@@ -2840,6 +2866,8 @@ body.aoi-large-touch-targets {
     --text-faint: var(--aoi-ink-muted);
     --icon-color: var(--aoi-ink-strong);
     --background-modifier-border: var(--aoi-powder-blue);
+    --aoi-border-structural: color-mix(in srgb, var(--aoi-ice-border) 45%, var(--aoi-ink-muted));
+    --aoi-border-control: color-mix(in srgb, var(--aoi-ice-border) 5%, var(--aoi-ink-muted));
     --nav-item-color: var(--aoi-ink-strong);
     --nav-heading-color: var(--aoi-indigo-deep);
     --nav-item-weight: var(--font-normal);
@@ -2860,6 +2888,12 @@ body.aoi-large-touch-targets {
       var(--aoi-night-border) 62%,
       var(--aoi-night-muted)
     );
+    --aoi-border-structural: color-mix(
+      in srgb,
+      var(--aoi-night-border) 55%,
+      var(--aoi-night-muted)
+    );
+    --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 30%, var(--aoi-night-muted));
     --nav-item-color: var(--aoi-night-text);
     --nav-heading-color: var(--aoi-night-text);
     --nav-item-weight: var(--font-normal);
