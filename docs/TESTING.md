@@ -107,19 +107,45 @@ were the independent check on that script: reverting the Soft fix makes the scri
 perturbing `--aoi-workspace-tint-max-aqua` by one hex step fails the derived-versus-precomputed
 assertion, so both the fix and the constants are genuinely covered.
 
-| Check                                                             | Status                  | Evidence                                                                                                                          |
-| ----------------------------------------------------------------- | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| Theme High contrast + sidebar contrast Soft                       | Simulated pass          | Nav text resolves to `#3E4B5C`, 6.81:1 at Aqua + Clear                                                                            |
-| Light contrast = High + Soft                                      | Simulated pass          | 6.81:1                                                                                                                            |
-| `prefers-contrast: more` + Soft                                   | Simulated pass          | 6.81:1                                                                                                                            |
-| `forced-colors: active`, 2 themes x 4 sidebar x 2 switches        | Simulated pass          | 24/24: `Canvas` surfaces, `CanvasText` text, `none` decoration, HR `CanvasText`                                                   |
-| Navigation base / hover / active / selected / focus               | Simulated pass          | 120/120 (24 scenarios x 5 states) at or above 4.5:1; worst pairs dark active 4.72:1, dark selected 4.63:1                         |
-| Soft nav weight, and its reset on high contrast                   | Simulated pass          | Soft 300, active row still 600; class switch, Light contrast = High, `prefers-contrast: more` and forced colours all reset to 400 |
-| Real Windows High Contrast                                        | **Untested**            | Requires a Windows host                                                                                                           |
-| Style Settings install / reset / plugin disable                   | **Untested this round** | Last exercised 2026-08-03 on Style Settings 1.0.9                                                                                 |
-| Cloud / Mist / Aqua -> Duet migration                             | **Untested this round** | Cascade verified only                                                                                                             |
-| Canvas / Graph / PDF / Bases / search in sidebar                  | **Untested this round** | Central surface and transparent leaves not re-checked                                                                             |
-| Pop-out, multi-note split, single sidebar, narrow and phone-class | **Untested this round** | —                                                                                                                                 |
+The Callout rows are also covered by `npm run scenarios`, which now carries a native core contract:
+a hand-written, minimal reproduction of the six `app.css` declarations these values lose to
+(`body { --callout-border-width: 0px; --code-border-width: 0px; --callout-blend-mode: var(--highlight-mix-blend-mode) }`
+and the two `--highlight-mix-blend-mode` mode values). It is parsed before `theme.css` so it carries
+the lowest source order, the way the real load order behaves. Full native CSS is never bundled.
+
+Two fidelity gaps had to be closed in the harness before those assertions meant anything, and both
+were found by running them against the pre-repair tree rather than assuming they worked:
+
+- The harness resolved inherited declarations in the _consumer's_ context, so a `:root` alias whose
+  `var()` referenced a mode variable resolved fine at `body` and passed. A browser evaluates a
+  custom property where it is declared, so it is invalid there and inherits as invalid. Each element
+  now resolves its own declarations, and only finished values inherit.
+- The harness also put the mode class on `html`, which let `:root` aliases match the mode block.
+  Obsidian puts the mode class on `body` only.
+
+With both corrected, all ten contract assertions fail on the pre-repair build and pass on the
+current one, and the 582 existing scenarios are unchanged (no new skips, identical anchor ratios).
+The isolated Chromium fixture is retained as the independent check: it loads the saved native CSSOM
+snapshot and the built `theme.css` together and confirms each value reaching the rendered element,
+which the harness only models.
+
+| Check                                                             | Status                  | Evidence                                                                                                                                                                     |
+| ----------------------------------------------------------------- | ----------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Theme High contrast + sidebar contrast Soft                       | Simulated pass          | Nav text resolves to `#3E4B5C`, 6.81:1 at Aqua + Clear                                                                                                                       |
+| Light contrast = High + Soft                                      | Simulated pass          | 6.81:1                                                                                                                                                                       |
+| `prefers-contrast: more` + Soft                                   | Simulated pass          | 6.81:1                                                                                                                                                                       |
+| `forced-colors: active`, 2 themes x 4 sidebar x 2 switches        | Simulated pass          | 24/24: `Canvas` surfaces, `CanvasText` text, `none` decoration, HR `CanvasText`                                                                                              |
+| Navigation base / hover / active / selected / focus               | Simulated pass          | 120/120 (24 scenarios x 5 states) at or above 4.5:1; worst pairs dark active 4.72:1, dark selected 4.63:1                                                                    |
+| Soft nav weight, and its reset on high contrast                   | Simulated pass          | Soft 300, active row still 600; class switch, Light contrast = High, `prefers-contrast: more` and forced colours all reset to 400                                            |
+| Native core contract (D01-D05)                                    | In `npm run check`      | 10 assertions, both modes, all fail on the pre-repair build: border widths `0px` -> `2px`/`1px`, blend `darken`/`lighten` -> `normal`, both aliases `unresolved` -> resolved |
+| Dark Callout surface and edge (D01/D02)                           | Simulated pass          | Native `app.css` 1.13.7 + built `theme.css` in one page: `mix-blend-mode` `lighten` -> `normal`, inline-start edge `0px` -> `2px`, surface `#1A2027` -> `#2C343C`            |
+| Callout defaults and geometry (D03-D05)                           | Simulated pass          | `--callout-border-width` 0px -> 2px, `--code-border-width` 0px -> 1px, active-line alias resolves, selected-image outline `none` -> `solid 1px`                              |
+| Callout type and strength matrix (D07/D08)                        | Simulated pass          | 25 types x 2 modes x Quiet/Balanced/Airy: Quiet 3% and Airy 7% reach every type; `attention` and `missing` join the right family                                             |
+| Real Windows High Contrast                                        | **Untested**            | Requires a Windows host                                                                                                                                                      |
+| Style Settings install / reset / plugin disable                   | **Untested this round** | Last exercised 2026-08-03 on Style Settings 1.0.9                                                                                                                            |
+| Cloud / Mist / Aqua -> Duet migration                             | **Untested this round** | Cascade verified only                                                                                                                                                        |
+| Canvas / Graph / PDF / Bases / search in sidebar                  | **Untested this round** | Central surface and transparent leaves not re-checked                                                                                                                        |
+| Pop-out, multi-note split, single sidebar, narrow and phone-class | **Untested this round** | —                                                                                                                                                                            |
 
 `checkout-diff.md` and `.omp/config.yml` are local working material, not project sources; both are
 listed with an explanatory comment in `.prettierignore` so `npm run format:check` no longer reports

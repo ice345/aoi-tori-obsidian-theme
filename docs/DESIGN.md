@@ -411,11 +411,24 @@ the second voice on the icon and key together; values stay on the card surface.
   left and cyan/mist from the lower right. The border and row dividers were also lightened.
 - Quote keeps a solid cloud/night panel underneath one left-to-right sakura fade. Its 2 px sakura
   edge is structural; body text stays normal ink or normal night text.
-- Light Callouts use a 5% semantic wash. Dark Info uses 6% night sky, Success/Warning/Error use 5%
-  green/gold/red, and Second voice uses 6% gray violet.
-- The outer Callout owns the complete solid surface and semantic wash. Its content layer is
-  transparent so the wash remains continuous behind the title and body instead of being masked by a
-  nested white slab in light mode or a nested black slab in dark mode.
+- Light Callouts use a 5% semantic wash and dark Callouts 6%, with the Success/Warning/Failure
+  family at 5% in dark. The type default is declared per Callout element, and the Quiet/Airy setting
+  supplies an override that always wins, so the setting is not silently replaced by the type value
+  on the element that carries it.
+- The outer Callout owns the complete solid surface and semantic wash, through the dedicated
+  `--aoi-callout-surface` role. Its content layer is transparent so the wash remains continuous
+  behind the title and body instead of being masked by a nested white slab in light mode or a nested
+  black slab in dark mode.
+- Callouts declare `--callout-blend-mode: normal`. The native chain resolves to `darken` in light
+  mode and `lighten` in dark, and `lighten` preserves the brighter channel of foreground and
+  background: because the previous dark surface was darker than the body, the container disappeared
+  into the page and only the wash edge survived, which is the defect the 2026-09-13 audit recorded
+  as D01. Normal compositing is what lets a surface darker than the body exist at all.
+- A dark Callout now separates from the body by about 1.15:1 of surface plus a 2 px semantic
+  inline-start edge that measures 7.54:1 against the page, so the container is identified by the
+  structure rather than by pushing the whole panel brighter. The panel was chosen over a lighter
+  candidate because a brighter surface costs link contrast: a 7% wash on the next panel step drops
+  cobalt to 4.41:1.
 
 The paper reading surface, body text, primary cobalt interactions, semantic safety foregrounds, code
 palette, and native control surfaces remain deliberately solid colors. Real watercolor textures were
@@ -423,6 +436,27 @@ rejected because they would turn the reference art into an interface asset, redu
 predictability, and invite blur/filter work. The current gradients use no image, Base64, filter,
 blur, backdrop filter, blend mode, or text-covering pseudo-element; each component stays at one or
 two simple static layers.
+
+### Declaration scope
+
+Two classes of defect on 2026-09-13 came from where a value was declared rather than what it said.
+
+Obsidian declares several of these variables on `body`, which is a type selector. A theme
+declaration at `:root` therefore loses no matter how the stylesheets were ordered, because a closer
+explicit value on an ancestor is not a specificity contest the descendant can win.
+`Sidebar contrast` and the Callout geometry are declared on the mode classes, which are class
+selectors and win outright: `--callout-border-width: 2px` and `--code-border-width: 1px` now
+actually reach the editor, where `:root` had silently lost to the native `0px`.
+
+The second class is an alias declared where its dependency does not exist. `:root` sits above the
+mode block, so `--aoi-active-line-background: var(--background-modifier-hover)` found nothing to
+resolve against, became invalid at computed-value time, and rendered as no value at all: the default
+active line was transparent and the theme's own selected-image outline never appeared unless a
+setting class supplied the colour. Aliases over native variables belong beside those variables in
+the mode block.
+
+Both are worth checking for whenever a declared value appears to have no effect. Neither produces a
+warning; the declaration simply never arrives.
 
 ### Callout icon and structure specification
 

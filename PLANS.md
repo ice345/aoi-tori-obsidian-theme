@@ -3,6 +3,71 @@
 This project is complex enough to justify a durable execution plan. Keep this file concise, current,
 and evidence-based.
 
+## 2026-09-13 dark surface audit and repair proposal
+
+- Scope: investigate the supplied dark Callout screenshot and adjacent component surfaces; deliver
+  `docs/dark-surface-audit-2026-09-13.md` in Chinese. Documentation and ignored audit evidence only.
+- Baseline: clean worktree at `e65b220`; preserve source CSS and release metadata. Regenerate
+  `theme.css` through the quality gate and verify that it remains byte-identical.
+- Inspect source, native Obsidian 1.13.7 CSS, computed rendering, settings interactions, and
+  existing test coverage. Separate confirmed defects, low-separation design risks, and untested
+  interactions.
+- Decision: earlier implementation plans are historical context, not authorization to implement
+  proposed fixes in this audit. No theme changes, commit, push, or release in this pass.
+- Status: complete. The report identifies Callout blend-mode and inherited geometry failures,
+  missing default active-line/image aliases, code default mismatch, incomplete border propagation,
+  and Callout setting/alias inconsistencies. Current-client native CSS plus isolated DOM covered 27
+  scenarios / 48 nodes each; these are not full Obsidian interaction tests.
+- Validation: `npm run check` passes (45 contrast pairs and 582 scenarios); `git diff --check`
+  passes. The initial check stopped on this new plan entry's formatting, which was corrected.
+  Generated `theme.css` remains byte-identical at SHA-256
+  `66f7d394ac38b3b7e67ffdcba942042fca656bdb29d7d64ed6f1fe8f5d0bbd55`.
+- Remaining: implement and visually validate the proposed fixes, then perform the documented
+  interaction, plugin lifecycle, accessibility, and device regressions. No source fixes in this
+  pass.
+
+## 2026-09-13 dark surface repair
+
+Implementation of `docs/dark-surface-audit-2026-09-13.md` stages T2, T3 and T5. No version bump,
+commit, push, or release. `theme.css` regenerated from source; `npm run check` passes.
+
+- **T2 Callouts (D01/D02)** — Callouts declare `--callout-blend-mode: normal`, because the native
+  chain resolved to `lighten` in dark mode and the dark surface was darker than the body, so the
+  container was cancelled channel by channel and only the wash edge survived. The outer element now
+  paints the dedicated `--aoi-callout-surface` role (`--aoi-night-panel` in dark, unchanged
+  `--aoi-cloud-cool` in light) instead of borrowing `--callout-content-background`, whose native
+  meaning is the inner content layer. `--callout-border-width: 2px` and `--code-border-width: 1px`
+  moved from `:root`, where Obsidian's `body` declarations outranked them, to the mode classes.
+- **T3 defaults (D03/D04/D05)** — `--aoi-active-line-background` and `--aoi-image-selection-color`
+  moved into the mode blocks, where the native variables they reference actually exist; at `:root`
+  they were invalid at computed-value time, which is why the default active line was transparent and
+  the theme's own selected-image outline never rendered. The selected-image default is now Cobalt in
+  both modes, matching the shipped setting default so the no-plugin and default-class appearances
+  agree.
+- **T5 Callout family (D07/D08)** — the wash strength is resolved on the Callout element in two
+  layers: a per-element type default and a user override that always wins. Quiet and Airy previously
+  never reached the types whose rule was declared on the element, so the setting could not be used
+  to make a Callout visible. `attention` and `missing` now join the warning and failure families.
+- **Gate (T1)** — `npm run scenarios` now carries a native core contract: a minimal hand-written
+  reproduction of the six `app.css` declarations these values lose to, parsed before `theme.css` so
+  it carries the lowest source order. Ten assertions cover both modes. Two harness fidelity gaps had
+  to be closed first, and both were found by running the assertions against the pre-repair tree:
+  inherited declarations were being resolved in the consumer's context instead of where they are
+  declared, and the mode class was on `html` as well as `body`, which let `:root` aliases match the
+  mode block. With both corrected the ten assertions fail on the pre-repair build and pass now, and
+  the existing 582 scenarios are unchanged with no new skips.
+- **Verified** — an isolated Chromium page loading the saved native `app.css` 1.13.7 and the built
+  `theme.css`, run against both the previous and the current build: `mix-blend-mode` `lighten` ->
+  `normal`, inline-start edge `0px` -> `2px`, dark surface `#1A2027` -> `#2C343C` (1.15:1 against
+  the body) with a 7.54:1 semantic edge, code border `0px` -> `1px`, active line and selected-image
+  outline restored. A 25-type x 2-mode x Quiet/Balanced/Airy matrix confirms the setting now reaches
+  every type. Values, not screenshots; no real-note capture was taken.
+- **Not done** — T4 border roles (D06) and the T6 weak-hierarchy pass (R01), plus the R02 default
+  scope drift for Callout radius (still 4px rather than the declared 8px), heading weight and
+  `--font-text-theme`. The audit sequences those as their own controlled stages, and R02 warns that
+  migrating the rest of `typography.css` would move accepted typography. Real Obsidian interaction,
+  plugin lifecycle, Canvas/Graph/Bases, Windows High Contrast and device regressions remain open.
+
 ## 2026-09-13 implementation review
 
 - Scope: review the current Phase 6 implementation against the aesthetic handoff; do not fix theme
