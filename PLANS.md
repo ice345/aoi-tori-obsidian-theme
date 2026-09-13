@@ -141,9 +141,16 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       `--callout-border-width` back to `:root` reports `resolved to 0px, expected 2px`. The Chromium
       fixture stays as the independent cross-check; the harness is the CI gate.
 
-- [ ] **B2 - section 8.2.3 final pixel test.** Sample container interiors, gradient start / middle /
-      end, the outside background and the side edge; exclude text, shadow and antialiasing samples;
-      record DPI, zoom and tolerance.
+- [x] **B2 - section 8.2.3 final pixel test.** Done as `scripts/check-pixels.mjs`, which reads the
+      PNGs, decodes them without a dependency, samples outside the container, the inline-start edge
+      and three points along the wash, and asserts within a documented tolerance. It is deliberately
+      **not** part of `npm run check`: a real pixel test needs a renderer, and putting a browser in
+      CI for a static-CSS theme is the dependency the audit asks to avoid. The capture procedure,
+      the 1.25 devicePixelRatio and the 3-per-channel tolerance are recorded in the script header
+      and in `docs/TESTING.md`. Evidence: against the pre-repair build it reports "the Callout
+      interior painted `#222A30`, the same as the page; the container is invisible" in dark and "the
+      inline-start edge painted `#EDF2F3`, expected `#245F90`" in light; against the current build
+      both modes pass and paint the surface, the semantic edge and a fading wash.
 - [ ] **B3 - section 8.2.4 default consistency test.** Compare no-plugin, all-default-classes,
       post-reset and post-disable-plugin states.
 - [ ] **B4 - section 8.2.5 state and nesting test.** Code, image, quote, table and
