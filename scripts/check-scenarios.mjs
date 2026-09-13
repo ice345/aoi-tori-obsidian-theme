@@ -1368,6 +1368,92 @@ for (const mode of ["theme-light", "theme-dark"]) {
   }
 }
 
+/* Audit 8.3, the last two reverse tests. Both need a Callout element rather than the
+   body, because the wash strength and the type colour resolve on the element. */
+const CALLOUT_TYPES = [
+  "note",
+  "info",
+  "success",
+  "check",
+  "done",
+  "warning",
+  "caution",
+  "attention",
+  "failure",
+  "fail",
+  "missing",
+  "error",
+  "danger",
+  "second-voice",
+  "aoi-tori",
+  "quote",
+  "example",
+  "unknown-type"
+];
+
+function resolveCallout(mode, bodyClasses, type, env = {}) {
+  const callout = createElement("div", ["callout"]);
+  callout.attributes.set("data-callout", type);
+  const html = createElement("html", []);
+  const body = createElement("body", [mode, ...bodyClasses]);
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodyResolved = resolveSpecified(
+    cascadeCustomProperties(body, [html], env, htmlResolved.entries)
+  );
+  return {
+    callout: resolveSpecified(
+      cascadeCustomProperties(callout, [html, body], env, bodyResolved.entries)
+    ),
+    body: bodyResolved
+  };
+}
+
+for (const mode of ["theme-light", "theme-dark"]) {
+  /* Test 6: the user's strength must reach every type. A type rule that declares the
+     strength on the Callout element outranks the value inherited from the body, which
+     is how Quiet and Airy silently stopped working for the safety family. */
+  for (const [setting, expected] of [
+    ["aoi-callout-quiet", "3.00%"],
+    ["aoi-callout-airy", "7.00%"]
+  ]) {
+    for (const type of CALLOUT_TYPES) {
+      const { callout } = resolveCallout(mode, [setting], type);
+      const strength = formatValue(callout.get("--aoi-callout-wash-strength"));
+      if (strength !== expected) {
+        failures.push(
+          `${mode} ${setting} on [${type}]: --aoi-callout-wash-strength is ${strength}, expected ${expected}; the type is not following the user setting`
+        );
+      }
+    }
+  }
+
+  /* Test 7: a brighter Callout surface would buy visibility with link contrast. The
+     wash is strongest at the gradient start, so that is where the link colour is
+     measured. */
+  for (const type of ["success", "second-voice", "aoi-tori"]) {
+    const { callout, body } = resolveCallout(mode, ["aoi-callout-airy"], type);
+    const surface = callout.get("--aoi-callout-surface");
+    const wash = callout.get("--callout-color");
+    const strength = callout.get("--aoi-callout-wash-strength");
+    const link = body.get("--link-color");
+
+    if (surface?.kind !== "color" || wash?.kind !== "color" || link?.kind !== "color") {
+      failures.push(
+        `${mode} [${type}]: Callout surface, type colour or link colour did not resolve`
+      );
+      continue;
+    }
+    const pct = strength?.kind === "percentage" ? strength.value : 0;
+    const washed = compositeOver({ ...wash, a: pct }, { ...surface, a: 1 });
+    const ratio = contrastRatio(link, washed);
+    if (ratio < 4.5) {
+      failures.push(
+        `${mode} [${type}]: link ${formatHex(link)} on the washed Airy surface ${formatHex(washed)} is ${ratio.toFixed(2)}:1, below 4.5:1; a brighter Callout surface would trade link contrast for box visibility`
+      );
+    }
+  }
+}
+
 if (failures.length) {
   console.error(`\n${failures.length} scenario failure${failures.length === 1 ? "" : "s"}:`);
   for (const failure of failures) console.error(`- ${failure}`);
