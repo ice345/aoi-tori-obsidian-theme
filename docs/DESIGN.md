@@ -504,6 +504,31 @@ text.
   native inner selection cue and two native action buttons, uses no layout-changing border, and
   leaves the native interaction structure intact.
 
+### Border roles
+
+Components consumed the `--aoi-ice-border` / `--aoi-night-border` primitives directly, so the Border
+strength, Stronger borders and High contrast settings only moved `--background-modifier-border` and
+reached almost nothing: inputs, Properties, code, tags, checkboxes, menus, modals and the table
+header all kept the same outline at every level. Two roles now sit between the primitives and the
+components, so a setting scales the whole set at once.
+
+`--aoi-border-structural` is a decorative divider: tables, cards, code, tags, menus, modals and
+Properties. It stays quiet by default and steps up only when asked, which keeps dense grids light.
+
+`--aoi-border-control` outlines a shape that is the only thing identifying a control — an input
+whose fill is 1.14:1 against the page, and an unchecked checkbox. It therefore starts at the 3:1
+non-text minimum against the lightest surface it can sit on, rather than below it, and no level
+lowers it again. Measured in dark: 4.24:1 for the input, 3.72:1 for the checkbox. `Soft` quiets the
+dividers and deliberately leaves this role alone, because 1.4:1 would leave the shape unreadable.
+
+Focus and selection edges are a third role and keep their own functional colour; no border setting
+weakens them. Semantic edges — error, warning, success, Callout types — are untouched, so a safety
+meaning is never remapped to blue-grey.
+
+In dark, one table variable took longer to find: `--table-header-border-color` is declared
+separately from `--table-border-color`, and it still pointed at the primitive, so the header grid
+ignored every setting while the body grid responded.
+
 ## Phase 3 desktop core-view decisions
 
 Phase 3 does not change the approved primitive palette, typography, density, Callout, Quote,

@@ -68,6 +68,103 @@ commit, push, or release. `theme.css` regenerated from source; `npm run check` p
   migrating the rest of `typography.css` would move accepted typography. Real Obsidian interaction,
   plugin lifecycle, Canvas/Graph/Bases, Windows High Contrast and device regressions remain open.
 
+## Open work
+
+The outstanding items, gathered from `docs/dark-surface-audit-2026-09-13.md` (T-steps, section 8,
+section 10), `docs/implementation-review-2026-09-13.md` (section 6) and the Untested rows in
+`docs/TESTING.md`. Stages T0-T3, T5 and T8 are complete; this is what remains.
+
+Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
+
+### A. Source defects
+
+- [x] **A1 - D06 border roles.** Done. Components consumed the `--aoi-ice-border` /
+      `--aoi-night-border` primitives directly, so the Border strength, Stronger borders and High
+      contrast settings only moved `--background-modifier-border` and reached almost nothing.
+      `--aoi-border-structural` (decorative dividers) and `--aoi-border-control` (inputs, unchecked
+      checkboxes) now sit between the primitives and the components; focus, selection and semantic
+      edges keep their own colours and are not weakened. The control role starts at the 3:1 non-text
+      minimum and no level lowers it, including Soft. `--table-header-border-color` was a second,
+      separately declared table variable that also had to be routed. Verified in Chromium: all eight
+      components take four or five distinct values across the levels, and the gate fails on the
+      pre-repair tree.
+- [ ] **A2 - R01 weak hierarchy** (P2, audit 5 / 6). Tables, Properties, menus, modals, tags, plain
+      highlight (`#3A3020`, 1.13:1 against body), search hits and unchecked checkboxes (1.85:1).
+      Enhance per the quantified results without brightening globally or merging selected, active
+      and hover states.
+- [ ] **A3 - R02 default scope drift** (P2, audit 4.6). Callout radius is still 4px rather than the
+      declared 8px, the Callout title weight resolves to 640 rather than medium, and
+      `--font-text-theme` is the native placeholder at `body`. Same root cause as A1. Fix as
+      separate controlled items with before/after comparison; do not migrate the rest of
+      `typography.css` off `:root`, which would move accepted typography.
+
+### B. Gates and automation
+
+- [x] B0 - section 8.2.1 native consumption contract. Done.
+- [ ] **B1 - section 8.2.2 browser computed-style test is not gated.** It is a local fixture under
+      `.analysis/`. Decide the local-versus-CI conditions and, if it is to be a gate, state the
+      purpose and boundaries of any new dev dependency in `PLANS.md`; no runtime dependency.
+- [ ] **B2 - section 8.2.3 final pixel test.** Sample container interiors, gradient start / middle /
+      end, the outside background and the side edge; exclude text, shadow and antialiasing samples;
+      record DPI, zoom and tolerance.
+- [ ] **B3 - section 8.2.4 default consistency test.** Compare no-plugin, all-default-classes,
+      post-reset and post-disable-plugin states.
+- [ ] **B4 - section 8.2.5 state and nesting test.** Code, image, quote, table and
+      two-to-three-level nested Callouts.
+- [ ] **B5 - section 8.3 reverse tests.** Six of eight are covered (blend, Callout width, code
+      width, active-line alias, image-selection alias, and Stronger borders changing only the shared
+      token, which now fails pre-repair). Missing: restoring a fixed wash on the safety Callouts,
+      and a brighter Callout surface at Airy 7% dropping link contrast.
+
+### C. Real-environment regression
+
+- [ ] **C1** Style Settings lifecycle: install, defaults, reset, plugin disabled; confirm reset
+      really removes the old setting classes (audit 7.4).
+- [ ] **C2** Cloud / Mist / Aqua to Duet migration.
+- [ ] **C3** Canvas, Graph, PDF, Bases, sidebar search and backlinks, against the root
+      `.view-content` fill and the transparent sidebar leaves. Recorded as an open regression in
+      `docs/obsidian-dom.md`.
+- [ ] **C4** Pop-out, two-note split, single sidebar, both sidebars hidden, narrow window,
+      phone-class, and 90% / 100% / 110% zoom.
+- [ ] **C5** Real Windows High Contrast. The simulated matrix passes 198 combinations; the platform
+      check is outstanding.
+- [ ] **C6** Physical iOS / iPadOS / Android, safe areas, virtual keyboard, long press, swipe,
+      pinch, RTL, assistive technology.
+
+### D. Callout interaction matrix (audit 10.1, none done)
+
+- [ ] Full family of 30 types / aliases / unknown; content volume (empty, single line, long title,
+      long body, collapsed); two and three level nesting; Reading / Live Preview / Source; first,
+      middle and last code line plus Quiet and Bordered; active line Off / Subtle / Clear with
+      selection and Vim; image mouse and keyboard selection, resize and Lightbox; Properties, table
+      and Bases across resting, hover, edit, focus, selected and disabled; controls and overlays in
+      their error and disabled states.
+
+### E. Release
+
+- [ ] **E1** Clean-vault install test. The Obsidian launch in `docs/release-install-test.md` is
+      incomplete; redo it after quitting Obsidian normally or on a fresh account, then confirm theme
+      selection, light/dark switching, Style Settings absent and present, restart persistence, and a
+      clean Console.
+- [ ] **E2** Real release: version decision (currently `0.9.0`), `npm run release`, and package
+      verification.
+
+### F. Deferred
+
+- [ ] **F1** `[!bluebird]`. `lucide-bird` is not registered in the local client; no remote SVG or
+      guessed id was added.
+- [ ] **F2** Obsidian 1.14.1 Catalyst compatibility: coloured highlight, Bases layout and input
+      hover changes need separate verification. Do not raise the target version without testing it.
+- [ ] **F3** Document the division of labour between High contrast, Dark contrast High,
+      `prefers-contrast: more` and Stronger borders so each setting name matches what it actually
+      does (audit 7.3).
+
+### Gate coverage note
+
+The gate can see colour and tokens: 45 contrast pairs, 582 scenarios and 10 native-contract
+assertions. It cannot see border width, blend mode, gradient compositing or an element's final
+paint, so defects of the A1 and A2 kind will still pass.
+
 ## 2026-09-13 implementation review
 
 - Scope: review the current Phase 6 implementation against the aesthetic handoff; do not fix theme
