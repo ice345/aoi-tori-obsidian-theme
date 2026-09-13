@@ -121,7 +121,21 @@ const normalised = transform({
 });
 
 const customRules = [];
+const propertyRules = [];
 let ruleOrder = 0;
+
+/* Real properties the gate must be able to read back. The audit's 8.2.2 is explicit that a
+   CSS custom property being present is not proof: the check has to see the value that
+   reaches an element. These are the properties the repaired defects actually changed. */
+const WATCHED_PROPERTIES = new Set([
+  "border-inline-start-width",
+  "border-top-width",
+  "border-top-color",
+  "mix-blend-mode",
+  "font-weight",
+  "outline-style",
+  "background-color"
+]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
    but several values the theme declares lose to it by inheritance rather than
@@ -157,6 +171,10 @@ body {
 .theme-dark {
   --highlight-mix-blend-mode: lighten;
 }
+.callout {
+  mix-blend-mode: var(--callout-blend-mode);
+  border-width: var(--callout-border-width);
+}
 `;
 
 function parseCustomRules(code, filename) {
@@ -186,25 +204,60 @@ function collectRules(rules, mediaStack) {
     if (rule.type !== "style") continue;
 
     const declarations = new Map();
+    const properties = new Map();
+    const record = (name, value) => {
+      if (WATCHED_PROPERTIES.has(name)) {
+        properties.set(name, value);
+        return;
+      }
+      /* A shorthand is kept as one unparsed declaration and its first token is the width,
+         so `border-inline-start: var(--x) solid var(--y)` is read as the start width. */
+      if (name === "border-inline-start" && WATCHED_PROPERTIES.has("border-inline-start-width")) {
+        const first = (Array.isArray(value) ? value : []).find(
+          (token) => !(token.type === "token" && token.value.type === "white-space")
+        );
+        if (first) properties.set("border-inline-start-width", [first]);
+      }
+    };
+
     for (const declaration of rule.value.declarations?.declarations ?? []) {
-      if (declaration.property !== "custom") continue;
-      const name = String(declaration.value.name);
-      if (!name.startsWith("--")) continue;
-      declarations.set(name, declaration.value.value);
+      if (declaration.property === "custom") {
+        const name = String(declaration.value.name);
+        if (name.startsWith("--")) declarations.set(name, declaration.value.value);
+        continue;
+      }
+      if (declaration.property === "unparsed") {
+        const id = declaration.value?.propertyId?.property;
+        if (typeof id === "string" && Array.isArray(declaration.value?.value)) {
+          record(id, declaration.value.value);
+        }
+        continue;
+      }
+      record(declaration.property, declaration.value);
     }
 
-    if (declarations.size === 0) continue;
+    if (declarations.size === 0 && properties.size === 0) continue;
 
     for (const selector of rule.value.selectors) {
       assertSelectorSupported(selector);
     }
 
-    customRules.push({
-      selectors: rule.value.selectors,
-      declarations,
-      order: ruleOrder++,
-      media: mediaStack
-    });
+    if (declarations.size > 0) {
+      customRules.push({
+        selectors: rule.value.selectors,
+        declarations,
+        order: ruleOrder++,
+        media: mediaStack
+      });
+    }
+    if (properties.size > 0) {
+      propertyRules.push({
+        selectors: rule.value.selectors,
+        properties,
+        order: ruleOrder++,
+        media: mediaStack
+      });
+    }
   }
 }
 
@@ -948,6 +1001,40 @@ function resolveScenario(scenario) {
   };
 }
 
+/* Resolve a real property (not a custom one) on an element, the way the browser does: cascade
+   the declarations, then substitute `var()` against the element's own resolved custom
+   properties. This is what lets the gate assert "border-inline-start-width is 2px" instead of
+   "the token string exists somewhere". */
+function resolveElementProperty(element, ancestors, env, inherited, property) {
+  let winner = null;
+  for (const rule of propertyRules) {
+    if (!mediaMatches(rule.media, env)) continue;
+    let bestSpec = null;
+    for (const selector of rule.selectors) {
+      if (!matchesSelector(selector, element, ancestors)) continue;
+      const spec = specificityOfSelector(selector);
+      if (!bestSpec || compareSpec(spec, bestSpec) > 0) bestSpec = spec;
+    }
+    if (!bestSpec) continue;
+    if (!rule.properties.has(property)) continue;
+    if (
+      !winner ||
+      compareSpec(bestSpec, winner.spec) > 0 ||
+      (compareSpec(bestSpec, winner.spec) === 0 && rule.order >= winner.order)
+    ) {
+      winner = { spec: bestSpec, order: rule.order, value: rule.properties.get(property) };
+    }
+  }
+  if (!winner) return null;
+
+  const elementResolved = resolveSpecified(
+    cascadeCustomProperties(element, ancestors, env, inherited)
+  );
+  const scratch = new Map(elementResolved.entries);
+  scratch.set("__watched", winner.value);
+  return resolveSpecified(scratch).get("__watched");
+}
+
 function scenarioLabel(scenario) {
   const media = scenario.forcedColors ? "forced-colors" : "none";
   const parts = [
@@ -1529,6 +1616,72 @@ for (const mode of ["theme-light", "theme-dark"]) {
     failures.push(
       `${mode}: the highlight is ${highlightPage.toFixed(3)}:1 against the page, below the 1.15:1 container separation`
     );
+  }
+}
+
+/* Audit 8.2.2. The custom-property checks above prove a value resolves; they do not prove it
+   reaches an element. These read the property the browser would actually paint, on a synthetic
+   element carrying the same classes and attributes Obsidian uses. Each expectation is the value
+   the browser fixture measured, so the two independent checks agree. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const html = createElement("html", []);
+  const body = createElement("body", [mode]);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+
+  const callout = createElement("div", ["callout"]);
+  callout.attributes.set("data-callout", "aoi-tori");
+  const content = createElement("div", ["callout-content"]);
+
+  const cases = [
+    [
+      "callout border-inline-start-width",
+      callout,
+      [html, body],
+      "--callout-border-width source",
+      "border-inline-start-width",
+      "2px"
+    ],
+    ["callout mix-blend-mode", callout, [html, body], "blend", "mix-blend-mode", "normal"],
+    ["callout background-color", callout, [html, body], "surface", "background-color", null],
+    [
+      "callout-content background-color",
+      content,
+      [html, body, callout],
+      "inner layer",
+      "background-color",
+      null
+    ]
+  ];
+
+  for (const [label, element, ancestors, why, property, expected] of cases) {
+    const value = resolveElementProperty(element, ancestors, env, bodySpecified, property);
+    if (!value || value.kind === "unresolved" || value.kind === "unset") {
+      failures.push(`${mode} ${label}: ${why} did not resolve on the element`);
+      continue;
+    }
+    if (expected === null) {
+      /* The two layers must differ: a continuous outer surface and a transparent inner one. */
+      const other = resolveElementProperty(
+        property === "background-color" && element === callout ? content : callout,
+        property === "background-color" && element === callout
+          ? [html, body, callout]
+          : [html, body],
+        env,
+        bodySpecified,
+        "background-color"
+      );
+      if (other && formatValue(other) === formatValue(value)) {
+        failures.push(
+          `${mode} ${label}: the Callout and its content layer share ${formatValue(value)}`
+        );
+      }
+      continue;
+    }
+    if (formatValue(value) !== expected) {
+      failures.push(`${mode} ${label}: resolved to ${formatValue(value)}, expected ${expected}`);
+    }
   }
 }
 
