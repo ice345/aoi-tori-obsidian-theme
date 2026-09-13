@@ -81,7 +81,11 @@
   --text-success: var(--aoi-night-success);
   --text-selection: color-mix(in srgb, var(--aoi-night-cobalt) 38%, transparent);
   --aoi-highlight-text: var(--aoi-night-text);
-  --aoi-highlight-background: var(--aoi-night-warning-soft);
+
+  /* Warning-soft sat 1.13:1 above the reading surface, below the 1.15:1 separation this
+     project asks of an ordinary content container. The frozen wash keeps the hue and
+     reaches 1.36:1. */
+  --aoi-highlight-background: var(--aoi-highlight-wash-night);
   --text-highlight-bg: var(--aoi-highlight-background);
   --text-highlight-bg-active: color-mix(in srgb, var(--aoi-night-sakura) 30%, transparent);
   --caret-color: var(--aoi-night-cobalt);
@@ -312,13 +316,17 @@
     var(--aoi-border-structural) 70%,
     var(--aoi-night-canvas)
   );
-  --table-header-background: var(--aoi-night-canvas);
+
+  /* The header shared `--aoi-night-canvas` with the zebra rows, so a header cell and an
+     alternating row were the same colour: the table had no header hierarchy at all. The
+     panel lifts it above the reading surface and clears the rows in both directions. */
+  --table-header-background: var(--aoi-night-panel);
   --table-header-background-hover: var(--aoi-night-panel);
-  --table-header-border-color: color-mix(
-    in srgb,
-    var(--aoi-border-structural) 76%,
-    var(--aoi-night-canvas)
-  );
+
+  /* The header grid used to be a second, weaker mix of the same role as the body grid,
+     leaving the two within 1.53:1 and 1.44:1 of the page. The header now takes the role
+     directly and reads as the stronger line. */
+  --table-header-border-color: var(--aoi-border-structural);
   --table-header-color: var(--aoi-night-text);
   --table-row-alt-background: var(--aoi-night-canvas);
   --table-row-background-hover: var(--aoi-night-panel);

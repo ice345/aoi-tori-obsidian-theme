@@ -41,6 +41,12 @@
      checks it directly instead of only the Duet pair. */
   --aoi-workspace-tint-max-aqua: #d4e4e8;
 
+  /* Highlight surfaces, precomputed from the soft warning fill mixed toward the warning
+     foreground. The static contrast gate reads six-digit hex only, so the mix is frozen
+     here and the gate asserts it stays above the project's 1.15:1 separation. */
+  --aoi-highlight-wash-night: #493c26;
+  --aoi-highlight-wash-light: #f7e6c2;
+
   /* Second voice */
   --aoi-sakura-pale: #f7e9ed;
   --aoi-sakura: #dca3bc;

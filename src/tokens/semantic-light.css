@@ -69,7 +69,11 @@
   --text-success: var(--aoi-success);
   --text-selection: color-mix(in srgb, var(--aoi-watercolor-cyan) 72%, transparent);
   --aoi-highlight-text: var(--aoi-ink-indigo);
-  --aoi-highlight-background: var(--aoi-warm-yellow-pale);
+
+  /* The pale yellow sat 1.06:1 above paper, below the 1.15:1 separation this project
+     asks of an ordinary content container. The frozen wash keeps the hue and reaches
+     1.18:1. */
+  --aoi-highlight-background: var(--aoi-highlight-wash-light);
   --text-highlight-bg: var(--aoi-highlight-background);
   --text-highlight-bg-active: var(--aoi-sakura-pale);
   --caret-color: var(--aoi-focus-blue);
