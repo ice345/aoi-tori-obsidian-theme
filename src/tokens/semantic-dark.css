@@ -243,13 +243,16 @@
   --blockquote-border-color: var(--aoi-night-sakura);
   --blockquote-color: var(--aoi-night-text);
   --aoi-quote-wash-strength: 4%;
-  --callout-content-background: color-mix(
-    in srgb,
-    var(--aoi-night-canvas) 88%,
-    var(--aoi-night-surface)
-  );
+
+  /* `--callout-blend-mode` resolves to `--highlight-mix-blend-mode`, which is
+     `lighten` in dark mode. The previous surface was darker than the body, so
+     `lighten` kept the body colour channel by channel and erased the container
+     entirely; only the 6% wash edge survived. Normal compositing is what lets a
+     darker-than-body Callout exist at all, so the dark surface is free to stay
+     quiet instead of having to out-brighten the page. */
+  --callout-blend-mode: normal;
+  --aoi-callout-surface: var(--aoi-night-panel);
   --callout-title-color: var(--aoi-night-text);
-  --aoi-callout-wash-strength: 6%;
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);
   --callout-tip: var(--aoi-night-success);

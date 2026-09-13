@@ -831,13 +831,13 @@ body.aoi-quote-clean .markdown-rendered blockquote {
 body.aoi-callout-quiet {
   --callout-padding: var(--size-4-2) var(--size-4-3);
   --callout-radius: var(--radius-s);
-  --aoi-callout-wash-strength: 3%;
+  --aoi-callout-user-wash-strength: 3%;
 }
 
 body.aoi-callout-airy {
   --callout-padding: var(--size-4-4) var(--size-4-5);
   --callout-radius: var(--radius-l);
-  --aoi-callout-wash-strength: 7%;
+  --aoi-callout-user-wash-strength: 7%;
 }
 
 body.aoi-table-density-compact .markdown-rendered :where(th, td) {

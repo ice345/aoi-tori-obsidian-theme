@@ -182,7 +182,26 @@
 
 .callout {
   color: var(--text-normal);
-  background-color: var(--callout-content-background);
+
+  /* The wash strength resolves on the Callout element itself, in two layers.
+     `--aoi-callout-type-wash-strength` is the per-element type default: declaring it
+     on the element instead of inheriting it from the body keeps a nested Callout from
+     picking up its parent's type value. `--aoi-callout-user-wash-strength` comes from
+     the Quiet/Airy setting on the body, and it has to be able to win, so it is the
+     first fallback rather than a declaration competing from a different element.
+     Balanced defines no override, so it keeps the type default. */
+  --aoi-callout-wash-strength: var(
+    --aoi-callout-user-wash-strength,
+    var(--aoi-callout-type-wash-strength)
+  );
+
+  /* The outer element owns the continuous surface and the inner content stays
+     transparent, so a Callout reads as one container rather than a plate inside a
+     plate. `--aoi-callout-surface` is a dedicated role: the previous code reused
+     `--callout-content-background`, whose name means "the background of the inner
+     content" in the native variable set, which is both a different element and
+     natively declared `transparent`. */
+  background-color: var(--aoi-callout-surface);
   background-image: linear-gradient(
     135deg,
     color-mix(in srgb, var(--callout-color) var(--aoi-callout-wash-strength), transparent),
@@ -294,20 +313,30 @@
   --callout-icon: lucide-feather;
 }
 
+.theme-light .callout {
+  --aoi-callout-type-wash-strength: 5%;
+}
+
+.theme-dark .callout {
+  --aoi-callout-type-wash-strength: 6%;
+}
+
 .theme-dark .callout[data-callout="success"],
 .theme-dark .callout[data-callout="check"],
 .theme-dark .callout[data-callout="done"],
 .theme-dark .callout[data-callout="warning"],
 .theme-dark .callout[data-callout="caution"],
+.theme-dark .callout[data-callout="attention"],
 .theme-dark .callout[data-callout="failure"],
 .theme-dark .callout[data-callout="fail"],
+.theme-dark .callout[data-callout="missing"],
 .theme-dark .callout[data-callout="error"],
 .theme-dark .callout[data-callout="danger"] {
-  --aoi-callout-wash-strength: 5%;
+  --aoi-callout-type-wash-strength: 5%;
 }
 
 .theme-dark .callout[data-callout="second-voice"] {
-  --aoi-callout-wash-strength: 6%;
+  --aoi-callout-type-wash-strength: 6%;
 }
 
 .metadata-container {

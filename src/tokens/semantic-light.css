@@ -224,9 +224,9 @@
   --blockquote-background-color: var(--aoi-cloud-cool);
   --blockquote-border-color: var(--aoi-sakura);
   --blockquote-color: var(--aoi-ink-indigo);
-  --callout-content-background: var(--aoi-cloud-cool);
+  --callout-blend-mode: normal;
+  --aoi-callout-surface: var(--aoi-cloud-cool);
   --callout-title-color: var(--aoi-ink-strong);
-  --aoi-callout-wash-strength: 5%;
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);
   --callout-tip: var(--aoi-success);
