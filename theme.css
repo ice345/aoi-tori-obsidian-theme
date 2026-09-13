@@ -556,13 +556,10 @@ settings:
   --input-border-width-focus: 1px;
   --aoi-focus-ring-width: 2px;
   --aoi-focus-ring-offset: 2px;
-  --aoi-active-line-background: var(--background-modifier-hover);
   --aoi-image-resting-outline-width: 0px;
   --aoi-image-hover-outline-width: 1px;
   --aoi-image-selection-outline-width: 1px;
-  --aoi-image-selection-color: var(--background-modifier-border-focus);
   --aoi-image-shadow: none;
-  --aoi-inline-code-border-width: var(--code-border-width);
   --aoi-reading-image-max-width: 100%;
   --aoi-touch-target-size: 44px;
   --aoi-sidebar-wash-strength: 5%;
@@ -578,9 +575,7 @@ settings:
   --nav-item-radius: var(--radius-s);
   --nav-item-weight-active: var(--font-semibold);
   --code-radius: var(--radius-s);
-  --code-border-width: 1px;
   --blockquote-border-thickness: 2px;
-  --callout-border-width: 2px;
   --callout-border-opacity: 0.34;
   --callout-radius: var(--radius-m);
   --callout-title-weight: var(--font-medium);
@@ -617,6 +612,16 @@ settings:
   --h1-letter-spacing: -0.02em;
   --h2-letter-spacing: -0.012em;
   --h3-letter-spacing: -0.006em;
+}
+
+.theme-light,
+.theme-dark {
+  --callout-border-width: 2px;
+  --code-border-width: 1px;
+  --aoi-inline-code-border-width: var(--code-border-width);
+}
+
+:root {
   --anim-duration-none: 0s;
   --anim-duration-superfast: 80ms;
   --anim-duration-fast: 0.12s;
@@ -676,6 +681,8 @@ settings:
   --background-modifier-success: var(--aoi-success-soft);
   --background-modifier-info: var(--aoi-info-soft);
   --background-modifier-message: var(--aoi-cloud-cool);
+  --aoi-active-line-background: var(--background-modifier-hover);
+  --aoi-image-selection-color: var(--aoi-cobalt-deep);
   --text-normal: var(--aoi-ink-indigo);
   --text-muted: var(--aoi-ink-muted);
   --text-faint: var(--aoi-ink-faint);
@@ -836,9 +843,9 @@ settings:
   --blockquote-background-color: var(--aoi-cloud-cool);
   --blockquote-border-color: var(--aoi-sakura);
   --blockquote-color: var(--aoi-ink-indigo);
-  --callout-content-background: var(--aoi-cloud-cool);
+  --callout-blend-mode: normal;
+  --aoi-callout-surface: var(--aoi-cloud-cool);
   --callout-title-color: var(--aoi-ink-strong);
-  --aoi-callout-wash-strength: 5%;
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);
   --callout-tip: var(--aoi-success);
@@ -993,6 +1000,8 @@ settings:
   --background-modifier-success: var(--aoi-night-success-soft);
   --background-modifier-info: var(--aoi-night-info-soft);
   --background-modifier-message: var(--aoi-night-panel);
+  --aoi-active-line-background: var(--background-modifier-hover);
+  --aoi-image-selection-color: var(--aoi-night-cobalt);
   --text-normal: var(--aoi-night-text);
   --text-muted: var(--aoi-night-muted);
   --text-faint: var(--aoi-night-faint);
@@ -1162,13 +1171,9 @@ settings:
   --blockquote-border-color: var(--aoi-night-sakura);
   --blockquote-color: var(--aoi-night-text);
   --aoi-quote-wash-strength: 4%;
-  --callout-content-background: color-mix(
-    in srgb,
-    var(--aoi-night-canvas) 88%,
-    var(--aoi-night-surface)
-  );
+  --callout-blend-mode: normal;
+  --aoi-callout-surface: var(--aoi-night-panel);
   --callout-title-color: var(--aoi-night-text);
-  --aoi-callout-wash-strength: 6%;
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);
   --callout-tip: var(--aoi-night-success);
@@ -1621,7 +1626,11 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
 
 .callout {
   color: var(--text-normal);
-  background-color: var(--callout-content-background);
+  --aoi-callout-wash-strength: var(
+    --aoi-callout-user-wash-strength,
+    var(--aoi-callout-type-wash-strength)
+  );
+  background-color: var(--aoi-callout-surface);
   background-image: linear-gradient(
     135deg,
     color-mix(in srgb, var(--callout-color) var(--aoi-callout-wash-strength), transparent),
@@ -1733,20 +1742,30 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   --callout-icon: lucide-feather;
 }
 
+.theme-light .callout {
+  --aoi-callout-type-wash-strength: 5%;
+}
+
+.theme-dark .callout {
+  --aoi-callout-type-wash-strength: 6%;
+}
+
 .theme-dark .callout[data-callout="success"],
 .theme-dark .callout[data-callout="check"],
 .theme-dark .callout[data-callout="done"],
 .theme-dark .callout[data-callout="warning"],
 .theme-dark .callout[data-callout="caution"],
+.theme-dark .callout[data-callout="attention"],
 .theme-dark .callout[data-callout="failure"],
 .theme-dark .callout[data-callout="fail"],
+.theme-dark .callout[data-callout="missing"],
 .theme-dark .callout[data-callout="error"],
 .theme-dark .callout[data-callout="danger"] {
-  --aoi-callout-wash-strength: 5%;
+  --aoi-callout-type-wash-strength: 5%;
 }
 
 .theme-dark .callout[data-callout="second-voice"] {
-  --aoi-callout-wash-strength: 6%;
+  --aoi-callout-type-wash-strength: 6%;
 }
 
 .metadata-container {
@@ -2639,13 +2658,13 @@ body.aoi-quote-clean .markdown-rendered blockquote {
 body.aoi-callout-quiet {
   --callout-padding: var(--size-4-2) var(--size-4-3);
   --callout-radius: var(--radius-s);
-  --aoi-callout-wash-strength: 3%;
+  --aoi-callout-user-wash-strength: 3%;
 }
 
 body.aoi-callout-airy {
   --callout-padding: var(--size-4-4) var(--size-4-5);
   --callout-radius: var(--radius-l);
-  --aoi-callout-wash-strength: 7%;
+  --aoi-callout-user-wash-strength: 7%;
 }
 
 body.aoi-table-density-compact .markdown-rendered :where(th, td) {
