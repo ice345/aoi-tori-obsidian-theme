@@ -139,7 +139,17 @@ body {
   --callout-border-width: 0px;
   --callout-blend-mode: var(--highlight-mix-blend-mode);
   --callout-content-background: transparent;
+  --callout-radius: var(--radius-s);
+  --callout-title-weight: calc(var(--font-weight) + var(--bold-modifier));
   --code-border-width: 0px;
+  --input-height: 30px;
+  --input-radius: 5px;
+  --metadata-border-radius: 0;
+  --metadata-property-radius: 6px;
+  --setting-items-radius: var(--radius-l);
+  --radius-xl: 24px;
+  --tab-radius-active: 6px 6px 0 0;
+  --nav-item-weight-active: inherit;
 }
 .theme-light {
   --highlight-mix-blend-mode: darken;
@@ -1449,6 +1459,35 @@ for (const mode of ["theme-light", "theme-dark"]) {
     if (ratio < 4.5) {
       failures.push(
         `${mode} [${type}]: link ${formatHex(link)} on the washed Airy surface ${formatHex(washed)} is ${ratio.toFixed(2)}:1, below 4.5:1; a brighter Callout surface would trade link contrast for box visibility`
+      );
+    }
+  }
+}
+
+/* Audit 4.6. Diffing every `:root` declaration against the native `body` set found 41
+   names where the theme's value never took effect, because `body` is a closer ancestor
+   than `html`. The geometry half is fixed and asserted here; the typography half is a
+   separate decision and is deliberately not asserted, so nobody "fixes" it by accident. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const geometry = resolveScenario({ mode, bodyClasses: [mode] }).resolved;
+  const expected = {
+    "--callout-radius": "8px",
+    "--callout-title-weight": "500",
+    "--input-height": "34px",
+    "--input-radius": "8px",
+    "--input-border-width-focus": "1px",
+    "--metadata-border-radius": "8px",
+    "--metadata-property-radius": "4px",
+    "--setting-items-radius": "8px",
+    "--radius-xl": "16px",
+    "--tab-radius-active": "8px",
+    "--nav-item-weight-active": "600"
+  };
+  for (const [name, want] of Object.entries(expected)) {
+    const got = formatValue(geometry.get(name));
+    if (got !== want) {
+      failures.push(
+        `${mode}: ${name} resolved to ${got}, expected ${want}; it is losing to the native body declaration`
       );
     }
   }
