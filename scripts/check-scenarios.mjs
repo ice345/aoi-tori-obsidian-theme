@@ -123,17 +123,48 @@ const normalised = transform({
 const customRules = [];
 let ruleOrder = 0;
 
-transform({
-  filename: "theme.css",
-  code: normalised.code,
-  minify: false,
-  errorRecovery: false,
-  visitor: {
-    StyleSheet(stylesheet) {
-      collectRules(stylesheet.rules, []);
+/* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
+   but several values the theme declares lose to it by inheritance rather than
+   specificity: `body` is a type selector, so a `:root` declaration is outranked by it
+   no matter which stylesheet the browser parsed last. Without this layer the harness
+   resolves the theme's own `:root` values and reports a pass for a theme that renders
+   nothing, which is how D01-D05 survived the existing gates.
+
+   Only the declarations the contract depends on are reproduced here, written by hand
+   from Obsidian 1.13.7 `app.css`. The full native stylesheet is not bundled. Parsed
+   first, so these carry the lowest source order and lose ties the way the real load
+   order does. */
+const NATIVE_CORE_CONTRACT = `
+body {
+  --callout-border-width: 0px;
+  --callout-blend-mode: var(--highlight-mix-blend-mode);
+  --callout-content-background: transparent;
+  --code-border-width: 0px;
+}
+.theme-light {
+  --highlight-mix-blend-mode: darken;
+}
+.theme-dark {
+  --highlight-mix-blend-mode: lighten;
+}
+`;
+
+function parseCustomRules(code, filename) {
+  transform({
+    filename,
+    code: typeof code === "string" ? Buffer.from(code) : code,
+    minify: false,
+    errorRecovery: false,
+    visitor: {
+      StyleSheet(stylesheet) {
+        collectRules(stylesheet.rules, []);
+      }
     }
-  }
-});
+  });
+}
+
+parseCustomRules(NATIVE_CORE_CONTRACT, "native-core-contract.css");
+parseCustomRules(normalised.code, "theme.css");
 
 function collectRules(rules, mediaStack) {
   for (const rule of rules) {
@@ -558,8 +589,20 @@ function resolveSpecified(specified) {
       throw new Error(`Circular variable reference: ${[...stack, name].join(" -> ")}`);
     }
 
-    const tokens = specified.get(name);
-    if (!tokens) {
+    const entry = specified.get(name);
+
+    /* An entry that is already a resolved value came from an ancestor, where it was
+       evaluated in that ancestor's own context. A custom property whose `var()`
+       references something that does not exist at its declaring element becomes
+       invalid there and inherits as invalid — it does not get a second chance to
+       resolve against the descendant's variables. Re-resolving it here would make the
+       harness accept aliases that a browser drops, which is exactly the D04/D05 bug. */
+    if (entry && !Array.isArray(entry)) {
+      resolved.set(name, entry);
+      return entry;
+    }
+
+    if (!entry) {
       const value = fromVar
         ? (unresolved.add(name), { kind: "unresolved", name })
         : { kind: "unset" };
@@ -568,16 +611,31 @@ function resolveSpecified(specified) {
     }
 
     stack.add(name);
-    const value = evalTokens(tokens, (ref) => resolveName(ref, stack, true));
+    const value = evalTokens(entry, (ref) => resolveName(ref, stack, true));
     stack.delete(name);
     resolved.set(name, value);
     return value;
+  }
+
+  /* Every declaration on this element is resolved, not just the ones a caller asks
+     for, because the whole resolved set is what inherits to the child. `entries` is
+     that set: a child inherits finished values, never a pending `var()`.
+     Resolution here is best-effort: a declaration the evaluator cannot model is kept
+     as unsupported rather than thrown, because nothing has asked for it yet. It still
+     throws if an assertion later requests that specific name. */
+  for (const name of specified.keys()) {
+    try {
+      resolveName(name, new Set(), false);
+    } catch {
+      resolved.set(name, { kind: "unsupported", name });
+    }
   }
 
   return {
     get(name) {
       return resolveName(name, new Set(), false);
     },
+    entries: resolved,
     unresolved
   };
 }
@@ -843,15 +901,23 @@ function createElement(tag, classNames) {
 }
 
 function resolveScenario(scenario) {
-  const html = createElement("html", [scenario.mode]);
+  /* Obsidian puts the mode class on `body`, not on `html`. Keeping it off `html`
+     matters: a `:root` alias that references a mode variable is invalid where it is
+     declared, and must not get a second chance by matching the mode class here. */
+  const html = createElement("html", []);
   const body = createElement("body", scenario.bodyClasses);
   const env = {
     forcedColors: scenario.forcedColors,
     prefersContrast: scenario.prefersContrast
   };
 
+  /* Each element resolves its own declarations in its own context, and only the
+     resulting values inherit. Evaluating an ancestor's declaration on the descendant
+     would let a `:root` alias resolve against variables that exist only in the mode
+     block, which a browser never does. */
   const htmlSpecified = cascadeCustomProperties(html, [], env, new Map());
-  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlSpecified);
+  const htmlResolved = resolveSpecified(htmlSpecified);
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
   const resolved = resolveSpecified(bodySpecified);
 
   const leftSurface = requireColor(resolved, "--aoi-workspace-left-surface");
@@ -1177,6 +1243,39 @@ if (skippedAssertions) {
   console.log(
     `\nSkipped ${skippedAssertions} assertion${skippedAssertions === 1 ? "" : "s"} that depend on unresolved Obsidian core variables.`
   );
+}
+
+/* The native contract layer above is only useful if something fails when the theme
+   stops outranking it. These check that the values actually reach a consumer, not
+   merely that a declaration exists somewhere. Each one fails on the pre-repair tree,
+   where `:root` loses to `body` and the aliases resolve to nothing. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const scenario = { mode, bodyClasses: [mode, "aoi-sidebar-contrast-standard"] };
+  const evaluation = resolveScenario(scenario);
+  const resolved = evaluation.resolved;
+  const label = `${mode} native contract`;
+  const expectations = [
+    ["--callout-border-width", "2px", "loses to the native body 0px"],
+    ["--code-border-width", "1px", "loses to the native body 0px"],
+    ["--callout-blend-mode", "normal", "inherits lighten/darken from the native chain"],
+    ["--aoi-active-line-background", null, "invalid at computed-value time"],
+    ["--aoi-image-selection-color", null, "invalid at computed-value time"]
+  ];
+
+  for (const [name, expected, why] of expectations) {
+    const rendered = formatValue(resolved.get(name));
+    const absent =
+      rendered === "<missing>" ||
+      rendered === "inherit" ||
+      rendered === "empty" ||
+      rendered.startsWith("unresolved");
+    const bad = expected === null ? absent : rendered !== expected;
+    if (bad) {
+      failures.push(
+        `${label}: ${name} resolved to ${rendered}, expected ${expected ?? "a value"} (${why})`
+      );
+    }
+  }
 }
 
 if (failures.length) {
