@@ -68,6 +68,18 @@ and evidence-based.
 - The four shape primitives live in `primitives.css` (`--aoi-radius-button`, `-field`, `-icon`,
   `-toolgroup`; the last is for G07). The stylelint prefix list gained `button` and `clickable`,
   both real Obsidian interfaces read out of `app.css` rather than invented.
+- G05, selector crosstalk. Two real defects, both measured. A `button` that is also
+  `.clickable-icon` inherited the text-button surface, border and shadow, so the same icon rendered
+  with a box around it when a plugin used a button and without one when it used a div. And the field
+  hover rule was `input:hover`, wider than the base rule's explicit type list, so hovering a
+  checkbox, radio, range or colour input painted a form-field fill, a border and a shadow behind a
+  control the theme never styles at rest. The icon exclusions use `:where()`, which keeps the
+  element selector's own specificity, and the hover rule now lists the same types as its base.
+- G07, canvas tool group. Native rounds `.canvas-control-group` through `--canvas-controls-radius`
+  and clips it, so the square edges between items are the group's structure and not a defect. The
+  theme's role is 12px and it is declared on `body` for the same reason as the icon radius, so
+  `.is-mobile` can still supply the 40px touch radius. Measured: group 12px, items 0px, overflow
+  hidden.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

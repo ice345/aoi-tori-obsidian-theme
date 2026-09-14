@@ -645,6 +645,7 @@ settings:
 body {
   --button-radius: var(--aoi-radius-button);
   --clickable-icon-radius: var(--aoi-radius-icon);
+  --canvas-controls-radius: var(--aoi-radius-toolgroup);
 }
 
 :root {
@@ -2053,7 +2054,7 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   outline-offset: 1px;
 }
 
-button,
+button:where(:not(.clickable-icon)),
 .mod-cta,
 .mod-warning {
   --text-color: var(--text-normal);
@@ -2070,7 +2071,7 @@ button,
     transform var(--anim-duration-fast) var(--anim-motion-swing);
 }
 
-button:hover {
+button:hover:where(:not(.clickable-icon)) {
   background-color: var(--interactive-hover);
   border-color: var(--background-modifier-border-hover);
   box-shadow: var(--input-shadow-hover);
@@ -2122,7 +2123,7 @@ button.mod-destructive.mod-cta:hover {
   border-color: var(--aoi-destructive-primary-border);
 }
 
-button:active:where(:not(:disabled):not([aria-disabled="true"])) {
+button:active:where(:not(:disabled):not([aria-disabled="true"]):not(.clickable-icon)) {
   transform: translateY(1px);
 }
 
@@ -2152,7 +2153,10 @@ select,
     box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
-input:hover,
+input[type="text"]:hover,
+input[type="search"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
 textarea:hover,
 select:hover,
 .dropdown:hover {

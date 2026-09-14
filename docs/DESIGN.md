@@ -520,6 +520,15 @@ A mode-layer declaration is a class selector and would outrank `.is-mobile`, so 
 the desktop corner and the platform's touch geometry would never arrive. Declared on `body`, the
 platform still wins where it has an opinion and the theme supplies the rest.
 
+An icon control renders identically whether a plugin builds it from a `div` or a `button`: the
+text-button surface, border and shadow are excluded with `:where(:not(.clickable-icon))`, which
+leaves the element selector's specificity alone. The field hover rule lists the same input types as
+its own base rule, so a checkbox, radio, range or colour input is never repainted by a hover it was
+never styled for.
+
+A Canvas tool group is rounded on the group and clipped, so its items keep square edges; the square
+seam is the group's structure, not a missing corner.
+
 `--input-radius` stays in the mode layer on purpose: fields keep 8px in every mode, because a field
 is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
 touch affordance, so it belongs to the platform.

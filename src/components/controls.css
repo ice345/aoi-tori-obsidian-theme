@@ -1,4 +1,8 @@
-button,
+/* A `button` that is also `.clickable-icon` is an icon control, not a text button. Without this
+   guard it picked up the text-button surface, border and shadow, so the same icon rendered
+   differently depending on whether a plugin used a `div` or a `button` for it. `:where()` keeps
+   the element selector's own specificity, so nothing else is reordered by this. */
+button:where(:not(.clickable-icon)),
 .mod-cta,
 .mod-warning {
   --text-color: var(--text-normal);
@@ -19,7 +23,7 @@ button,
     transform var(--anim-duration-fast) var(--anim-motion-swing);
 }
 
-button:hover {
+button:hover:where(:not(.clickable-icon)) {
   background-color: var(--interactive-hover);
   border-color: var(--background-modifier-border-hover);
   box-shadow: var(--input-shadow-hover);
@@ -79,7 +83,7 @@ button.mod-destructive.mod-cta:hover {
 
 /* `:where()` keeps this at the base specificity, so the guard rules out a disabled control
    without outranking anything else that might legitimately transform a button. */
-button:active:where(:not(:disabled):not([aria-disabled="true"])) {
+button:active:where(:not(:disabled):not([aria-disabled="true"]):not(.clickable-icon)) {
   transform: translateY(1px);
 }
 
@@ -109,7 +113,13 @@ select,
     box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
-input:hover,
+/* The same type set the base rule above uses. A bare `input:hover` also matched checkbox,
+   radio, range and colour inputs, none of which the theme styles at rest, so hovering one
+   painted a form-field fill, a border and a shadow behind it. */
+input[type="text"]:hover,
+input[type="search"]:hover,
+input[type="number"]:hover,
+input[type="date"]:hover,
 textarea:hover,
 select:hover,
 .dropdown:hover {

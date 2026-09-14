@@ -126,4 +126,10 @@
 body {
   --button-radius: var(--aoi-radius-button);
   --clickable-icon-radius: var(--aoi-radius-icon);
+
+  /* A Canvas tool group is rounded on the group and clipped, so the square edges between its
+     items are the group's structure rather than a defect. Native rounds the group at
+     `--radius-s`; the theme's role is 12px. Declared here for the same reason as the icon
+     radius: `.is-mobile` rebinds this to the 40px touch radius and must keep doing so. */
+  --canvas-controls-radius: var(--aoi-radius-toolgroup);
 }

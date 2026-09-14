@@ -183,6 +183,14 @@ body {
   --h6-size: 1em;
 }
 
+.canvas-control-group {
+  border-radius: var(--canvas-controls-radius);
+}
+
+.canvas-control-item {
+  border-radius: 0px;
+}
+
 .is-mobile {
   --input-radius: var(--touch-radius-m);
   --clickable-icon-radius: var(--touch-size-m);
@@ -2155,6 +2163,91 @@ for (const [mode, mobile] of [
   if (mobile && icon !== "44px") {
     failures.push(
       `${label} control shape: the icon corner is ${icon}; the platform's 44px touch radius must reach it`
+    );
+  }
+}
+
+/* Audit G05 and G07. An icon control must render the same whether a plugin used a `div` or a
+   `button`, the field hover rule must not reach input types the theme never styles, and a Canvas
+   tool group is rounded on the group while its items keep their square seams. */
+{
+  const html = createElement("html", []);
+  const body = createElement("body", ["theme-dark"]);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+  const bodyResolved = resolveSpecified(bodySpecified).entries;
+  const read = (tag, classes, property, pseudos) => {
+    const el = createElement(tag, classes);
+    for (const name of pseudos ?? []) el.pseudos.add(name);
+    return formatValue(resolveElementProperty(el, [html, body], env, bodySpecified, property));
+  };
+
+  for (const property of ["border-top-width", "background-color"]) {
+    const asDiv = read("div", ["clickable-icon"], property);
+    const asButton = read("button", ["clickable-icon"], property);
+    if (asDiv !== asButton) {
+      failures.push(
+        `theme-dark icon control: ${property} is ${asDiv} on a div and ${asButton} on a button; an icon must not inherit the text-button surface`
+      );
+    }
+  }
+
+  /* The field hover rule must not reach controls the theme does not style. */
+  for (const type of ["checkbox", "radio", "range", "color"]) {
+    const el = (pseudos) => {
+      const node = createElement("input", []);
+      node.attributes.set("type", type);
+      for (const name of pseudos) node.pseudos.add(name);
+      return node;
+    };
+    const rest = formatValue(
+      resolveElementProperty(el([]), [html, body], env, bodySpecified, "background-color")
+    );
+    const hover = formatValue(
+      resolveElementProperty(el(["hover"]), [html, body], env, bodySpecified, "background-color")
+    );
+    if (rest !== hover) {
+      failures.push(
+        `theme-dark input[type="${type}"]: hover repaints the background from ${rest} to ${hover}; the theme does not style this control at rest`
+      );
+    }
+  }
+
+  const groupRadius = formatValue(
+    resolveElementProperty(
+      createElement("div", ["canvas-control-group"]),
+      [html, body],
+      env,
+      bodySpecified,
+      "border-radius"
+    )
+  );
+  const wanted = formatValue(bodyResolved.get("--aoi-radius-toolgroup"));
+  if (groupRadius !== wanted) {
+    failures.push(
+      `theme-dark canvas tool group: rounds at ${groupRadius}, expected the tool group role ${wanted}`
+    );
+  }
+  /* A four-corner `border-radius` resolves to a per-corner structure rather than a length, so
+     read the dimensions out of it instead of formatting the whole thing. */
+  const itemRadius = resolveElementProperty(
+    createElement("button", ["canvas-control-item"]),
+    [html, body],
+    env,
+    bodySpecified,
+    "border-radius"
+  );
+  const dimensions = [];
+  const collect = (value) => {
+    if (!value || typeof value !== "object") return;
+    if (typeof value.value === "number") dimensions.push(value.value);
+    for (const key of Object.keys(value)) collect(value[key]);
+  };
+  collect(itemRadius);
+  if (dimensions.length === 0 || dimensions.some((n) => n !== 0)) {
+    failures.push(
+      `theme-dark canvas tool group: the item rounds at ${dimensions.join("/") || "unresolved"}; the group provides the corner and the items keep their seams`
     );
   }
 }
