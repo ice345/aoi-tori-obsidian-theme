@@ -95,6 +95,17 @@ and evidence-based.
 - The disabled-field guard assertion was reworded. It required a hover shadow, which was the correct
   test before G06 and the wrong one after: a field now signals hover through fill and border. It
   asks that hovering an enabled field changes something.
+- G09, Callout space levels. The default padding moved to 18px 20px while Airy stayed on the spacing
+  scale at 16px 20px, so choosing the airier option made a Callout _tighter_ than the default it was
+  meant to open up. Airy is now 22px 24px, and the three levels are literal values rather than scale
+  steps so they keep their order whatever the scale does. Gate:
+  `vertical padding runs 8 / 18 / 16 for quiet / default / airy; the levels are out of order`.
+- Building that gate found a harness bug. `evalTokens` returned a multi-value declaration as a raw
+  token list without resolving each token, so every `var()` inside one -
+  `--callout-padding: var(--a) var(--b)` - read back as two variable references and no assertion
+  could see through it. Each token is now resolved. The native spacing scale and `--border-width`
+  also joined the contract, so a scale change that breaks the callout ordering fails rather than
+  reading as unresolved.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

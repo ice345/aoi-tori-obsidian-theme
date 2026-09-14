@@ -2873,7 +2873,7 @@ body.aoi-callout-quiet {
 }
 
 body.aoi-callout-airy {
-  --callout-padding: var(--size-4-4) var(--size-4-5);
+  --callout-padding: 22px 24px;
   --callout-radius: var(--radius-l);
   --aoi-callout-user-wash-strength: 7%;
 }

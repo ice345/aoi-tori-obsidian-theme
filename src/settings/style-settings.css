@@ -857,8 +857,12 @@ body.aoi-callout-quiet {
   --aoi-callout-user-wash-strength: 3%;
 }
 
+/* Audit G09. The default padding became 18px 20px while this stayed on the spacing scale at
+   16px 20px, so choosing Airy made a Callout *tighter* than the default it was meant to open up.
+   These are literal values rather than scale steps so the three levels keep their order whatever
+   the scale does. */
 body.aoi-callout-airy {
-  --callout-padding: var(--size-4-4) var(--size-4-5);
+  --callout-padding: 22px 24px;
   --callout-radius: var(--radius-l);
   --aoi-callout-user-wash-strength: 7%;
 }

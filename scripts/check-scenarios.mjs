@@ -190,6 +190,12 @@ body {
 body {
   --border-width: 1px;
   --input-border-width: var(--border-width);
+  --size-2-3: 6px;
+  --size-4-2: 8px;
+  --size-4-3: 12px;
+  --size-4-4: 16px;
+  --size-4-5: 20px;
+  --size-4-6: 24px;
 }
 
 .canvas-control-item {
@@ -766,7 +772,10 @@ function evalTokens(tokens, lookup) {
   const compact = compactTokens(tokens);
   if (compact.length === 0) return { kind: "empty" };
   if (compact.length === 1) return evalOne(compact[0], lookup);
-  return { kind: "list", tokens: compact };
+  /* Each token is resolved, not just collected. Returning the raw list left every `var()` inside
+     a multi-value declaration unsubstituted, so `--callout-padding: var(--a) var(--b)` read back
+     as two variable references and no assertion on it could see the lengths. */
+  return { kind: "list", tokens: compact.map((token) => evalOne(token, lookup)) };
 }
 
 function evalOne(token, lookup) {
@@ -789,6 +798,12 @@ function evalOne(token, lookup) {
     throw new Error(`Unsupported function: ${token.value.name}`);
   }
   if (token.type === "token") return evalRawToken(token.value, lookup);
+  /* A multi-value declaration is one list token. Without this each `var()` inside it was left
+     unsubstituted, so `--callout-padding: var(--size-4-2) var(--size-4-3)` read back as two
+     variable references instead of two lengths. */
+  if (token.type === "list") {
+    return { kind: "list", tokens: token.value.map((inner) => evalOne(inner, lookup)) };
+  }
   if (token.type === "length") {
     return { kind: "length", value: token.value.value, unit: token.value.unit };
   }
@@ -987,6 +1002,15 @@ function formatRawValue(value) {
   if (value.kind === "ident") return value.name;
   if (value.kind === "var") return `var(${value.name.ident})`;
   if (value.kind === "unresolved") return `unresolved ${value.name}`;
+  /* Some paths hand back the parser's own dialect, where a token is `{type, value}` rather than
+     `{kind, ...}`. A list of those is how a multi-value declaration reads back. */
+  if (value.type === "length" || value.type === "dimension") {
+    return `${value.value.value}${value.value.unit}`;
+  }
+  if (value.type === "var") return `var(${value.value.name.ident})`;
+  if (value.type === "number") return String(value.value);
+  if (value.type === "token") return formatRawValue(value.value);
+  if (value.type === "ident") return value.value;
   if (typeof value.value === "number" && value.unit) return `${value.value}${value.unit}`;
   return JSON.stringify(value);
 }
@@ -2300,6 +2324,47 @@ for (const [mode, mobile] of [
     failures.push(
       `theme-dark canvas tool group: the item rounds at ${dimensions.join("/") || "unresolved"}; the group provides the corner and the items keep their seams`
     );
+  }
+}
+
+/* Audit G09. The three Callout space levels have to keep their order. The default moved to
+   18px 20px while Airy stayed on the spacing scale at 16px 20px, so choosing the airier option
+   made a Callout tighter than the default. */
+{
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const paddingOf = (classes) => {
+    const body = createElement("body", ["theme-dark", ...classes]);
+    const resolved = resolveSpecified(
+      cascadeCustomProperties(body, [html], env, htmlResolved.entries)
+    ).entries;
+    const text = formatRawValue(resolved.get("--callout-padding"));
+    const lengths = text.match(/([\d.]+)px/g) || [];
+    return lengths.map((value) => Number.parseFloat(value));
+  };
+  const levels = [
+    ["quiet", paddingOf(["aoi-callout-quiet"])],
+    ["default", paddingOf([])],
+    ["airy", paddingOf(["aoi-callout-airy"])]
+  ];
+  for (const [name, lengths] of levels) {
+    if (lengths.length !== 2) {
+      failures.push(
+        `theme-dark callout space: ${name} does not resolve to two lengths (${lengths})`
+      );
+    }
+  }
+  const [[, quiet], [, base], [, airy]] = levels;
+  if (quiet.length === 2 && base.length === 2 && airy.length === 2) {
+    for (const axis of [0, 1]) {
+      const where = axis === 0 ? "vertical" : "horizontal";
+      if (!(quiet[axis] <= base[axis] && base[axis] <= airy[axis])) {
+        failures.push(
+          `theme-dark callout space: ${where} padding runs ${quiet[axis]} / ${base[axis]} / ${airy[axis]} for quiet / default / airy; the levels are out of order`
+        );
+      }
+    }
   }
 }
 
