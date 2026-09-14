@@ -140,7 +140,9 @@ const WATCHED_PROPERTIES = new Set([
   "box-shadow",
   "opacity",
   "transform",
-  "border-radius"
+  "border-radius",
+  "min-block-size",
+  "min-inline-size"
 ]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
@@ -2362,6 +2364,55 @@ for (const [mode, mobile] of [
       if (!(quiet[axis] <= base[axis] && base[axis] <= airy[axis])) {
         failures.push(
           `theme-dark callout space: ${where} padding runs ${quiet[axis]} / ${base[axis]} / ${airy[axis]} for quiet / default / airy; the levels are out of order`
+        );
+      }
+    }
+  }
+}
+
+/* Audit G08. The density settings move the controls that read `--input-height`, and the touch
+   areas the theme owns keep the 44px project target on a phone. The audit is explicit that a
+   fixture's small icon is not a global mobile defect and that `.clickable-icon` must not be given
+   a forced size, so what is gated here is the part that is designed: the field and button heights
+   follow the density token, and the themed touch containers hold the target. */
+for (const [density, expected] of [
+  ["", "34px"],
+  ["aoi-density-compact", "32px"],
+  ["aoi-density-relaxed", "38px"]
+]) {
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const body = createElement("body", ["theme-dark", density].filter(Boolean));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+  const bodyResolved = resolveSpecified(bodySpecified).entries;
+
+  /* The theme owns the token; Obsidian's own controls consume it, which is why a field and a
+     button both measure 34 / 32 / 38px across the three densities. What the gate can hold is the
+     token itself, so a density level that stopped moving it fails here. */
+  const height = formatRawValue(bodyResolved.get("--input-height"));
+  if (height !== expected) {
+    failures.push(
+      `${density || "default"} density: --input-height is ${height}, expected ${expected}`
+    );
+  }
+}
+
+{
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const body = createElement("body", ["theme-dark", "is-mobile"]);
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+  for (const classes of [["view-action"], ["mobile-navbar-action"], ["mobile-toolbar-option"]]) {
+    const el = createElement("div", classes);
+    for (const property of ["min-block-size", "min-inline-size"]) {
+      const size = formatRawValue(
+        resolveElementProperty(el, [html, body], env, bodySpecified, property)
+      );
+      if (size !== "44px") {
+        failures.push(
+          `mobile touch target: .${classes[0]} has ${property} ${size}, expected the 44px project target`
         );
       }
     }

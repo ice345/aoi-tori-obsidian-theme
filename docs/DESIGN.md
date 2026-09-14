@@ -540,6 +540,20 @@ seam is the group's structure, not a missing corner.
 is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
 touch affordance, so it belongs to the platform.
 
+### Density and touch geometry
+
+Density moves one token, `--input-height`: 32px compact, 34px default, 38px relaxed. Obsidian's own
+controls and the theme's fields, buttons and text-and-icon buttons all read it, so a toolbar row
+keeps one height across the three settings. Measured with the native stylesheet present: 34 / 32 /
+38px for the field, the button and the text-and-icon button alike.
+
+A bare `.clickable-icon` is deliberately **not** given a height or an `aspect-ratio`. Its box is
+whatever the glyph and the surrounding row make it, and native uses the class for tab close buttons,
+menu items and view actions whose geometry the theme does not own; forcing a size on it would move
+controls the theme has never seen. What is designed instead is the platform: on a phone the themed
+touch containers - view actions, the navbar action, the toolbar option - hold the 44px project
+target in both axes.
+
 ### Contrast and border settings
 
 Four settings touch accessibility, and the audit asks for their responsibilities to be written down

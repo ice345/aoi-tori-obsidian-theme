@@ -106,6 +106,17 @@ and evidence-based.
   could see through it. Each token is now resolved. The native spacing scale and `--border-width`
   also joined the contract, so a scale change that breaks the callout ordering fails rather than
   reading as unresolved.
+- G08, density and touch geometry. Measured before changing anything, and the audit's premise did
+  not hold here: `.text-icon-button` tracks the density exactly as a plain button does (34 / 32 /
+  38px against `--input-height`), not the ~25px of the audit's fixture, and the themed mobile touch
+  containers already reach the 44px project target - `.view-action`, `.mobile-navbar-action` and
+  `.mobile-toolbar-option` all measure 44 x 44 or wider, as do the field and the buttons. The audit
+  also warns against giving `.clickable-icon` a forced global size, and the small bare icon in its
+  own fixture is explicitly not to be read as a global mobile defect. So this item closes as
+  **verified and gated rather than changed**: the gate holds the density token at 32 / 34 / 38px and
+  the three touch containers at 44px, and DESIGN records which geometry follows density and which is
+  deliberately left to the glyph. What is _not_ verified is the alignment of an icon against a text
+  button inside a real toolbar row, which needs the client.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration
