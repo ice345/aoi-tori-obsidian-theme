@@ -540,6 +540,19 @@ seam is the group's structure, not a missing corner.
 is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
 touch affordance, so it belongs to the platform.
 
+### Air and optical weight
+
+A dimmed layer is not a quiet colour. The Quiet status bar used `opacity: 0.72`, which composites
+the text and the icons together, so the result depends on whatever sits behind the layer and cannot
+be reasoned about from the stylesheet. Measured, light mode came out at 2.95:1 - under the floor -
+while dark mode passed. The setting now selects a quieter semantic foreground, which puts the
+contrast back in the colour where it can be checked: 4.52:1 light and 6.29:1 dark against 5.22 and
+8.16 for the normal state.
+
+The original Callout icons draw at a 1.25 stroke where Obsidian's own draw at 1.8. That is an
+optical question - whether a path is too dense or a hairline disappears - and it is reviewed at 100
+/ 125 / 200% and across pixel densities rather than answered by bolding every path.
+
 ### Writing direction
 
 The quote and Callout accents sit on the inline-start edge, so the two inline-start corners stay

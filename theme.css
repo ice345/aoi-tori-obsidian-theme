@@ -2810,7 +2810,8 @@ body.aoi-tab-soft-surface .workspace-tab-header.is-active {
 }
 
 body.aoi-status-quiet .status-bar {
-  opacity: 0.72;
+  --status-bar-text-color: var(--text-faint);
+  --icon-color: var(--text-faint);
 }
 
 body.aoi-status-hidden .status-bar {

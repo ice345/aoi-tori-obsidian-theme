@@ -313,5 +313,19 @@
     "foreground": "--nav-item-color",
     "background": "--aoi-workspace-tint-max-aqua",
     "minimum": 4.5
+  },
+  {
+    "name": "Light status bar quiet",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-light.css"],
+    "foreground": "--text-faint",
+    "background": "--background-primary",
+    "minimum": 4.5
+  },
+  {
+    "name": "Dark status bar quiet",
+    "sources": ["src/tokens/primitives.css", "src/tokens/semantic-dark.css"],
+    "foreground": "--text-faint",
+    "background": "--background-primary",
+    "minimum": 4.5
   }
 ]

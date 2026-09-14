@@ -129,7 +129,20 @@ and evidence-based.
   stayed on the wrong side. They now use the four logical corner properties, and the wash gradient's
   direction moved into `--aoi-wash-direction`, which `.mod-rtl` reverses. Verified in a browser with
   `direction: rtl`: the accent edge keeps its square corners and the wash flips.
-- Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
+- G12, optical weight. Two halves, and only one could be settled here. **Status bar, fixed and
+  measured.** The Quiet setting dimmed the whole bar with `opacity: 0.72`, which composites the text
+  and the icons together, so what a reader actually sees depends on whatever is behind the layer.
+  Measured against the bar's own background, light mode fell to **2.95:1** - below the 4.5:1 floor -
+  while dark mode held 4.99:1 and passed. The audit said not to claim a failure without measuring;
+  measuring found one. Quiet now selects a quieter semantic foreground instead of a layer opacity:
+  light 4.52:1, dark 6.29:1, with the normal state unchanged at 5.22 / 8.16. Both pairs joined the
+  contrast gate, so a rounding change fails rather than passing quietly. **Icon stroke, still
+  open.** The original Callout icons draw at 1.25 where native draws at 1.8. The audit frames this
+  as an optical check at 100 / 125 / 200% and across pixel densities, not a confirmed failure, and
+  it warns against bolding every path in answer. Nothing here is dense enough to read as a defect
+  from a stylesheet, so this stays with the visual review rather than being changed blind.
+- Batch 4 complete. The three batches' remaining real-environment checks are unchanged: touch on a
+  device, real pointer hover, RTL in the client, and the icon optical review.
 
 ## 2026-09-14 Callout icon integration
 
