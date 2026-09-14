@@ -2466,13 +2466,13 @@ body.theme-dark.is-mobile {
   --background-modifier-hover: var(--aoi-hover-surface);
 }
 
-body.is-mobile button.mod-warning,
-body.is-mobile button.mod-destructive {
+body.is-mobile button.mod-warning:where(:not(.mod-cta)),
+body.is-mobile button.mod-destructive:where(:not(.mod-cta)) {
   background-color: var(--aoi-destructive-secondary-background);
 }
 
-body.is-mobile button.mod-warning:hover,
-body.is-mobile button.mod-destructive:hover {
+body.is-mobile button.mod-warning:where(:not(.mod-cta)):hover,
+body.is-mobile button.mod-destructive:where(:not(.mod-cta)):hover {
   background-color: var(--aoi-destructive-secondary-background-hover);
 }
 

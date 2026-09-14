@@ -42,6 +42,17 @@ and evidence-based.
   `--interactive-hover is #394b58 on the desktop and #7fc3e8 on a phone`; reverting the disabled
   scoping reports the resting shadow, the hover lift and the fill change. `box-shadow`, `opacity`
   and `transform` joined the watched properties.
+- G03c, a regression this batch introduced and then fixed. The first version of the destructive
+  restoration was `body.is-mobile button.mod-warning`, two classes and two elements, against the
+  theme's `button.mod-warning.mod-cta` at two classes and one element. It therefore repainted a
+  primary destructive button with the secondary rose and collapsed the two destructive levels on
+  phones only: `#7f2a39` became `#3b1f2a`. Scoping it with `:where(:not(.mod-cta))` keeps the same
+  specificity while leaving a primary button to the rule that already handles it. Caught by
+  measuring the primary and secondary surfaces against each other rather than by reading the rule.
+- Also verified while checking this: keyboard focus is unchanged. Inputs, buttons and icon buttons
+  all take a 2px solid cobalt outline under `:focus-visible`, identically before and after, and the
+  enabled input keeps native's focus border and inset shadow. The disabled work stays on the
+  disabled side of the cascade and does not raise the enabled base rule's specificity.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

@@ -1997,6 +1997,46 @@ for (const mode of ["theme-light", "theme-dark"]) {
   }
 }
 
+/* The mobile destructive restoration must not flatten the two destructive levels. An
+   unguarded `body.is-mobile button.mod-warning` is two classes and two elements, which beats the
+   theme's `button.mod-warning.mod-cta` at two classes and one element, so it repainted the primary
+   surface with the secondary rose on phones only. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const body = createElement("body", [mode, "is-mobile"]);
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+  const bodyResolved = resolveSpecified(bodySpecified).entries;
+
+  const surface = (classes) => {
+    const el = createElement("button", classes);
+    return formatValue(
+      resolveElementProperty(el, [html, body], env, bodySpecified, "background-color")
+    );
+  };
+  const ordinary = surface(["mod-warning"]);
+  const primary = surface(["mod-warning", "mod-cta"]);
+  const primaryDestructive = surface(["mod-destructive", "mod-cta"]);
+
+  if (ordinary === primary) {
+    failures.push(
+      `${mode} mobile destructive: the secondary and primary delete buttons share ${ordinary}; the two destructive levels must stay distinct on a phone`
+    );
+  }
+  for (const [label, value] of [
+    ["mod-warning mod-cta", primary],
+    ["mod-destructive mod-cta", primaryDestructive]
+  ]) {
+    const expected = formatValue(bodyResolved.get("--aoi-destructive-primary-background"));
+    if (value !== expected) {
+      failures.push(
+        `${mode} mobile destructive: ${label} painted ${value}, expected the primary surface ${expected}`
+      );
+    }
+  }
+}
+
 /* Audit G04. A disabled control must not gain a resting shadow, a hover lift or a press
    displacement. The enabled rules that were declared after the disabled ones are only visible in
    the resolved property, so these read the property rather than the token string. `pseudos` is how

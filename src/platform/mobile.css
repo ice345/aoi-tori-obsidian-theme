@@ -159,13 +159,20 @@ body.theme-dark.is-mobile {
    Two classes and an element beat the theme's `button.mod-warning`, so a delete button lost the
    rose surface it has on the desktop and became the ordinary control fill. The text colour still
    resolves to the theme's error token, so only the fill needs restoring; `body.is-mobile` plus two
-   classes outranks the native rule without `!important`. */
-body.is-mobile button.mod-warning,
-body.is-mobile button.mod-destructive {
+   classes outranks the native rule without `!important`.
+
+   `:where(:not(.mod-cta))` keeps this at the same specificity while leaving a primary
+   destructive button alone. Without it this rule is two classes and two elements against the
+   theme's `button.mod-warning.mod-cta` at two classes and one element, so it repainted the
+   primary `#7f2a39` with the secondary rose and collapsed the two destructive levels on mobile
+   only. A `.mod-cta` button keeps its own surface and wins against the native rule on load
+   order. */
+body.is-mobile button.mod-warning:where(:not(.mod-cta)),
+body.is-mobile button.mod-destructive:where(:not(.mod-cta)) {
   background-color: var(--aoi-destructive-secondary-background);
 }
 
-body.is-mobile button.mod-warning:hover,
-body.is-mobile button.mod-destructive:hover {
+body.is-mobile button.mod-warning:where(:not(.mod-cta)):hover,
+body.is-mobile button.mod-destructive:where(:not(.mod-cta)):hover {
   background-color: var(--aoi-destructive-secondary-background-hover);
 }
