@@ -24,7 +24,7 @@ src/index.css
 scripts/build.mjs
       ↓
 theme.css (readable root artifact)
-      └── npm run package → dist/Aoi-Tori/theme.css (minified package artifact)
+      └── npm run package → dist/Aoi Tori/theme.css (minified package artifact)
 ```
 
 Both CSS artifacts are generated and must not be edited directly.
@@ -142,14 +142,15 @@ The two generated CSS files have different review and distribution purposes:
 
 ```text
 theme.css                 # readable, formatted root artifact
-dist/Aoi-Tori/theme.css   # minified install/release artifact
+dist/Aoi Tori/theme.css   # minified install/release artifact
+                                # the folder carries the theme's spaced name, matching manifest.json
 ```
 
 `build()` in `scripts/build.mjs` requires an explicit `outputFile` and accepts `minify`. The
 `npm run build` script passes `theme.css` with `minify: false`, using Lightning CSS plus the
 repository's Prettier configuration to produce stable readable CSS while keeping the complete
 `@settings` comment. `scripts/package.mjs` runs the full quality gate first, then calls the same
-builder with `outputFile` set directly to `dist/Aoi-Tori/theme.css` and `minify: true`; it never
+builder with `outputFile` set directly to `dist/Aoi Tori/theme.css` and `minify: true`; it never
 overwrites the root artifact. `dist/` is ignored, so only the root readable artifact is visible in
 normal source review.
 
@@ -181,7 +182,7 @@ Do not manually edit:
 
 ```text
 theme.css
-dist/Aoi-Tori/theme.css
+dist/Aoi Tori/theme.css
 ```
 
 Generated output is reproducible using:
@@ -196,13 +197,13 @@ npm run package
 `npm run package` prepares the local release-candidate install directory:
 
 ```text
-dist/Aoi-Tori/
+dist/Aoi Tori/
 ├── manifest.json
 └── theme.css
 ```
 
 The command runs the local quality gate, creates a minified generated CSS file directly at
-`dist/Aoi-Tori/theme.css`, rebuilds only the validated package path under `dist/`, copies the
+`dist/Aoi Tori/theme.css`, rebuilds only the validated package path under `dist/`, copies the
 manifest, checks for local paths, remote CSS resources, Base64 assets, test/reference/source
 markers, unexpected files, and prints a SHA-256 line for each packaged file.
 

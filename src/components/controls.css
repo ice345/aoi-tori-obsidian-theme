@@ -142,6 +142,15 @@ textarea::placeholder {
   color: var(--input-placeholder-color);
 }
 
+/* Audit G08. Native styles `.text-icon-button` without a height, so the two forms of the same
+   control diverge: as a `button` it inherits the button box and measured 34 / 32 / 38px across the
+   densities, while as a `div` it is content-height and measured 26px at all three. A toolbar row
+   mixing the two would not line up. The role carries the density height for both, and
+   `min-block-size` leaves a taller label room to grow rather than clipping it. */
+.text-icon-button {
+  min-block-size: var(--input-height);
+}
+
 .checkbox-container {
   background-color: var(--background-secondary-alt);
   transition: background-color var(--anim-duration-fast) var(--anim-motion-smooth);

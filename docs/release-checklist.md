@@ -28,7 +28,7 @@ pass.
 | Style Settings               | Pass           | Style Settings 1.0.9 parsed all 48 entries with no errors in the ignored test Vault.                                                                                    |
 | Forced colors                | Partial        | Chromium forced-colors emulation passed; real Windows High Contrast remains untested.                                                                                   |
 | Clean install                | Partial        | Package files copied into a fresh ignored Vault and matched SHA-256; actual clean-Vault UI launch/restart remained untested. Details in `docs/release-install-test.md`. |
-| Package contents             | Pass           | `npm run package` produces only `manifest.json` and `theme.css` in `dist/Aoi-Tori`.                                                                                     |
+| Package contents             | Pass           | `npm run package` produces only `manifest.json` and `theme.css` in `dist/Aoi Tori`.                                                                                     |
 | Local absolute paths         | Pass           | Package and README checks found no `/Users/ice/...` paths in release-facing files.                                                                                      |
 | Copyright material           | Pass           | No reference image, film screenshot, poster, logo, character art, or traced motif is packaged.                                                                          |
 | Attribution                  | Pass           | `docs/attribution.md` records official sources, Style Settings schema usage, researched themes, and Phase 5A asset provenance.                                          |

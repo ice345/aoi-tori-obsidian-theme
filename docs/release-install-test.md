@@ -9,7 +9,7 @@ Status: Phase 5A `0.9.0` clean-install package test, 2026-08-03 (Asia/Shanghai).
 | Host OS                        | macOS 26.5, Apple silicon                                                                                    |
 | Obsidian app available         | `/Applications/Obsidian.app`                                                                                 |
 | Installed app version evidence | Obsidian log reports latest/app up to date at `1.13.4`                                                       |
-| Package source                 | `dist/Aoi-Tori/`                                                                                             |
+| Package source                 | `dist/Aoi Tori/`                                                                                             |
 | Clean test Vault               | `.analysis/phase-5A-clean-install-vault/`                                                                    |
 | Clean test user data           | `.analysis/phase-5A-obsidian-user-data/`                                                                     |
 | Existing user Vault restored   | Yes; the main `obsidian.json` was restored from `.analysis/phase-5A-obsidian-json-before-clean-install.json` |
@@ -19,7 +19,7 @@ assets.
 
 ## Package install file check
 
-`dist/Aoi-Tori/` contains exactly:
+`dist/Aoi Tori/` contains exactly:
 
 ```text
 manifest.json
@@ -82,7 +82,7 @@ Results:
 
 | Check                                     | Result   | Evidence / limitation                                                                                                |
 | ----------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------- |
-| Package files copied from `dist/Aoi-Tori` | Pass     | SHA-256 matches package output exactly.                                                                              |
+| Package files copied from `dist/Aoi Tori` | Pass     | SHA-256 matches package output exactly.                                                                              |
 | Manifest name and version                 | Pass     | `Aoi Tori` / `0.9.0` present in copied manifest.                                                                     |
 | No source or dependency reliance          | Pass     | Static CSS/package audit found no `src/`, `node_modules`, local path, test path, remote URL, or Base64 dependency.   |
 | Obsidian recognizes theme in clean Vault  | Untested | Could not switch the active app window to the clean Vault without force-killing the existing user instance.          |

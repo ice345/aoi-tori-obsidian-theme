@@ -2194,6 +2194,10 @@ textarea::placeholder {
   color: var(--input-placeholder-color);
 }
 
+.text-icon-button {
+  min-block-size: var(--input-height);
+}
+
 .checkbox-container {
   background-color: var(--background-secondary-alt);
   transition: background-color var(--anim-duration-fast) var(--anim-motion-smooth);
@@ -2503,13 +2507,16 @@ body.theme-dark.is-mobile {
   --background-modifier-hover: var(--aoi-hover-surface);
 }
 
-body.is-mobile button.mod-warning:where(:not(.mod-cta)),
-body.is-mobile button.mod-destructive:where(:not(.mod-cta)) {
+body.is-mobile button.mod-warning:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])),
+body.is-mobile
+  button.mod-destructive:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])) {
   background-color: var(--aoi-destructive-secondary-background);
 }
 
-body.is-mobile button.mod-warning:where(:not(.mod-cta)):hover,
-body.is-mobile button.mod-destructive:where(:not(.mod-cta)):hover {
+body.is-mobile
+  button.mod-warning:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])):hover,
+body.is-mobile
+  button.mod-destructive:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])):hover {
   background-color: var(--aoi-destructive-secondary-background-hover);
 }
 

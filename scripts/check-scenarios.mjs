@@ -2513,6 +2513,100 @@ for (const [density, expected] of [
   }
 }
 
+/* The mobile destructive restoration has to leave disabled controls alone, on both platforms.
+   Its rules are (0,2,2) and (0,3,2) against the theme's `button.mod-warning:disabled` at
+   (0,2,1), so an unguarded version gives a disabled delete button the *enabled* rose as its
+   resting fill and then repaints it on hover - a control that cannot be pressed still answering
+   the pointer. This is the combination that slips past a per-axis check: it needs a phone, a
+   destructive class, a disabled state and a pointer at once. */
+for (const [axis, classes] of [
+  ["disabled", []],
+  ["aria-disabled", []],
+  ["disabled=true", []],
+  ["disabled primary", ["mod-cta"]]
+]) {
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+
+  const fill = (bodyClasses, states, baseClasses) => {
+    const body = createElement("body", bodyClasses);
+    const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+    const el = createElement("button", [...baseClasses, ...classes]);
+    /* A boolean `disabled` attribute is what the client maps to `:disabled`, and the theme
+       matches both spellings, so the simulation needs the attribute and the pseudo-class.
+       `aria-disabled` is only an attribute, which is why that axis passed on its own. */
+    if (axis === "aria-disabled") {
+      el.attributes.set("aria-disabled", "true");
+    } else {
+      el.attributes.set(
+        "disabled",
+        axis === "disabled primary" ? "" : axis === "disabled" ? "" : "true"
+      );
+      el.pseudos.add("disabled");
+    }
+    for (const state of states) el.pseudos.add(state);
+    return formatRawValue(
+      resolveElementProperty(el, [html, body], env, bodySpecified, "background-color")
+    );
+  };
+
+  const mobileRest = fill(["theme-dark", "is-mobile"], [], ["mod-warning"]);
+  const mobileHover = fill(["theme-dark", "is-mobile"], ["hover"], ["mod-warning"]);
+  const desktopRest = fill(["theme-dark"], [], ["mod-warning"]);
+
+  if (mobileRest !== mobileHover) {
+    failures.push(
+      `${axis} delete button on a phone: the fill moves from ${mobileRest} to ${mobileHover} on hover; a disabled control must not answer the pointer`
+    );
+  }
+  if (mobileRest !== desktopRest) {
+    failures.push(
+      `${axis} delete button: ${mobileRest} on a phone and ${desktopRest} on the desktop; a disabled control must not change with platform`
+    );
+  }
+}
+
+/* The same audit item, on the element that actually varies. Native styles `.text-icon-button`
+   without a height, so as a `button` it inherited the button box and tracked the density while as
+   a `div` it stayed content-height - 26px at all three levels. Both forms carry the role now. A
+   bare `.clickable-icon` is deliberately left alone. */
+for (const [density, expected] of [
+  ["", "34px"],
+  ["aoi-density-compact", "32px"],
+  ["aoi-density-relaxed", "38px"]
+]) {
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const body = createElement("body", ["theme-dark", density].filter(Boolean));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+
+  for (const tag of ["button", "div"]) {
+    const el = createElement(tag, ["text-icon-button"]);
+    const size = formatRawValue(
+      resolveElementProperty(el, [html, body], env, bodySpecified, "min-block-size")
+    );
+    if (size !== expected) {
+      failures.push(
+        `${density || "default"} density: ${tag}.text-icon-button has min-block-size ${size}, expected ${expected}; the two forms of the same control must agree`
+      );
+    }
+  }
+
+  /* The bare icon is not given a size, and this guards against someone adding one to even up a
+     toolbar: native uses the class for tab close buttons and menu items too. */
+  const icon = createElement("div", ["clickable-icon"]);
+  const iconSize = formatRawValue(
+    resolveElementProperty(icon, [html, body], env, bodySpecified, "min-block-size")
+  );
+  if (iconSize !== "<missing>" && iconSize !== "0px" && iconSize !== "0") {
+    failures.push(
+      `${density || "default"} density: .clickable-icon has min-block-size ${iconSize}; the bare icon is deliberately unsized`
+    );
+  }
+}
+
 if (failures.length) {
   console.error(`\n${failures.length} scenario failure${failures.length === 1 ? "" : "s"}:`);
   for (const failure of failures) console.error(`- ${failure}`);

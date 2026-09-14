@@ -141,6 +141,19 @@ and evidence-based.
   as an optical check at 100 / 125 / 200% and across pixel densities, not a confirmed failure, and
   it warns against bolding every path in answer. Nothing here is dense enough to read as a defect
   from a stylesheet, so this stays with the visual review rather than being changed blind.
+- Mobile disabled destructive controls, found by the user after batch 4. The mobile destructive
+  restoration excluded primary (`.mod-cta`) but not disabled, and both of its forms outrank
+  `button.mod-warning:disabled`: the resting rule at (0,2,2) against (0,2,1), and the hover rule at
+  (0,3,2). A disabled delete button therefore took the _enabled_ rose as its resting fill, and its
+  hover form repainted it again - a control that cannot be pressed was still answering the pointer,
+  on a phone only. `:not(:disabled):not([aria-disabled="true"])` now sits inside the same
+  `:where()`, so the disabled rules in `controls.css` win again. Measured: all of `disabled`,
+  `disabled="true"`, `aria-disabled="true"` and a disabled primary `.mod-cta` now rest at the
+  disabled surface and do not move on hover, on both platforms. The combination is now gated across
+  four axes. Building that gate found one more simulation gap: the harness set the `disabled`
+  attribute but not the `disabled` pseudo-class, which is what the client maps the attribute to -
+  the `aria-disabled` axis passed on its own and hid it.
+
 - Batch 4 complete. The three batches' remaining real-environment checks are unchanged: touch on a
   device, real pointer hover, RTL in the client, and the icon optical review.
 
@@ -413,7 +426,7 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       selection, light/dark switching, Style Settings absent and present, restart persistence, and a
       clean Console.
 - [x] **E2** Release package verified. `npm run package` from a clean `dist/` produces
-      `dist/Aoi-Tori/{theme.css,manifest.json}`, 91391 and 142 bytes, with SHA-256 reported for
+      `dist/Aoi Tori/{theme.css,manifest.json}`, 91391 and 142 bytes, with SHA-256 reported for
       each. The packaged CSS contains no `src/` reference, no `node_modules`, no local path, no
       remote http/https resource, no `@import`, no `@font-face` and no Base64 asset; it has zero
       `!important` and zero `:has()`, and it parses cleanly with lightningcss. Version stays 0.9.0;
@@ -752,18 +765,18 @@ No commit, push, version bump, or package rebuild was requested.
 The repository is correcting the generated-artifact boundary after the release packaging script
 overwrote the root `theme.css` with its minified output. The readable development artifact will be
 written to the repository root, while `npm run package` will write the minified artifact directly to
-`dist/Aoi-Tori/theme.css`. Both files remain generated from `src/`; neither will be hand-edited.
+`dist/Aoi Tori/theme.css`. Both files remain generated from `src/`; neither will be hand-edited.
 
 - [x] Make `build()` require an explicit output path and minification mode at each caller.
 - [x] Format the readable root artifact while preserving the complete `@settings` metadata block.
-- [x] Build the minified package artifact directly under `dist/Aoi-Tori/` without touching root
+- [x] Build the minified package artifact directly under `dist/Aoi Tori/` without touching root
       `theme.css`.
 - [x] Verify both artifacts, documentation, and quality gates.
 
 **Build artifact result:** `npm run build` now writes the Prettier-formatted readable artifact to
 root `theme.css` (2,507 lines, 79,073 bytes) with `Build mode: development/readable`.
 `npm run package` runs `npm run check` first, then calls `build({ outputFile, minify: true })`
-directly for `dist/Aoi-Tori/theme.css` (the CSS body is one minified line; the preserved `@settings`
+directly for `dist/Aoi Tori/theme.css` (the CSS body is one minified line; the preserved `@settings`
 comment remains multiline). The package manifest is copied separately, and the root file remains
 readable after packaging. Metadata is byte-identical and Lightning CSS normalization confirms
 semantic CSS equivalence between both artifacts.
@@ -804,7 +817,7 @@ overflow or theme loss. Copy/cut/paste mutation flows and Vim mode were not repe
 polish pass and remain manual release-candidate checks.
 
 **Final quality result:** the full required command sequence passed on 2026-08-03. Root `theme.css`
-is readable at 2,770 lines / 88,518 bytes; release `dist/Aoi-Tori/theme.css` is minified at 457
+is readable at 2,770 lines / 88,518 bytes; release `dist/Aoi Tori/theme.css` is minified at 457
 lines / 80,806 bytes. `npm run package` produced `manifest.json` SHA-256
 `63c43169f73761b4a0dc3ec21ff2898b472526c9b4e7100e689864238abf08ae` and `theme.css` SHA-256
 `29a53bb7c94cc0771eb3ce38898373833a4eb22c302b0b836653abe583760ef2`.
@@ -826,8 +839,8 @@ or submit to Community Themes.
 - [x] Create original repository screenshots/cover assets from real Aoi Tori Obsidian UI evidence,
       with no reference artwork or remote assets.
 - [x] Add a repeatable `npm run package` command that checks, creates a release build, rebuilds only
-      `dist/Aoi-Tori`, audits contents, and reports SHA-256 values.
-- [x] Perform a clean install test from `dist/Aoi-Tori` into an ignored temporary Vault and record
+      `dist/Aoi Tori`, audits contents, and reports SHA-256 values.
+- [x] Perform a clean install test from `dist/Aoi Tori` into an ignored temporary Vault and record
       exact tested and untested states.
 - [x] Add lightweight CI, issue templates, contributing guidance, release notes, and a release
       checklist.
@@ -850,7 +863,7 @@ Vault content.
 an MIT `LICENSE`, release-facing README, current official release research, release notes,
 contribution/issue templates, CI, original UI-based screenshot assets, and a repeatable package
 command. `npm run package` produces only `manifest.json` and `theme.css` under ignored
-`dist/Aoi-Tori`; the current package SHA-256 values are
+`dist/Aoi Tori`; the current package SHA-256 values are
 `63c43169f73761b4a0dc3ec21ff2898b472526c9b4e7100e689864238abf08ae` for `manifest.json` and
 `e6ecd03585ad6ee3584aef833a395d7c84cee524f6899d6a5533c977996339eb` for the minified `theme.css`. The
 clean install package copied into an ignored fresh Vault and matched the package hashes, but the
@@ -1334,7 +1347,7 @@ Record decisions that affect architecture, compatibility, licensing, or visual i
 | 2026-08-03 | Keep Bases card image fit document-owned                                                                                      | Obsidian writes the Base view's `imageFit` as an inline style                                  | Style Settings gives native guidance instead of using `!important`                                         |
 | 2026-08-03 | Preserve Style Settings metadata explicitly in the build                                                                      | Lightning CSS strips the plugin metadata comment while bundling                                | Build prepends the source block and audit verifies its groups in source and output                         |
 | 2026-08-03 | Provide both OS-media and optional manual accessibility responses                                                             | OS preferences should work without a plugin, while manual controls help users without them     | Reduced motion, contrast, focus, borders, targets, gradients, and forced colors remain bounded             |
-| 2026-08-03 | Keep readable and release CSS as separate generated outputs                                                                   | Packaging previously overwrote the reviewable root file with its minified result               | `build()` receives `outputFile` and `minify`; root stays formatted and `dist/Aoi-Tori` stays install-ready |
+| 2026-08-03 | Keep readable and release CSS as separate generated outputs                                                                   | Packaging previously overwrote the reviewable root file with its minified result               | `build()` receives `outputFile` and `minify`; root stays formatted and `dist/Aoi Tori` stays install-ready |
 
 ## Phase 1 result
 

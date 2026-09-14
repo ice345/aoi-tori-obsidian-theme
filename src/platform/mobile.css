@@ -167,12 +167,21 @@ body.theme-dark.is-mobile {
    primary `#7f2a39` with the secondary rose and collapsed the two destructive levels on mobile
    only. A `.mod-cta` button keeps its own surface and wins against the native rule on load
    order. */
-body.is-mobile button.mod-warning:where(:not(.mod-cta)),
-body.is-mobile button.mod-destructive:where(:not(.mod-cta)) {
+
+/* Disabled is excluded as well as primary. Without it this rule is (0,2,2) against the theme's
+   `button.mod-warning:disabled` at (0,2,1), so a disabled delete button took the *enabled* rose
+   as its resting fill, and the hover form at (0,3,2) then repainted it on hover - a control that
+   cannot be pressed was still answering the pointer. `:where()` keeps the specificity where it
+   was, so the disabled rules in `controls.css` win again. */
+body.is-mobile button.mod-warning:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])),
+body.is-mobile
+  button.mod-destructive:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])) {
   background-color: var(--aoi-destructive-secondary-background);
 }
 
-body.is-mobile button.mod-warning:where(:not(.mod-cta)):hover,
-body.is-mobile button.mod-destructive:where(:not(.mod-cta)):hover {
+body.is-mobile
+  button.mod-warning:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])):hover,
+body.is-mobile
+  button.mod-destructive:where(:not(.mod-cta):not(:disabled):not([aria-disabled="true"])):hover {
   background-color: var(--aoi-destructive-secondary-background-hover);
 }

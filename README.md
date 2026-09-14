@@ -11,8 +11,9 @@ logos, character art, reference images, remote fonts, or remote images.
 
 ## Screenshots
 
-Captured on 2026-09-13 in Obsidian Desktop **1.13.7** on macOS, using the current source build and
-an original demonstration note. These are actual app captures.
+Captured on 2026-09-13 in Obsidian Desktop **1.13.7** on macOS, using the source build from that
+date and an original demonstration note. These are actual app captures. The newer Callout icon
+family is not shown in these captures.
 
 ### Light — cyan, paper, blush
 
@@ -38,12 +39,14 @@ washes add atmosphere without textures, blur, or animated backgrounds.
 
 Dark mode has its own low-chroma cool-grey surfaces, ice-white text, and restrained blue
 interactions. A slightly cooler left edge and a violet-leaning right edge preserve the duet without
-turning the reading area into a bright gradient. Feather and music callouts offer small, optional
-accents.
+turning the reading area into a bright gradient. Original feather, instrument, and everyday-motif
+callouts offer small, optional accents.
 
 ## Features
 
 - Light and dark modes.
+- 15 original Callout icons: three feathers, a woodwind/brass ensemble, and quiet everyday motifs;
+  22 px icons with circular badges, built into the theme with no extra plugin.
 - Duet sidebars with a neutral bridge and a stable warm-paper reading surface.
 - Accessible deep-ink body text and cobalt interaction states.
 - Styled Live Preview, Source mode, and Reading view.
@@ -56,6 +59,32 @@ accents.
 - Optional Style Settings support with constrained palette, typography, workspace, editor, image,
   and accessibility controls.
 - Reduced motion, increased contrast, and forced-colors CSS responses.
+
+## A small language for your notes
+
+![Original Callout icons — illustration, not an app capture](assets/callout-icons.svg)
+
+Keep a passage with a falling feather, leave room for another voice, or mark an unfinished thought
+with a breath. The theme includes original flute, oboe, trumpet, tuba and euphonium drawings, plus a
+blue bird, an open window, resonance, a storybook and small footsteps.
+
+```markdown
+> [!aoi-tori] A passage worth keeping Small observations can become the beginning of something
+> larger.
+
+> [!aoi-duet] Another voice Leave room for a different interpretation.
+
+> [!aoi-breath]- Before the next sentence An unfinished thought can stay here for a while.
+```
+
+The default is **22 px with a circular badge** in both modes. `aoi-tori` uses the falling feather;
+`aoi-feather-light` and `aoi-feather-ink` select the other two versions. Existing `second-voice`
+notes remain supported and now use the duet mark. Standard warning, error and success icons keep
+their functional meaning.
+
+See the **[complete Callout guide](docs/CALLOUTS.md)** for every icon, identifier, alias, and
+copyable example. New types share a memorable `aoi-` prefix. No icon plugin or separate SVG
+installation is required.
 
 ## Install
 
@@ -92,12 +121,12 @@ Until then, use the manual installation steps below.
 For this repository, `npm run package` creates a clean local package at:
 
 ```text
-dist/Aoi-Tori/
+dist/Aoi Tori/
 ```
 
 The generated artifacts have separate purposes. `npm run build` writes the readable, formatted
 development/install artifact to the repository root at `theme.css`. `npm run package` runs the full
-quality gate and writes the minified release artifact directly to `dist/Aoi-Tori/theme.css` while
+quality gate and writes the minified release artifact directly to `dist/Aoi Tori/theme.css` while
 copying `manifest.json` there. Both files are generated from `src/`; do not edit either file
 directly. The `@settings` metadata comment is preserved in both forms.
 
@@ -209,7 +238,7 @@ npm run check
 npm run package
 ```
 
-`theme.css` and `dist/Aoi-Tori/theme.css` are generated from `src/index.css`. Do not edit either
+`theme.css` and `dist/Aoi Tori/theme.css` are generated from `src/index.css`. Do not edit either
 generated file directly.
 
 Useful commands:
@@ -223,8 +252,8 @@ npm run audit         # repository and theme safety audit
 npm run contrast      # configured contrast pairs
 npm run scenarios     # setting-matrix contrast and forced-colors scenarios
 npm run check         # complete local quality gate
-npm run release       # check and rebuild the minified dist/Aoi-Tori package
-npm run package       # check, build dist/Aoi-Tori/theme.css, and copy its manifest
+npm run release       # check and rebuild the minified dist/Aoi Tori package
+npm run package       # check, build dist/Aoi Tori/theme.css, and copy its manifest
 ```
 
 ## Report an issue

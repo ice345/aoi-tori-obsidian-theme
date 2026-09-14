@@ -7,7 +7,8 @@ import { build } from "./build.mjs";
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const distRoot = path.join(projectRoot, "dist");
-const packageRoot = path.join(distRoot, "Aoi-Tori");
+/* The release folder carries the theme's spaced name, matching `manifest.json`'s `name`. */
+const packageRoot = path.join(distRoot, "Aoi Tori");
 const allowedFiles = ["manifest.json", "theme.css"];
 
 function relative(filePath) {

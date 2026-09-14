@@ -567,9 +567,16 @@ accent edge outward.
 ### Density and touch geometry
 
 Density moves one token, `--input-height`: 32px compact, 34px default, 38px relaxed. Obsidian's own
-controls and the theme's fields, buttons and text-and-icon buttons all read it, so a toolbar row
-keeps one height across the three settings. Measured with the native stylesheet present: 34 / 32 /
-38px for the field, the button and the text-and-icon button alike.
+controls and the theme's fields and buttons read it, so a toolbar row keeps one height across the
+three settings. Measured with the native stylesheet present: 34 / 32 / 38px for the field and the
+button.
+
+A text-and-icon button needs an explicit role, because native styles `.text-icon-button` without a
+height and lets the element decide what that means. As a `button` it inherited the button box and
+tracked the density; as a `div` it was content-height and stayed at 26px at every level, so the two
+forms of the same control would not line up in one row. It now carries
+`min-block-size: var(--input-height)` for both forms, which is measured at 34 / 32 / 38px either
+way.
 
 A bare `.clickable-icon` is deliberately **not** given a height or an `aspect-ratio`. Its box is
 whatever the glyph and the surrounding row make it, and native uses the class for tab close buttons,
