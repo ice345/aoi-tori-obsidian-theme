@@ -117,6 +117,18 @@ and evidence-based.
   the three touch containers at 44px, and DESIGN records which geometry follows density and which is
   deliberately left to the glyph. What is _not_ verified is the alignment of an icon against a text
   button inside a real toolbar row, which needs the client.
+- G10, motion scope. The durations were at `:root`, so native's `body` outranked them and
+  `--anim-duration-fast` resolved to native's 140ms rather than the theme's 120ms - the same scope
+  defect as the geometry. They are declared on `body` now, and the reduced-motion zeroing moved with
+  them so native cannot win under the preference either. Measured with the native stylesheet loaded:
+  `--anim-duration-fast` is `0.12s`. The reduced-motion guard in `accessibility.css` turns
+  transitions and transforms off as _properties_, so it never depended on these tokens and is
+  unaffected.
+- G11, writing direction. The quote and Callout accents sit on the inline-start edge, but their
+  corners were written physically as `0 r r 0`, so under RTL the accent moved and the square corners
+  stayed on the wrong side. They now use the four logical corner properties, and the wash gradient's
+  direction moved into `--aoi-wash-direction`, which `.mod-rtl` reverses. Verified in a browser with
+  `direction: rtl`: the accent edge keeps its square corners and the wash flips.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

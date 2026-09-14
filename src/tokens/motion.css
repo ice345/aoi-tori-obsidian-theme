@@ -1,4 +1,8 @@
-:root {
+/* Native declares these on `body`, which is a type selector and therefore outranks a `:root`
+   declaration no matter which stylesheet the browser parsed last. At `:root` the theme's faster
+   rhythm was never applied - `--anim-duration-fast` resolved to native's 140ms, not the 120ms
+   written here. Declared on `body` they tie with native and win on load order. Audit G10. */
+body {
   --anim-duration-none: 0ms;
   --anim-duration-superfast: 80ms;
   --anim-duration-fast: 120ms;
@@ -10,8 +14,11 @@
   --anim-motion-delay: 40ms;
 }
 
+/* The reduced-motion guard in `accessibility.css` turns transitions and transforms off as
+   properties, so it does not depend on these. Zeroing the tokens too is belt and braces, and it
+   has to sit on `body` as well or native's durations would win under the preference. */
 @media (prefers-reduced-motion: reduce) {
-  :root {
+  body {
     --anim-duration-superfast: 0ms;
     --anim-duration-fast: 0ms;
     --anim-duration-moderate: 0ms;

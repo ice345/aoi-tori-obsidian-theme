@@ -124,6 +124,10 @@
    the desktop value. `--input-radius` stays in the mode layer: the audit keeps fields at 8px in
    every mode, and a field is a writing container rather than a touch target. */
 body {
+  /* The quote wash runs from the accent edge outward, so its direction is a writing direction
+     rather than a physical one. CSS has no logical gradient direction, so the token carries it and
+     the RTL override flips it. */
+  --aoi-wash-direction: to right;
   --button-radius: var(--aoi-radius-button);
   --clickable-icon-radius: var(--aoi-radius-icon);
 
@@ -132,4 +136,8 @@ body {
      `--radius-s`; the theme's role is 12px. Declared here for the same reason as the icon
      radius: `.is-mobile` rebinds this to the 40px touch radius and must keep doing so. */
   --canvas-controls-radius: var(--aoi-radius-toolgroup);
+}
+
+.mod-rtl {
+  --aoi-wash-direction: to left;
 }

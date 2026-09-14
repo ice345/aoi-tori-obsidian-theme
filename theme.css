@@ -643,12 +643,17 @@ settings:
 }
 
 body {
+  --aoi-wash-direction: to right;
   --button-radius: var(--aoi-radius-button);
   --clickable-icon-radius: var(--aoi-radius-icon);
   --canvas-controls-radius: var(--aoi-radius-toolgroup);
 }
 
-:root {
+.mod-rtl {
+  --aoi-wash-direction: to left;
+}
+
+body {
   --anim-duration-none: 0s;
   --anim-duration-superfast: 80ms;
   --anim-duration-fast: 0.12s;
@@ -661,7 +666,7 @@ body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  :root {
+  body {
     --anim-duration-superfast: 0s;
     --anim-duration-fast: 0s;
     --anim-duration-moderate: 0s;
@@ -1646,14 +1651,17 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   color: var(--blockquote-color);
   background-color: var(--blockquote-background-color);
   background-image: linear-gradient(
-    to right,
+    var(--aoi-wash-direction),
     color-mix(in srgb, var(--blockquote-border-color) var(--aoi-quote-wash-strength), transparent),
     transparent 72%
   );
   border-inline-start: var(--blockquote-border-thickness) solid var(--blockquote-border-color);
-  border-radius: 0 var(--radius-m) var(--radius-m) 0;
   padding-block: var(--size-4-2);
   padding-inline: var(--size-4-4);
+  border-start-start-radius: 0;
+  border-start-end-radius: var(--radius-m);
+  border-end-end-radius: var(--radius-m);
+  border-end-start-radius: 0;
 }
 
 .markdown-rendered pre,
@@ -1704,8 +1712,11 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   );
   border: 0;
   border-inline-start: var(--callout-border-width) solid var(--callout-color);
-  border-radius: 0 var(--callout-radius) var(--callout-radius) 0;
   box-shadow: none;
+  border-start-start-radius: 0;
+  border-start-end-radius: var(--callout-radius);
+  border-end-end-radius: var(--callout-radius);
+  border-end-start-radius: 0;
 }
 
 .callout-title {

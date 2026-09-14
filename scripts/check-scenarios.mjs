@@ -142,7 +142,9 @@ const WATCHED_PROPERTIES = new Set([
   "transform",
   "border-radius",
   "min-block-size",
-  "min-inline-size"
+  "min-inline-size",
+  "border-start-start-radius",
+  "border-start-end-radius"
 ]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
@@ -192,6 +194,14 @@ body {
 body {
   --border-width: 1px;
   --input-border-width: var(--border-width);
+  /* Native declares the motion durations on body too, which is what outranks a theme :root
+     declaration. Without them here a regression that moved the theme's motion tokens back to
+     :root would still resolve and pass. */
+  --anim-duration-none: 0;
+  --anim-duration-superfast: 70ms;
+  --anim-duration-fast: 140ms;
+  --anim-duration-moderate: 300ms;
+  --anim-duration-slow: 560ms;
   --size-2-3: 6px;
   --size-4-2: 8px;
   --size-4-3: 12px;
@@ -809,6 +819,12 @@ function evalOne(token, lookup) {
   if (token.type === "length") {
     return { kind: "length", value: token.value.value, unit: token.value.unit };
   }
+  /* A bare `0` is a number token rather than a length, and `border-start-start-radius: 0` is
+     ordinary CSS. Without this the whole declaration resolved as unsupported. */
+  if (token.type === "number") return { kind: "number", value: token.value };
+  if (token.type === "dimension") {
+    return { kind: "length", value: token.value.value, unit: token.value.unit };
+  }
   if (token.type === "time") return { kind: "time", value: token.value };
   throw new Error(`Unsupported token type: ${token.type}`);
 }
@@ -1004,6 +1020,12 @@ function formatRawValue(value) {
   if (value.kind === "ident") return value.name;
   if (value.kind === "var") return `var(${value.name.ident})`;
   if (value.kind === "unresolved") return `unresolved ${value.name}`;
+  /* Durations come back as a time value rather than a raw length. */
+  if (value.kind === "time") {
+    const unit = value.value?.type;
+    const amount = value.value?.value ?? 0;
+    return `${unit === "seconds" ? Math.round(amount * 1000) : amount}ms`;
+  }
   /* Some paths hand back the parser's own dialect, where a token is `{type, value}` rather than
      `{kind, ...}`. A list of those is how a multi-value declaration reads back. */
   if (value.type === "length" || value.type === "dimension") {
@@ -2415,6 +2437,78 @@ for (const [density, expected] of [
           `mobile touch target: .${classes[0]} has ${property} ${size}, expected the 44px project target`
         );
       }
+    }
+  }
+}
+
+/* Audit G10 and G11. The motion tokens have to be declared where native's `body` cannot outrank
+   them, and the quote and Callout corners have to follow the writing direction along with the
+   accent edge. The browser is what actually flips a logical corner; what the gate can hold is that
+   the logical properties carry the intended values and that the wash direction reverses. */
+{
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodyOf = (classes) => {
+    const body = createElement("body", ["theme-dark", ...classes]);
+    return resolveSpecified(cascadeCustomProperties(body, [html], env, htmlResolved.entries))
+      .entries;
+  };
+
+  const durations = bodyOf([]);
+  for (const [token, expected] of [
+    ["--anim-duration-fast", "120ms"],
+    ["--anim-duration-superfast", "80ms"],
+    ["--anim-duration-none", "0ms"]
+  ]) {
+    const value = formatRawValue(durations.get(token));
+    if (value !== expected) {
+      failures.push(`motion: ${token} resolves to ${value}, expected ${expected}`);
+    }
+  }
+
+  const ltr = bodyOf([]);
+  const rtl = bodyOf(["mod-rtl"]);
+  const ltrWash = formatRawValue(ltr.get("--aoi-wash-direction"));
+  const rtlWash = formatRawValue(rtl.get("--aoi-wash-direction"));
+  if (ltrWash === rtlWash) {
+    failures.push(
+      `writing direction: the wash direction is ${ltrWash} in both directions; it must reverse`
+    );
+  }
+
+  const bodySpecified = cascadeCustomProperties(
+    createElement("body", ["theme-dark"]),
+    [html],
+    env,
+    htmlResolved.entries
+  );
+
+  /* The accent sits on the inline-start edge, so the inline-start corners stay square. A corner
+     can read back as one length or as several, so a list of zeros counts as square. */
+  const allZero = (text) => {
+    const numbers = text.match(/-?[\d.]+/g);
+    return numbers !== null && numbers.every((n) => Number(n) === 0);
+  };
+  const callout = createElement("div", ["callout"]);
+  for (const [property, expected] of [
+    ["border-start-start-radius", "0px"],
+    ["border-start-end-radius", "8px"]
+  ]) {
+    const value = formatRawValue(
+      resolveElementProperty(
+        callout,
+        [html, createElement("body", ["theme-dark"])],
+        env,
+        bodySpecified,
+        property
+      )
+    );
+    const square = expected === "0px" && allZero(value);
+    if (value !== expected && !square) {
+      failures.push(
+        `callout corners: ${property} resolves to ${value}, expected ${expected}; the accent edge keeps its square corners`
+      );
     }
   }
 }

@@ -540,6 +540,17 @@ seam is the group's structure, not a missing corner.
 is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
 touch affordance, so it belongs to the platform.
 
+### Writing direction
+
+The quote and Callout accents sit on the inline-start edge, so the two inline-start corners stay
+square and the two inline-end corners round. Expressing that with the four logical corner properties
+instead of `0 r r 0` means the corners follow the accent when the writing direction changes; written
+physically, the accent moved under RTL while the square edges stayed on the old side.
+
+The wash gradient needs the same treatment, and CSS has no logical gradient direction. The direction
+lives in `--aoi-wash-direction`, which `.mod-rtl` reverses, so the wash always travels from the
+accent edge outward.
+
 ### Density and touch geometry
 
 Density moves one token, `--input-height`: 32px compact, 34px default, 38px relaxed. Obsidian's own
