@@ -110,4 +110,13 @@
   --aoi-night-success-soft: #19362f;
   --aoi-night-info: #7fc3e8;
   --aoi-night-info-soft: #1b3347;
+
+  /* Control shape roles. A button and the field beside it are different objects, so they get
+     different corners; icons get their own value so a dense toolbar can be tuned without moving
+     the field geometry, and a grouped tool button is rounded on the group rather than on each
+     item. */
+  --aoi-radius-button: 10px;
+  --aoi-radius-field: 8px;
+  --aoi-radius-icon: 8px;
+  --aoi-radius-toolgroup: 12px;
 }

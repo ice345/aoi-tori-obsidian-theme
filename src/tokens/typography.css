@@ -114,3 +114,16 @@
   --line-height-normal: 1.75;
   --file-line-width: 760px;
 }
+
+/* Control shape, declared on `body` rather than in the mode layer above. Native declares
+   `--button-radius` and `--clickable-icon-radius` on `body` too, and then rebinds the icon one
+   on `.is-mobile` to the 44px touch size and on `.mod-macos` to `--radius-m`. A mode-layer
+   declaration is a class selector, so it would outrank `.is-mobile` and pin a phone's icon
+   targets to the desktop corner - the audit's G01 asks for the mobile value to actually take
+   effect. Declared here the platform rules still win where they exist, and the theme supplies
+   the desktop value. `--input-radius` stays in the mode layer: the audit keeps fields at 8px in
+   every mode, and a field is a writing container rather than a touch target. */
+body {
+  --button-radius: var(--aoi-radius-button);
+  --clickable-icon-radius: var(--aoi-radius-icon);
+}

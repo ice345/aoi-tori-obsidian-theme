@@ -550,6 +550,10 @@ settings:
   --aoi-night-success-soft: #19362f;
   --aoi-night-info: #7fc3e8;
   --aoi-night-info-soft: #1b3347;
+  --aoi-radius-button: 10px;
+  --aoi-radius-field: 8px;
+  --aoi-radius-icon: 8px;
+  --aoi-radius-toolgroup: 12px;
   --aoi-cjk-sans-fallback: "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans", "Yu Gothic UI";
   --aoi-cjk-serif-fallback:
     "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho";
@@ -636,6 +640,11 @@ settings:
   --nav-item-weight-active: var(--font-semibold);
   --line-height-normal: 1.75;
   --file-line-width: 760px;
+}
+
+body {
+  --button-radius: var(--aoi-radius-button);
+  --clickable-icon-radius: var(--aoi-radius-icon);
 }
 
 :root {
@@ -2051,7 +2060,7 @@ button,
   color: var(--text-normal);
   background-color: var(--interactive-normal);
   border: var(--input-border-width) solid var(--background-modifier-border);
-  border-radius: var(--input-radius);
+  border-radius: var(--button-radius);
   box-shadow: var(--input-shadow);
   transition:
     color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -2173,7 +2182,7 @@ textarea::placeholder {
 
 .clickable-icon {
   color: var(--icon-color);
-  border-radius: var(--radius-s);
+  border-radius: var(--clickable-icon-radius);
   transition:
     color var(--anim-duration-fast) var(--anim-motion-smooth),
     background-color var(--anim-duration-fast) var(--anim-motion-smooth);

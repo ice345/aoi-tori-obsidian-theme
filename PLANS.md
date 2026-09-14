@@ -53,6 +53,21 @@ and evidence-based.
   all take a 2px solid cobalt outline under `:focus-visible`, identically before and after, and the
   enabled input keeps native's focus border and inset shadow. The disabled work stays on the
   disabled side of the cascade and does not raise the enabled base rule's specificity.
+- G01, icon shape. `.clickable-icon` read `--radius-s` directly, so the theme supplied 4px in every
+  mode and native's `--clickable-icon-radius` was never consulted. On a phone native sets that to
+  the 44px touch size and the theme ignored it. The icon now consumes the native variable, and the
+  theme's value is declared on `body` rather than in the mode layer: a mode-layer selector is a
+  class and would outrank `.is-mobile`, pinning a phone to the desktop corner. Measured: 4px becomes
+  8px on the desktop and 44px on a phone.
+- G02, button shape. Buttons and fields both read `--input-radius`, so a button could not round
+  further than the field beside it without moving every input, search box and settings row. Buttons
+  now read `--button-radius`, native's own interface, at 10px; fields stay at `--input-radius`, 8px.
+  `--input-radius` deliberately stays in the mode layer, because the audit keeps fields at 8px in
+  every mode - a field is a writing container rather than a touch target - while the icon role is
+  one the platform owns.
+- The four shape primitives live in `primitives.css` (`--aoi-radius-button`, `-field`, `-icon`,
+  `-toolgroup`; the last is for G07). The stylelint prefix list gained `button` and `clickable`,
+  both real Obsidian interfaces read out of `app.css` rather than invented.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

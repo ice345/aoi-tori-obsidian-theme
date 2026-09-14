@@ -139,7 +139,8 @@ const WATCHED_PROPERTIES = new Set([
      gate has to be able to read the absence of a shadow and of a press displacement. */
   "box-shadow",
   "opacity",
-  "transform"
+  "transform",
+  "border-radius"
 ]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
@@ -180,6 +181,15 @@ body {
   --h4-size: 1.188em;
   --h5-size: 1.076em;
   --h6-size: 1em;
+}
+
+.is-mobile {
+  --input-radius: var(--touch-radius-m);
+  --clickable-icon-radius: var(--touch-size-m);
+  --touch-size-s: 40px;
+  --touch-size-m: 44px;
+  --touch-radius-s: var(--touch-size-s);
+  --touch-radius-m: var(--touch-size-m);
 }
 
 .is-mobile.theme-dark {
@@ -2092,6 +2102,59 @@ for (const mode of ["theme-light", "theme-dark"]) {
   if (hovers === "none" || hovers === restShadow) {
     failures.push(
       `theme-dark enabled field: hover box-shadow is ${hovers}, the same as rest ${restShadow}; the disabled guard is too broad`
+    );
+  }
+}
+
+/* Audit G01 and G02. A button, a field and an icon each have their own shape role, and the
+   icon role is the platform's to override on touch: reading `--radius-s` directly is what made a
+   phone render 4px corners and ignore the 44px touch radius native sets for `.is-mobile`. */
+for (const [mode, mobile] of [
+  ["theme-dark", false],
+  ["theme-light", false],
+  ["theme-dark", true],
+  ["theme-light", true]
+]) {
+  const label = `${mode}${mobile ? " mobile" : ""}`;
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodyClasses = mobile ? [mode, "is-mobile"] : [mode];
+  const body = createElement("body", bodyClasses);
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+  const bodyResolved = resolveSpecified(bodySpecified).entries;
+
+  const radius = (tag, classes) => {
+    const el = createElement(tag, classes);
+    return formatValue(
+      resolveElementProperty(el, [html, body], env, bodySpecified, "border-radius")
+    );
+  };
+
+  const button = radius("button", []);
+  const field = radius("input", [], "text");
+  const icon = radius("div", ["clickable-icon"]);
+
+  if (button === field) {
+    failures.push(
+      `${label} control shape: the button and the field both round at ${button}; they are separate roles`
+    );
+  }
+  const expected = {
+    button: formatValue(bodyResolved.get("--button-radius")),
+    icon: formatValue(bodyResolved.get("--clickable-icon-radius"))
+  };
+  for (const [what, got, want] of [
+    ["button", button, expected.button],
+    ["icon", icon, expected.icon]
+  ]) {
+    if (got !== want) {
+      failures.push(`${label} control shape: the ${what} rounds at ${got} but its role is ${want}`);
+    }
+  }
+  if (mobile && icon !== "44px") {
+    failures.push(
+      `${label} control shape: the icon corner is ${icon}; the platform's 44px touch radius must reach it`
     );
   }
 }

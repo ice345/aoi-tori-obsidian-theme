@@ -502,6 +502,28 @@ mattered more than its fill: canvas is already the deepest surface, so mixing it
 would move it toward the page rather than away. Its remedy is the outer boundary, which the
 structural role already provides.
 
+### Control shape roles
+
+A button, a field and an icon are different objects and no longer share one corner. The roles are
+declared once in `primitives.css` and mapped onto Obsidian's own interfaces:
+
+| Role                          | Primitive                | Interface                 | Start |
+| ----------------------------- | ------------------------ | ------------------------- | ----- |
+| Text button, CTA, destructive | `--aoi-radius-button`    | `--button-radius`         | 10px  |
+| Field, select, dropdown       | `--aoi-radius-field`     | `--input-radius`          | 8px   |
+| Dense toolbar icon            | `--aoi-radius-icon`      | `--clickable-icon-radius` | 8px   |
+| Grouped tool button           | `--aoi-radius-toolgroup` | Canvas group rule         | 12px  |
+
+`--button-radius` and `--clickable-icon-radius` are declared on `body`, not in the mode layer.
+Native declares both on `body` and then rebinds the icon one on `.is-mobile` to the 44px touch size.
+A mode-layer declaration is a class selector and would outrank `.is-mobile`, so a phone would keep
+the desktop corner and the platform's touch geometry would never arrive. Declared on `body`, the
+platform still wins where it has an opinion and the theme supplies the rest.
+
+`--input-radius` stays in the mode layer on purpose: fields keep 8px in every mode, because a field
+is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
+touch affordance, so it belongs to the platform.
+
 ### Contrast and border settings
 
 Four settings touch accessibility, and the audit asks for their responsibilities to be written down
