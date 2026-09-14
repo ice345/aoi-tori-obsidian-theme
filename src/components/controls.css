@@ -14,7 +14,7 @@ button:where(:not(.clickable-icon)),
   /* Buttons and fields were both reading `--input-radius`, so a button could not round further
      than the field beside it without moving every input. The audit's G02 splits the roles. */
   border-radius: var(--button-radius);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--aoi-shadow-control);
   transition:
     color var(--anim-duration-fast) var(--anim-motion-smooth),
     background-color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -26,7 +26,7 @@ button:where(:not(.clickable-icon)),
 button:hover:where(:not(.clickable-icon)) {
   background-color: var(--interactive-hover);
   border-color: var(--background-modifier-border-hover);
-  box-shadow: var(--input-shadow-hover);
+  box-shadow: var(--aoi-shadow-control-hover);
 }
 
 button.mod-cta {
@@ -106,7 +106,7 @@ select,
   background-color: var(--input-text-bg-color);
   border: var(--input-border-width) solid var(--input-unfocused-border-color);
   border-radius: var(--input-radius);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--aoi-shadow-field);
   transition:
     background-color var(--anim-duration-fast) var(--anim-motion-smooth),
     border-color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -125,7 +125,16 @@ select:hover,
 .dropdown:hover {
   background-color: var(--background-modifier-form-field-hover);
   border-color: var(--input-hover-border-color);
-  box-shadow: var(--input-shadow-hover);
+  box-shadow: var(--aoi-shadow-field-hover);
+}
+
+/* Native declares `select:not(:disabled):not(.mod-disabled):hover` with `--input-shadow-hover`,
+   three pseudo-classes and an element, so a plain `select:hover` loses to it and a select kept the
+   lift the field role just removed. The guard mirrors the native selector to reach the same
+   specificity, and the fill and border still carry the hover. */
+select:not(:disabled):not(.mod-disabled):hover,
+.dropdown:not(:disabled):not(.mod-disabled):hover {
+  box-shadow: var(--aoi-shadow-field-hover);
 }
 
 input::placeholder,

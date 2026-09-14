@@ -187,6 +187,11 @@ body {
   border-radius: var(--canvas-controls-radius);
 }
 
+body {
+  --border-width: 1px;
+  --input-border-width: var(--border-width);
+}
+
 .canvas-control-item {
   border-radius: 0px;
 }
@@ -256,12 +261,21 @@ function collectRules(rules, mediaStack) {
         return;
       }
       /* A shorthand is kept as one unparsed declaration and its first token is the width,
-         so `border-inline-start: var(--x) solid var(--y)` is read as the start width. */
-      if (name === "border-inline-start" && WATCHED_PROPERTIES.has("border-inline-start-width")) {
-        const first = (Array.isArray(value) ? value : []).find(
+         so `border-inline-start: var(--x) solid var(--y)` is read as the start width. The plain
+         `border` shorthand needs the same treatment: the theme and native both write
+         `border: 1px solid var(...)`, so without this a `border-top-width` lookup finds nothing
+         and an assertion on it compares `<missing>` with `<missing>`, which can never fail. */
+      const firstToken = (input) =>
+        (Array.isArray(input) ? input : []).find(
           (token) => !(token.type === "token" && token.value.type === "white-space")
         );
+      if (name === "border-inline-start" && WATCHED_PROPERTIES.has("border-inline-start-width")) {
+        const first = firstToken(value);
         if (first) properties.set("border-inline-start-width", [first]);
+      }
+      if (name === "border" && WATCHED_PROPERTIES.has("border-top-width")) {
+        const first = firstToken(value);
+        if (first) properties.set("border-top-width", [first]);
       }
     };
 
@@ -2100,16 +2114,21 @@ for (const mode of ["theme-light", "theme-dark"]) {
       failures.push(`theme-dark ${why}: ${property} resolved to ${got}, expected ${expected}`);
   }
 
-  /* The guard must not cost an enabled control its feedback. */
-  const hovers = formatRawValue(
-    resolveElementProperty(field(["hover"]), [html, body], env, bodySpecified, "box-shadow")
-  );
-  const restShadow = formatRawValue(
-    resolveElementProperty(field([]), [html, body], env, bodySpecified, "box-shadow")
-  );
-  if (hovers === "none" || hovers === restShadow) {
+  /* The guard must not cost an enabled control its feedback. A field signals hover through its
+     fill and its border rather than through a shadow (G06), so the invariant is that hovering an
+     enabled field changes something, not that it lifts. */
+  const feedback = ["background-color", "border-top-color", "box-shadow"].filter((property) => {
+    const rest = formatRawValue(
+      resolveElementProperty(field([]), [html, body], env, bodySpecified, property)
+    );
+    const hover = formatRawValue(
+      resolveElementProperty(field(["hover"]), [html, body], env, bodySpecified, property)
+    );
+    return rest !== hover;
+  });
+  if (feedback.length === 0) {
     failures.push(
-      `theme-dark enabled field: hover box-shadow is ${hovers}, the same as rest ${restShadow}; the disabled guard is too broad`
+      "theme-dark enabled field: hovering changes nothing at all; the disabled guard is too broad"
     );
   }
 }
@@ -2183,14 +2202,46 @@ for (const [mode, mobile] of [
     return formatValue(resolveElementProperty(el, [html, body], env, bodySpecified, property));
   };
 
-  for (const property of ["border-top-width", "background-color"]) {
-    const asDiv = read("div", ["clickable-icon"], property);
-    const asButton = read("button", ["clickable-icon"], property);
-    if (asDiv !== asButton) {
-      failures.push(
-        `theme-dark icon control: ${property} is ${asDiv} on a div and ${asButton} on a button; an icon must not inherit the text-button surface`
-      );
-    }
+  /* Compare after normalising what "no border" looks like. Native writes `button { border: 0px }`,
+     so a button icon can resolve a real `0px` where a div icon resolves nothing at all; raw
+     equality would then fail in the correct state and invite the repair of giving the div a
+     border, which is the opposite of the intent. The invariant is that neither form carries a
+     text-button border or surface. */
+  /* Read through the raw formatter: `transparent` is not a kind `formatValue` names, so it comes
+     back as the string "undefined" and would read as a real surface. */
+  const readRaw = (tag, classes, property) =>
+    formatRawValue(
+      resolveElementProperty(
+        createElement(tag, classes),
+        [html, body],
+        env,
+        bodySpecified,
+        property
+      )
+    );
+  const isAbsent = (value) =>
+    value === "<missing>" ||
+    value === "undefined" ||
+    value === "none" ||
+    value === "transparent" ||
+    value === "0px" ||
+    value === "0" ||
+    /^rgba?\(\s*0,\s*0,\s*0,\s*0\s*\)$/.test(value) ||
+    /* A fully transparent colour serialises as an object rather than a string. */
+    /"alpha"\s*:\s*0\b/.test(value);
+  const borderDiv = readRaw("div", ["clickable-icon"], "border-top-width");
+  const borderButton = readRaw("button", ["clickable-icon"], "border-top-width");
+  if (!isAbsent(borderDiv) || !isAbsent(borderButton)) {
+    failures.push(
+      `theme-dark icon control: border-top-width is ${borderDiv} on a div and ${borderButton} on a button; an icon carries no text-button border`
+    );
+  }
+  const surfaceDiv = readRaw("div", ["clickable-icon"], "background-color");
+  const surfaceButton = readRaw("button", ["clickable-icon"], "background-color");
+  if (isAbsent(surfaceDiv) !== isAbsent(surfaceButton)) {
+    failures.push(
+      `theme-dark icon control: background-color is ${surfaceDiv} on a div and ${surfaceButton} on a button; an icon must not inherit the text-button surface`
+    );
   }
 
   /* The field hover rule must not reach controls the theme does not style. */

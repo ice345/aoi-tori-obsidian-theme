@@ -80,6 +80,21 @@ and evidence-based.
   theme's role is 12px and it is declared on `body` for the same reason as the icon radius, so
   `.is-mobile` can still supply the 40px touch radius. Measured: group 12px, items 0px, overflow
   hidden.
+- G06, shadow roles. A field and a button shared `--input-shadow` and `--input-shadow-hover`, so
+  every settings row read as a small card. A field is bounded by its border, which already carries
+  the 3:1 control floor, so it needs no outer lift; a button keeps one because it is a discrete
+  action. The roles are separate tokens (`--aoi-shadow-control`, `--aoi-shadow-field`), and
+  `--input-shadow` points at the control role rather than the field one because native consumes it
+  for surfaces the theme does not own - selects, combobox buttons, the Canvas group. That is the
+  value it already held, so those consumers are unchanged. Native's
+  `select:not(:disabled):not(.mod-disabled):hover` is three pseudo-classes and an element and beat a
+  plain `select:hover`, so the fill guard is mirrored to keep selects consistent with fields.
+- While here: `--aoi-radius-field` was documented in DESIGN.md but never consumed - the field was
+  still reading `--radius-m`. Both are 8px so nothing rendered differently, but doc and source
+  disagreed; the field now reads its own role.
+- The disabled-field guard assertion was reworded. It required a hover shadow, which was the correct
+  test before G06 and the wrong one after: a field now signals hover through fill and border. It
+  asks that hovering an enabled field changes something.
 - Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
 
 ## 2026-09-14 Callout icon integration

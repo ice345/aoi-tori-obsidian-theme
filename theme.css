@@ -630,7 +630,7 @@ settings:
   --callout-border-opacity: 0.34;
   --input-height: 34px;
   --input-padding: 0 var(--size-4-2);
-  --input-radius: var(--radius-m);
+  --input-radius: var(--aoi-radius-field);
   --input-border-width-focus: 1px;
   --metadata-border-radius: var(--radius-m);
   --metadata-property-radius: var(--radius-s);
@@ -793,8 +793,12 @@ body {
   --input-focus-border-color: var(--aoi-focus-blue);
   --input-disabled-border-color: var(--aoi-cloud-shadow);
   --input-focus-outline: 2px solid var(--aoi-focus-blue);
-  --input-shadow: 0 1px 2px var(--background-modifier-box-shadow);
-  --input-shadow-hover: 0 2px 7px var(--background-modifier-box-shadow);
+  --aoi-shadow-control: 0 1px 2px var(--background-modifier-box-shadow);
+  --aoi-shadow-control-hover: 0 2px 8px var(--background-modifier-box-shadow);
+  --aoi-shadow-field: none;
+  --aoi-shadow-field-hover: none;
+  --input-shadow: var(--aoi-shadow-control);
+  --input-shadow-hover: var(--aoi-shadow-control-hover);
   --aoi-workspace-left-surface: var(--aoi-air-cyan-white);
   --aoi-workspace-right-surface: var(--aoi-air-blush-white);
   --aoi-workspace-bridge-surface: var(--aoi-air-bridge-white);
@@ -1129,8 +1133,12 @@ body {
   --input-focus-border-color: var(--aoi-night-cobalt);
   --input-disabled-border-color: var(--aoi-night-panel);
   --input-focus-outline: 2px solid var(--aoi-night-cobalt);
-  --input-shadow: 0 1px 2px var(--background-modifier-box-shadow);
-  --input-shadow-hover: 0 2px 8px var(--background-modifier-box-shadow);
+  --aoi-shadow-control: 0 1px 2px var(--background-modifier-box-shadow);
+  --aoi-shadow-control-hover: 0 2px 8px var(--background-modifier-box-shadow);
+  --aoi-shadow-field: none;
+  --aoi-shadow-field-hover: none;
+  --input-shadow: var(--aoi-shadow-control);
+  --input-shadow-hover: var(--aoi-shadow-control-hover);
   --aoi-workspace-left-surface: var(--aoi-night-left);
   --aoi-workspace-right-surface: var(--aoi-night-right);
   --aoi-workspace-bridge-surface: var(--aoi-night-surface);
@@ -2062,7 +2070,7 @@ button:where(:not(.clickable-icon)),
   background-color: var(--interactive-normal);
   border: var(--input-border-width) solid var(--background-modifier-border);
   border-radius: var(--button-radius);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--aoi-shadow-control);
   transition:
     color var(--anim-duration-fast) var(--anim-motion-smooth),
     background-color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -2074,7 +2082,7 @@ button:where(:not(.clickable-icon)),
 button:hover:where(:not(.clickable-icon)) {
   background-color: var(--interactive-hover);
   border-color: var(--background-modifier-border-hover);
-  box-shadow: var(--input-shadow-hover);
+  box-shadow: var(--aoi-shadow-control-hover);
 }
 
 button.mod-cta {
@@ -2146,7 +2154,7 @@ select,
   background-color: var(--input-text-bg-color);
   border: var(--input-border-width) solid var(--input-unfocused-border-color);
   border-radius: var(--input-radius);
-  box-shadow: var(--input-shadow);
+  box-shadow: var(--aoi-shadow-field);
   transition:
     background-color var(--anim-duration-fast) var(--anim-motion-smooth),
     border-color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -2162,7 +2170,12 @@ select:hover,
 .dropdown:hover {
   background-color: var(--background-modifier-form-field-hover);
   border-color: var(--input-hover-border-color);
-  box-shadow: var(--input-shadow-hover);
+  box-shadow: var(--aoi-shadow-field-hover);
+}
+
+select:not(:disabled):not(.mod-disabled):hover,
+.dropdown:not(:disabled):not(.mod-disabled):hover {
+  box-shadow: var(--aoi-shadow-field-hover);
 }
 
 input::placeholder,

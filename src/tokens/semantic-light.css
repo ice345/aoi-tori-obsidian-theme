@@ -147,8 +147,21 @@
   --input-focus-border-color: var(--aoi-focus-blue);
   --input-disabled-border-color: var(--aoi-cloud-shadow);
   --input-focus-outline: 2px solid var(--aoi-focus-blue);
-  --input-shadow: 0 1px 2px var(--background-modifier-box-shadow);
-  --input-shadow-hover: 0 2px 7px var(--background-modifier-box-shadow);
+
+  /* Audit G06. A field and a button are not the same object, and giving both the same resting
+     lift is what made a long settings page read as a tray of small cards. A field is bounded by
+     its border, which already carries the 3:1 control floor, so it does not need an outer
+     shadow to be located; a button keeps one because it is a discrete action. Native consumes
+     `--input-shadow` for surfaces this theme does not own - selects, combobox buttons and the
+     Canvas group - so the roles are separate tokens and `--input-shadow` now points at the
+     control role. That is the value it already held, so those native consumers are unchanged;
+     pointing it at the field role would have quietly flattened them. */
+  --aoi-shadow-control: 0 1px 2px var(--background-modifier-box-shadow);
+  --aoi-shadow-control-hover: 0 2px 8px var(--background-modifier-box-shadow);
+  --aoi-shadow-field: none;
+  --aoi-shadow-field-hover: none;
+  --input-shadow: var(--aoi-shadow-control);
+  --input-shadow-hover: var(--aoi-shadow-control-hover);
 
   /* Workspace */
   --aoi-workspace-left-surface: var(--aoi-air-cyan-white);

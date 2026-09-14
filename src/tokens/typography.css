@@ -97,7 +97,7 @@
   --callout-border-opacity: 0.34;
   --input-height: 34px;
   --input-padding: 0 var(--size-4-2);
-  --input-radius: var(--radius-m);
+  --input-radius: var(--aoi-radius-field);
   --input-border-width-focus: 1px;
   --metadata-border-radius: var(--radius-m);
   --metadata-property-radius: var(--radius-s);

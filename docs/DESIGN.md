@@ -520,6 +520,13 @@ A mode-layer declaration is a class selector and would outrank `.is-mobile`, so 
 the desktop corner and the platform's touch geometry would never arrive. Declared on `body`, the
 platform still wins where it has an opinion and the theme supplies the rest.
 
+A field and a button do not share a lift. A field is bounded by its border, which already carries
+the 3:1 control floor, so it carries no outer shadow and signals hover through its fill and border;
+a button keeps a light resting shadow and lifts on hover, because it is a discrete action. Overlays
+keep their own layer shadow. Native consumes `--input-shadow` for surfaces the theme does not own -
+selects, combobox buttons, the Canvas group - so the roles are separate tokens and `--input-shadow`
+points at the control role, which is the value it already held.
+
 An icon control renders identically whether a plugin builds it from a `div` or a `button`: the
 text-button surface, border and shadow are excluded with `:where(:not(.clickable-icon))`, which
 leaves the element selector's specificity alone. The field hover rule lists the same input types as
