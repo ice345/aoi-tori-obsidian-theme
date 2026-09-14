@@ -3,6 +3,105 @@
 This project is complex enough to justify a durable execution plan. Keep this file concise, current,
 and evidence-based.
 
+## 2026-09-14 control geometry and atmosphere audit
+
+- Scope: audit square-looking buttons and theme-wide aesthetic gaps; produce a Chinese problem,
+  implementation and acceptance report. Documentation only, preserving the uncommitted icon
+  integration and all theme source. Compare current native CSS rather than assuming all buttons have
+  the same DOM or radius.
+- Method: source/official-reference review plus isolated native-CSS computed controls and state
+  checks; distinguish confirmed cascade defects, aesthetic recommendations and untested surfaces.
+- Status: batch 1 done. G03 and G04 are fixed and gated; batches 2-4 are open.
+- G03, dark mobile hover. Native `.is-mobile.theme-dark` is two classes, so it outranks the theme's
+  single `.theme-dark` and re-points `--interactive-normal` and `--interactive-hover` at the two
+  border tokens. On a phone a normal button's resting fill became the border colour and its hover
+  fill the sky accent `#7FC3E8`, under `--text-normal`: measured **1.60:1** on an enabled button
+  carrying text. The fix names the control surfaces as their own role in the semantic layer
+  (`--aoi-control-surface`, `--aoi-control-surface-hover`, `--aoi-field-surface`,
+  `--aoi-hover-surface`) and restores them from `body.theme-dark.is-mobile`, which is two classes
+  and an element and so outranks the native rule on specificity rather than on load order. Hover is
+  now **7.51:1**. Same root cause also left the field fill equal to its own border.
+- G03b, an unreported failure the audit did not list. Native `.is-mobile button.mod-warning` sets
+  `background-color: var(--interactive-normal)`, so a delete button lost the rose surface it has on
+  the desktop. Against the border-coloured fill its resting text measured **3.91:1**, below the
+  4.5:1 floor for enabled text. Restoring the destructive fill under `body.is-mobile` puts it at
+  **7.36:1** on the intended `#3b1f2a`. The text colour was already correct.
+- G04, disabled states. The disabled block was declared before the enabled rules, and
+  `input[type="text"]` and `input:hover` are both one pseudo-class and an element, so they
+  re-applied the fill, the border and the shadow to a disabled field. Native's
+  `textarea:disabled, input[type="date"]:disabled, ...` is two pseudo-classes and an element, so the
+  theme also lost the opacity and rendered native's 0.5 instead of 0.68. The block now comes last
+  and carries the attribute forms, and the press decoration is guarded with
+  `:where(:not(:disabled):not([aria-disabled="true"]))` so it stays at base specificity. Measured:
+  opacity 0.5 to 0.68, resting shadow and hover lift gone, press displacement gone, and enabled
+  controls keep their hover shadow and their 1px press.
+- Gate. `npm run scenarios` gains the native mobile rules in its contract, an assertion that the
+  control surfaces resolve identically on the desktop and on a phone in both modes, and an assertion
+  that a disabled field has no shadow and no fill change on hover while an enabled one keeps its
+  hover shadow. Reverting the token fix reports
+  `--interactive-hover is #394b58 on the desktop and #7fc3e8 on a phone`; reverting the disabled
+  scoping reports the resting shadow, the hover lift and the fill change. `box-shadow`, `opacity`
+  and `transform` joined the watched properties.
+- Not covered: real touch on a device, real pointer hover, RTL, and the shapes of batches 2-4.
+
+## 2026-09-14 Callout icon integration
+
+- Authorized: integrate the accepted original icons into theme source, default 22 px icons and
+  circular badges, align the custom Callouts with the preview, publish a consolidated usage guide,
+  and feature them in README. Existing concept changes belong to this task and are preserved.
+- Naming: `aoi-` namespace for new types; `aoi-tori` remains the falling feather. Provide distinct
+  light/ink feather types; keep `second-voice` and previously previewed instrument names as aliases.
+- Implementation: a dedicated imported CSS module with native SVG strings, semantic geometry and
+  color roles, standard-type fallback isolation, and no plugin dependency. Keep native fold icons.
+- Validation planned: generated CSS, native SVG parsing behavior, deep/light surfaces, nesting,
+  aliases and complete repository check; distinguish isolated rendering from actual-client tests.
+- Status: complete. Added `src/editor/callout-icons.css`, semantic defaults, consolidated
+  `docs/CALLOUTS.md`, a README icon illustration and copyable examples; updated preview defaults,
+  architecture/design/DOM/testing records, and alias/nesting regression checks.
+- Validation: `npm run check` passes; isolated native-CSS rendering passed 858 assertions and both
+  modes were visually inspected. Generated `theme.css` rebuilt from source; `git diff --check`
+  passes. Original/native stroke tests use float tolerance for Lightning CSS float32 numbers.
+- Remaining: actual-client folding/keyboard, physical devices, forced-colors visual verification,
+  and 1.14.x testing. The existing local test-vault link targets a different checkout and was
+  preserved. No commit, push, version bump or release performed.
+
+## 2026-09-14 expanded icon study
+
+- User follow-up: add trumpet, distinguish tuba/euphonium structurally, and draw additional original
+  motifs informed by the official film site and interview. Extend the existing concept page and
+  recommendation; preserve the theme source and all earlier candidates.
+- Decision: select a rotary tuba and piston euphonium as distinguishable representative forms, not
+  universal instrument definitions. Atmospheric motifs are design interpretations, not claims of
+  official symbols. Existing uncommitted concept files belong to this ongoing task.
+- Status: complete. Added trumpet and six atmospheric motifs, redrew the two low-brass icons, and
+  expanded the page to 15 candidates with a separate equal-size brass comparison. Updated the
+  Chinese recommendation with source distinctions, purposes, and remaining recognition risks.
+- Validation: all 15 SVGs parse as XML; nine new/revised selections and mode/size/badge controls
+  verified in the in-app browser; light/dark visual inspection and 390 px layout without overflow.
+  `npm run check` and `git diff --check` pass. Generated `theme.css` remains byte-identical at the
+  SHA-256 recorded below. No theme integration, dependency, or release changes.
+- Remaining: real Obsidian rendering and instrument-recognition validation before integration.
+
+## 2026-09-14 original Callout icon study
+
+- Scope: explore a more feather-like Aoi Tori mark and original flute, oboe, tuba/euphonium and duet
+  motifs, with small-size and light/dark previews. Preserve the current repaired theme.
+- Decision: the user's request opens original icon design beyond the earlier native-icon-first
+  recommendation. This is a concept study, not permission to copy reference outlines or replace
+  native safety/control icons. No theme integration or new runtime dependency in this pass.
+- Deliver original SVG concepts and a self-contained comparison page under
+  `docs/concepts/callout-icons-2026-09-14/`, plus a Chinese design recommendation.
+- Status: complete. Delivered eight original SVGs, a standalone interactive comparison page, and a
+  Chinese design/integration recommendation. Reviewed reference imagery and official
+  narrative/instrument sources; no borrowed SVG paths or bundled reference artwork.
+- Validation: SVG XML parsing, isolated Chromium light/dark screenshots, all eight selections,
+  size/badge/mode controls, and a 390 px layout without horizontal overflow. The narrow-layout theme
+  button was subsequently constrained to one line. `npm run check` and `git diff --check` pass.
+  Generated `theme.css` remains byte-identical (SHA-256
+  `acc216c811128b0e9f9bae1995446740de0b9e34a9d7270eb529079f16510932`).
+- Remaining: actual Obsidian SVG injection, native style interaction, accessibility/device
+  verification, and instrument recognition testing before integration. Theme source is unchanged.
+
 ## 2026-09-13 dark surface audit and repair proposal
 
 - Scope: investigate the supplied dark Callout screenshot and adjacent component surfaces; deliver

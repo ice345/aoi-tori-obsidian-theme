@@ -1,0 +1,680 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aoi Tori · Callout icon study</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --paper: #fbfaf8;
+        --panel: #f5f8f7;
+        --ink: #292b3b;
+        --muted: #586c7d;
+        --edge: #d7e1e0;
+        --blue: #245f90;
+        --voice: #66537d;
+        --wash: #eaf4f4;
+        --blush: #f5eff4;
+      }
+      :root[data-mode="dark"] {
+        color-scheme: dark;
+        --paper: #222a30;
+        --panel: #2c343c;
+        --ink: #e5ebeb;
+        --muted: #b8c4c8;
+        --edge: #46535f;
+        --blue: #8aadd9;
+        --voice: #c2b1da;
+        --wash: #283843;
+        --blush: #36323e;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font:
+          15px/1.65 -apple-system,
+          BlinkMacSystemFont,
+          "PingFang SC",
+          sans-serif;
+      }
+      main {
+        max-width: 1080px;
+        margin: auto;
+        padding: 40px 36px 32px;
+      }
+      header {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 24px;
+        border-bottom: 1px solid var(--edge);
+        padding-bottom: 24px;
+      }
+      #theme {
+        flex-shrink: 0;
+        white-space: nowrap;
+      }
+      .kicker {
+        font-size: 11px;
+        letter-spacing: 2px;
+        color: var(--muted);
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: 500;
+        letter-spacing: 1px;
+        margin: 8px 0 3px;
+      }
+      .sub {
+        color: var(--muted);
+        font-size: 13px;
+        margin: 0;
+      }
+      button,
+      select {
+        font: inherit;
+        color: var(--ink);
+        background: var(--panel);
+        border: 1px solid var(--edge);
+        border-radius: 6px;
+        padding: 6px 12px;
+        cursor: pointer;
+      }
+      button:focus-visible,
+      select:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: 1.08fr 1fr;
+        gap: 38px;
+        margin-top: 28px;
+      }
+      .section-label {
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 1px;
+        margin: 0 0 15px;
+      }
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 6px;
+      }
+      .pick {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 9px;
+        border: 1px solid transparent;
+        background: none;
+        padding: 20px 4px 15px;
+        min-width: 0;
+      }
+      .pick[aria-pressed="true"] {
+        background: var(--wash);
+        border-color: var(--blue);
+      }
+      .pick svg {
+        width: 46px;
+        height: 46px;
+        color: var(--blue);
+      }
+      .pick[data-id="oboe"] svg,
+      .pick[data-id="duet"] svg {
+        color: var(--voice);
+      }
+      .pick span {
+        font-size: 12px;
+        white-space: nowrap;
+      }
+      .detail {
+        border-top: 1px solid var(--edge);
+        margin-top: 22px;
+        padding-top: 16px;
+      }
+      .detail h2 {
+        font-size: 16px;
+        font-weight: 500;
+        margin: 0;
+      }
+      .detail p {
+        color: var(--muted);
+        font-size: 13px;
+        min-height: 44px;
+        margin: 6px 0 16px;
+      }
+      .scale {
+        display: flex;
+        gap: 35px;
+        align-items: end;
+      }
+      .sample {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 7px;
+        color: var(--blue);
+      }
+      .sample small {
+        font-size: 11px;
+        color: var(--muted);
+      }
+      .controls {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+      .controls select {
+        font-size: 12px;
+        padding: 5px;
+      }
+      .mock {
+        background: var(--panel);
+        border-left: 2px solid var(--blue);
+        border-radius: 0 8px 8px 0;
+        padding: 18px 20px;
+        margin: 0 0 18px;
+        background-image: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--blue) 4%, transparent),
+          transparent 70%
+        );
+      }
+      .mock.secondary {
+        border-color: var(--voice);
+        background-image: linear-gradient(
+          135deg,
+          color-mix(in srgb, var(--voice) 4%, transparent),
+          transparent 70%
+        );
+      }
+      .mock-title {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        font-weight: 500;
+      }
+      .mock-icon {
+        width: 28px;
+        height: 28px;
+        flex: 0 0 28px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--blue);
+      }
+      .mock-icon svg {
+        width: 22px;
+        height: 22px;
+      }
+      .secondary .mock-icon {
+        color: var(--voice);
+      }
+      .mock-icon.badge {
+        border-radius: 50%;
+        background: color-mix(in srgb, currentColor 10%, transparent);
+      }
+      .mock p {
+        margin: 14px 0 0;
+        font-size: 14px;
+        line-height: 1.9;
+      }
+      .namehint {
+        font-size: 11px;
+        color: var(--muted);
+        margin-top: 9px;
+      }
+      .duo {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        padding: 14px 0;
+      }
+      .duo svg {
+        width: 30px;
+        height: 30px;
+        color: var(--blue);
+      }
+      .duo svg:nth-child(2) {
+        color: var(--voice);
+      }
+      footer {
+        margin-top: 26px;
+        padding-top: 16px;
+        border-top: 1px solid var(--edge);
+        font-size: 11px;
+        color: var(--muted);
+        display: flex;
+        gap: 20px;
+        justify-content: space-between;
+      }
+      .badge-toggle {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .badge-toggle input {
+        accent-color: var(--blue);
+      }
+      @media (max-width: 730px) {
+        main {
+          padding: 24px 18px;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+          gap: 25px;
+        }
+        header {
+          gap: 10px;
+        }
+        h1 {
+          font-size: 23px;
+        }
+        footer {
+          display: block;
+        }
+        .pick {
+          padding: 16px 2px;
+        }
+        .pick svg {
+          width: 40px;
+          height: 40px;
+        }
+      }
+      .layout > section:nth-child(2) {
+        position: sticky;
+        top: 24px;
+        align-self: start;
+      }
+      .brass-review,
+      .concept-note {
+        border-top: 1px solid var(--edge);
+        margin-top: 28px;
+        padding-top: 22px;
+      }
+      .brass-pair {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        margin-bottom: 16px;
+      }
+      .brass-item strong {
+        font-size: 13px;
+        font-weight: 500;
+      }
+      .brass-item > div {
+        display: flex;
+        gap: 30px;
+        align-items: end;
+        margin-top: 18px;
+      }
+      .concept-note p {
+        font-size: 13px;
+        color: var(--muted);
+        max-width: 740px;
+      }
+      .concept-note a {
+        color: var(--blue);
+        font-size: 13px;
+      }
+      a:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+      }
+      @media (max-width: 730px) {
+        .layout > section:nth-child(2) {
+          position: static;
+        }
+        .brass-pair {
+          grid-template-columns: 1fr;
+        }
+        .brass-item > div {
+          gap: 32px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div>
+          <div class="kicker">AOI TORI / ORIGINAL ICON STUDY / 02</div>
+          <h1>一片羽毛，两个声部。</h1>
+          <p class="sub">15 个原创候选 · 新增小号与六种意象 · 重画低音铜管</p>
+        </div>
+        <button id="theme" type="button" aria-label="切换深浅模式">切换暗色</button>
+      </header>
+      <div class="layout">
+        <section aria-label="图标候选">
+          <p class="section-label">01 / 羽毛、乐器与日常意象</p>
+          <div class="gallery" id="gallery"></div>
+          <div class="detail" aria-live="polite">
+            <h2 id="name"></h2>
+            <p id="description"></p>
+            <div class="scale" id="scale"></div>
+          </div>
+        </section>
+        <section aria-label="Callout 使用预览">
+          <p class="section-label">02 / 放回笔记里</p>
+          <div class="controls">
+            <label for="size">图标尺寸</label
+            ><select id="size">
+              <option value="18">18 px · 小尺寸</option>
+              <option value="22" selected>22 px · 默认</option>
+              <option value="24">24 px</option></select
+            ><label class="badge-toggle"
+              ><input type="checkbox" id="badge" checked />圆形底托</label
+            >
+          </div>
+          <div class="mock">
+            <div class="mock-title">
+              <span class="mock-icon badge" id="main-icon"></span
+              ><span id="sample-title">把这一页轻轻留住</span>
+            </div>
+            <p id="sample-body">
+              有些话还没有说完，先让它停在这里。<br />等下一次翻到这一页，再听见它。
+            </p>
+            <div class="namehint" id="type-name">[!aoi-tori]</div>
+          </div>
+          <div class="mock secondary">
+            <div class="mock-title">
+              <span class="mock-icon badge" id="second-icon"></span><span>另一个声音</span>
+            </div>
+            <p>同一个问题，也许可以从稍远一点的地方，再看一次。</p>
+            <div class="namehint">[!aoi-duet]</div>
+          </div>
+          <div class="duo" id="duo"></div>
+          <p class="sub">长笛与双簧管 · 同一线宽，不同的呼吸方向</p>
+        </section>
+      </div>
+      <section class="brass-review" aria-label="低音铜管轮廓比较">
+        <p class="section-label">03 / 同尺寸比较 · 结构比大小更重要</p>
+        <div id="brass-pair" class="brass-pair"></div>
+        <p class="sub">
+          大号：宽腹、侧向转阀。上低音号：修长回管、竖向活塞。选取代表形制，不代表所有型号。
+        </p>
+      </section>
+      <section class="concept-note">
+        <p class="section-label">04 / 把空气感放在哪里</p>
+        <p>
+          纸白与冷雾托住轮廓，蓝色与柔紫点到为止。窗、换气、脚步与书页，是对透明感、微小日常和距离的原创转译，不是官方符号。
+        </p>
+        <a href="README.md">查看完整设计依据与用途 →</a>
+      </section>
+      <footer>
+        <span>原创图标已接入主题；此页为独立预览。默认 22 px 与圆形底托。</span
+        ><span>24 × 24 网格 / 1.25 线宽 / 单色继承</span>
+      </footer>
+    </main>
+    <script>
+      const icons = [
+        {
+          id: "feather-air",
+          name: "轻羽 / 线稿",
+          desc: "空气感最好，18px 时略轻；适合作为轻量备选。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="轻羽 / 线稿"><path d="M7.1 18.9C3.8 14.8 7.4 6.5 17.9 3.3C19 7.5 18.2 11.1 15.7 13.5L13.3 14.1M14.6 15.4C12.2 17.8 9.7 19 7.1 18.9"/><path d="M5.6 21.5C8.1 15.6 12.5 9.7 16.2 5.4M8.4 16.5L7.1 12.9M10.8 12.4L15.2 10.8"/></svg>'
+        },
+        {
+          id: "feather-drift",
+          name: "落羽 / 推荐",
+          desc: "弯曲羽轴、不对称羽片与少量缺口；让羽毛有重量，也有飘落的方向。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="落羽 / 推荐"><path fill="currentColor" fill-opacity=".22" stroke="none" d="M16.9 6.3C19.5 8.1 20.1 11.5 17.9 14.9L15.5 15.4L16.5 16.3C13.7 20.1 8.8 21 4.2 20.6C7.7 17.4 6.5 12.7 10.7 9.4L11.2 11L12.8 7.5Z"/><path d="M16.9 6.3C19.5 8.1 20.1 11.5 17.9 14.9L15.5 15.4L16.5 16.3C13.7 20.1 8.8 21 4.2 20.6C7.7 17.4 6.5 12.7 10.7 9.4L11.2 11L12.8 7.5"/><path d="M18.1 2.1C18.2 8.5 13.2 16.2 6.2 19.8M13.6 12.8L16.3 11.7"/></svg>'
+        },
+        {
+          id: "feather-ink",
+          name: "墨羽 / 剪影",
+          desc: "小尺寸最醒目，气质更像书页上的蓝色印记。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="墨羽 / 剪影"><path fill="currentColor" stroke="none" d="M17.5 5.8C20.3 8.4 20.1 12.3 17.7 15.3L15.2 15.7L16.3 16.6C13.4 20.4 8.6 21.4 3.6 20.4C6.7 18.1 7.1 14.7 8.1 12.8L10.1 13.3L9.1 10.9C10.6 8.5 12.8 7.1 15.1 6.4C14.4 11.6 10.4 16.6 6.1 19.6C12.6 16.1 16 10.9 17.5 5.8Z"/><path d="M17.4 6.2L18.5 2.2"/></svg>'
+        },
+        {
+          id: "flute",
+          name: "长笛 / Flute",
+          desc: "横向管身、吹孔与稀疏键位；保留长笛的横吹方向。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="长笛 / Flute"><path d="M2 10.9H21.8V13.2H2Z"/><path d="M3.3 10.9V13.2M8.1 10.9V13.2M18.6 10.9V13.2"/><ellipse cx="5.7" cy="10.7" rx="1.25" ry=".8"/><path d="M10.1 10.7V9.3M13 10.7V9.3M15.9 10.7V9.3M19.7 13.3V14.5"/><path d="M9.5 9.3H10.7M12.4 9.3H13.6M15.3 9.3H16.5M19.1 14.5H20.3"/></svg>'
+        },
+        {
+          id: "oboe",
+          name: "双簧管 / Oboe",
+          desc: "纤细双簧、纵向管身与小幅展开的喇叭口。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="双簧管 / Oboe"><path d="M11.65 2H12.35L12.7 5.3H11.3Z"/><path d="M11.1 5.3H12.9L13.7 17.5L15 21.5H9L10.3 17.5Z"/><path d="M10.2 18.3H13.8M9.5 20.4H14.5M13.3 8H14.5M13.5 11.4H14.7M10.6 9.8H9.4M10.4 13.2H9.2"/><circle cx="12" cy="8.1" r=".45" fill="currentColor" stroke="none"/><circle cx="12" cy="11.4" r=".45" fill="currentColor" stroke="none"/><circle cx="12" cy="14.7" r=".45" fill="currentColor" stroke="none"/></svg>'
+        },
+        {
+          id: "duet",
+          name: "二重奏 / Duet",
+          desc: "两条有停顿、相互靠近却不重叠的线；用于泛用的第二声部。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="二重奏 / Duet"><path d="M3 17.8C7.1 18 6.8 6.4 10.9 6.2C13.4 6.1 13.9 10.8 16.6 10.4C18.1 10.2 19.7 7.8 21 5.4"/><path d="M3 20.1C7.2 20.7 8.7 10.6 12.1 10.3C14.4 10.1 14.6 15.4 17.6 14.3C19.1 13.8 20.1 11.9 21 10.3" stroke-opacity=".65"/></svg>'
+        },
+        {
+          id: "trumpet",
+          name: "小号 / Trumpet",
+          desc: "横向吹嘴、三枚活塞、向右展开的喇叭口；与长笛靠外轮廓区分，而非换颜色。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="小号 / Trumpet"><path d="M2 9H14C17.5 9 19.2 7.8 22 5.8V15.2C19.4 13.3 17.4 12 14 12H6.2C4.5 12 3.5 13.2 3.5 14.8C3.5 16.5 4.7 17.4 6.3 17.4H13.5C15.3 17.4 16.3 16.4 16.3 14.6V12.3"/><path d="M2 8V10M19.8 7.2V13.7M7.6 7V14.7M10.4 7V14.7M13.2 7V14.7M6.8 7H8.4M9.6 7H11.2M12.4 7H14M7.6 14.7H13.2"/></svg>'
+        },
+        {
+          id: "tuba",
+          name: "大号 / 宽腹转阀式",
+          desc: "重画：宽圆腹、宽喇叭口、横列转阀。以体量和阀组布局区别上低音号，不只放大同一个 U 形。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="大号 / 宽腹转阀式"><path d="M12 2H22C18.8 4.8 18 7 18 10V16C18 20.3 14.3 22 9.8 22C5.1 22 2.8 19.4 2.8 15.8V13C2.8 10.8 4.2 9.5 6.3 9.5H13.4M12 2C14.5 5.1 15.3 7.2 15.3 10V16C15.3 18.2 13.4 19.3 10 19.3C7.3 19.3 5.4 18.2 5.4 16V14.9"/><path d="M14 4.4H20M3.3 7H7Q9 7 9 9.5M3.3 6.2V7.8M6.5 16.5H12.5"/><circle cx="6.5" cy="12.5" r="1.05"/><circle cx="9.5" cy="12.5" r="1.05"/><circle cx="12.5" cy="12.5" r="1.05"/></svg>'
+        },
+        {
+          id: "euphonium",
+          name: "上低音号 / 修长活塞式",
+          desc: "重画：较窄的高喇叭口、修长椭圆回管、向上的三个活塞；与大号同画布、不同轮廓。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="上低音号 / 修长活塞式"><path d="M12.8 2H19.4C17.5 4.6 17 7.7 17 11V17.3C17 20.1 15.1 22 12.3 22C9.3 22 7.8 20 7.8 17V11.2Q7.8 8.6 4.8 8.6M12.8 2C14.2 5.3 14.4 8.2 14.4 11V17.1C14.4 18.8 13.7 19.7 12.3 19.7C10.9 19.7 10.2 18.7 10.2 17V11.4"/><path d="M13.6 4.2H18.2M4.8 7.7V9.5M9.3 8.7V6.5M11.5 8.7V6.5M13.7 8.7V6.5M8.7 6.5H9.9M10.9 6.5H12.1M13.1 6.5H14.3M10.2 11.4H12.4V16.6"/></svg>'
+        },
+        {
+          id: "bluebird",
+          name: "青鸟 / 向远处",
+          desc: "以舒展的翼面、抬起的头和细长尾羽表达放飞。原创鸟形，不沿用官方剪影。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="青鸟 / 向远处"><path d="M3 18L7.6 13.2C7.8 8.7 5.5 5.4 4.6 3.2C9.5 4.7 12 7 13.4 10.1L15.5 8.4C17.1 7.2 19.3 8.1 19.7 9.9L22 11L19.4 11.6C18.2 16.4 14.2 18 10.3 16.3L4.5 20L6.3 16.6"/><path d="M8 7C10.2 11.7 12.4 13.8 16.1 13.2"/><circle cx="17.7" cy="9.8" r=".55" fill="currentColor" stroke="none"/></svg>'
+        },
+        {
+          id: "open-window",
+          name: "微开的窗 / Glass & air",
+          desc: "窗框保留秩序，斜开的窗扇留下空隙。适合观察、换一个视角；不是系统窗口操作图标。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="微开的窗 / Glass &amp; air"><path d="M3.5 20.5V3.5H20.5V20.5H13M2 21.5H22M12 3.5V20.5M3.5 11.8H12"/><path d="M12 3.5L18.5 6.2V18L12 20.5M12 11.8L18.5 12.2"/><path d="M6 7.5L8 5.5" stroke-opacity=".65"/></svg>'
+        },
+        {
+          id: "breath",
+          name: "换气 / Breath",
+          desc: "短线在逗点前停顿，之后展开为更长的一口气。适合暂存、停顿、尚未说完；需文字辅助。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="换气 / Breath"><path d="M3 13.6C5.3 13.6 5.4 10.5 7.5 10.5"/><path d="M11 8.5C12.5 8.5 12.4 10.8 10.5 12.1"/><path d="M14.1 14.4C17 14.4 17 10.8 21 10.8"/></svg>'
+        },
+        {
+          id: "resonance",
+          name: "余响 / Resonance",
+          desc: "一个落点与向外松开的不完整椭圆；让声音有空间，不画成通知铃或音量按钮。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="余响 / Resonance"><ellipse cx="12" cy="13" rx="3.3" ry="1.4"/><path d="M5.8 11.2C2.8 12.3 4.7 16 11.9 16.2C16 16.3 18.6 15.4 19.5 14M2.2 16.2C4.1 19.8 16.8 21 21.8 17.2"/><path d="M12 4V8"/><circle cx="12" cy="10.1" r=".55" fill="currentColor" stroke="none"/></svg>'
+        },
+        {
+          id: "storybook",
+          name: "童话书页 / Storybook",
+          desc: "两页略不同的弧度和一角翻起的纸。把现实与故事并置，适合引用、阅读和记忆。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="童话书页 / Storybook"><path d="M12 6.4C8.6 4.4 5.6 4.3 2.5 5.1V18.2C6 17.3 9 17.7 12 19.6C15 17.8 18 17.3 21.5 18.2V7.7M12 6.4V19.6M12 6.4C14.6 4.8 17 4.4 18.5 4.5L21.5 7.7H18.3L18.5 4.5"/><path d="M5.6 9.3C7.2 9.1 8.2 9.4 9.3 10M5.6 12.4C7.1 12.2 8.3 12.6 9.3 13.1" stroke-opacity=".7"/></svg>'
+        },
+        {
+          id: "footsteps",
+          name: "错落脚步 / Small steps",
+          desc: "两枚错开而非镜像的鞋印；适合过程、练习和日常记录，不用于导航指令。",
+          svg: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="错落脚步 / Small steps"><path d="M6.4 9C5.4 7.9 5.4 5.4 6.1 3.7C6.6 2.3 8.5 2.2 9.1 3.5C10 5.1 9.7 7.3 9 9Z"/><path d="M6.6 11.3H9V13.7H6.6Z"/><path d="M15.3 16.5C14.4 15.4 14.5 12.9 15.4 11.4C16.2 10.1 17.9 10.4 18.3 11.8C18.8 13.5 18.3 15.5 17.5 16.8Z"/><path d="M15.2 18.8L17.4 19.1L17.1 21.5L14.9 21.2Z"/></svg>'
+        }
+      ];
+      const names = {
+        "feather-air": "轻羽",
+        "feather-drift": "落羽 · 推荐",
+        "feather-ink": "墨羽",
+        flute: "长笛",
+        oboe: "双簧管",
+        duet: "二重奏",
+        trumpet: "小号",
+        tuba: "大号",
+        euphonium: "上低音号",
+        bluebird: "青鸟",
+        "open-window": "微开的窗",
+        breath: "换气",
+        resonance: "余响",
+        storybook: "童话书页",
+        footsteps: "错落脚步"
+      };
+      const titles = {
+        flute: [
+          "先把思绪向外展开",
+          "记录一个刚刚出现的想法，给它留出向前延伸的空间。",
+          "[!aoi-flute]"
+        ],
+        oboe: ["把未说完的话留下", "换一种语气，写下还没整理好的感受。", "[!aoi-oboe]"],
+        tuba: ["让想法落到纸面", "收拢材料，留下可反复使用的结论与基础。", "[!aoi-tuba]"],
+        euphonium: [
+          "温柔地托住旋律",
+          "把零散的材料组织起来，让下一段有一个起点。",
+          "[!aoi-euphonium]"
+        ],
+        duet: ["另一个声音", "让两个观点相互回应，也保留它们之间的距离。", "[!aoi-duet]"]
+      };
+      Object.assign(titles, {
+        trumpet: ["让这个想法清楚地响起", "把分散的念头收拢成一句可以表达的话。", "[!aoi-trumpet]"],
+        bluebird: [
+          "给它向远处的空间",
+          "留住曾经相遇的部分，也允许故事继续向前。",
+          "[!aoi-bluebird]"
+        ],
+        "open-window": [
+          "从这里，再看一次",
+          "暂时移开原来的判断，观察窗外另一种可能。",
+          "[!aoi-window]"
+        ],
+        breath: [
+          "在下一句话之前",
+          "先停一下。还没有想清楚的部分，也可以被好好留下。",
+          "[!aoi-breath]"
+        ],
+        resonance: [
+          "听见留下来的余响",
+          "记录阅读之后仍在心里缓缓展开的一点感受。",
+          "[!aoi-resonance]"
+        ],
+        storybook: [
+          "翻到故事的这一页",
+          "把现实与想象放在相邻的两页，读懂它们之间的回声。",
+          "[!aoi-storybook]"
+        ],
+        footsteps: [
+          "一点一点，向前",
+          "记下今天很小的进展，让过程本身也有被看见的位置。",
+          "[!aoi-steps]"
+        ]
+      });
+      let selected = "feather-drift";
+      const gallery = document.getElementById("gallery");
+      for (const x of icons) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "pick";
+        b.dataset.id = x.id;
+        b.setAttribute("aria-pressed", "false");
+        b.setAttribute("aria-label", x.name);
+        b.innerHTML = x.svg + "<span>" + names[x.id] + "</span>";
+        b.addEventListener("click", () => choose(x.id));
+        gallery.append(b);
+      }
+      function choose(id) {
+        selected = id;
+        const x = icons.find((x) => x.id === id);
+        document.getElementById("name").textContent = x.name;
+        document.getElementById("description").textContent = x.desc;
+        document
+          .querySelectorAll(".pick")
+          .forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.id === id)));
+        document.getElementById("main-icon").innerHTML = x.svg;
+        document.getElementById("scale").innerHTML = [18, 22, 32, 64]
+          .map(
+            (n) =>
+              '<div class="sample"><span style="display:flex;width:' +
+              n +
+              "px;height:" +
+              n +
+              'px">' +
+              x.svg +
+              "</span><small>" +
+              n +
+              " px</small></div>"
+          )
+          .join("");
+        const t = titles[id] || [
+          "把这一页轻轻留住",
+          "有些话还没有说完，先让它停在这里。等下一次翻到这一页，再听见它。",
+          id === "feather-air"
+            ? "[!aoi-feather-light]"
+            : id === "feather-ink"
+              ? "[!aoi-feather-ink]"
+              : "[!aoi-tori]"
+        ];
+        document.getElementById("sample-title").textContent = t[0];
+        document.getElementById("sample-body").textContent = t[1];
+        document.getElementById("type-name").textContent = t[2];
+        applySize();
+      }
+      function applySize() {
+        const size = document.getElementById("size").value;
+        document.querySelectorAll(".mock-icon svg").forEach((e) => {
+          e.style.width = size + "px";
+          e.style.height = size + "px";
+        });
+      }
+      document.getElementById("second-icon").innerHTML = icons.find((x) => x.id === "duet").svg;
+      document.getElementById("duo").innerHTML = icons
+        .filter((x) => ["flute", "oboe"].includes(x.id))
+        .map((x) => x.svg)
+        .join("");
+      document.getElementById("size").addEventListener("change", applySize);
+      document
+        .getElementById("badge")
+        .addEventListener("change", (e) =>
+          document
+            .querySelectorAll(".mock-icon")
+            .forEach((x) => x.classList.toggle("badge", e.target.checked))
+        );
+      document.getElementById("theme").addEventListener("click", () => {
+        const dark = document.documentElement.dataset.mode !== "dark";
+        document.documentElement.dataset.mode = dark ? "dark" : "light";
+        document.getElementById("theme").textContent = dark ? "切换浅色" : "切换暗色";
+      });
+      document.getElementById("brass-pair").innerHTML = ["tuba", "euphonium"]
+        .map((id) => {
+          const x = icons.find((x) => x.id === id);
+          return (
+            '<div class="brass-item"><strong>' +
+            names[id] +
+            "</strong><div>" +
+            [18, 22, 32, 64]
+              .map(
+                (n) =>
+                  '<span class="sample"><span style="display:flex;width:' +
+                  n +
+                  "px;height:" +
+                  n +
+                  'px">' +
+                  x.svg +
+                  "</span><small>" +
+                  n +
+                  " px</small></span>"
+              )
+              .join("") +
+            "</div></div>"
+          );
+        })
+        .join("");
+      choose(selected);
+    </script>
+  </body>
+</html>

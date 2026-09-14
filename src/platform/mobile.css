@@ -126,3 +126,46 @@ body.is-phone .modal.mod-settings :where(.vertical-tab-header, .vertical-tab-con
 body.is-phone .modal.mod-settings .vertical-tab-header {
   border-inline-end: 0;
 }
+
+/* Native `.is-mobile.theme-dark` is a two-class selector, so it outranks the theme's `.theme-dark`
+   and re-points three control surfaces at the border tokens:
+
+     --interactive-normal:      var(--background-modifier-border)
+     --interactive-hover:       var(--background-modifier-border-hover)
+     --background-modifier-form-field: var(--background-modifier-border)
+
+   On a phone that makes a normal button's resting fill the border colour and its hover fill the
+   sky accent, `#7FC3E8`, under `--text-normal` — 1.60:1 for a control that is enabled and
+   carries text. It also turns an input fill into its own border. `body.theme-dark.is-mobile` is
+   two classes and an element, which outranks the native rule on specificity alone rather than by
+   load order, and it points the same names back at the theme's roles. */
+body.theme-dark.is-mobile,
+body.theme-light.is-mobile {
+  --interactive-normal: var(--aoi-control-surface);
+  --interactive-hover: var(--aoi-control-surface-hover);
+  --background-modifier-form-field: var(--aoi-field-surface);
+}
+
+/* Only native dark rebinds the hover surface; it becomes a translucent white, which lightens a
+   dark panel correctly but drops the theme's hue. Restore the role in dark only. */
+body.theme-dark.is-mobile {
+  --background-modifier-hover: var(--aoi-hover-surface);
+}
+
+/* Native also flattens the destructive fill on phones:
+
+     .is-mobile button.mod-warning { background-color: var(--interactive-normal); ... }
+
+   Two classes and an element beat the theme's `button.mod-warning`, so a delete button lost the
+   rose surface it has on the desktop and became the ordinary control fill. The text colour still
+   resolves to the theme's error token, so only the fill needs restoring; `body.is-mobile` plus two
+   classes outranks the native rule without `!important`. */
+body.is-mobile button.mod-warning,
+body.is-mobile button.mod-destructive {
+  background-color: var(--aoi-destructive-secondary-background);
+}
+
+body.is-mobile button.mod-warning:hover,
+body.is-mobile button.mod-destructive:hover {
+  background-color: var(--aoi-destructive-secondary-background-hover);
+}

@@ -5,6 +5,7 @@
 @import url("./tokens/semantic-dark.css");
 @import url("./workspace/shell.css");
 @import url("./editor/content.css");
+@import url("./editor/callout-icons.css");
 @import url("./editor/images.css");
 @import url("./components/controls.css");
 @import url("./components/overlays.css");

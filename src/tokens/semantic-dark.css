@@ -16,7 +16,7 @@
   --background-primary-alt: var(--aoi-night-canvas);
   --background-secondary: var(--aoi-night-canvas);
   --background-secondary-alt: var(--aoi-night-panel);
-  --background-modifier-hover: color-mix(in srgb, var(--aoi-night-panel) 88%, var(--aoi-night-sky));
+  --background-modifier-hover: var(--aoi-hover-surface);
   --background-modifier-active-hover: color-mix(
     in srgb,
     var(--aoi-night-panel) 80%,
@@ -39,7 +39,8 @@
      sit on (the panel, #2C343C) rather than below it. */
   --aoi-border-structural: var(--aoi-night-border);
   --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 58%, var(--aoi-night-muted));
-  --background-modifier-form-field: var(--aoi-night-canvas);
+  --aoi-field-surface: var(--aoi-night-canvas);
+  --background-modifier-form-field: var(--aoi-field-surface);
   --background-modifier-form-field-hover: var(--aoi-night-panel);
   --background-modifier-box-shadow: color-mix(in srgb, var(--aoi-night-canvas) 70%, transparent);
   --background-modifier-cover: color-mix(in srgb, var(--aoi-night-canvas) 72%, transparent);
@@ -105,9 +106,19 @@
   --italic-color: var(--aoi-italic-text);
   --italic-weight: inherit;
 
-  /* Links and interactions */
-  --interactive-normal: var(--aoi-night-panel);
-  --interactive-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
+  /* Links and interactions.
+
+     Control surfaces are their own role rather than the border accent. Native
+     `.is-mobile.theme-dark` rebinds `--interactive-normal` and `--interactive-hover` to the two
+     border tokens, which on a phone turned a normal button's hover fill into the sky accent:
+     dark text on the bright edge measured 1.60:1. Naming the role lets the platform block put
+     the theme's own surface back without repeating a literal, and keeps the button fill
+     independent of the border accent, so strengthening borders cannot make a control unreadable. */
+  --aoi-hover-surface: color-mix(in srgb, var(--aoi-night-panel) 88%, var(--aoi-night-sky));
+  --aoi-control-surface: var(--aoi-night-panel);
+  --aoi-control-surface-hover: color-mix(in srgb, var(--aoi-night-panel) 84%, var(--aoi-night-sky));
+  --interactive-normal: var(--aoi-control-surface);
+  --interactive-hover: var(--aoi-control-surface-hover);
   --interactive-accent: var(--aoi-night-cobalt);
   --interactive-accent-hover: var(--aoi-night-sky);
   --interactive-success: var(--aoi-night-success);
@@ -269,6 +280,13 @@
      darker-than-body Callout exist at all, so the dark surface is free to stay
      quiet instead of having to out-brighten the page. */
   --callout-blend-mode: normal;
+  --aoi-callout-icon-size: var(--aoi-icon-callout-size);
+  --aoi-callout-badge-size: var(--aoi-icon-callout-badge-size);
+  --aoi-callout-standard-stroke: var(--aoi-icon-callout-native-stroke);
+  --aoi-callout-art-stroke: var(--aoi-icon-callout-art-stroke);
+  --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
+  --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
+  --callout-padding: var(--aoi-icon-callout-padding);
   --aoi-callout-surface: var(--aoi-night-panel);
   --callout-title-color: var(--aoi-night-text);
   --callout-default: var(--aoi-night-info);

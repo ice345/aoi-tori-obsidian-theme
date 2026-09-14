@@ -326,3 +326,21 @@ The earlier automated table-image drag did not persist a width, but the user sub
 the manual Table image Resize review and reported it normal. No CSS workaround was introduced.
 Remaining interaction boundaries are real mobile gestures/keyboard/safe areas, Windows forced
 colors, Graph transient renderer states, and a Canvas minimap absent from this client.
+
+## Callout SVG integration — 2026-09-14 source inspection
+
+Official [Callout help](https://obsidian.md/help/callouts) documents literal SVG strings in
+`--callout-icon`. The installed Obsidian archive's Callout renderer reads that property from each
+`.callout`, parses an SVG, and normalizes its root width/height to 16 and fill/stroke to
+currentColor. The artwork therefore declares fill, stroke, linecap and linejoin on an inner SVG
+group; component CSS supplies the 22 px rendered size. No new native internal selector was
+introduced.
+
+Native 1.13.7 CSS confirms `.callout-title` contains a separate `.callout-icon` and `.callout-fold`;
+the artwork rule only sizes SVGs inside `.callout-icon`, preserving native fold chevrons. The native
+base `.callout` declares its own icon, avoiding a nested unknown type inheriting a parent's SVG.
+Theme stroke-role defaults likewise reset on each Callout.
+
+These are code/CSS observations, plus isolated-browser rendering, not a manual client test. The
+[official changelog](https://obsidian.md/changelog/) was checked: 1.13.7 is the inspected stable
+baseline, while 1.14.1 is listed as Catalyst; compatibility with 1.14.x was not tested here.

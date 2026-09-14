@@ -61,30 +61,35 @@ const sourceFiles = await walk(srcRoot);
 
 for (const filePath of sourceFiles) {
   const css = await readFile(filePath, "utf8");
+  /* These checks are about declarations. A comment cannot affect rendering, so it must not be
+     able to fail the audit either: a comment that explains why a rule avoids `!important`, or
+     that names the colour a defect used to resolve to, is not a violation. Only the textual
+     checks below use this; anything that needs structure parses `css` directly. */
+  const declared = css.replace(/\/\*[\s\S]*?\*\//g, "");
   const file = relative(filePath);
 
-  if (/!important\b/.test(css)) {
+  if (/!important\b/.test(declared)) {
     failures.push(`${file}: contains !important`);
   }
 
-  if (/:has\(/.test(css)) {
+  if (/:has\(/.test(declared)) {
     failures.push(`${file}: contains :has(); document and explicitly allow it before use`);
   }
 
-  if (/url\(\s*["']?https?:\/\//i.test(css)) {
+  if (/url\(\s*["']?https?:\/\//i.test(declared)) {
     failures.push(`${file}: contains a remote URL`);
   }
 
-  if (/data:[^;,)]+;base64,/i.test(css)) {
+  if (/data:[^;,)]+;base64,/i.test(declared)) {
     failures.push(`${file}: contains a Base64 asset`);
   }
 
-  if (/(^|[,{]\s*)img\s*[{,]/m.test(css)) {
+  if (/(^|[,{]\s*)img\s*[{,]/m.test(declared)) {
     failures.push(`${file}: contains a destructive global img selector`);
   }
 
   const isTokenFile = file.startsWith(`src${path.sep}tokens${path.sep}`);
-  if (!isTokenFile && /#[0-9a-fA-F]{3,8}\b/.test(css)) {
+  if (!isTokenFile && /#[0-9a-fA-F]{3,8}\b/.test(declared)) {
     failures.push(`${file}: contains a hex color outside src/tokens`);
   }
 

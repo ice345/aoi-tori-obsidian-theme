@@ -16,7 +16,7 @@
   --background-primary-alt: var(--aoi-cloud-cool);
   --background-secondary: var(--aoi-mist-blue);
   --background-secondary-alt: var(--aoi-cloud-shadow);
-  --background-modifier-hover: color-mix(in srgb, var(--aoi-sky-blue) 10%, transparent);
+  --background-modifier-hover: var(--aoi-hover-surface);
   --background-modifier-active-hover: var(--aoi-cloud-shadow);
   --background-modifier-border: var(--aoi-ice-border);
   --background-modifier-border-hover: var(--aoi-powder-blue);
@@ -94,8 +94,12 @@
   --italic-weight: inherit;
 
   /* Links and interactions */
-  --interactive-normal: var(--aoi-cloud-cool);
-  --interactive-hover: var(--aoi-mist-blue);
+  --aoi-hover-surface: color-mix(in srgb, var(--aoi-sky-blue) 10%, transparent);
+  --aoi-control-surface: var(--aoi-cloud-cool);
+  --aoi-control-surface-hover: var(--aoi-mist-blue);
+  --aoi-field-surface: var(--aoi-cloud-cool);
+  --interactive-normal: var(--aoi-control-surface);
+  --interactive-hover: var(--aoi-control-surface-hover);
   --interactive-accent: var(--aoi-link-blue);
   --interactive-accent-hover: var(--aoi-cobalt-deep);
   --interactive-success: var(--aoi-success);
@@ -235,6 +239,13 @@
   --blockquote-border-color: var(--aoi-sakura);
   --blockquote-color: var(--aoi-ink-indigo);
   --callout-blend-mode: normal;
+  --aoi-callout-icon-size: var(--aoi-icon-callout-size);
+  --aoi-callout-badge-size: var(--aoi-icon-callout-badge-size);
+  --aoi-callout-standard-stroke: var(--aoi-icon-callout-native-stroke);
+  --aoi-callout-art-stroke: var(--aoi-icon-callout-art-stroke);
+  --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
+  --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
+  --callout-padding: var(--aoi-icon-callout-padding);
   --aoi-callout-surface: var(--aoi-cloud-cool);
   --callout-title-color: var(--aoi-ink-strong);
   --callout-default: var(--aoi-info);

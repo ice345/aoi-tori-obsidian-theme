@@ -134,7 +134,12 @@ const WATCHED_PROPERTIES = new Set([
   "mix-blend-mode",
   "font-weight",
   "outline-style",
-  "background-color"
+  "background-color",
+  /* The disabled-state pass: a disabled control is defined by what it does not have, so the
+     gate has to be able to read the absence of a shadow and of a press displacement. */
+  "box-shadow",
+  "opacity",
+  "transform"
 ]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
@@ -175,6 +180,17 @@ body {
   --h4-size: 1.188em;
   --h5-size: 1.076em;
   --h6-size: 1em;
+}
+
+.is-mobile.theme-dark {
+  --interactive-normal: var(--background-modifier-border);
+  --interactive-hover: var(--background-modifier-border-hover);
+  --background-modifier-form-field: var(--background-modifier-border);
+}
+
+.is-mobile button.mod-warning {
+  background-color: var(--interactive-normal);
+  color: var(--text-error);
 }
 .theme-light {
   --highlight-mix-blend-mode: darken;
@@ -925,6 +941,24 @@ function formatValue(value) {
   return value.kind;
 }
 
+/* `formatValue` answers "what colour or length is this"; a shadow is a token list and it answers
+   "list". Comparing two shadows needs their text, so this walks the raw token tree instead of
+   interpreting it. */
+function formatRawValue(value) {
+  if (value == null) return "<missing>";
+  if (value.kind === "list") return (value.tokens || []).map(formatRawValue).join(" ");
+  if (value.kind === "token") return formatRawValue(value.value);
+  if (value.kind === "color") return formatHex(value);
+  if (value.kind === "length") return `${value.value}${value.unit}`;
+  if (value.kind === "number") return String(value.value);
+  if (value.kind === "percentage") return `${(value.value * 100).toFixed(2)}%`;
+  if (value.kind === "ident") return value.name;
+  if (value.kind === "var") return `var(${value.name.ident})`;
+  if (value.kind === "unresolved") return `unresolved ${value.name}`;
+  if (typeof value.value === "number" && value.unit) return `${value.value}${value.unit}`;
+  return JSON.stringify(value);
+}
+
 function linearize(channel) {
   const value = channel / 255;
   return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4;
@@ -1490,7 +1524,36 @@ for (const mode of ["theme-light", "theme-dark"]) {
 
 /* Audit 8.3, the last two reverse tests. Both need a Callout element rather than the
    body, because the wash strength and the type colour resolve on the element. */
+const AOI_ICON_TYPES = [
+  "aoi-tori",
+  "aoi-feather-light",
+  "aoi-feather-ink",
+  "aoi-duet",
+  "aoi-flute",
+  "aoi-oboe",
+  "aoi-trumpet",
+  "aoi-tuba",
+  "aoi-euphonium",
+  "aoi-bluebird",
+  "aoi-window",
+  "aoi-breath",
+  "aoi-resonance",
+  "aoi-storybook",
+  "aoi-steps"
+];
+const AOI_ICON_ALIASES = {
+  "aoi-feather": "aoi-tori",
+  "second-voice": "aoi-duet",
+  flute: "aoi-flute",
+  oboe: "aoi-oboe",
+  tuba: "aoi-tuba",
+  euphonium: "aoi-euphonium"
+};
+
 const CALLOUT_TYPES = [
+  ...AOI_ICON_TYPES,
+  ...Object.keys(AOI_ICON_ALIASES),
+  "aoi-music",
   "note",
   "info",
   "success",
@@ -1526,6 +1589,66 @@ function resolveCallout(mode, bodyClasses, type, env = {}) {
     ),
     body: bodyResolved
   };
+}
+
+/* Shipping contract: aliases must preserve artwork and color, each original mark is
+   distinct, and standard descendants must reset artistic stroke weight. */
+for (const mode of MODES) {
+  const drawings = new Set();
+  for (const type of AOI_ICON_TYPES) {
+    const { callout } = resolveCallout(mode, [], type);
+    const svg = callout.get("--callout-icon");
+    if (
+      svg?.kind !== "string" ||
+      !svg.value.startsWith("<svg") ||
+      !svg.value.includes('<g fill="none"')
+    ) {
+      failures.push(`${mode} ${type}: missing SVG or child-group fill protection`);
+    } else {
+      drawings.add(svg.value);
+    }
+    for (const [property, expected] of [
+      ["--aoi-callout-icon-size", "22px"],
+      ["--aoi-callout-badge-size", "28px"],
+      ["--aoi-callout-icon-stroke", "1.25"]
+    ]) {
+      if (formatValue(callout.get(property)) !== expected)
+        failures.push(`${mode} ${type}: wrong ${property}`);
+    }
+  }
+  if (drawings.size !== AOI_ICON_TYPES.length)
+    failures.push(`${mode}: original Callout drawings are missing or duplicated`);
+  for (const [alias, canonical] of Object.entries(AOI_ICON_ALIASES)) {
+    const left = resolveCallout(mode, [], alias).callout;
+    const right = resolveCallout(mode, [], canonical).callout;
+    for (const prop of ["--callout-icon", "--callout-color"]) {
+      if (JSON.stringify(left.get(prop)) !== JSON.stringify(right.get(prop)))
+        failures.push(`${mode}: ${alias} differs from ${canonical} for ${prop}`);
+    }
+  }
+  const html = createElement("html", []);
+  const body = createElement("body", [mode]);
+  const htmlValues = resolveSpecified(cascadeCustomProperties(html, [], {}, new Map()));
+  const bodyValues = resolveSpecified(
+    cascadeCustomProperties(body, [html], {}, htmlValues.entries)
+  );
+  const parent = createElement("div", ["callout"]);
+  parent.attributes.set("data-callout", "aoi-tori");
+  const parentValues = resolveSpecified(
+    cascadeCustomProperties(parent, [html, body], {}, bodyValues.entries)
+  );
+  for (const type of ["note", "warning", "aoi-music", "unknown-type"]) {
+    const child = createElement("div", ["callout"]);
+    child.attributes.set("data-callout", type);
+    const childValues = resolveSpecified(
+      cascadeCustomProperties(child, [html, body, parent], {}, parentValues.entries)
+    );
+    if (
+      Math.abs(childValues.get("--aoi-callout-icon-stroke")?.value - 1.8) > 0.00001 ||
+      childValues.get("--aoi-callout-icon-stroke")?.kind !== "number"
+    )
+      failures.push(`${mode}: nested ${type} inherits artwork stroke`);
+  }
 }
 
 for (const mode of ["theme-light", "theme-dark"]) {
@@ -1839,6 +1962,96 @@ for (const mode of ["theme-light", "theme-dark"]) {
   if (codeWidth !== "1px") {
     failures.push(
       `${mode} code inside a Callout: --code-border-width is ${codeWidth}, expected 1px`
+    );
+  }
+}
+
+/* Audit G03. Native `.is-mobile.theme-dark` re-points the three control surfaces at the border
+   tokens. It is two classes, so it outranks the theme's single `.theme-dark` and a phone renders
+   a different control surface than the desktop does - 1.60:1 on a hovered button. The invariant is
+   that putting the theme on a phone does not change what a control is made of. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  const html = createElement("html", []);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const surfaces = (classes) => {
+    const body = createElement("body", classes);
+    return resolveSpecified(cascadeCustomProperties(body, [html], env, htmlResolved.entries))
+      .entries;
+  };
+  const desktop = surfaces([mode]);
+  const phone = surfaces([mode, "is-mobile"]);
+  for (const name of [
+    "--interactive-normal",
+    "--interactive-hover",
+    "--background-modifier-form-field",
+    "--background-modifier-hover"
+  ]) {
+    const a = formatValue(desktop.get(name));
+    const b = formatValue(phone.get(name));
+    if (a !== b) {
+      failures.push(
+        `${mode} mobile control surface: ${name} is ${a} on the desktop and ${b} on a phone; the border accent must not become a control fill`
+      );
+    }
+  }
+}
+
+/* Audit G04. A disabled control must not gain a resting shadow, a hover lift or a press
+   displacement. The enabled rules that were declared after the disabled ones are only visible in
+   the resolved property, so these read the property rather than the token string. `pseudos` is how
+   the harness stands in for a state the client would otherwise have to enter. */
+{
+  const html = createElement("html", []);
+  const body = createElement("body", ["theme-dark"]);
+  const env = { forcedColors: false, prefersContrast: false };
+  const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+  const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+
+  const field = (pseudos) => {
+    const el = createElement("input", []);
+    el.attributes.set("type", "text");
+    for (const name of pseudos) el.pseudos.add(name);
+    return el;
+  };
+
+  const cases = [
+    [field(["disabled"]), "box-shadow", "none", "a disabled field must not carry a resting shadow"],
+    [field(["disabled", "hover"]), "box-shadow", "none", "a disabled field must not lift on hover"],
+    [
+      field(["disabled", "hover"]),
+      "background-color",
+      null,
+      "a disabled field must not change fill on hover"
+    ]
+  ];
+  for (const [element, property, expected, why] of cases) {
+    const got = formatValue(
+      resolveElementProperty(element, [html, body], env, bodySpecified, property)
+    );
+    if (expected === null) {
+      const resting = formatValue(
+        resolveElementProperty(field(["disabled"]), [html, body], env, bodySpecified, property)
+      );
+      if (got !== resting) {
+        failures.push(`theme-dark ${why}: ${property} moves from ${resting} to ${got} on hover`);
+      }
+      continue;
+    }
+    if (got !== expected)
+      failures.push(`theme-dark ${why}: ${property} resolved to ${got}, expected ${expected}`);
+  }
+
+  /* The guard must not cost an enabled control its feedback. */
+  const hovers = formatRawValue(
+    resolveElementProperty(field(["hover"]), [html, body], env, bodySpecified, "box-shadow")
+  );
+  const restShadow = formatRawValue(
+    resolveElementProperty(field([]), [html, body], env, bodySpecified, "box-shadow")
+  );
+  if (hovers === "none" || hovers === restShadow) {
+    failures.push(
+      `theme-dark enabled field: hover box-shadow is ${hovers}, the same as rest ${restShadow}; the disabled guard is too broad`
     );
   }
 }

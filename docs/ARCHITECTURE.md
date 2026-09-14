@@ -95,6 +95,7 @@ src/
 │   └── shell.css       # app surfaces, sidebars, ribbon, status, tabs, navigation
 ├── editor/
 │   ├── content.css     # editor/reading content, code, quotes, callouts, properties, tables
+│   ├── callout-icons.css # original inline SVG marks and explicit type aliases
 │   └── images.css      # stable image hover/focus surface only
 ├── components/
 │   ├── controls.css    # buttons, fields, dropdowns, toggles, icons
@@ -238,3 +239,14 @@ Community Theme package.
 Canvas, Graph, Settings, pop-out, and long-path cases. The audit verifies required fixtures exist,
 every import resolves under `src/`, and built CSS contains no excluded local/reference/test path.
 Review screenshots remain under ignored `.analysis/phase-3-review/` and `.analysis/phase-4-review/`.
+
+## Original Callout icons
+
+`src/editor/callout-icons.css` is hand-maintained source imported after content styles. Its SVG
+strings are bundled into `theme.css`; concept-page assets are not build inputs or release assets.
+Original shapes use a child SVG group to preserve fill, stroke, and joins when the native renderer
+normalizes the SVG root. Type selectors own icon/color values; the base Callout resets its stroke
+role so nested standard types do not inherit an artistic parent's weight. Geometry primitives map
+through both semantic modes, and native fold controls remain separate.
+
+The consolidated user-facing identifier contract lives in `docs/CALLOUTS.md`.

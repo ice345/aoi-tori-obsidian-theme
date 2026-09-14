@@ -1,4 +1,13 @@
 :root {
+  /* Callout icon geometry shared by both palettes. */
+  --aoi-icon-callout-size: 22px;
+  --aoi-icon-callout-badge-size: 28px;
+  --aoi-icon-callout-native-stroke: 1.8;
+  --aoi-icon-callout-art-stroke: 1.25;
+  --aoi-icon-callout-badge-wash: 10%;
+  --aoi-icon-callout-title-gap: 10px;
+  --aoi-icon-callout-padding: 18px 20px;
+
   /* Paper, cloud, and watercolor light */
   --aoi-paper-warm: #fbfaf8;
   --aoi-cloud-cool: #f5f8f7;

@@ -74,7 +74,9 @@ button.mod-destructive.mod-cta:hover {
   border-color: var(--aoi-destructive-primary-border);
 }
 
-button:active {
+/* `:where()` keeps this at the base specificity, so the guard rules out a disabled control
+   without outranking anything else that might legitimately transform a button. */
+button:active:where(:not(:disabled):not([aria-disabled="true"])) {
   transform: translateY(1px);
 }
 
@@ -84,42 +86,6 @@ textarea:focus-visible,
 select:focus-visible {
   outline: var(--aoi-focus-ring-width) solid var(--input-focus-border-color);
   outline-offset: var(--aoi-focus-ring-offset);
-}
-
-button:disabled,
-button[aria-disabled="true"],
-button[disabled="true"],
-button.mod-cta:disabled,
-button.mod-cta[aria-disabled="true"],
-button.mod-cta[disabled="true"],
-button.mod-warning:disabled,
-button.mod-warning[aria-disabled="true"],
-button.mod-warning[disabled="true"],
-button.mod-destructive:disabled,
-button.mod-destructive[aria-disabled="true"],
-button.mod-destructive[disabled="true"],
-button.mod-warning.mod-cta:disabled,
-button.mod-warning.mod-cta[aria-disabled="true"],
-button.mod-warning.mod-cta[disabled="true"],
-button.mod-destructive.mod-cta:disabled,
-button.mod-destructive.mod-cta[aria-disabled="true"],
-button.mod-destructive.mod-cta[disabled="true"],
-button.mod-warning.mod-cta:disabled:hover,
-button.mod-warning.mod-cta[aria-disabled="true"]:hover,
-button.mod-warning.mod-cta[disabled="true"]:hover,
-button.mod-destructive.mod-cta:disabled:hover,
-button.mod-destructive.mod-cta[aria-disabled="true"]:hover,
-button.mod-destructive.mod-cta[disabled="true"]:hover,
-input:disabled,
-textarea:disabled,
-select:disabled {
-  --text-color: var(--text-faint);
-
-  color: var(--text-faint);
-  background-color: var(--background-secondary-alt);
-  border-color: var(--input-disabled-border-color);
-  box-shadow: none;
-  opacity: 0.68;
 }
 
 input[type="text"],
@@ -190,4 +156,55 @@ textarea::placeholder {
   color: var(--icon-color-focused);
   outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: 1px;
+}
+
+/* Disabled states come last and carry the same specificity the native list uses. Native
+   `textarea:disabled, input[type="date"]:disabled, ...` is two pseudo-classes and an element, so
+   the theme's single `input:disabled` lost the opacity and the fill to it, and the enabled rules
+   above - `input[type="text"]` and `input:hover`, both one pseudo-class and an element - lost the
+   background, the border and the shadow. Those two later rules are why a disabled field still lit
+   up and lifted on hover. Declared here they beat the enabled rules on order, and the attribute
+   forms beat the native list on specificity. */
+input[type="text"]:disabled,
+input[type="search"]:disabled,
+input[type="number"]:disabled,
+input[type="date"]:disabled,
+input[type="email"]:disabled,
+input[type="password"]:disabled,
+input[type="url"]:disabled,
+input[type="tel"]:disabled,
+input[type="time"]:disabled,
+input[type="datetime-local"]:disabled,
+input[type="month"]:disabled,
+input[type="week"]:disabled,
+textarea:disabled,
+select:disabled,
+.dropdown:disabled,
+.dropdown.mod-disabled,
+button:disabled,
+button[aria-disabled="true"],
+button[disabled="true"],
+button.mod-cta:disabled,
+button.mod-cta[aria-disabled="true"],
+button.mod-cta[disabled="true"],
+button.mod-warning:disabled,
+button.mod-warning[aria-disabled="true"],
+button.mod-warning[disabled="true"],
+button.mod-destructive:disabled,
+button.mod-destructive[aria-disabled="true"],
+button.mod-destructive[disabled="true"],
+button.mod-warning.mod-cta:disabled,
+button.mod-warning.mod-cta[aria-disabled="true"],
+button.mod-warning.mod-cta[disabled="true"],
+button.mod-destructive.mod-cta:disabled,
+button.mod-destructive.mod-cta[aria-disabled="true"],
+button.mod-destructive.mod-cta[disabled="true"] {
+  --text-color: var(--text-faint);
+
+  color: var(--text-faint);
+  background-color: var(--background-secondary-alt);
+  border-color: var(--input-disabled-border-color);
+  box-shadow: none;
+  opacity: 0.68;
+  transform: none;
 }

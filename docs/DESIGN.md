@@ -894,3 +894,21 @@ The final visual system must be derived from the reference-image relationships a
 not from recoloring an existing theme. Research themes may inform build discipline, token
 architecture, and compatibility tests. Any exact code adaptation requires a new entry in
 `docs/attribution.md` before use.
+
+## Callout icon family — 2026-09-14
+
+The accepted original icon study is integrated: falling feather (`aoi-tori`), light/ink
+alternatives, flute/oboe, trumpet, rotary tuba/piston euphonium, duet and six quiet everyday motifs.
+New types use an `aoi-` namespace; historical `second-voice` and preview instrument aliases remain
+supported. `aoi-music` retains the conventional note icon. See `docs/CALLOUTS.md` for the complete
+contract.
+
+All Callout icons default to 22 px in 28 px circular badges with a 10% semantic-color wash. Original
+marks use 1.25 grid-unit strokes; native functional icons retain 1.8. The title gap is 10 px and
+container padding 18 px by 20 px, with square start corners, rounded end corners and no shadow,
+matching the accepted preview's geometry. Colors, opaque surfaces and Quiet/Balanced/Airy strength
+behavior remain semantic and retain the dark-surface repair. Obsidian typography remains native.
+
+Artistic type labels are optional content aids, not decorative staff lines or replacements for
+safety symbols. The earlier native-icon-first policy is expanded only for these user-requested
+Callouts; fold chevrons and other application controls remain native.
