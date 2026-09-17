@@ -3,6 +3,44 @@
 This project is complex enough to justify a durable execution plan. Keep this file concise, current,
 and evidence-based.
 
+## 2026-09-16 phone drawer tab list takes the tab bar's presentation
+
+- Report: on a phone the active "Files" row in the drawer's sidebar-tab list carried two cobalt
+  slivers along its bottom corners, and the row's surface and text came from the tab bar's roles.
+  Nothing else on screen showed them, and the default theme has neither.
+- Cause: `src/workspace/shell.css` styled `.workspace-tab-header` with a bare class selector. Native
+  reuses that class outside the bar - `.workspace-drawer-tab-options-list .workspace-tab-header` -
+  where the active row is a 30px-radius pill painted on `.workspace-tab-header-inner` over a
+  transparent header, and where it resolves the row to `--nav-item-background-hover` instead of a
+  tab surface. So `box-shadow: inset 0 -2px 0 var(--interactive-accent)` drew on a square header
+  whose only uncovered area is the region the pill's corner curves away from: two accent slivers at
+  the bottom corners, 443 accent pixels in the row's last six device rows. The same selector also
+  painted `--tab-background-active` (`#fbfaf8`) and `--tab-text-color-focused-active-current`
+  (`#174678`) on that row. Measured in the 1.13.7 desktop emulator at 390x844 `is-phone`, real
+  drawer and tab list.
+- Fix: the block, plus the `aoi-tab-soft-surface` override that swaps the 2px line for a 1px one, is
+  scoped with `:where(.workspace-tab-header-container, .workspace-tab-container)`. `:where()` keeps
+  every rule's specificity and order relationship exactly as it was, so no rule that won or lost
+  against native changes place; measured identical computed values with the old selectors injected
+  back on the root, sidebar and stacked bar. The second class is load-bearing: in stacked-tabs mode
+  the root bar's headers are children of `.workspace-tab-container`, not of the header container,
+  and naming only the latter dropped the active tab's text colour there (`#174678` became
+  `rgb(41,43,59)`).
+- Gate: `npm run scenarios` now asserts, per mode and for both tab-style settings, that the drawer's
+  active row takes neither the accent line nor the two active-tab roles, and that the tab bar and
+  the stacked bar still receive all three declarations. The bar half is a statement about this
+  stylesheet, not about the client's paint: the harness carries no native tab rule. Reverting both
+  selectors reports 12 failures; reverting only the style-settings override reports its two 1px
+  ones. `color` joined the watched properties so the text-colour half can be read back at all.
+- Verified: 1.13.7 desktop emulator (`dev:mobile`, `is-mobile is-phone`, 390x844), light and dark,
+  expanded tab list, plus stacked tabs and the desktop bars. Values and pixels both ways: 443 accent
+  pixels before, 0 after, with the sampler validated by re-injecting the old rule.
+- Open item A4 records what the same investigation found: the cobalt line does not paint on the
+  desktop tab bars either, because native's (0,3,0) outline rule beats it. That predates this repair
+  and is left for its own decision.
+- Remaining: a physical phone, tablet, and iOS/Android rendering are still untested, as is the
+  drawer's collapsed-select row on a real device.
+
 ## 2026-09-14 control geometry and atmosphere audit
 
 - Scope: audit square-looking buttons and theme-wide aesthetic gaps; produce a Chinese problem,
@@ -289,6 +327,20 @@ section 10), `docs/implementation-review-2026-09-13.md` (section 6) and the Unte
 Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
 
 ### A. Source defects
+
+- [ ] **A4 - the cobalt tab line does not paint on the desktop tab bars.** Found while scoping the
+      phone-drawer repair below. In 1.13.7 native
+      `.workspace-tab-header-container .workspace-tab-header.is-active` is (0,3,0) and sets
+      `box-shadow: 0 0 0 var(--tab-outline-width) var(--tab-outline-color)`, so the theme's (0,2,0)
+      `inset 0 -2px 0 var(--interactive-accent)` never reaches the root, sidebar or stacked bar.
+      Measured on the desktop bars: root active tab `rgb(195,210,210) 0px 0px 0px 1px`, sidebar
+      active tab `none`, and injecting the old selector back changes neither - this predates the
+      repair and is not caused by it. `--tab-background-active` still supplies the active surface,
+      and the `aoi-tab-style` setting (cobalt line / soft surface) therefore selects between two
+      shadows that both lose. Before the repair the drawer leak was the line's only visible
+      occurrence in the client, which is how it went unnoticed. Decide between re-pointing the
+      setting at native's outline interface, retiring the setting, or scoping the line to a context
+      where it can win; none of that is in this pass.
 
 - [x] **A1 - D06 border roles.** Done. Components consumed the `--aoi-ice-border` /
       `--aoi-night-border` primitives directly, so the Border strength, Stronger borders and High

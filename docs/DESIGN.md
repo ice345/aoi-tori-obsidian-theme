@@ -540,6 +540,27 @@ seam is the group's structure, not a missing corner.
 is a writing container and the audit keeps its shape fixed. The icon corner is different - it is a
 touch affordance, so it belongs to the platform.
 
+### Native class names that mean two things
+
+A native class name is not a promise about the surface it names. `.workspace-tab-header` is both a
+tab bar row and a phone drawer row, and the two are drawn differently: the bar's row is a square box
+with the theme's active surface and an accent line inset along its bottom edge, while the drawer's
+active row is a 30px-radius pill painted on its inner element over a transparent header. A bare
+class selector reached both, and the accent line stayed visible in the only part of the square
+header the pill does not cover - the two bottom corners - so the active "Files" row in the drawer
+carried two cobalt slivers that the default theme does not have.
+
+The block is scoped with `:where(.workspace-tab-header-container, .workspace-tab-container)`, the
+two containers Obsidian builds tab bars in. `:where()` keeps the specificity each rule already had,
+so nothing that won or lost against a native rule changes place; the scope only says which context
+the rule belongs to. The drawer keeps native's own pill, hover role and text colour, which is also
+what the theme's navigation roles already describe, so the row reads as part of the same list as
+`Search`, `Tags`, `All properties` and `Bookmarks`.
+
+When a second surface appears under a name the theme already styles, the question to ask is not
+whether the theme's look would be acceptable there, but whether the theme has any reason to be in
+that context at all. Here it did not: Obsidian draws that list itself.
+
 ### Air and optical weight
 
 A dimmed layer is not a quiet colour. The Quiet status bar used `opacity: 0.72`, which composites

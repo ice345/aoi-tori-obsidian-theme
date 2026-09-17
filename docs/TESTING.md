@@ -85,6 +85,35 @@ With `dev:mobile on` (desktop emulator, `is-mobile` true, `is-phone` false, 1188
 resolved to `rgb(28,39,46)` = `#1C272E`, the left night surface, with a transparent header.
 Phone-class layout and physical devices remain untested.
 
+**2026-09-16, the drawer's sidebar-tab list.** A user report on a phone: the active "Files" row in
+the drawer's tab list showed two blue slivers at its bottom corners, and the row took the tab bar's
+surface and text colour; the default theme shows none of it. Reproduced in the same 1.13.7 desktop
+emulator at 390x844 with `is-mobile is-phone`, light and dark, with the left drawer open and the tab
+list expanded - the same real `.workspace-drawer` DOM, not a fixture.
+
+The row is a `.workspace-tab-header`, and so is a tab bar row. Native gives the drawer's active row
+a 30px-radius pill on `.workspace-tab-header-inner` over a transparent header and resolves it to
+`--nav-item-background-hover`; it gives a bar row a square box, an outline, and the active surface.
+The theme's bare `.workspace-tab-header.is-active` rule reached both, so the accent line
+`inset 0 -2px 0` painted the drawer's square header, which is covered by the pill everywhere except
+where its corner curves away - the slivers. Measured on the drawer row before the repair:
+`box-shadow: rgb(29, 95, 174) 0px -2px 0px 0px inset`, `background-color: rgb(251, 250, 248)`,
+`color: rgb(41, 43, 59)`; a pixel scan of the row's last six device rows found 443 pixels of
+`#1d5fae`, all in the two corner arcs. After scoping the block to
+`:where(.workspace-tab-header-container, .workspace-tab-container)`: `box-shadow: none`, transparent
+header, native's `--text-normal` text, 0 accent pixels, and the pill unchanged. Dark mode behaves
+the same at `#8aadd9`.
+
+The sampler was validated against a known leak before the result was trusted: re-injecting the old
+selector into the live page restored the 443 pixels, so a "0" is a reading, not a broken scan. The
+same probe is what found that the scope has to name `.workspace-tab-container` as well - stacked
+root tabs live there, and a container-only scope turned that row's active text from `#174678` into
+`rgb(41,43,59)`.
+
+Computed values were compared with the old selectors injected back on the root bar, both sidebar
+bars and the stacked bar: identical in every case, in both modes. That is the evidence that the
+scoping moved nothing except the drawer.
+
 ### Verification status
 
 One matrix, so a simulated check is never read as a real-device pass. "Simulated" means an isolated
@@ -106,6 +135,17 @@ them.
 were the independent check on that script: reverting the Soft fix makes the script exit 1, and
 perturbing `--aoi-workspace-tint-max-aqua` by one hex step fails the derived-versus-precomputed
 assertion, so both the fix and the constants are genuinely covered.
+
+The 2026-09-16 drawer repair added a selector-scope check to the same script: per mode and for both
+tab-style settings it builds the drawer's tab list and a tab bar row as synthetic elements and
+asserts that the drawer row takes none of the bar's presentation while the bar and stacked-bar rows
+still receive all three declarations. It is a check on this stylesheet, not on the client's paint:
+the harness carries no native tab rule, so it must not be read as proof that the indicator line is
+drawn - in 1.13.7 native's (0,3,0) outline rule wins that cascade on the desktop bars (open item A4
+in `PLANS.md`). It fails on the pre-repair tree with 12 messages naming the accent line, the active
+surface and the active text colour, and the style-settings half reports its own two 1px ones when
+reverted alone. `color` was added to the script's watched properties for the text half; the script
+still runs over the same scenario set, so the scenario count is unchanged.
 
 ### Pixel check
 
@@ -285,7 +325,8 @@ This executes:
 3. Formatting check
 4. Repository/theme audit
 5. Configured contrast checks
-6. Manifest validation
+6. Scenario contrast and token-cascade checks (`scripts/check-scenarios.mjs`)
+7. Manifest validation
 
 A successful automated check does not replace manual Obsidian testing.
 

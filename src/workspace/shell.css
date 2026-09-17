@@ -113,7 +113,20 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   background-color: transparent;
 }
 
-.workspace-tab-header {
+/* `.workspace-tab-header` is not only the tab bar's row. Native reuses the class in the phone
+   drawer's tab list (`.workspace-drawer-tab-options-list .workspace-tab-header`), and it resolves
+   that list differently: no surface on the header itself, and the active row is a rounded pill
+   painted on `.workspace-tab-header-inner` with `--nav-item-background-hover`. A bare class
+   selector reached both, and on a phone the accent line drawn as `inset 0 -2px 0` on the square
+   header stayed visible where the pill's 30px corner curves away, so the active "Files" row showed
+   two cobalt slivers along its bottom corners, and the header's own paper surface and tab text
+   colour showed at all four. `:where()` keeps every rule's specificity exactly as it was - the
+   accent line still beats the same rules it beat before - while limiting the block to the tab bar
+   Obsidian builds inside `.workspace-tab-header-container`, or, in stacked-tabs mode, inside
+   `.workspace-tab-container`. Observed on 1.13.7: the stacked bar's headers are children of
+   `.workspace-tab-container`, not of the header container, so naming only the latter would have
+   dropped the theme's active-tab text colour there. */
+:where(.workspace-tab-header-container, .workspace-tab-container) .workspace-tab-header {
   color: var(--tab-text-color);
   transition:
     color var(--anim-duration-fast) var(--anim-motion-smooth),
@@ -121,18 +134,19 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
     box-shadow var(--anim-duration-fast) var(--anim-motion-smooth);
 }
 
-.workspace-tab-header:hover {
+:where(.workspace-tab-header-container, .workspace-tab-container) .workspace-tab-header:hover {
   color: var(--tab-text-color-focused);
   background-color: var(--background-modifier-hover);
 }
 
-.workspace-tab-header.is-active {
+:where(.workspace-tab-header-container, .workspace-tab-container) .workspace-tab-header.is-active {
   color: var(--tab-text-color-focused-active-current);
   background-color: var(--tab-background-active);
   box-shadow: inset 0 -2px 0 var(--interactive-accent);
 }
 
-.workspace-tab-header:focus-visible {
+:where(.workspace-tab-header-container, .workspace-tab-container)
+  .workspace-tab-header:focus-visible {
   outline: var(--aoi-focus-ring-width) solid var(--background-modifier-border-focus);
   outline-offset: -2px;
 }

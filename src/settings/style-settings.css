@@ -775,7 +775,13 @@ body.theme-dark.aoi-border-strong {
   --aoi-border-control: color-mix(in srgb, var(--aoi-night-border) 42%, var(--aoi-night-muted));
 }
 
-body.aoi-tab-soft-surface .workspace-tab-header.is-active {
+/* Scoped to the tab bar for the same reason as the base block in shell.css: the phone drawer's
+   tab list also carries `.workspace-tab-header`, and the header there is a square box behind a
+   rounded pill, so a bottom line shows as two cobalt slivers at the pill's lower corners. The
+   setting selects the tab bar's indicator, not that list. */
+body.aoi-tab-soft-surface
+  :where(.workspace-tab-header-container, .workspace-tab-container)
+  .workspace-tab-header.is-active {
   box-shadow: inset 0 -1px 0 var(--interactive-accent);
 }
 

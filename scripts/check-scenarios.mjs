@@ -135,6 +135,9 @@ const WATCHED_PROPERTIES = new Set([
   "font-weight",
   "outline-style",
   "background-color",
+  /* The phone-drawer scope pass: the leak gave the drawer's active row the tab bar's active text
+     colour, so the gate has to read the colour that reaches each row back. */
+  "color",
   /* The disabled-state pass: a disabled control is defined by what it does not have, so the
      gate has to be able to read the absence of a shadow and of a press displacement. */
   "box-shadow",
@@ -2604,6 +2607,129 @@ for (const [density, expected] of [
     failures.push(
       `${density || "default"} density: .clickable-icon has min-block-size ${iconSize}; the bare icon is deliberately unsized`
     );
+  }
+}
+
+/* The phone drawer's tab list is not the tab bar, and native reuses the same class for both:
+   `.workspace-drawer-tab-options-list .workspace-tab-header` on a phone, `.workspace-tab-header-
+   container .workspace-tab-header` in the bar, and `.workspace-tab-container .workspace-tab-header`
+   when the root tabs are stacked. The two draw differently - the bar's row is a square box carrying
+   the theme's paper surface with an accent line inset along its bottom edge, while the drawer's
+   active row is a 30px-radius pill painted on `.workspace-tab-header-inner` with a transparent
+   header behind it. A bare `.workspace-tab-header` selector reached all three, and the only place
+   its 2px accent line showed was the one it was not meant for: on a phone the line stayed visible
+   where the pill's corner curves away from the square header, so the active "Files" row carried two
+   cobalt slivers along its bottom corners. Both halves are asserted, because either failure passes
+   the other check: the drawer row takes none of the bar's presentation, and the bar row still takes
+   all of it. The active-tab style setting swaps the 2px line for a 1px one and is checked as well:
+   it is the same selector and would leak the same slivers.
+
+   The bar half is a statement about this stylesheet, not about what the client paints: it asserts
+   that the theme's declaration still reaches a bar row, which is what a scope can change. Whether
+   the line survives the native cascade is a separate, pre-existing question - in 1.13.7
+   `.workspace-tab-header-container .workspace-tab-header.is-active` is (0,3,0) and paints its own
+   outline ring, so the theme's line loses there (PLANS A4). This harness does not carry that native
+   rule, so the two must not be confused: passing here does not mean the indicator draws. */
+for (const mode of ["theme-light", "theme-dark"]) {
+  for (const tabStyle of [null, "aoi-tab-soft-surface"]) {
+    const setting = tabStyle ?? "";
+    const label = `${mode}${setting ? ` ${setting}` : ""}`;
+    const html = createElement("html", []);
+    const env = { forcedColors: false, prefersContrast: false };
+    const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+    const body = createElement("body", [mode, "is-mobile", "is-phone", setting].filter(Boolean));
+    const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+    const resolved = resolveSpecified(bodySpecified);
+
+    const roleValue = (name) => {
+      const value = resolved.get(name);
+      return value && value.kind === "color" ? formatValue(value) : null;
+    };
+    const accent = roleValue("--interactive-accent");
+    const tabSurface = roleValue("--tab-background-active");
+    const activeText = roleValue("--tab-text-color-focused-active-current");
+
+    if (!accent || !tabSurface || !activeText) {
+      failures.push(
+        `${label} tab scope: a tab role does not resolve, so the check cannot separate the bar from the drawer list`
+      );
+      continue;
+    }
+
+    const drawerAncestors = [
+      html,
+      body,
+      createElement("div", ["workspace-drawer", "mod-left"]),
+      createElement("div", ["workspace-drawer-inner"]),
+      createElement("div", ["workspace-drawer-tab-container"]),
+      createElement("div", ["workspace-drawer-active-tab-container"]),
+      createElement("div", ["workspace-drawer-tab-options"]),
+      createElement("div", ["workspace-drawer-tab-options-list"])
+    ];
+    const drawerRow = createElement("div", ["workspace-tab-header", "tappable", "is-active"]);
+
+    const drawerShadow = formatRawValue(
+      resolveElementProperty(drawerRow, drawerAncestors, env, bodySpecified, "box-shadow")
+    );
+    if (drawerShadow !== "<missing>") {
+      failures.push(
+        `${label} phone drawer: the active tab row takes box-shadow ${drawerShadow}; the bar's indicator line shows as accent slivers at the corners of the drawer's rounded pill`
+      );
+    }
+    for (const [property, role, expected] of [
+      ["background-color", "--tab-background-active", tabSurface],
+      ["color", "--tab-text-color-focused-active-current", activeText]
+    ]) {
+      const value = formatRawValue(
+        resolveElementProperty(drawerRow, drawerAncestors, env, bodySpecified, property)
+      );
+      if (value === expected) {
+        failures.push(
+          `${label} phone drawer: the active tab row takes ${property} ${value} from ${role}; the drawer list is not the tab bar`
+        );
+      }
+    }
+
+    /* The bar keeps the presentation, and the stacked bar is a different container: a selector that
+       named only `.workspace-tab-header-container` would drop the active tab's text colour there. */
+    for (const [context, ancestors] of [
+      [
+        "tab bar",
+        [
+          html,
+          body,
+          createElement("div", ["workspace-tab-header-container"]),
+          createElement("div", ["workspace-tab-header-container-inner"])
+        ]
+      ],
+      ["stacked tab bar", [html, body, createElement("div", ["workspace-tab-container"])]]
+    ]) {
+      const row = createElement("div", ["workspace-tab-header", "tappable", "is-active"]);
+      const shadow = formatRawValue(
+        resolveElementProperty(row, ancestors, env, bodySpecified, "box-shadow")
+      );
+      const background = formatRawValue(
+        resolveElementProperty(row, ancestors, env, bodySpecified, "background-color")
+      );
+      const color = formatRawValue(
+        resolveElementProperty(row, ancestors, env, bodySpecified, "color")
+      );
+      if (!shadow.includes(accent)) {
+        failures.push(
+          `${label} ${context}: the active row's box-shadow declaration is ${shadow}, expected the theme's accent line in ${accent}; the scope must not drop the bar`
+        );
+      }
+      if (background !== tabSurface) {
+        failures.push(
+          `${label} ${context}: the active row's background is ${background}, expected ${tabSurface}`
+        );
+      }
+      if (color !== activeText) {
+        failures.push(
+          `${label} ${context}: the active row's colour is ${color}, expected ${activeText}`
+        );
+      }
+    }
   }
 }
 
