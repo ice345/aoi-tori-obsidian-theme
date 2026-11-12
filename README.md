@@ -43,8 +43,7 @@ Notes are set in a quiet book serif, and headings share it at a light weight, so
 a storybook rather than a dashboard. Callouts and quotes are pale washes of their own colour over
 the paper. The serif uses fonts already on your system (Iowan Old Style, Palatino or Noto Serif,
 with a CJK serif fallback); choose **Clean sans** in Style Settings if you prefer a sans reading
-face. Without a CJK serif such as Noto Serif CJK or Source Han Serif, Chinese and Japanese fall back
-to the system serif (SimSun on Chinese Windows); the Body font setting says so too.
+face.
 
 Dark mode has its own low-chroma cool-grey surfaces, ice-white text, and restrained blue
 interactions. A slightly cooler left edge and a violet-leaning right edge preserve the duet without

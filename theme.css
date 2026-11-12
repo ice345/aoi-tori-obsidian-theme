@@ -136,11 +136,8 @@ settings:
         value: aoi-interface-font-cjk
   - id: aoi-body-font
     title: Body font preset
-    description: The serif presets use fonts already on your system and never download one. Literary
-      serif tries Iowan Old Style, Palatino and Noto Serif, then Noto Serif CJK, Source Han Serif or
-      Songti for Chinese and Japanese. If no CJK serif is installed the system default serif is used
-      instead, which is SimSun on Chinese Windows; install Noto Serif CJK or Source Han Serif, or
-      choose Clean sans.
+    description: Uses installed fonts only. Without a CJK serif such as Noto Serif CJK, Chinese and
+      Japanese fall back to the system serif (SimSun on Chinese Windows).
     type: class-select
     allowEmpty: false
     default: aoi-body-font-literary

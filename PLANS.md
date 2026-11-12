@@ -19,12 +19,15 @@ and evidence-based.
 - Font fallback, decided: CSS cannot detect a missing font or show anything conditionally on one; it
   can only choose the fallback order. Reordering (for example YaHei before the generic serif) would
   silently change the design for everyone missing a CJK serif, and an unconditional CSS notice would
-  show to everyone. The least intrusive informative option is a description on the Body font
-  setting, shown only where the face is chosen; the README's existing font sentence now says the
-  same. Noted, not changed: on Windows with Japanese fonts installed, `Yu Mincho` sits before the
-  generic serif, so Chinese could mix Yu Mincho and SimSun forms; `:lang()` on the app-language
-  `<html lang>` could order the fallback by UI language. Untested on Windows.
-- Instrument icons: assessment only, see the final report of this session; no icon changed.
+  show to everyone. Decided with the user: one short description on the Body font setting, shown
+  only where the face is chosen, and no other prompt or notice anywhere. Noted, not changed: on
+  Windows with Japanese fonts installed, `Yu Mincho` sits before the generic serif, so Chinese could
+  mix Yu Mincho and SimSun forms; `:lang()` on the app-language `<html lang>` could order the
+  fallback by UI language. Untested on Windows.
+- Instrument icons, decided with the user: keep the shipped set unchanged. Feather, duet, flute and
+  oboe are the core (the film's own duet); trumpet, euphonium and tuba stay as optional Callouts,
+  tuba included, even though euphonium and tuba are hard to tell apart at 22 px. No new instrument
+  marks and no decorative use (headers, rules, backgrounds, sidebar marks).
 - Status: complete; `npm run check` passes.
 
 ## 2026-11-12 design review against the film, and the typography decision
