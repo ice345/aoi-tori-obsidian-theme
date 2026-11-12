@@ -85,6 +85,12 @@ src/tokens/accessibility.css
 These define system/CJK font stacks, line height, durations, theme geometry controls, operating
 system reduced-motion and increased-contrast responses, and a bounded forced-colors fallback.
 
+Scope matters here. Obsidian declares most typography, geometry and motion variables on `body`,
+which outranks a `:root` declaration whatever the load order. Values the theme takes over from
+native therefore live in the mode layer (`.theme-light, .theme-dark`) or on `body`; `:root` is kept
+for theme-only names (`--aoi-*`) and for the few native names declared at `:root` natively, such as
+the heading weights. Since 2026-11-12 the font stacks and heading metrics follow this rule too.
+
 ### 4. Components and views
 
 The current theme contains only modules with real styles:

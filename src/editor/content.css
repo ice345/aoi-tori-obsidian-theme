@@ -10,6 +10,14 @@
   caret-color: var(--caret-color);
 }
 
+/* Native takes the inline title's family, size and weight from the H1 variables but writes its
+   tracking as a literal `-0.015em` on this same selector, so the most visible heading on the page
+   kept a tight UI tracking while every heading below it opened up. Same specificity, later in the
+   cascade, pointed back at the H1 role. Found in the 1.14.5 client; see `docs/obsidian-dom.md`. */
+.inline-title:not([data-level]) {
+  letter-spacing: var(--h1-letter-spacing);
+}
+
 .markdown-source-view .cm-active.cm-line {
   background-color: var(--aoi-active-line-background);
   border-radius: var(--radius-s);
@@ -209,7 +217,17 @@
      plate. `--aoi-callout-surface` is a dedicated role: the previous code reused
      `--callout-content-background`, whose name means "the background of the inner
      content" in the native variable set, which is both a different element and
-     natively declared `transparent`. */
+     natively declared `transparent`.
+
+     The surface is resolved here rather than in the mode layer because it mixes the
+     per-type colour, which only exists on this element: light tints the paper toward
+     the type, dark mixes 0% and so keeps its panel exactly. */
+  --aoi-callout-surface: color-mix(
+    in srgb,
+    var(--callout-color) var(--aoi-callout-surface-tint),
+    var(--aoi-callout-base)
+  );
+
   background-color: var(--aoi-callout-surface);
   background-image: linear-gradient(
     135deg,

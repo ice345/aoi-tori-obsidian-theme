@@ -302,8 +302,10 @@ Dark mode is a separate night register, not an inverted daytime palette. It is d
 film's only dark material — the violet-navy ink — rather than from the accent blue, and Phase 6
 supersedes the earlier navy version recorded below it:
 
-- near-neutral cool grey surfaces with a violet leaning (`#191F26` canvas, `#222A30` reading,
-  `#2C343C` raised), so the plane and the interaction colour no longer share one hue;
+- near-neutral cool blue-grey surfaces (`#191F26` canvas, `#222A30` reading, `#2C343C` raised; OKLCH
+  hue 241-252° at chroma 0.016-0.018), so the plane and the interaction colour no longer share one
+  hue. Earlier text called these "violet leaning"; measured, they are not. A shift toward the ink's
+  265° was rendered on 2026-11-12 and rejected: at this chroma the difference was not visible;
 - left and right sides keep their own temperature (`#1C272E` / `#29282F`);
 - ice-white body text and readable muted text drawn from the film's glass-white family;
 - cobalt and sky interactions stay the brightest elements on screen;
@@ -409,16 +411,19 @@ the second voice on the icon and key together; values stay on the card surface.
   from a corner. It remains visibly cooler than the paper reading field.
 - Properties keeps a solid cloud surface underneath two static 4% washes: gray violet from the upper
   left and cyan/mist from the lower right. The border and row dividers were also lightened.
-- Quote keeps a solid cloud/night panel underneath one left-to-right sakura fade. Its 2 px sakura
-  edge is structural; body text stays normal ink or normal night text.
+- Quote keeps a solid panel underneath one left-to-right sakura fade: blush-tinted paper in light
+  (6% sakura into the reading surface, since 2026-11-12; previously cool cloud grey) and the night
+  panel in dark. Its 2 px sakura edge is structural; body text stays normal ink or normal night
+  text.
 - Light Callouts use a 5% semantic wash and dark Callouts 6%, with the Success/Warning/Failure
   family at 5% in dark. The type default is declared per Callout element, and the Quiet/Airy setting
   supplies an override that always wins, so the setting is not silently replaced by the type value
   on the element that carries it.
 - The outer Callout owns the complete solid surface and semantic wash, through the dedicated
-  `--aoi-callout-surface` role. Its content layer is transparent so the wash remains continuous
-  behind the title and body instead of being masked by a nested white slab in light mode or a nested
-  black slab in dark mode.
+  `--aoi-callout-surface` role, resolved on the Callout element as `--aoi-callout-base` tinted
+  `--aoi-callout-surface-tint` toward the type colour: paper and 4% in light, the night panel and 0%
+  in dark. Its content layer is transparent so the wash remains continuous behind the title and body
+  instead of being masked by a nested white slab in light mode or a nested black slab in dark mode.
 - Callouts declare `--callout-blend-mode: normal`. The native chain resolves to `darken` in light
   mode and `lighten` in dark, and `lighten` preserves the brighter channel of foreground and
   background: because the previous dark surface was darker than the body, the container disappeared
@@ -879,7 +884,8 @@ visible in faint gray-blue and do not inherit emphasis weight. No global `strong
 - Prefer subtle radii and keep native control geometry recognizable.
 - Prefer a thin outline/border over a heavy shadow.
 - Use an `outline` or equivalent overlay for selected images; do not shift layout.
-- Use system font stacks with Chinese, Japanese, and English coverage.
+- Use system font stacks with Chinese, Japanese, and English coverage. The reading face is a book
+  serif and headings share it; see the typography table under the 2026-11-12 review below.
 - Do not bundle, Base64-encode, or remotely load fonts.
 - Keep body text neutral and readable; color belongs mainly to interaction and structure.
 - Use a generous line height and readable measure without copying the references' literal page
@@ -1016,3 +1022,52 @@ behavior remain semantic and retain the dark-surface repair. Obsidian typography
 Artistic type labels are optional content aids, not decorative staff lines or replacements for
 safety symbols. The earlier native-icon-first policy is expanded only for these user-requested
 Callouts; fold chevrons and other application controls remain native.
+
+## 2026-11-12 design review against the film
+
+The palette was re-measured against the local watercolor and key-visual references (see
+`docs/visual-analysis.md`) and kept: the token hues already follow the images. The review changed
+how the theme _speaks_ rather than which colours it uses.
+
+### Typography: one quiet book voice
+
+The film draws with thin, coloured line work, and the story it keeps returning to is a picture book
+being read. The earlier specification already asked for a serif reading face, but it was declared at
+`:root`, where Obsidian's `body` values outrank it, so the shipped theme rendered the system sans
+with native heading sizes and only the theme's 680/650/620 heading weights. The heavy headings were
+the one typographic decision that reached the page, and it was the least film-like one.
+
+| Role                                      | Value                                                                                         |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Reading face (`--font-text-theme`)        | Iowan Old Style, Palatino Linotype, Palatino, Noto Serif, then the CJK serif fallback, serif  |
+| Interface face (`--font-interface-theme`) | System sans with the CJK sans fallback (unchanged)                                            |
+| Heading family                            | `var(--font-text)` at every level, so headings follow the Clean sans preset too               |
+| Size H1-H6                                | 1.75 / 1.42 / 1.2 / 1.06 / 1 / 0.94 em                                                        |
+| Weight H1-H6, Balanced (default)          | 500 / 500 / 560 / 600 / 600 / 600                                                             |
+| Weight, Light / Strong                    | 400 / 400 / 500 / 560 / 560 / 560 and 650 / 630 / 620 / 620 / 620 / 620                       |
+| Line height H1-H6                         | 1.3 / 1.35 / 1.4 / 1.45 / 1.5 / 1.5                                                           |
+| Letter spacing H1-H6                      | 0.005 / 0.01 / 0.01 / 0.005 / 0.005 / 0.01 em; open, because negative tracking presses serifs |
+
+The inline title follows the H1 row, including its tracking, which native writes as a literal and
+the theme re-points at `--h1-letter-spacing`. Hierarchy now comes from size, colour and space rather
+than mass. The values live in the mode layer with the geometry, and `npm run scenarios` asserts them
+with and without the plugin.
+
+### Colour roles revised
+
+- **Dark H3** is the night text instead of a sky mix. White, steel and sky on three consecutive
+  levels was the rainbow ladder this document rules out; light H3 already returned to ink.
+- **Light Callouts** tint the reading paper 4% toward their own type colour instead of sharing one
+  cool-grey plate. A warm warning or a rose error no longer sits on a cold slab, and the voice of
+  each Callout reaches its whole surface. Dark keeps the measured panel (0% tint).
+- **Light quotes** sit on blush-tinted paper (6% sakura) for the same reason.
+- **The active file** in light is a translucent 24% sky wash (selected 14%) rather than the
+  grey-green `#D7E1E0`: the current file is a drop of the blue-bird sky, and being translucent it
+  reads as the same wash on the cyan left side, the blush right side and the Settings sidebar.
+
+### Kept deliberately
+
+- Palette hues, light and dark, including the night surfaces.
+- Light H1 indigo and H2 cobalt: at weight 500 the cobalt H2 reads as a blue line in the score
+  rather than a lamp, and it is the only blue in the heading ladder.
+- The dark Callout panel and its 1.15:1 separation from the 2026-09-13 repair.

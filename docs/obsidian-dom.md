@@ -360,3 +360,25 @@ Theme stroke-role defaults likewise reset on each Callout.
 These are code/CSS observations, plus isolated-browser rendering, not a manual client test. The
 [official changelog](https://obsidian.md/changelog/) was checked: 1.13.7 is the inspected stable
 baseline, while 1.14.1 is listed as Catalyst; compatibility with 1.14.x was not tested here.
+
+## Typography declaration scope — 2026-11-12, Obsidian 1.14.5
+
+Read from the installed 1.14.5 `app.css` (CSS only, not a client session). `--font-text-theme`,
+`--font-interface-theme` and `--font-monospace-theme` are declared on `body` as `'??'`, a sentinel
+backed by a one-codepoint `@font-face`, and `--font-text` composes
+`var(--font-text-override), var(--font-text-theme), var(--font-default)`. `--h1-font` to `--h6-font`
+(`inherit`), the heading sizes, line heights and letter spacing, `--line-height-normal`,
+`--line-height-tight` and `--file-line-width` are also on `body`. The heading weights are on
+`:root`. A theme `:root` declaration of any `body` name never reaches the page, which is why the
+theme's serif and heading scale had not rendered; they now sit in the mode layer. `--callout-color`
+is set on `.callout` (`var(--callout-default)`) and per type, as a full colour consumed through
+`color-mix(in oklch, ...)`, so the theme's per-element Callout surface mix uses the same contract.
+
+Client session, same day (1.14.5 on Linux, isolated profile, desktop and `app.emulateMobile` phone
+layout): `.inline-title:not([data-level])` sets `letter-spacing: -0.015em` as a literal, not through
+`--h1-letter-spacing`, so the theme's H1 tracking never reached the inline title. The theme now
+re-declares it on the same selector; the client then measured `0.14px` (0.005em at 28px) instead of
+`-0.42px`. Two client behaviours are easy to misread in captures: `revealInFolder` briefly flashes
+the revealed row with a warm highlight, and the focused tree row carries a native `has-focus` 2px
+ring. Neither is a theme colour. `<html lang>` follows the app language (`en` here); it does not
+describe note content.

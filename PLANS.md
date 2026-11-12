@@ -3,6 +3,78 @@
 This project is complex enough to justify a durable execution plan. Keep this file concise, current,
 and evidence-based.
 
+## 2026-11-12 client verification, screenshots, font fallback note
+
+- Requested before committing the typography review: test in a real Obsidian window (desktop and
+  mobile, light and dark, Live Preview and Reading), recapture the README screenshots, decide how a
+  user without the intended serif is told, and assess instrument icons without adding any.
+- Client: Obsidian 1.14.5 on Linux, isolated profile and scratch vault, packaged theme, phone via
+  `app.emulateMobile` at 390x844. Matrix in `docs/TESTING.md`. Everything specified passed except
+  the inline title's tracking: native writes it as a literal `-0.015em`, so it stayed tight while
+  every heading opened up. Fixed in `content.css` on native's own selector and gated in the
+  scenarios (the native contract carries the literal; removing the fix reports it).
+- Screenshots: light and dark desktop at 1188x806 @2x, light phone emulator @2x, original demo note.
+  The "predate the typography revision" note is gone; README states version, platform and that macOS
+  fonts are not shown.
+- Font fallback, decided: CSS cannot detect a missing font or show anything conditionally on one; it
+  can only choose the fallback order. Reordering (for example YaHei before the generic serif) would
+  silently change the design for everyone missing a CJK serif, and an unconditional CSS notice would
+  show to everyone. The least intrusive informative option is a description on the Body font
+  setting, shown only where the face is chosen; the README's existing font sentence now says the
+  same. Noted, not changed: on Windows with Japanese fonts installed, `Yu Mincho` sits before the
+  generic serif, so Chinese could mix Yu Mincho and SimSun forms; `:lang()` on the app-language
+  `<html lang>` could order the fallback by UI language. Untested on Windows.
+- Instrument icons: assessment only, see the final report of this session; no icon changed.
+- Status: complete; `npm run check` passes.
+
+## 2026-11-12 design review against the film, and the typography decision
+
+- Request: review whether the theme matches the style, palette and mood of _Liz and the Blue Bird_,
+  and revise what does not. Authorized to redesign; this entry also closes the typography half of
+  A3, which was deferred as "its own decision".
+- Method: `references/` is empty in this checkout, so the four local watercolor/key-visual images
+  were measured in OKLCH (lightness/chroma/hue per lightness band) and compared with every
+  primitive. The current build was rendered in headless Chromium with Obsidian **1.14.5**'s own
+  `app.css` and bundled Inter, both modes, and each proposed change was rendered before and after.
+  This is a fixture, not the client.
+- Palette verdict: **keep**. The measured hues agree with the tokens: watercolor near-white H 195°
+  (left surface H 197°), wash H 212-225°, watercolor dark H 250° (link H 256°), key-visual ink
+  `#302E38` H 291° (body ink H 279°). No hue change is justified by the images.
+- Finding 1, the largest and a defect: the intended typography never rendered. Obsidian declares the
+  font stacks, heading families, sizes, line heights and letter spacing on `body`, so the theme's
+  `:root` values lost. The default **Literary serif** setting rendered the system sans, headings
+  rendered at native sizes, and only the theme's heavy weights (680/650/620) reached the page, which
+  is the opposite of the film's thin, coloured line work. Fix: the typography moves to the mode
+  layer like the geometry and motion before it; headings follow the reading face; weights lighten to
+  500/500/560/600; tracking becomes slightly open; the literary stack gains Palatino and Noto Serif
+  so Windows and Linux get a book face instead of the generic serif.
+- Finding 2: dark headings used three hues (white H1, steel H2, sky-cyan H3), the rainbow DESIGN
+  forbids. Dark H3 returns to the night text, mirroring light H3 returning to ink.
+- Finding 3: every light Callout shared one cool-grey plate (`#F5F8F7`), so a warm warning or rose
+  error sat on a cold slab and the 5% wash of a dark ink read as grey. Each Callout now tints the
+  reading paper 4% toward its own colour; dark keeps the measured panel (tint 0%).
+- Finding 4: the light active file was a grey-green slab (`#D7E1E0`). It becomes a translucent sky
+  wash so the current file reads as a drop of the blue-bird sky on either sidebar.
+- Considered and rejected: shifting the night surfaces from H 241-252° toward the ink's H 265°; at C
+  0.016 the rendered difference was imperceptible and would re-derive every frozen night constant.
+  DESIGN's claim that the night surfaces "lean violet" was wrong and is corrected instead.
+- Gate: the native contract gains the typography declarations, and the scenarios assert the
+  typography resolves to the theme's values in both modes, with and without the plugin, that Clean
+  sans swaps the reading face, and that the heading-weight options stay ordered. Against the
+  previous build this reports 62 failures. The harness `color-mix()` now reads a `var()` percentage,
+  which the per-type Callout surface needs; a 60% tint fails the Airy link test at 2.1:1.
+- Also found: the **Clean sans** body preset did nothing either. It pointed the text face at
+  `--font-interface-theme`, which was itself the losing `:root` value, so all three body presets
+  rendered the same system sans.
+- Status: complete. `npm run check` passes; `theme.css` regenerated. Docs updated: DESIGN (review
+  section, dark wording, quote/Callout surfaces), ARCHITECTURE (declaration scope), TESTING (new
+  assertions, fixture method), visual-analysis (re-measurement), obsidian-dom (1.14.5 typography
+  scope), README (design idea; screenshots predate the revision).
+- Not done: no Obsidian window was opened, so the change is untested in the client, on macOS (Iowan
+  Old Style), on Windows (Palatino Linotype, CJK fallback when no CJK serif is installed) and on
+  mobile. README screenshots are stale for typography. Live Preview headings use the same variables
+  but were not rendered.
+
 ## 2026-09-16 phone drawer tab list takes the tab bar's presentation
 
 - Report: on a phone the active "Files" row in the drawer's sidebar-tab list carried two cobalt
@@ -373,16 +445,17 @@ Suggested order: A1 -> B5 -> A2/A3 -> C3 + C1 -> the rest.
       theme was rendering Obsidian's defaults for Callout and input shape, the Properties card and
       settings row radius, `--radius-xl`, and the active navigation weight. 13 geometry and
       interaction values moved into the mode layer and are asserted in the gate; 24 of the 65
-      happened to coincide with the native value and needed nothing. **Deferred, 27 typography
-      names.** Not applied, because doing so would change typography the accepted screenshots
-      already show, and R02 warns against migrating the whole file at once. Each needs its own
-      before/after decision: font stacks (3) `--font-text-theme`, `--font-interface-theme`,
-      `--font-monospace-theme`; heading families, sizes, line heights and letter spacing (21)
-      `--h1-font` through `--h6-font`, `--h1-size` through `--h6-size`, `--h1-line-height` through
-      `--h6-line-height`, `--h1-letter-spacing` to `--h3-letter-spacing`; reading metrics (3)
-      `--line-height-normal` (intent 1.75, actual 1.5), `--line-height-tight` (1.35 vs 1.3) and
-      `--file-line-width` (760px vs 700px). The gate deliberately does **not** assert these, so they
-      cannot be changed by accident.
+      happened to coincide with the native value and needed nothing. **Typography half done
+      2026-11-12** (see the design review entry at the top); the original deferral note follows.
+      **Deferred, 27 typography names.** Not applied, because doing so would change typography the
+      accepted screenshots already show, and R02 warns against migrating the whole file at once.
+      Each needs its own before/after decision: font stacks (3) `--font-text-theme`,
+      `--font-interface-theme`, `--font-monospace-theme`; heading families, sizes, line heights and
+      letter spacing (21) `--h1-font` through `--h6-font`, `--h1-size` through `--h6-size`,
+      `--h1-line-height` through `--h6-line-height`, `--h1-letter-spacing` to `--h3-letter-spacing`;
+      reading metrics (3) `--line-height-normal` (intent 1.75, actual 1.5), `--line-height-tight`
+      (1.35 vs 1.3) and `--file-line-width` (760px vs 700px). The gate deliberately does **not**
+      assert these, so they cannot be changed by accident.
 
 ### B. Gates and automation
 

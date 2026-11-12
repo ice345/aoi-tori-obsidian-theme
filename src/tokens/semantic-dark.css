@@ -239,7 +239,11 @@
   /* Headings and document structure */
   --h1-color: var(--aoi-night-text);
   --h2-color: color-mix(in srgb, var(--aoi-night-cobalt) 84%, var(--aoi-night-muted));
-  --h3-color: color-mix(in srgb, var(--aoi-night-sky) 82%, var(--aoi-night-muted));
+
+  /* H3 returns to the night text, as light H3 returns to ink. A sky H3 under a steel H2 under a
+     white H1 was three hues on three levels: the rainbow ladder DESIGN rules out. The Strong
+     heading accent still offers the sky step. */
+  --h3-color: var(--aoi-night-text);
   --h4-color: var(--aoi-night-text);
   --h5-color: var(--aoi-night-muted);
   --h6-color: var(--aoi-night-faint);
@@ -300,7 +304,11 @@
   --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
   --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
   --callout-padding: var(--aoi-icon-callout-padding);
-  --aoi-callout-surface: var(--aoi-night-panel);
+
+  /* Dark keeps the measured panel exactly: the 2026-09-13 repair chose it for its 1.15:1
+     separation and the link contrast it leaves, so no type tint is mixed in. */
+  --aoi-callout-base: var(--aoi-night-panel);
+  --aoi-callout-surface-tint: 0%;
   --callout-title-color: var(--aoi-night-text);
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);

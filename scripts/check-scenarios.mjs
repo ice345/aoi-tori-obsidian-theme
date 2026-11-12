@@ -147,7 +147,9 @@ const WATCHED_PROPERTIES = new Set([
   "min-block-size",
   "min-inline-size",
   "border-start-start-radius",
-  "border-start-end-radius"
+  "border-start-end-radius",
+  /* The inline title's tracking is a literal on a native rule, not a variable. */
+  "letter-spacing"
 ]);
 
 /* Obsidian's own `app.css` is not shipped with the theme and cannot be redistributed,
@@ -188,10 +190,46 @@ body {
   --h4-size: 1.188em;
   --h5-size: 1.076em;
   --h6-size: 1em;
+  /* Typography, read from Obsidian 1.14.5 \`app.css\`. These are the declarations that kept the
+     theme's reading face and heading scale off the page until 2026-11-12. */
+  --font-text-theme: '??';
+  --font-interface-theme: '??';
+  --font-monospace-theme: '??';
+  --h1-font: inherit;
+  --h2-font: inherit;
+  --h3-font: inherit;
+  --h4-font: inherit;
+  --h5-font: inherit;
+  --h6-font: inherit;
+  --h1-line-height: 1.2;
+  --h2-line-height: 1.2;
+  --h3-line-height: 1.3;
+  --h4-line-height: 1.4;
+  --h5-line-height: var(--line-height-normal);
+  --h6-line-height: var(--line-height-normal);
+  --h1-letter-spacing: -0.015em;
+  --h2-letter-spacing: -0.011em;
+  --h3-letter-spacing: -0.008em;
+  --h4-letter-spacing: -0.005em;
+  --h5-letter-spacing: -0.002em;
+  --h6-letter-spacing: 0em;
+}
+
+:root {
+  --h1-weight: 700;
+  --h2-weight: 600;
+  --h3-weight: 600;
+  --h4-weight: 600;
+  --h5-weight: 600;
+  --h6-weight: 600;
 }
 
 .canvas-control-group {
   border-radius: var(--canvas-controls-radius);
+}
+
+.inline-title:not([data-level]) {
+  letter-spacing: -0.015em;
 }
 
 body {
@@ -844,6 +882,10 @@ function evalRawToken(token) {
       return parseHexColor(`#${token.value}`);
     case "string":
       return { kind: "string", value: token.value };
+    /* A comma-separated value - a font stack, a list of shadows - is one list whose separators
+       are kept, so the first family of a stack can be read back. */
+    case "comma":
+      return { kind: "comma" };
     default:
       throw new Error(`Unsupported raw token: ${token.type}`);
   }
@@ -914,19 +956,35 @@ function evalColorMix(args, lookup) {
     throw new Error("Only color-mix(in srgb, ...) is supported");
   }
 
+  /* A mix percentage may be a literal or a `var()` that resolves to one, which is how the
+     Callout surface takes its per-mode tint. The browser substitutes it before mixing; reading
+     only literals made that surface unresolvable, so the link-contrast test could not see the
+     colour that actually paints. */
+  const readPercent = () => {
+    const token = tokens[index];
+    if (token?.type === "token" && token.value.type === "percentage") {
+      index++;
+      return token.value.value;
+    }
+    if (token?.type === "var") {
+      const value = evalOne(token, lookup);
+      if (value.kind === "percentage") {
+        index++;
+        return value.value;
+      }
+    }
+    return null;
+  };
+
   expectComma(tokens[index++]);
   const colorA = evalOne(tokens[index++], lookup);
-  let percentA = null;
-  if (tokens[index]?.type === "token" && tokens[index].value.type === "percentage") {
-    percentA = tokens[index++].value.value;
-  }
+  const percentA0 = readPercent();
 
   expectComma(tokens[index++]);
   const colorB = evalOne(tokens[index++], lookup);
-  let percentB = null;
-  if (tokens[index]?.type === "token" && tokens[index].value.type === "percentage") {
-    percentB = tokens[index++].value.value;
-  }
+  const percentB0 = readPercent();
+  let percentA = percentA0;
+  let percentB = percentB0;
 
   if (percentA == null && percentB == null) {
     percentA = 0.5;
@@ -1782,8 +1840,8 @@ for (const mode of ["theme-light", "theme-dark"]) {
 
 /* Audit 4.6. Diffing every `:root` declaration against the native `body` set found 41
    names where the theme's value never took effect, because `body` is a closer ancestor
-   than `html`. The geometry half is fixed and asserted here; the typography half is a
-   separate decision and is deliberately not asserted, so nobody "fixes" it by accident. */
+   than `html`. The geometry half is fixed and asserted here; the typography half is asserted
+   after the default consistency test below. */
 for (const mode of ["theme-light", "theme-dark"]) {
   const geometry = resolveScenario({ mode, bodyClasses: [mode] }).resolved;
   const expected = {
@@ -1983,6 +2041,123 @@ for (const mode of ["theme-light", "theme-dark"]) {
     failures.push(
       `${mode} defaults disagree: ${difference}; a setting the plugin can apply must also be the theme default`
     );
+  }
+}
+
+/* 2026-11-12 design review: the typography half of audit 4.6. Obsidian declares the font stacks,
+   heading families, sizes, line heights and letter spacing on `body`, so at `:root` none of the
+   theme's values reached the page and the default "Literary serif" rendered the system sans. They
+   now live in the mode layer. This asserts the value that wins on `body`, with and without the
+   plugin's default classes, and that the Clean sans preset really swaps the reading face. */
+function firstFamily(value) {
+  if (!value) return "<missing>";
+  const first = value.kind === "list" ? value.tokens[0] : value;
+  if (first?.kind === "string") return first.value;
+  if (first?.kind === "ident") return first.name;
+  return first?.kind ?? "<missing>";
+}
+
+function numericValue(value) {
+  if (value?.kind === "number") return value.value;
+  if (value?.kind === "length") return value.value;
+  return Number.NaN;
+}
+
+const TYPOGRAPHY_EXPECTED = [
+  ["--h1-size", 1.75, "em"],
+  ["--h2-size", 1.42, "em"],
+  ["--h3-size", 1.2, "em"],
+  ["--h4-size", 1.06, "em"],
+  ["--h1-line-height", 1.3, null],
+  ["--h2-line-height", 1.35, null],
+  ["--h5-line-height", 1.5, null],
+  ["--h1-letter-spacing", 0.005, "em"],
+  ["--h2-letter-spacing", 0.01, "em"],
+  ["--line-height-tight", 1.35, null],
+  ["--h1-weight", 500, null],
+  ["--h2-weight", 500, null],
+  ["--h3-weight", 560, null]
+];
+
+for (const mode of ["theme-light", "theme-dark"]) {
+  for (const [label, classes] of [
+    ["without the plugin", []],
+    ["with the plugin defaults", PLUGIN_DEFAULT_CLASSES]
+  ]) {
+    const resolved = resolveScenario({ mode, bodyClasses: [mode, ...classes] }).resolved;
+    for (const [name, want, unit] of TYPOGRAPHY_EXPECTED) {
+      const value = resolved.get(name);
+      const got = numericValue(value);
+      const unitOk = unit == null ? value?.kind === "number" : value?.unit === unit;
+      if (!unitOk || Math.abs(got - want) > 1e-4) {
+        failures.push(
+          `${mode} ${label}: ${name} resolved to ${formatValue(value)}, expected ${want}${unit ?? ""}; the typography on body is not the theme's`
+        );
+      }
+    }
+    const text = firstFamily(resolved.get("--font-text-theme"));
+    if (text !== "Iowan Old Style") {
+      failures.push(
+        `${mode} ${label}: --font-text-theme starts with ${text}, expected the literary serif stack; the default reading face is not reaching the page`
+      );
+    }
+    const heading = resolved.get("--h1-font");
+    if (heading?.kind === "ident" && heading.name === "inherit") {
+      failures.push(
+        `${mode} ${label}: --h1-font is native inherit; headings are not following the reading face`
+      );
+    }
+  }
+
+  /* The inline title is the page's most visible H1, and native gives it a literal tracking
+     rather than `--h1-letter-spacing`, so the variable alone never reached it. */
+  {
+    const html = createElement("html", []);
+    const env = { forcedColors: false, prefersContrast: false };
+    const htmlResolved = resolveSpecified(cascadeCustomProperties(html, [], env, new Map()));
+    const body = createElement("body", [mode]);
+    const bodySpecified = cascadeCustomProperties(body, [html], env, htmlResolved.entries);
+    const title = createElement("div", ["inline-title"]);
+    const tracking = resolveElementProperty(
+      title,
+      [html, body],
+      env,
+      bodySpecified,
+      "letter-spacing"
+    );
+    if (
+      tracking?.kind !== "length" ||
+      tracking.unit !== "em" ||
+      Math.abs(tracking.value - 0.005) > 1e-4
+    ) {
+      failures.push(
+        `${mode}: the inline title's letter-spacing resolved to ${tracking?.kind ? formatValue(tracking) : JSON.stringify(tracking)}, expected 0.005em; native's literal tracking is winning`
+      );
+    }
+  }
+
+  const sans = resolveScenario({ mode, bodyClasses: [mode, "aoi-body-font-sans"] }).resolved;
+  const sansFirst = firstFamily(sans.get("--font-text-theme"));
+  if (sansFirst !== "-apple-system") {
+    failures.push(
+      `${mode} Clean sans: --font-text-theme starts with ${sansFirst}, expected the interface stack`
+    );
+  }
+
+  const light = resolveScenario({ mode, bodyClasses: [mode, "aoi-heading-weight-light"] }).resolved;
+  const strong = resolveScenario({
+    mode,
+    bodyClasses: [mode, "aoi-heading-weight-strong"]
+  }).resolved;
+  const balanced = resolveScenario({ mode, bodyClasses: [mode] }).resolved;
+  for (const level of [1, 2, 3, 4, 5, 6]) {
+    const name = `--h${level}-weight`;
+    const [l, b, st] = [light, balanced, strong].map((r) => numericValue(r.get(name)));
+    if (!(l <= b && b <= st)) {
+      failures.push(
+        `${mode}: ${name} is ${l} / ${b} / ${st} for Light / Balanced / Strong; the heading weight options are out of order`
+      );
+    }
   }
 }
 

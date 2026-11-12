@@ -195,8 +195,12 @@
   --nav-item-color-active: var(--aoi-cobalt-deep);
   --nav-item-color-selected: var(--aoi-cobalt-deep);
   --nav-item-background-hover: var(--aoi-cloud-cool);
-  --nav-item-background-active: var(--aoi-cloud-shadow);
-  --nav-item-background-selected: var(--aoi-mist-blue);
+
+  /* The current file is a drop of the sky rather than a darker grey of the panel. Translucent,
+     so it reads as the same wash on the cyan left side, on the blush right side and on the
+     Settings sidebar instead of carrying the left surface everywhere. */
+  --nav-item-background-active: color-mix(in srgb, var(--aoi-sky-blue) 24%, transparent);
+  --nav-item-background-selected: color-mix(in srgb, var(--aoi-sky-blue) 14%, transparent);
   --nav-heading-color: var(--aoi-indigo-deep);
   --nav-heading-color-hover: var(--aoi-cobalt-deep);
   --nav-collapse-icon-color: var(--aoi-ink-muted);
@@ -248,7 +252,13 @@
   --code-string: var(--aoi-gray-violet-deep);
   --code-tag: var(--aoi-dusty-pink);
   --code-value: var(--aoi-gold-deep);
-  --blockquote-background-color: var(--aoi-cloud-cool);
+
+  /* The quote is Liz's voice: blush-tinted paper under the sakura fade, not a cool grey plate. */
+  --blockquote-background-color: color-mix(
+    in srgb,
+    var(--aoi-sakura) 6%,
+    var(--background-primary)
+  );
   --blockquote-border-color: var(--aoi-sakura);
   --blockquote-color: var(--aoi-ink-indigo);
   --callout-blend-mode: normal;
@@ -259,7 +269,12 @@
   --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
   --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
   --callout-padding: var(--aoi-icon-callout-padding);
-  --aoi-callout-surface: var(--aoi-cloud-cool);
+
+  /* A light Callout is the reading paper tinted toward its own colour, mixed on the Callout element
+     in `content.css` because the colour is per type. One shared cool-grey plate put a warm warning
+     or a rose error on a cold slab, and a few percent of a dark ink over grey read as grey. */
+  --aoi-callout-base: var(--background-primary);
+  --aoi-callout-surface-tint: 4%;
   --callout-title-color: var(--aoi-ink-strong);
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);

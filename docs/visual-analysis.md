@@ -56,6 +56,30 @@ Chroma medians of the coloured pixels: blue family C 0.0194 (H 201°), pink fami
 Phase 6's sidebar endpoints (`#EAF4F4`, `#F5EFF4`) sit at C 0.0106 and 0.0092 — deliberately below
 those medians because the sidebars also carry dense small text and icons.
 
+### 2026-11-12 re-measurement for the design review
+
+The `references/` folder is empty in this checkout, so the review re-measured the four local images
+of the same families: the pale two-person watercolor (wide and tall), the clear summer-sky
+composition, and the key visual with the cobalt feather. Pixels were downsampled to 240 px wide and
+grouped by OKLCH lightness; hue is the chroma-weighted circular mean of each band.
+
+| Image / band             | Share | Median L | Median C |  Hue | Median colour |
+| ------------------------ | ----: | -------: | -------: | ---: | ------------- |
+| Watercolor, near-white   | 81.7% |    0.964 |   0.0107 | 195° | `#ECF6F5`     |
+| Watercolor, wash         | 15.8% |    0.913 |   0.0325 | 212° | `#CCE8EE`     |
+| Watercolor, dark         |  1.0% |    0.446 |   0.0894 | 250° | `#295483`     |
+| Tall watercolor, wash    | 20.2% |    0.914 |   0.0506 | 225° | `#C0EAFD`     |
+| Summer sky, midtone      | 50.6% |    0.730 |   0.1159 | 245° | `#63AFEB`     |
+| Key visual, near-white   | 58.5% |    0.987 |   0.0040 |  27° | `#FCFBFE`     |
+| Key visual, mid (collar) | 11.7% |    0.745 |   0.0989 | 263° | `#8EACE5`     |
+| Key visual, ink (hair)   | 20.0% |    0.311 |   0.0222 | 291° | `#302E38`     |
+
+Against the tokens: left surface `#EAF4F4` is H 197° C 0.0106 (watercolor near-white 195° / 0.0107);
+link `#1D5FAE` is H 256° (watercolor dark 250°); body ink `#292B3B` is H 279° C 0.029 (key ink 291°
+/ 0.022). The palette is therefore kept. What the images also show, and the theme did not, is
+weight: the darkest marks are thin coloured lines over large untouched paper, never heavy masses.
+That finding drives the typography change recorded in `docs/DESIGN.md`.
+
 ## Method and evidence limits
 
 All eight files in `references/raw/` were opened at original resolution and inspected individually.

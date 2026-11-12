@@ -147,6 +147,43 @@ surface and the active text colour, and the style-settings half reports its own 
 reverted alone. `color` was added to the script's watched properties for the text half; the script
 still runs over the same scenario set, so the scenario count is unchanged.
 
+The 2026-11-12 design review added the typography half of the native contract: Obsidian 1.14.5's
+`body` font stacks, heading families, line heights and letter spacing, and its `:root` heading
+weights. The script asserts, per mode and with and without the plugin's default classes, the heading
+sizes, line heights, tracking and weights, that the reading face starts with the literary serif
+stack, that headings do not resolve to native `inherit`, that Clean sans swaps in the interface
+stack, and that Light <= Balanced <= Strong at every heading level. Against the previous build it
+reports 62 failures (for example `--h1-size resolved to 1.618em, expected 1.75em`). The harness's
+`color-mix()` also learned to read a `var()` percentage, which the per-type Callout surface uses;
+raising that tint to 60% makes the Airy link-contrast test fail at 2.1:1, so the test sees the
+surface that paints.
+
+The review's visual comparison used a headless Chromium fixture loading Obsidian 1.14.5's own
+`app.css`, its bundled Inter, and the built `theme.css`, with a hand-built desktop DOM. It is a
+rendering check of the cascade, not a client test; no Obsidian window was opened.
+
+**Client test, 2026-11-12.** Obsidian Desktop 1.14.5 on Linux, run with a separate `XDG_CONFIG_HOME`
+/ `--user-data-dir` and a scratch vault holding the packaged `dist/Aoi Tori`, so no personal vault
+or setting was touched. Values were read from the live DOM over the DevTools protocol, and the
+platform fonts with `CSS.getPlatformFontsForNode`. Mobile is Obsidian's own
+`app.emulateMobile(true)` at 390x844 (`is-mobile is-phone`); **no physical device was used**.
+
+| Check (light and dark unless stated)                       | Reading                                                       | Live Preview                                                                 | Phone emulator |
+| ---------------------------------------------------------- | ------------------------------------------------------------- | ---------------------------------------------------------------------------- | -------------- |
+| Serif renders: Noto Serif, Noto Serif CJK SC for CJK       | Pass                                                          | Pass                                                                         | Pass           |
+| Title and H2 weight 500, H3 560; sizes 28 / 22.72 / 19.2px | Pass                                                          | Pass                                                                         | Pass           |
+| H2/H3 tracking 0.01em                                      | Pass                                                          | Pass                                                                         | Pass           |
+| Inline title tracking 0.005em                              | Fail, then fixed: native literal `-0.015em` won; now `0.14px` | Same                                                                         | Same           |
+| Light Callouts tinted 4% toward their type colour          | Pass                                                          | Pass                                                                         | Pass           |
+| Dark Callouts on the `#2C343C` panel                       | Pass                                                          | Pass                                                                         | Pass           |
+| Light quote blush paper                                    | Pass                                                          | Pass (native consumes the token; the sakura fade is Reading-only, as before) | Pass           |
+| Dark H3 night text `#E5EBEB`                               | Pass                                                          | Pass                                                                         | Pass           |
+| Light active file translucent sky wash                     | Pass (sidebar)                                                | —                                                                            | Pass (drawer)  |
+
+Not covered by this session: macOS (Iowan Old Style), Windows (Palatino Linotype and the CJK
+fallback), physical phones and tablets, Style Settings installed, and the hint text inside the
+plugin's UI (its YAML was parsed instead).
+
 ### Pixel check
 
 `scripts/check-pixels.mjs` is the only check that reads what was painted rather than what was

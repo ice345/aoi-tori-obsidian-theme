@@ -11,9 +11,10 @@ logos, character art, reference images, remote fonts, or remote images.
 
 ## Screenshots
 
-Captured on 2026-09-13 in Obsidian Desktop **1.13.7** on macOS, using the source build from that
-date and an original demonstration note. These are actual app captures. The newer Callout icon
-family is not shown in these captures.
+Captured on 2026-11-12 in Obsidian Desktop **1.14.5** on Linux, using the current source build and
+an original demonstration note in a separate test profile. These are actual app captures in Reading
+view; the fonts shown are Noto Serif and Noto Serif CJK, the Linux end of the serif stack. On macOS
+the stack starts with Iowan Old Style, which these captures do not show.
 
 ### Light — cyan, paper, blush
 
@@ -23,12 +24,13 @@ family is not shown in these captures.
 
 ![Aoi Tori dark mode](assets/screenshots/dark.png)
 
-### Tablet layout — desktop emulation
+### Phone layout — desktop emulation
 
-![Aoi Tori dark reading view in desktop mobile emulation](assets/screenshots/mobile.png)
+<img src="assets/screenshots/mobile.png" width="360" alt="Aoi Tori light reading view in Obsidian's phone emulation">
 
-The third capture uses Obsidian Desktop's mobile emulator at a tablet-sized window. It is a layout
-preview, not a physical iPad or phone test. Physical iOS, iPadOS, and Android testing remains open.
+The third capture uses Obsidian Desktop's mobile emulator at a 390×844 phone-sized window. It is a
+layout preview, not a physical phone or tablet test. Physical iOS, iPadOS, and Android testing
+remains open.
 
 ## Design idea
 
@@ -36,6 +38,13 @@ The default **Duet** palette gives each side of the workspace its own temperatur
 on the left, a nearly white bridge in the centre, and a pale blush on the right. The reading surface
 stays warm and opaque, with clear ink and cobalt links, selection, and keyboard focus. Subtle static
 washes add atmosphere without textures, blur, or animated backgrounds.
+
+Notes are set in a quiet book serif, and headings share it at a light weight, so the page reads like
+a storybook rather than a dashboard. Callouts and quotes are pale washes of their own colour over
+the paper. The serif uses fonts already on your system (Iowan Old Style, Palatino or Noto Serif,
+with a CJK serif fallback); choose **Clean sans** in Style Settings if you prefer a sans reading
+face. Without a CJK serif such as Noto Serif CJK or Source Han Serif, Chinese and Japanese fall back
+to the system serif (SimSun on Chinese Windows); the Body font setting says so too.
 
 Dark mode has its own low-chroma cool-grey surfaces, ice-white text, and restrained blue
 interactions. A slightly cooler left edge and a violet-leaning right edge preserve the duet without
@@ -163,16 +172,18 @@ constrained, and no option loads remote assets.
 
 ## Compatibility and validation
 
-Minimum declared version: **Obsidian 1.13.4**. The current desktop visual review and the screenshots
-above use **1.13.7** on macOS. Theme version **0.9.0** remains a public testing candidate.
+Minimum declared version: **Obsidian 1.13.4**. The screenshots above and the 2026-11-12 typography
+review use **1.14.5** on Linux; the earlier palette review used 1.13.7 on macOS. Theme version
+**0.9.0** remains a public testing candidate.
 
-| Scope                                                                            | Evidence                                                                                  |
-| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| Current palette, reading view, and desktop/tablet-emulator screenshots           | Obsidian 1.13.7 on macOS                                                                  |
-| Image editing, Vim, Bases, Canvas, Graph, pop-outs, and mobile layout regression | Earlier 1.13.4 pass; full regression has not been repeated for the latest palette changes |
-| Style Settings installation and reset                                            | Earlier 1.0.9 plugin pass; current settings cascade has automated coverage                |
-| Current build, CSS lint, formatting, repository audit, and manifest              | `npm run check`                                                                           |
-| Colour validation                                                                | 45 static contrast pairs and 582 token-cascade scenarios                                  |
+| Scope                                                                                                             | Evidence                                                                                  |
+| ----------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| Typography, Callout and quote surfaces, Reading view and Live Preview, light and dark, desktop and phone emulator | Obsidian 1.14.5 on Linux, 2026-11-12                                                      |
+| Earlier palette review and screenshots                                                                            | Obsidian 1.13.7 on macOS                                                                  |
+| Image editing, Vim, Bases, Canvas, Graph, pop-outs, and mobile layout regression                                  | Earlier 1.13.4 pass; full regression has not been repeated for the latest palette changes |
+| Style Settings installation and reset                                                                             | Earlier 1.0.9 plugin pass; current settings cascade has automated coverage                |
+| Current build, CSS lint, formatting, repository audit, and manifest                                               | `npm run check`                                                                           |
+| Colour validation                                                                                                 | 45 static contrast pairs and 582 token-cascade scenarios                                  |
 
 The scenario checker models supported CSS variables and setting combinations. It is not a complete
 browser renderer or a replacement for Obsidian interaction testing. See

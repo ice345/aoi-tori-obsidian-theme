@@ -131,6 +131,11 @@ settings:
         value: aoi-interface-font-cjk
   - id: aoi-body-font
     title: Body font preset
+    description: The serif presets use fonts already on your system and never download one. Literary
+      serif tries Iowan Old Style, Palatino and Noto Serif, then Noto Serif CJK, Source Han Serif or
+      Songti for Chinese and Japanese. If no CJK serif is installed the system default serif is used
+      instead, which is SimSun on Chinese Windows; install Noto Serif CJK or Source Han Serif, or
+      choose Clean sans.
     type: class-select
     allowEmpty: false
     default: aoi-body-font-literary
@@ -655,19 +660,21 @@ body.aoi-monospace-font-classic {
   --font-monospace-theme: "Menlo", "Consolas", "Noto Sans Mono", monospace;
 }
 
+/* Balanced is the theme default in `typography.css` (500 / 500 / 560 / 600). Each step keeps its
+   order at every level, so Light is never heavier than Balanced and Strong never lighter. */
 body.aoi-heading-weight-light {
-  --h1-weight: 640;
-  --h2-weight: 610;
-  --h3-weight: 590;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 500;
   --h4-weight: 560;
   --h5-weight: 560;
   --h6-weight: 560;
 }
 
 body.aoi-heading-weight-strong {
-  --h1-weight: 720;
-  --h2-weight: 690;
-  --h3-weight: 650;
+  --h1-weight: 650;
+  --h2-weight: 630;
+  --h3-weight: 620;
   --h4-weight: 620;
   --h5-weight: 620;
   --h6-weight: 620;

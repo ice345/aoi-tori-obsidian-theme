@@ -136,6 +136,11 @@ settings:
         value: aoi-interface-font-cjk
   - id: aoi-body-font
     title: Body font preset
+    description: The serif presets use fonts already on your system and never download one. Literary
+      serif tries Iowan Old Style, Palatino and Noto Serif, then Noto Serif CJK, Source Han Serif or
+      Songti for Chinese and Japanese. If no CJK serif is installed the system default serif is used
+      instead, which is SimSun on Chinese Windows; install Noto Serif CJK or Source Han Serif, or
+      choose Clean sans.
     type: class-select
     allowEmpty: false
     default: aoi-body-font-literary
@@ -557,14 +562,7 @@ settings:
   --aoi-cjk-sans-fallback: "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans", "Yu Gothic UI";
   --aoi-cjk-serif-fallback:
     "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", "Hiragino Mincho ProN", "Yu Mincho";
-  --font-interface-theme:
-    -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback),
-    sans-serif;
-  --font-text-theme: "Iowan Old Style", "Noto Serif", var(--aoi-cjk-serif-fallback), serif;
-  --font-monospace-theme:
-    "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
   --font-text-size: 16px;
-  --line-height-tight: 1.35;
   --radius-s: 4px;
   --radius-m: 8px;
   --radius-l: 12px;
@@ -591,33 +589,12 @@ settings:
   --menu-radius: var(--radius-m);
   --modal-radius: var(--radius-l);
   --checkbox-radius: var(--radius-s);
-  --h1-font: var(--font-interface);
-  --h2-font: var(--font-interface);
-  --h3-font: var(--font-interface);
-  --h4-font: var(--font-interface);
-  --h5-font: var(--font-interface);
-  --h6-font: var(--font-interface);
-  --h1-size: 2em;
-  --h2-size: 1.62em;
-  --h3-size: 1.34em;
-  --h4-size: 1.16em;
-  --h5-size: 1em;
-  --h6-size: 0.9em;
-  --h1-line-height: 1.22;
-  --h2-line-height: 1.28;
-  --h3-line-height: 1.32;
-  --h4-line-height: 1.36;
-  --h5-line-height: 1.4;
-  --h6-line-height: 1.4;
-  --h1-weight: 680;
-  --h2-weight: 650;
-  --h3-weight: 620;
+  --h1-weight: 500;
+  --h2-weight: 500;
+  --h3-weight: 560;
   --h4-weight: 600;
   --h5-weight: 600;
   --h6-weight: 600;
-  --h1-letter-spacing: -0.02em;
-  --h2-letter-spacing: -0.012em;
-  --h3-letter-spacing: -0.006em;
 }
 
 .theme-light,
@@ -640,6 +617,39 @@ settings:
   --nav-item-weight-active: var(--font-semibold);
   --line-height-normal: 1.75;
   --file-line-width: 760px;
+  --font-interface-theme:
+    -apple-system, blinkmacsystemfont, "Segoe UI", "Noto Sans", var(--aoi-cjk-sans-fallback),
+    sans-serif;
+  --font-text-theme:
+    "Iowan Old Style", "Palatino Linotype", "Palatino", "Noto Serif", var(--aoi-cjk-serif-fallback),
+    serif;
+  --font-monospace-theme:
+    "SFMono-Regular", "Cascadia Code", "JetBrains Mono", "Noto Sans Mono", monospace;
+  --line-height-tight: 1.35;
+  --h1-font: var(--font-text);
+  --h2-font: var(--font-text);
+  --h3-font: var(--font-text);
+  --h4-font: var(--font-text);
+  --h5-font: var(--font-text);
+  --h6-font: var(--font-text);
+  --h1-size: 1.75em;
+  --h2-size: 1.42em;
+  --h3-size: 1.2em;
+  --h4-size: 1.06em;
+  --h5-size: 1em;
+  --h6-size: 0.94em;
+  --h1-line-height: 1.3;
+  --h2-line-height: 1.35;
+  --h3-line-height: 1.4;
+  --h4-line-height: 1.45;
+  --h5-line-height: 1.5;
+  --h6-line-height: 1.5;
+  --h1-letter-spacing: 0.005em;
+  --h2-letter-spacing: 0.01em;
+  --h3-letter-spacing: 0.01em;
+  --h4-letter-spacing: 0.005em;
+  --h5-letter-spacing: 0.005em;
+  --h6-letter-spacing: 0.01em;
 }
 
 body {
@@ -833,8 +843,8 @@ body {
   --nav-item-color-active: var(--aoi-cobalt-deep);
   --nav-item-color-selected: var(--aoi-cobalt-deep);
   --nav-item-background-hover: var(--aoi-cloud-cool);
-  --nav-item-background-active: var(--aoi-cloud-shadow);
-  --nav-item-background-selected: var(--aoi-mist-blue);
+  --nav-item-background-active: color-mix(in srgb, var(--aoi-sky-blue) 24%, transparent);
+  --nav-item-background-selected: color-mix(in srgb, var(--aoi-sky-blue) 14%, transparent);
   --nav-heading-color: var(--aoi-indigo-deep);
   --nav-heading-color-hover: var(--aoi-cobalt-deep);
   --nav-collapse-icon-color: var(--aoi-ink-muted);
@@ -882,7 +892,11 @@ body {
   --code-string: var(--aoi-gray-violet-deep);
   --code-tag: var(--aoi-dusty-pink);
   --code-value: var(--aoi-gold-deep);
-  --blockquote-background-color: var(--aoi-cloud-cool);
+  --blockquote-background-color: color-mix(
+    in srgb,
+    var(--aoi-sakura) 6%,
+    var(--background-primary)
+  );
   --blockquote-border-color: var(--aoi-sakura);
   --blockquote-color: var(--aoi-ink-indigo);
   --callout-blend-mode: normal;
@@ -893,7 +907,8 @@ body {
   --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
   --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
   --callout-padding: var(--aoi-icon-callout-padding);
-  --aoi-callout-surface: var(--aoi-cloud-cool);
+  --aoi-callout-base: var(--background-primary);
+  --aoi-callout-surface-tint: 4%;
   --callout-title-color: var(--aoi-ink-strong);
   --callout-default: var(--aoi-info);
   --callout-info: var(--aoi-info);
@@ -1190,7 +1205,7 @@ body {
   --nav-indentation-guide-color: var(--aoi-night-border);
   --h1-color: var(--aoi-night-text);
   --h2-color: color-mix(in srgb, var(--aoi-night-cobalt) 84%, var(--aoi-night-muted));
-  --h3-color: color-mix(in srgb, var(--aoi-night-sky) 82%, var(--aoi-night-muted));
+  --h3-color: var(--aoi-night-text);
   --h4-color: var(--aoi-night-text);
   --h5-color: var(--aoi-night-muted);
   --h6-color: var(--aoi-night-faint);
@@ -1242,7 +1257,8 @@ body {
   --aoi-callout-badge-wash: var(--aoi-icon-callout-badge-wash);
   --aoi-callout-title-gap: var(--aoi-icon-callout-title-gap);
   --callout-padding: var(--aoi-icon-callout-padding);
-  --aoi-callout-surface: var(--aoi-night-panel);
+  --aoi-callout-base: var(--aoi-night-panel);
+  --aoi-callout-surface-tint: 0%;
   --callout-title-color: var(--aoi-night-text);
   --callout-default: var(--aoi-night-info);
   --callout-info: var(--aoi-night-info);
@@ -1527,6 +1543,10 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   caret-color: var(--caret-color);
 }
 
+.inline-title:not([data-level]) {
+  letter-spacing: var(--h1-letter-spacing);
+}
+
 .markdown-source-view .cm-active.cm-line {
   background-color: var(--aoi-active-line-background);
   border-radius: var(--radius-s);
@@ -1704,6 +1724,11 @@ body:not(.is-mobile) .workspace-split.mod-right-split .workspace-sidedock-vault-
   --aoi-callout-wash-strength: var(
     --aoi-callout-user-wash-strength,
     var(--aoi-callout-type-wash-strength)
+  );
+  --aoi-callout-surface: color-mix(
+    in srgb,
+    var(--callout-color) var(--aoi-callout-surface-tint),
+    var(--aoi-callout-base)
   );
   background-color: var(--aoi-callout-surface);
   background-image: linear-gradient(
@@ -2706,18 +2731,18 @@ body.aoi-monospace-font-classic {
 }
 
 body.aoi-heading-weight-light {
-  --h1-weight: 640;
-  --h2-weight: 610;
-  --h3-weight: 590;
+  --h1-weight: 400;
+  --h2-weight: 400;
+  --h3-weight: 500;
   --h4-weight: 560;
   --h5-weight: 560;
   --h6-weight: 560;
 }
 
 body.aoi-heading-weight-strong {
-  --h1-weight: 720;
-  --h2-weight: 690;
-  --h3-weight: 650;
+  --h1-weight: 650;
+  --h2-weight: 630;
+  --h3-weight: 620;
   --h4-weight: 620;
   --h5-weight: 620;
   --h6-weight: 620;
